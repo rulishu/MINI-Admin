@@ -3,7 +3,7 @@ import { CardPro, ButtonGroupPro } from '@antdp/antdp-ui'
 import {
   LightFilter,
   ProForm,
-  ProFormDateRangePicker,
+  ProFormDatePicker,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
@@ -15,27 +15,14 @@ import { columns } from './columns'
 export default function SearchTable() {
   return (
     <div>
-      <LightFilter
-        span={24}
-        labelWidth="auto"
-        split
-      >
-        <ProForm.Group>
-          <ProFormText
-            width="md"
-            name="name"
-            label="签约客户名称"
-            tooltip="最长为 24 位"
-            placeholder="请输入名称"
-          />
-          <ProFormText
-            width="md"
-            name="company"
-            label="我方公司名称"
-            placeholder="请输入名称"
-          />
-        </ProForm.Group>
-      </LightFilter>
+    <QueryFilter defaultCollapsed split>
+      <ProFormText name="name" label="应用名称" />
+      <ProFormDatePicker name="createDate" label="创建时间" />
+      <ProFormText name="status" label="应用状态" />
+      <ProFormDatePicker name="replyDate" label="响应日期" />
+      <ProFormDatePicker name="startDate" label="创建时间" />
+      <ProFormDatePicker name="endDate" label="结束时间" />
+    </QueryFilter>
       <CardPro>
         <ButtonGroupPro
           button={[

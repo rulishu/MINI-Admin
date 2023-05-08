@@ -1,33 +1,3 @@
-export const baseItems = () => [
-  {
-    label: '会员编号',
-    name: 'name2',
-    type: 'input',
-  },
-  {
-    label: '会员等级',
-    name: 'name3',
-    type: 'select',
-    options:[]
-  },
-  {
-    label: '来源',
-    name: 'name3',
-    type: 'input',
-  },
-  {
-    label: '标签',
-    name: 'name4',
-    type: 'input',
-  },
-  {
-    label: '门店信息',
-    name: 'name4',
-    type: 'select',
-    options:[]
-  },
-];
-
 
 export const columns = [
   {
