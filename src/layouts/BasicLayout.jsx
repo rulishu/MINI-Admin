@@ -33,7 +33,9 @@ const Layout = () => {
           title: '退出登录',
           icon: <LogoutOutlined />,
           onClick: async () => {
-            await sessionStorage.removeItem('token', '')
+            await sessionStorage.removeItem('token');
+            await sessionStorage.removeItem('authBtn');
+            await sessionStorage.removeItem('authMenu');
             history.push('/login')
           }
         }
