@@ -1,11 +1,13 @@
-import { selectPage } from '@/service/memberManage';
+import { selectPage } from '@/service/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useModel } from '@umijs/max';
 import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const [pageSize, setPageSize] = useState(10);
+  const { store, setStore } = useModel('tagsManage', (model) => ({ ...model }));
   return (
     <ProTable
       options={false}
@@ -38,6 +40,7 @@ export default function SearchTable() {
             {
               type: 'primary',
               label: '添加手动标签',
+              onClick: () => setStore({ ...store, visible: true }),
             },
             {
               type: 'primary',
