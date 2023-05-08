@@ -5,9 +5,9 @@ import { history, useModel } from '@umijs/max';
 import 'antd/dist/reset.css';
 import logo from './logo.svg';
 const Layout = () => {
-  const { setStore, store: { token } } = useModel('global', (model) => ({ ...model }));
+  const { setStore, store } = useModel('global', (model) => ({ ...model }));
   return (
-    <Authorized authority={token} redirectPath="/login">
+    <Authorized authority={!!store.token} redirectPath="/login">
       <BasicLayout projectName="Ant Design" profile={{
         name: '埋名',
         avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
@@ -36,6 +36,7 @@ const Layout = () => {
             await sessionStorage.removeItem('token');
             await sessionStorage.removeItem('authBtn');
             await sessionStorage.removeItem('authMenu');
+            setStore({ ...store, token: '' });
             history.push('/login')
           }
         }
