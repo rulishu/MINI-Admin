@@ -49,10 +49,9 @@ export default {
     for (let i = 0; i < pageSize; i++) {
       list[i] = {
         id: i + 1,
-        name: '58034',
+        type: '1',
         name: '微信用户580',
-        address: '粉丝',
-        time:'2023-05-08 18:31:30'
+        number: '粉丝',
       };
     }
     setTimeout(() => {

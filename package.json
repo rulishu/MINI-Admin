@@ -5,7 +5,12 @@
   "scripts": {
     "start": "max dev",
     "build": "max build",
-    "umiinstall": "max setup"
+    "umiinstall": "max setup",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src && stylelint \"src/**/*.less\"",
+    "lint-staged": "lint-staged",
+    "prettier": "prettier --write '**/*.{js,jsx,md,json}'",
+    "precommit": "npm run lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@antdp/authorized": "2.0.4",
@@ -13,7 +18,7 @@
     "@antdp/hooks": "2.0.4",
     "@antdp/user-login": "2.0.4",
     "@antdp/antdp-ui":"2.0.4",
-    "@react-login-page/page2":"0.4.14",
+    "@antdp/request": "2.0.4",
     "antd": "5.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -33,6 +38,16 @@
     "@types/react-dom": "^18.0.0",
     "@umijs/max": "~4.0.47",
     "@umijs/plugin-model": "~2.6.2",
-    "typescript": "^5.0.0"
+    "@umijs/fabric":"~2.14.1",
+    "typescript": "^5.0.0",
+    "husky":"~8.0.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ]
   }
 }

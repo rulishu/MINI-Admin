@@ -1,6 +1,6 @@
-import { Space, Table, Button, Popconfirm } from 'antd';
-import { data } from './util'
-import { CardPro, ButtonGroupPro } from '@antdp/antdp-ui'
+import { ButtonGroupPro, CardPro } from '@antdp/antdp-ui';
+import { Button, Popconfirm, Space, Table } from 'antd';
+import { data } from './util';
 const EquityRules = () => {
   const columns = [
     {
@@ -37,8 +37,7 @@ const EquityRules = () => {
     },
   ];
 
-  const onAdd = () => { }
-
+  const onAdd = () => {};
 
   return (
     <div>
@@ -48,14 +47,15 @@ const EquityRules = () => {
             {
               type: 'primary',
               label: '新建权益规则',
-              onClick: () => { onAdd() },
+              onClick: () => {
+                onAdd();
+              },
             },
           ]}
         />
         <Table columns={columns} dataSource={data} />
       </CardPro>
     </div>
-
-  )
-}
+  );
+};
 export default EquityRules;

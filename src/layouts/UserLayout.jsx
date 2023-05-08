@@ -1,11 +1,10 @@
-import { AlipayOutlined, GithubOutlined, WechatOutlined } from '@ant-design/icons';
 import Authorized from '@antdp/authorized';
+import { useReactMutation } from '@antdp/hooks';
 import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
+import { Form, message } from 'antd';
 import 'antd/dist/reset.css';
 import logo from './logo.svg';
-import { message, Form } from 'antd'
-import { useReactMutation } from '@antdp/hooks';
 
 const UserLayout = (props) => {
   const [form] = Form.useForm();
@@ -21,11 +20,11 @@ const UserLayout = (props) => {
         onFinish={async (values) => {
           const { code, token, data } = await mutation.mutateAsync(values);
           if (code === 1) {
-            await sessionStorage.setItem('token', token)
+            await sessionStorage.setItem('token', token);
             setStore({ ...store, token: token });
-            history.push('/')
+            history.push('/');
           } else {
-            message.warning('登陆失败')
+            message.warning('登陆失败');
           }
         }}
         type="account"
@@ -36,17 +35,17 @@ const UserLayout = (props) => {
               type: 'primary',
               htmlType: 'submit',
               style: {
-                marginRight: 20
-              }
-            }
+                marginRight: 20,
+              },
+            },
           },
           {
             label: '重置',
             attr: {
               type: 'primary',
-              onClick: () => form.resetFields()
-            }
-          }
+              onClick: () => form.resetFields(),
+            },
+          },
         ]}
       />
     </Authorized>

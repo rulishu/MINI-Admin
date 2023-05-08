@@ -1,16 +1,6 @@
-import React, { useState } from 'react';
-import { CardPro, ButtonGroupPro } from '@antdp/antdp-ui'
-import {
-  LightFilter,
-  ProForm,
-  ProFormDatePicker,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-  QueryFilter,
-} from '@ant-design/pro-components';
-import { Table, Radio } from 'antd'
-import { columns } from './columns'
+import { ButtonGroupPro, CardPro } from '@antdp/antdp-ui';
+import { Table } from 'antd';
+import { columns } from './columns';
 
 export default function SearchTable() {
   // const [selectionType, setSelectionType] = useState < 'checkbox' | 'radio' > ('checkbox');
@@ -23,18 +13,18 @@ export default function SearchTable() {
             {
               type: 'primary',
               label: '创建导出任务',
-              onClick: () => { },
+              onClick: () => {},
             },
             {
               type: 'primary',
               label: '查看导出列表',
-              onClick: () => { },
+              onClick: () => {},
             },
             {
               type: 'primary',
               label: '查看优惠卷发放记录',
-              onClick: () => { },
-            }
+              onClick: () => {},
+            },
           ]}
         />
 
@@ -51,16 +41,16 @@ export default function SearchTable() {
         <Divider /> */}
 
         <Table
-          rowSelection={{
-            // type: selectionType,
-            // ...rowSelection,
-          }}
+          rowSelection={
+            {
+              // type: selectionType,
+              // ...rowSelection,
+            }
+          }
           bordered
           rowKey="id"
           columns={columns}
-          dataSource={[
-            { number: 1, name: '章三' }
-          ]}
+          dataSource={[{ number: 1, name: '章三' }]}
         />
       </CardPro>
     </div>

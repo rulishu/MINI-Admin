@@ -1,16 +1,4 @@
-import React from 'react'
-import { CardPro, ButtonGroupPro } from '@antdp/antdp-ui'
-import {
-  LightFilter,
-  ProForm,
-  ProFormDatePicker,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-  QueryFilter,
-} from '@ant-design/pro-components';
-import { Table } from 'antd'
-import { columns } from '../Table/columns'
+import { ProFormSelect, ProFormText, QueryFilter } from '@ant-design/pro-components';
 
 export default function Search() {
   return (

@@ -1,0 +1,6 @@
+/config
+/packages
+/packages/ane-components/esm/
+/packages/ane-components/cjs/
+/src/pages/.umi/
+/example

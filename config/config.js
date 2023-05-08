@@ -29,6 +29,6 @@ export default config(router, {
   reactQuery: {
     // 是否开启 react query 官方 devtool 工具
     devtool: false,
-    queryClient: true
-  }
+    queryClient: true,
+  },
 });

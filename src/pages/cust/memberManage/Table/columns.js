@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button } from 'antd';
 
 export const columns = [
   {
@@ -63,19 +63,13 @@ export const columns = [
     align: 'center',
     render: () => (
       <div>
-        <Button
-          onClick={() => { }}
-          size='small'
-        >
+        <Button onClick={() => {}} size="small">
           详情
         </Button>
-        <Button
-          size='small'
-          onClick={() => { }}
-        >
+        <Button size="small" onClick={() => {}}>
           加标签
         </Button>
       </div>
-    )
+    ),
   },
-]
+];
