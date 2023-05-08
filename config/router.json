@@ -1,0 +1,28 @@
+[
+  {
+    "path": "/login",
+    "component": "@/layouts/UserLayout"
+  },
+  {
+    "path": "/",
+    "component": "@/layouts/BasicLayout",
+    "routes": [
+      {
+        "path": "/",
+        "redirectTo": "/welcome"
+      },
+      {
+        "path": "/welcome",
+        "name": "首页",
+        "icon": "welcome",
+        "component": "@/pages/index"
+      },
+      {
+        "path": "/403",
+        "name": "403",
+        "icon": "file-protect",
+        "component": "@/pages/403"
+      }
+    ]
+  }
+]

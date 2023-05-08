@@ -1,0 +1,36 @@
+{
+  "name": "admin",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "max dev",
+    "build": "max build",
+    "umiinstall": "max setup"
+  },
+  "dependencies": {
+    "@antdp/authorized": "2.0.4",
+    "@antdp/basic-layouts": "2.0.4",
+    "@antdp/hooks": "2.0.4",
+    "@antdp/user-login": "2.0.4",
+    "antd": "5.4.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "overrides": {
+    "dva": "^2.6.0-beta.20",
+    "antd": "5.4.7"
+  },
+  "resolutions": {
+    "dva": "^2.6.0-beta.20",
+    "antd": "5.4.7"
+  },
+  "devDependencies": {
+    "@antdp/config": "2.0.4",
+    "@antdp/dependencies": "2.0.4",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@umijs/max": "~4.0.47",
+    "@umijs/plugin-model": "~2.6.2",
+    "typescript": "^5.0.0"
+  }
+}

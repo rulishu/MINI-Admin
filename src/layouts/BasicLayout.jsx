@@ -1,0 +1,45 @@
+import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import Authorized from '@antdp/authorized';
+import BasicLayout from '@antdp/basic-layouts';
+import { history, useModel } from '@umijs/max';
+import 'antd/dist/reset.css';
+import logo from './logo.svg';
+const Layout = () => {
+  const { setStore, store } = useModel('global', (model) => ({ ...model }));
+  return (
+    <Authorized authority={!!store.token} redirectPath="/login">
+      <BasicLayout projectName="Ant Design" profile={{
+        name: '埋名',
+        avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
+      }}
+        siderWidth={240}
+        logo={logo}
+        topRightMenu={[{
+          title: '个人中心',
+          icon: <UserOutlined />,
+          onClick: () => {
+            console.log(222);
+          }
+        },
+        {
+          title: '个人设置',
+          link: '/setting/property',
+          icon: <SettingOutlined />
+        },
+        {
+          divider: true
+        },
+        {
+          title: '退出登录',
+          icon: <LogoutOutlined />,
+          onClick: () => {
+            setStore({ ...store, token: '' })
+            history.push('/login')
+          }
+        }
+        ]}
+      />
+    </Authorized>
+  );
+};
+export default Layout;
