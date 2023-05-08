@@ -20,20 +20,38 @@
       {
         "path": "/cust",
         "name": "客户",
-        "icon":"user",
-        "routes":[
+        "icon": "user",
+        "routes": [
           {
-            "path":"/cust/custManage",
-            "name":"客户管理",
-            "routes":[
+            "path": "/cust/custManage",
+            "name": "客户管理",
+            "routes": [
               {
-                "path":"/cust/custManage/memberManage",
-                "name":"会员管理",
+                "path": "/cust/custManage/memberManage",
+                "name": "会员管理",
                 "component": "@/pages/cust/memberManage"
               }
             ]
+          },
+          {
+            "path": "/cust/memberSettings",
+            "name": "会员设置",
+            "routes": [
+              {
+                "path": "/cust/memberSettings/equityRules",
+                "name": "权益规则",
+                "component": "@/pages/cust/memberSettings/EquityRules"
+              }
+            ]
           }
-        ]     
+        ]
+      },
+      {
+        "path": "/403",
+        "name": "403",
+        "icon": "file-protect",
+        "component": "@/pages/403",
+        "hideInMenu": true
       }
     ]
   }
