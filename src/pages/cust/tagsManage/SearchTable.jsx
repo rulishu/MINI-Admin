@@ -38,12 +38,10 @@ export default function SearchTable() {
             {
               type: 'primary',
               label: '添加手动标签',
-              onClick: () => {},
             },
             {
               type: 'primary',
               label: '导出标签',
-              onClick: () => {},
             },
           ]}
         />
