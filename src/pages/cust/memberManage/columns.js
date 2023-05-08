@@ -2,7 +2,7 @@
 export const columns = [
   {
     title: 'ID',
-    dataIndex: 'number',
+    dataIndex: 'id',
     fixed: 'left',
     width: 90,
     align: 'center',
