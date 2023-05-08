@@ -19,6 +19,7 @@ const EquityRules = () => {
       key: 'action',
       fixed: 'right',
       width: 100,
+      // eslint-disable-next-line no-unused-vars
       render: (_, record) => (
         <Space size="middle">
           <Button type="link">编辑</Button>

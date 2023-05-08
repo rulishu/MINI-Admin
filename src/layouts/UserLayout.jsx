@@ -18,7 +18,7 @@ const UserLayout = (props) => {
         projectName="奋斗"
         loading={props.loading}
         onFinish={async (values) => {
-          const { code, token, data } = await mutation.mutateAsync(values);
+          const { code, token } = await mutation.mutateAsync(values);
           if (code === 1) {
             await sessionStorage.setItem('token', token);
             setStore({ ...store, token: token });
