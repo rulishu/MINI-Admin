@@ -20,20 +20,20 @@
       {
         "path": "/cust",
         "name": "客户",
-        "icon":"user",
-        "routes":[
+        "icon": "user",
+        "routes": [
           {
-            "path":"/cust/custManage",
-            "name":"客户管理",
-            "routes":[
+            "path": "/cust/custManage",
+            "name": "客户管理",
+            "routes": [
               {
-                "path":"/cust/custManage/memberManage",
-                "name":"会员管理",
+                "path": "/cust/custManage/memberManage",
+                "name": "会员管理",
                 "component": "@/pages/cust/memberManage"
               }
             ]
           }
-        ]     
+        ]
       }
     ]
   }

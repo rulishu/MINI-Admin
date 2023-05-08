@@ -1,10 +1,12 @@
 import React from 'react'
-import SearchTable from './SearchTable'
+import Search from './Search/search'
+import Table from './Table/table'
 
 export default function Page() {
   return (
     <div>
-      <SearchTable />
+      <Search />
+      <Table />
     </div>
   );
 }
