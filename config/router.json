@@ -32,6 +32,17 @@
                 "component": "@/pages/cust/memberManage"
               }
             ]
+          },
+          {
+            "path": "/cust/memberSettings",
+            "name": "会员设置",
+            "routes": [
+              {
+                "path": "/cust/memberSettings/equityRules",
+                "name": "权益规则",
+                "component": "@/pages/cust/memberSettings/EquityRules"
+              }
+            ]
           }
         ]
       }
