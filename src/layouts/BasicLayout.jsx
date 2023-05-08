@@ -5,9 +5,9 @@ import { history, useModel } from '@umijs/max';
 import 'antd/dist/reset.css';
 import logo from './logo.svg';
 const Layout = () => {
-  const { setStore, store } = useModel('global', (model) => ({ ...model }));
+  const { setStore, store: { token } } = useModel('global', (model) => ({ ...model }));
   return (
-    <Authorized authority={!!store.token} redirectPath="/login">
+    <Authorized authority={token} redirectPath="/login">
       <BasicLayout projectName="Ant Design" profile={{
         name: '埋名',
         avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
@@ -32,8 +32,8 @@ const Layout = () => {
         {
           title: '退出登录',
           icon: <LogoutOutlined />,
-          onClick: () => {
-            setStore({ ...store, token: '' })
+          onClick: async () => {
+            await sessionStorage.removeItem('token', '')
             history.push('/login')
           }
         }
