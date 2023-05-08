@@ -1,9 +1,3 @@
-const menus = [
-  '/',
-  '/welcome',
-];
-const btns = [];
-
 export default {
   'POST /api/users/login': (req, res) => {
     const { username, password, phone, code, type } = req.body;
@@ -13,8 +7,6 @@ export default {
         message: '登录成功！',
         data: {
           type,
-          menus,
-          btns,
         },
         token: '3096208b45df735aeebf072e90a4',
       });

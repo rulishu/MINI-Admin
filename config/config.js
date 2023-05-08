@@ -13,11 +13,6 @@ export default config(router, {
     ANTD_IS_TABS: true,
     // 是否展示面包屑
     ANTD_IS_BREADCRUMB: false,
-    ANTD_AUTH_CONF: {
-      auth_menu: 'authMenu',
-      auth_btn: 'authBtn',
-      auth_check_url: '',
-    },
     // ANTD_MENU_TOP_LEFT: true,
     ANTD_TITLE_TOP: true,
     /** 是否展示搜索菜单  */

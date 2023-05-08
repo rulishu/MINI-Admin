@@ -15,14 +15,25 @@
         "path": "/welcome",
         "name": "首页",
         "icon": "welcome",
-        "component": "@/pages/index"
+        "component": "@/pages/home"
       },
       {
-        "path": "/403",
-        "name": "403",
-        "icon": "file-protect",
-        "component": "@/pages/403",
-        "hideInMenu":true
+        "path": "/cust",
+        "name": "客户",
+        "icon":"user",
+        "routes":[
+          {
+            "path":"/cust/custManage",
+            "name":"客户管理",
+            "routes":[
+              {
+                "path":"/cust/custManage/memberManage",
+                "name":"会员管理",
+                "component": "@/pages/cust/memberManage"
+              }
+            ]
+          }
+        ]     
       }
     ]
   }

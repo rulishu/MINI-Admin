@@ -22,8 +22,6 @@ const UserLayout = (props) => {
           const { code, token, data } = await mutation.mutateAsync(values);
           if (code === 1) {
             await sessionStorage.setItem('token', token)
-            await sessionStorage.setItem('authBtn', JSON.stringify(data.btns));
-            await sessionStorage.setItem('authMenu', JSON.stringify(data.menus));
             setStore({ ...store, token: token });
             history.push('/')
           } else {

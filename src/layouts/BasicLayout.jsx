@@ -34,8 +34,6 @@ const Layout = () => {
           icon: <LogoutOutlined />,
           onClick: async () => {
             await sessionStorage.removeItem('token');
-            await sessionStorage.removeItem('authBtn');
-            await sessionStorage.removeItem('authMenu');
             setStore({ ...store, token: '' });
             history.push('/login')
           }
