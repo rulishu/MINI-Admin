@@ -1,10 +1,6 @@
 import React from 'react'
 import { CardPro, ButtonGroupPro } from '@antdp/antdp-ui'
 import {
-  LightFilter,
-  ProForm,
-  ProFormDatePicker,
-  ProFormRadio,
   ProFormSelect,
   ProFormText,
   QueryFilter,
@@ -12,16 +8,11 @@ import {
 import { Table, Form } from 'antd'
 import { useTable } from '@antdp/hooks';
 import { columns } from './columns'
-import { request } from '@umijs/max'
+import { selectPage } from '@/service/memberManage'
+import styles from './index.less'
 
 export default function SearchTable() {
   const [form] = Form.useForm();
-  const selectPage = async (params) => {
-    return request('/api/selectPage', {
-      method: 'POST',
-      data: params,
-    });
-  };
   // 分页接口
   const { tableProps, search } = useTable(
     async (params, formData) => {
@@ -46,12 +37,11 @@ export default function SearchTable() {
   );
 
   const { submit, reset } = search;
-  console.log('tableProps',tableProps)
   return (
     <div>
       <QueryFilter
         form={form}
-        defaultCollapsed={false}
+        defaultCollapsed
         layout="vertical"
         onFinish={submit}
         onReset={reset}
@@ -83,6 +73,7 @@ export default function SearchTable() {
       </QueryFilter>
       <CardPro>
         <ButtonGroupPro
+          className={styles.antdp_ButtonGroup_padding}
           button={[
             {
               type: 'primary',
