@@ -1,20 +1,48 @@
 import { selectPage } from '@/service/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useReactMutation } from '@antdp/hooks';
 import { useModel } from '@umijs/max';
+import { Modal } from 'antd';
 import { useRef, useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
-  const { store, setStore } = useModel('tagsManage', (model) => ({ ...model }));
+  const { store, setStore, setVisible } = useModel('tagsManage', (model) => ({ ...model }));
+
+  const mutation = useReactMutation({
+    url: '/api/selectById',
+    onSuccess: ({ code, data }) => {
+      if (code === 1) {
+        setStore({
+          ...store,
+          queryInfo: data || {},
+        });
+        setVisible(true);
+      }
+    },
+  });
+
+  // eslint-disable-next-line no-unused-vars
+  const handleEdit = async (type, record) => {
+    if (type === 'edit') {
+      await mutation.mutateAsync({ id: 1 });
+      console.log('1111');
+    } else {
+      Modal.confirm({
+        title: '确定是否删除',
+        onOk: () => ref.current.reload(),
+      });
+    }
+  };
+
   return (
     <ProTable
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
-        console.log('params', params);
         const { current, pageSize, ...formData } = params;
         const { code, data } = await selectPage({
           current,
@@ -53,9 +81,13 @@ export default function SearchTable() {
             button={[
               {
                 type: 'primary',
-                label: '添加手动标签',
+                label: store.activeKey === 'tab1' ? '添加手动标签' : '添加自动标签',
                 onClick: () => {
-                  setStore({ ...store, visible: true });
+                  setVisible(true);
+                  setStore({
+                    ...store,
+                    queryInfo: {},
+                  });
                 },
               },
               {
@@ -72,7 +104,7 @@ export default function SearchTable() {
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns}
+      columns={columns({ handleEdit })}
       rowKey="id"
     />
   );

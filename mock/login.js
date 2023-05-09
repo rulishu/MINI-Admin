@@ -65,4 +65,19 @@ export default {
       });
     }, 2000);
   },
+  'POST /api/selectById': (req, res) => {
+    const { id } = req.body;
+    if (id === 1) {
+      setTimeout(() => {
+        res.send({
+          code: 1,
+          message: '查询成功',
+          data: {
+            name: '用户身份',
+            tags: ['管理员', '超级管理员'],
+          },
+        });
+      }, 2000);
+    }
+  },
 };

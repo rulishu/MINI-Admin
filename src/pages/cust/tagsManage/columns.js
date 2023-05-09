@@ -1,6 +1,6 @@
 import { Divider } from 'antd';
 
-export const columns = [
+export const columns = ({ handleEdit }) => [
   {
     title: '关键词',
     dataIndex: 'key',
@@ -42,13 +42,13 @@ export const columns = [
     width: 180,
     align: 'center',
     hideInSearch: true,
-    render: () => (
+    render: (record) => (
       <div>
-        <a type="link" size="small">
+        <a type="link" size="small" onClick={() => handleEdit('delete', record)}>
           删除
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small">
+        <a type="link" size="small" onClick={() => handleEdit('edit', record)}>
           编辑
         </a>
       </div>
