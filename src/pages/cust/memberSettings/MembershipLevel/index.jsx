@@ -1,15 +1,14 @@
 import { ButtonGroupPro, CardPro } from '@antdp/antdp-ui';
 import { useModel } from '@umijs/max';
 import { Button, Popconfirm, Space, Table } from 'antd';
-import Modals from './Modals.jsx';
+import Modals from './Modals';
 import { data } from './util';
-
-const EquityRules = () => {
+const MembershipLevel = () => {
   const {
     store,
     store: { visible },
     setStore,
-  } = useModel('equityRules', (model) => ({ ...model }));
+  } = useModel('membershipLevel', (model) => ({ ...model }));
   const columns = [
     {
       title: '权益规则名称',
@@ -27,7 +26,6 @@ const EquityRules = () => {
       key: 'action',
       fixed: 'right',
       width: 100,
-      // eslint-disable-next-line no-unused-vars
       render: () => (
         <Space size="middle">
           <Button type="link" onClick={() => onEdit()}>
@@ -78,4 +76,4 @@ const EquityRules = () => {
     </div>
   );
 };
-export default EquityRules;
+export default MembershipLevel;

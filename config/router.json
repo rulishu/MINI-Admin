@@ -48,6 +48,11 @@
             "name": "会员设置",
             "routes": [
               {
+                "path": "/cust/memberSettings/membershipLevel",
+                "name": "会员等级",
+                "component": "@/pages/cust/memberSettings/MembershipLevel"
+              },
+              {
                 "path": "/cust/memberSettings/equityRules",
                 "name": "权益规则",
                 "component": "@/pages/cust/memberSettings/EquityRules"
