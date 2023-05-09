@@ -99,23 +99,23 @@
             "name": "等级收益"
           },
           {
-            "path": "/order/levelReview",
+            "path": "/income/levelReview",
             "name": "等级审核"
           },
           {
-            "path": "/order/promotionalPoster",
+            "path": "/income/promotionalPoster",
             "name": "推广海报"
           },
           {
-            "path": "/order/promotionSettings",
+            "path": "/income/promotionSettings",
             "name": "推广设置"
           },
           {
-            "path": "/order/incomeRules",
+            "path": "/income/incomeRules",
             "name": "收益规则"
           },
           {
-            "path": "/order/regionalBenefits",
+            "path": "/income/regionalBenefits",
             "name": "区域收益"
           }
         ]
