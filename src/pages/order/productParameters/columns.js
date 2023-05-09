@@ -1,6 +1,7 @@
 import { Divider } from 'antd';
+import React from 'react';
 
-export const columns = () => [
+export const columns = ({ activeKey }) => [
   {
     title: '商品名称',
     dataIndex: 'key1',
@@ -92,18 +93,43 @@ export const columns = () => [
   },
   {
     title: '操作',
-    width: 180,
+    width: 150,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
     render: () => (
       <div>
-        <a type="link" size="small">
-          删除
-        </a>
+        {activeKey === 'tab1' && (
+          <a type="link" size="small">
+            预告
+          </a>
+        )}
+        {activeKey === 'tab2' && (
+          <React.Fragment>
+            <a type="link" size="small">
+              直播
+            </a>
+            <Divider type="vertical" />
+            <a type="link" size="small">
+              启封
+            </a>
+          </React.Fragment>
+        )}
+
+        {activeKey === 'tab3' && (
+          <a type="link" size="small">
+            发货
+          </a>
+        )}
+
+        {activeKey === 'tab4' && (
+          <a type="link" size="small">
+            快递信息
+          </a>
+        )}
         <Divider type="vertical" />
         <a type="link" size="small">
-          编辑
+          查看
         </a>
       </div>
     ),
