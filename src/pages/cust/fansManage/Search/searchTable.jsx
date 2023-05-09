@@ -35,10 +35,11 @@ export default function SearchTable() {
       columns={columns}
       rowKey="id"
       search={{
-        optionRender: false,
-        collapsed: false,
+        // optionRender: false,
+        defaultCollapsed: false,
+        // collapsed: false,
       }}
-      title={() => (
+      toolBarRender={() => (
         <ButtonGroupPro
           button={[
             {
