@@ -35,6 +35,10 @@
           {
             "path": "/product/productParameters",
             "name": "商品参数"
+          },
+          {
+            "path": "/product/productBasic",
+            "name": "商品基础设置"
           }
         ]
       },
