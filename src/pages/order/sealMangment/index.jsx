@@ -1,7 +1,7 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal, Table, message } from 'antd';
+import { Button, Divider, Form, Input, Modal, Table, message } from 'antd';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createGoods, deleteGoods, listGoods, updateGoods } from './api/goods'; // 假设有一个 API 文件夹，其中包含 CRUD 操作的函数
 
 const Goods = () => {
@@ -24,53 +24,75 @@ const Goods = () => {
   const columns = [
     {
       title: '商品 ID',
+      fixed: 'left',
+      width: 150,
       dataIndex: 'id',
+      align: 'center',
     },
     {
       title: '商品名称',
+      width: 150,
       dataIndex: 'name',
+      align: 'center',
     },
     {
       title: '商品分组',
+      width: 150,
       dataIndex: 'group',
+      align: 'center',
     },
     {
       title: '订单编号',
+      width: 150,
       dataIndex: 'order_number',
+      align: 'center',
     },
     {
       title: '已支付金额',
+      width: 150,
       dataIndex: 'paid_amount',
+      align: 'center',
     },
     {
       title: '封坛数量',
+      width: 150,
       dataIndex: 'sealed_number',
+      align: 'center',
     },
     {
       title: '封坛期限(月/坛)',
+      width: 200,
       dataIndex: 'sealed_term',
+      align: 'center',
     },
     {
       title: '创建时间',
+      width: 150,
       dataIndex: 'created_time',
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      align: 'center',
     },
     {
       title: '客户名称',
+      width: 150,
       dataIndex: 'customer_name',
+      align: 'center',
     },
     {
       title: '手机号码',
+      width: 150,
       dataIndex: 'phone_number',
+      align: 'center',
     },
     {
       title: '操作',
+      width: 150,
+      fixed: 'right',
+      align: 'center',
       dataIndex: 'operation',
       render: (_, record) => (
-        <>
-          <Button
-            type="link"
-            // icon={<EditOutlined />}
+        <React.Fragment>
+          <a
             onClick={() => {
               setSelectedGoods(record);
               setVisible(true);
@@ -78,10 +100,10 @@ const Goods = () => {
             }}
           >
             详情
-          </Button>
-          <Button
+          </a>
+          <Divider type="vertical" />
+          <a
             type="link"
-            // icon={<EditOutlined />}
             onClick={() => {
               setSelectedGoods(record);
               setVisible(true);
@@ -89,11 +111,9 @@ const Goods = () => {
             }}
           >
             编辑
-          </Button>
-          <Button
-            type="link"
-            danger
-            // icon={<DeleteOutlined />}
+          </a>
+          <Divider type="vertical" />
+          <a
             onClick={() => {
               deleteGoods(record.id)
                 .then(() => {
@@ -106,8 +126,8 @@ const Goods = () => {
             }}
           >
             删除
-          </Button>
-        </>
+          </a>
+        </React.Fragment>
       ),
     },
   ];
@@ -219,7 +239,7 @@ const Goods = () => {
           重置
         </Button>
       </div>
-      <Table dataSource={filteredGoods} columns={columns} rowKey="id" />
+      <Table dataSource={filteredGoods} scroll={{ x: 1300 }} columns={columns} rowKey="id" />
       <Modal
         title={selectedGoods ? '编辑商品' : '添加商品'}
         visible={visible}
