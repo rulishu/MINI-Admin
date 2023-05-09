@@ -5,7 +5,7 @@ import SearchTable from './SearchTable';
 export default function Page() {
   return (
     <div>
-      <Card>
+      <Card style={{ marginBottom: '15px' }}>
         <strong style={{ fontSize: 18 }}>批量发货</strong>
         <p> 批量发货目前暂不支持第三方平台订单批量发货。</p>
         <p>
