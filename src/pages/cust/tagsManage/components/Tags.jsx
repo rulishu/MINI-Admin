@@ -56,7 +56,6 @@ export default function Tags({ value = [], onChange }) {
 
   const handleEditInputConfirm = () => {
     const newTags = [...tags];
-    console.log('editInputValue', editInputValue, 'tags', tags);
     if (editInputValue && tags.indexOf(editInputValue) === -1) {
       newTags[editInputIndex] = editInputValue;
       setTags(newTags);

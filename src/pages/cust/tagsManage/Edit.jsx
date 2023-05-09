@@ -1,4 +1,6 @@
+import { add, edit } from '@/service/tagsManage';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { useReactMutation } from '@antdp/hooks';
 import { useModel } from '@umijs/max';
 import { Form } from 'antd';
 import { useRef } from 'react';
@@ -9,23 +11,31 @@ export default function Edit() {
   const {
     visible,
     setVisible,
-    store: { queryInfo },
+    store: { queryInfo, type },
   } = useModel('tagsManage', (model) => ({ ...model }));
+
+  /** 新增编辑接口 **/
+  const mutation = useReactMutation({
+    url: type === 'edit' ? edit : add,
+    onSuccess: ({ code }) => {
+      if (code === 1) {
+        setVisible(false);
+      }
+    },
+  });
 
   return (
     <ModalForm
       formRef={ref}
-      title="新增标签"
+      title={type === 'edit' ? '编辑标签' : '新增标签'}
       open={visible}
       onOpenChange={setVisible}
       modalProps={{
         destroyOnClose: true,
-        afterOpenChange: () => {
-          ref?.current?.setFieldsValue({ ...queryInfo });
-        },
       }}
-      onFinish={(values) => {
-        console.log('values', values);
+      initialValues={queryInfo}
+      onFinish={async (values) => {
+        await mutation.mutateAsync(values);
       }}
     >
       <ProFormText

@@ -5,6 +5,7 @@ export default function useModelTagsManage() {
     visible: false,
     activeKey: 'tab1',
     queryInfo: {},
+    type: '',
   });
   const [visible, setVisible] = useState(false);
   return {

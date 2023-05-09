@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/tagsManage';
+import { selectById, selectPage } from '@/service/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
@@ -10,10 +10,12 @@ import { columns } from './columns';
 export default function SearchTable() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
-  const { store, setStore, setVisible } = useModel('tagsManage', (model) => ({ ...model }));
+  const { store, setStore, setVisible } = useModel('tagsManage', (model) => ({
+    ...model,
+  }));
 
   const mutation = useReactMutation({
-    url: '/api/selectById',
+    url: selectById,
     onSuccess: ({ code, data }) => {
       if (code === 1) {
         setStore({
@@ -28,8 +30,8 @@ export default function SearchTable() {
   // eslint-disable-next-line no-unused-vars
   const handleEdit = async (type, record) => {
     if (type === 'edit') {
+      setStore({ ...store, type });
       await mutation.mutateAsync({ id: 1 });
-      console.log('1111');
     } else {
       Modal.confirm({
         title: '确定是否删除',
@@ -87,6 +89,7 @@ export default function SearchTable() {
                   setStore({
                     ...store,
                     queryInfo: {},
+                    type: 'add',
                   });
                 },
               },

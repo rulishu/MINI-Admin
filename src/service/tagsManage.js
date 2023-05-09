@@ -6,3 +6,9 @@ export const selectPage = async (params) => {
     data: params,
   });
 };
+
+export const selectById = '/api/selectById';
+
+export const add = '/api/add';
+
+export const edit = '/api/edit';
