@@ -45,11 +45,12 @@
       {
         "path": "/order",
         "name": "订单",
-        "icon": "circle-check-o",
+        "icon": "table",
         "routes": [
           {
             "path": "/order/boutique",
-            "name": "精品订单管理"
+            "name": "精品订单管理",
+            "component": "@/pages/order/boutique"
           },
           {
             "path": "/order/custom",
@@ -69,7 +70,8 @@
           },
           {
             "path": "/order/productParameters",
-            "name": "启封管理"
+            "name": "启封管理",
+            "component":"@page/order/productParameters"
           }
         ]
       },
