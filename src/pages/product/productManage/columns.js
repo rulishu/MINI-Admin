@@ -1,4 +1,4 @@
-import { Button, Space } from 'antd';
+import { Divider, Space } from 'antd';
 
 export const columns = [
   {
@@ -79,9 +79,17 @@ export const columns = [
     render: () => (
       <div>
         <Space size="middle">
-          <Button type="link">编辑</Button>
-          <Button type="link">查看</Button>
-          <Button type="link">复制</Button>
+          <a type="link" size="small">
+            编辑
+          </a>
+          <Divider type="vertical" />
+          <a type="link" size="small">
+            查看
+          </a>
+          <Divider type="vertical" />
+          <a type="link" size="small">
+            复制
+          </a>
         </Space>
       </div>
     ),

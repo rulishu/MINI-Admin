@@ -29,7 +29,8 @@
           },
           {
             "path": "/product/packagesManage",
-            "name": "礼包管理"
+            "name": "礼包管理",
+            "component": "@/pages/product/GiftPackManagement"
           },
           {
             "path": "/product/giveawaysManage",
