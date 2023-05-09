@@ -57,7 +57,7 @@
       {
         "path": "/order",
         "name": "订单",
-        "icon": "table",
+        "icon": "file-text",
         "routes": [
           {
             "path": "/order/boutique",
