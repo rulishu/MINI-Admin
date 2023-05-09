@@ -1,4 +1,4 @@
-import { Button, Divider } from 'antd';
+import { Button } from 'antd';
 
 export const columns = [
   {
@@ -25,13 +25,13 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <Button size="small" onClick={() => { }} >
+        <Button size="small" onClick={() => {}}>
           商品管理
         </Button>
-        <Button size="small" onClick={() => { }}>
+        <Button size="small" onClick={() => {}}>
           修改
         </Button>
-        <Button size="small" onClick={() => { }}>
+        <Button size="small" onClick={() => {}}>
           删除
         </Button>
       </div>
