@@ -46,16 +46,28 @@ export default function GiftTables() {
             };
           }
         }}
-        title={() => (
-          <ButtonGroupPro
-            button={[
-              {
-                type: 'primary',
-                label: '新建礼包',
-              },
-            ]}
-          />
-        )}
+        // title={() => (
+        //   <ButtonGroupPro
+        //     button={[
+        //       {
+        //         type: 'primary',
+        //         label: '新建礼包',
+        //       },
+        //     ]}
+        //   />
+        // )}
+        toolbar={{
+          actions: (
+            <ButtonGroupPro
+              button={[
+                {
+                  type: 'primary',
+                  label: '新建礼包',
+                },
+              ]}
+            />
+          ),
+        }}
         search={false}
         pagination={{
           pageSize: pageSize,

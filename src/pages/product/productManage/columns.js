@@ -4,6 +4,7 @@ export const columns = [
   {
     title: '商品名称',
     dataIndex: 'level',
+    align: 'center',
     width: 30,
   },
   {

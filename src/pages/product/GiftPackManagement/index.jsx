@@ -3,7 +3,7 @@ import BasicsTables from './BasicsTables';
 import GiftTables from './GiftTables';
 import Tables from './Tables';
 
-const GiftPackManagement = () => {
+const giftPackManagement = () => {
   const onChange = (key) => {
     console.log(key);
   };
@@ -30,4 +30,4 @@ const GiftPackManagement = () => {
     </div>
   );
 };
-export default GiftPackManagement;
+export default giftPackManagement;

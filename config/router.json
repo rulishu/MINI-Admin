@@ -28,13 +28,14 @@
             "component": "@/pages/product/productManage"
           },
           {
-            "path": "/product/packagesManage",
+            "path": "/product/giftPackManagement",
             "name": "礼包管理",
-            "component": "@/pages/product/GiftPackManagement"
+            "component": "@/pages/product/giftPackManagement"
           },
           {
-            "path": "/product/giveawaysManage",
-            "name": "赠品管理"
+            "path": "/product/giftManagement",
+            "name": "赠品管理",
+            "component": "@/pages/product/giftManagement"
           },
           {
             "path": "/product/groupManage",
@@ -72,7 +73,8 @@
           },
           {
             "path": "/order/shipping",
-            "name": "发货管理"
+            "name": "发货管理",
+            "component":"@/pages/order/shipping"
           },
           {
             "path": "/order/seal",
@@ -82,7 +84,7 @@
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component": "@/pages/order/productParameters"
+            "component":"@/pages/order/productParameters"
           }
         ]
       },
