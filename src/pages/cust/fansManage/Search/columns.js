@@ -1,5 +1,3 @@
-import { Button } from 'antd';
-
 export const columns = [
   // {
   //   title: () => <Checkbox></Checkbox>,
@@ -128,12 +126,13 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <Button
+        <a
+          type="link"
           size="small"
-          // onClick={() => { }}
+          // onClick={() => handleEdit('edit', record)}
         >
           加标签
-        </Button>
+        </a>
       </div>
     ),
   },
