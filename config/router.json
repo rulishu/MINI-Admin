@@ -18,7 +18,8 @@
         "routes": [
           {
             "path": "/product/productManage",
-            "name": "商品管理"
+            "name": "商品管理",
+            "component": "@/pages/product/productManage"
           },
           {
             "path": "/product/packagesManage",
