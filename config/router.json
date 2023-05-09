@@ -30,7 +30,8 @@
           },
           {
             "path": "/product/groupManage",
-            "name": "分组管理"
+            "name": "分组管理",
+            "component": "@/pages/product/groupManage"
           },
           {
             "path": "/product/productParameters",
@@ -71,7 +72,7 @@
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component":"@/pages/order/productParameters"
+            "component": "@/pages/order/productParameters"
           }
         ]
       },
