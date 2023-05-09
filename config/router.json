@@ -72,7 +72,8 @@
           },
           {
             "path": "/order/shipping",
-            "name": "发货管理"
+            "name": "发货管理",
+            "component":"@/pages/order/shipping"
           },
           {
             "path": "/order/seal",
@@ -81,7 +82,7 @@
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component": "@/pages/order/productParameters"
+            "component":"@/pages/order/productParameters"
           }
         ]
       },

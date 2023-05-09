@@ -4,8 +4,12 @@ export const columns = [
   {
     title: '商品',
     dataIndex: 'goods',
-    align: 'left',
-    width: 120,
+    hideInSearch: true,
+  },
+  {
+    title: '商品名称',
+    dataIndex: 'goods',
+    hideInTable: true,
   },
   {
     title: '发问人',
