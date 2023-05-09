@@ -10,6 +10,7 @@ export const columns = [
     dataIndex: 'number',
     width: 120,
     align: 'center',
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -17,6 +18,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -24,6 +26,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -31,6 +34,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -38,6 +42,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -45,6 +50,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 120,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -52,6 +58,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 120,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
@@ -59,6 +66,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
     hideInTable: true,
   },
   {
@@ -116,6 +124,7 @@ export const columns = [
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
     hideInSearch: true,
   },
   {
