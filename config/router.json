@@ -64,11 +64,13 @@
           },
           {
             "path": "/order/custom",
-            "name": "定制订单管理"
+            "name": "定制订单管理",
+            "component": "@/pages/order/boutique"
           },
           {
             "path": "/order/pick",
-            "name": "拣货单管理"
+            "name": "拣货单管理",
+            "component": "@/pages/order/boutique"
           },
           {
             "path": "/order/shipping",
