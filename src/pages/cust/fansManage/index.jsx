@@ -1,11 +1,9 @@
-import Search from './Search/search';
-import Table from './Table/table';
+import SearchTable from './Search/searchTable';
 
 const Page = () => {
   return (
     <div>
-      <Search />
-      <Table />
+      <SearchTable />
     </div>
   );
 };
