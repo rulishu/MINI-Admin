@@ -4,8 +4,7 @@ import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useRef, useState } from 'react';
 import { columns } from './columns';
 
-export default function SearchTable(props) {
-  const { onEdit, onAdd } = props;
+export default function Tables() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
   return (
@@ -33,23 +32,35 @@ export default function SearchTable(props) {
             button={[
               {
                 type: 'primary',
-                label: '新建会员等级',
-                onClick: () => {
-                  onAdd();
-                },
+                label: '发布赠品',
+              },
+              {
+                type: 'primary',
+                label: '上架',
+              },
+              {
+                type: 'primary',
+                label: '下架',
+              },
+              {
+                type: 'primary',
+                label: '删除',
+              },
+              {
+                type: 'primary',
+                label: '改分组',
               },
             ]}
           />
         ),
       }}
-      search={false}
       pagination={{
         pageSize: pageSize,
         onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns(onEdit)}
+      columns={columns}
       rowKey="id"
     />
   );

@@ -1,20 +1,14 @@
-export const columns = (onEdit) => [
+import { Divider } from 'antd';
+
+export const columns = [
   {
-    title: '等级',
+    title: '赠品名称',
     dataIndex: 'level',
-    hideInTable: true,
     align: 'center',
     width: 30,
   },
   {
-    title: '称谓',
-    dataIndex: 'id',
-    align: 'center',
-    hideInSearch: true,
-    width: 30,
-  },
-  {
-    title: '背景',
+    title: '成本价(元/件)',
     dataIndex: 'type',
     align: 'center',
     ellipsis: true,
@@ -22,7 +16,7 @@ export const columns = (onEdit) => [
     width: 30,
   },
   {
-    title: '升级条件',
+    title: '库存(件)',
     dataIndex: 'it',
     align: 'center',
     ellipsis: true,
@@ -30,15 +24,16 @@ export const columns = (onEdit) => [
     width: 30,
   },
   {
-    title: '拥有权益',
-    dataIndex: 'num',
+    title: '创建时间',
+    dataIndex: 'time',
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
+
     width: 30,
   },
   {
-    title: '有效期',
+    title: '排序',
     dataIndex: 'day',
     align: 'center',
     ellipsis: true,
@@ -46,23 +41,30 @@ export const columns = (onEdit) => [
     width: 30,
   },
   {
-    title: '创建期',
-    dataIndex: 'time',
+    title: '商品分组',
+    dataIndex: 'day',
     align: 'center',
     ellipsis: true,
-    hideInSearch: true,
     width: 30,
   },
   {
     title: '操作',
-    width: 30,
+    width: 60,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
     render: () => (
       <div>
-        <a type="link" size="small" onClick={() => onEdit()}>
+        <a type="link" size="small">
           编辑
+        </a>
+        <Divider type="vertical" />
+        <a type="link" size="small">
+          查看
+        </a>
+        <Divider type="vertical" />
+        <a type="link" size="small">
+          复制
         </a>
       </div>
     ),
