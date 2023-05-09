@@ -16,7 +16,8 @@ export default function Page() {
   }));
   const reload = ref?.current?.reload;
 
-  const mutation = useReactMutation({
+  /** 详情接口 */
+  const { mutateAsync } = useReactMutation({
     url: selectById,
     onSuccess: ({ code, data }) => {
       if (code === 1) {
@@ -33,7 +34,7 @@ export default function Page() {
   const handleEdit = async (type, record) => {
     if (type === 'edit') {
       setStore({ ...store, type });
-      await mutation.mutateAsync({ id: 1 });
+      await mutateAsync({ id: 1 });
     } else {
       Modal.confirm({
         title: '确定是否删除',
