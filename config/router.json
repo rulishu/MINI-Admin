@@ -9,7 +9,13 @@
     "routes": [
       {
         "path": "/",
-        "redirectTo": "/product/productManage"
+        "redirectTo": "/welcome"
+      },
+      {
+        "path": "/welcome",
+        "name": "首页",
+        "icon": "welcome",
+        "component": "@/pages/home"
       },
       {
         "path": "/product",
@@ -124,6 +130,25 @@
                 "component": "@/pages/cust/memberSettings/EquityRules"
               }
             ]
+          }
+        ]
+      },
+      {
+        "path":"/distribution",
+        "name": "分销",
+        "icon": "table",
+        "routes": [
+          {
+            "path": "/distribution/provinceAgentManage",
+            "name": "省代管理"
+          },
+          {
+            "path": "/distribution/cityAgentManage",
+            "name": "市代管理"
+          },
+          {
+            "path": "/distribution/shareManage",
+            "name": "分润设置"
           }
         ]
       }
