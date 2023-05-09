@@ -35,7 +35,8 @@
           },
           {
             "path": "/product/productParameters",
-            "name": "商品参数"
+            "name": "商品参数",
+            "component": "@/pages/product/productParameters"
           },
           {
             "path": "/product/productBasic",
