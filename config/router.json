@@ -71,7 +71,7 @@
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component":"@page/order/productParameters"
+            "component":"@/pages/order/productParameters"
           }
         ]
       },
