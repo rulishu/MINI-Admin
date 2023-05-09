@@ -9,13 +9,69 @@
     "routes": [
       {
         "path": "/",
-        "redirectTo": "/welcome"
+        "redirectTo": "/product/productManage"
       },
       {
-        "path": "/welcome",
-        "name": "首页",
-        "icon": "welcome",
-        "component": "@/pages/home"
+        "path": "/product",
+        "name": "商品",
+        "icon": "dashboard",
+        "routes": [
+          {
+            "path": "/product/productManage",
+            "name": "商品管理"
+          },
+          {
+            "path": "/product/packagesManage",
+            "name": "礼包管理"
+          },
+          {
+            "path": "/product/giveawaysManage",
+            "name": "赠品管理"
+          },
+          {
+            "path": "/product/groupManage",
+            "name": "分组管理"
+          },
+          {
+            "path": "/product/productParameters",
+            "name": "商品参数"
+          },
+          {
+            "path": "/product/productBasic",
+            "name": "商品基础设置"
+          }
+        ]
+      },
+      {
+        "path": "/order",
+        "name": "订单",
+        "icon": "circle-check-o",
+        "routes": [
+          {
+            "path": "/order/boutique",
+            "name": "精品订单管理"
+          },
+          {
+            "path": "/order/custom",
+            "name": "定制订单管理"
+          },
+          {
+            "path": "/order/pick",
+            "name": "拣货单管理"
+          },
+          {
+            "path": "/order/shipping",
+            "name": "发货管理"
+          },
+          {
+            "path": "/order/seal",
+            "name": "封坛订单管理"
+          },
+          {
+            "path": "/order/productParameters",
+            "name": "启封管理"
+          }
+        ]
       },
       {
         "path": "/cust",
@@ -40,6 +96,11 @@
                 "path": "/cust/custManage/tagsManage",
                 "name": "标签管理",
                 "component": "@/pages/cust/tagsManage"
+              },
+              {
+                "path": "/cust/custManage/questionManage",
+                "name": "问答管理",
+                "component": "@/pages/cust/questionManage"
               }
             ]
           },

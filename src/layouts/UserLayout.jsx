@@ -4,7 +4,7 @@ import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
 import { Form, message } from 'antd';
 import 'antd/dist/reset.css';
-import logo from './logo.svg';
+import logo from './logo.png';
 
 const UserLayout = (props) => {
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ const UserLayout = (props) => {
       <UserLogin
         logo={logo}
         form={form}
-        projectName="奋斗"
+        projectName=""
         loading={props.loading}
         onFinish={async (values) => {
           const { code, token } = await mutation.mutateAsync(values);

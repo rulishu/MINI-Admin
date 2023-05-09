@@ -3,19 +3,18 @@ import Authorized from '@antdp/authorized';
 import BasicLayout from '@antdp/basic-layouts';
 import { history, useModel } from '@umijs/max';
 import 'antd/dist/reset.css';
-import logo from './logo.svg';
+
 const Layout = () => {
   const { setStore, store } = useModel('global', (model) => ({ ...model }));
   return (
     <Authorized authority={!!store.token} redirectPath="/login">
       <BasicLayout
-        projectName="Ant Design"
+        projectName="奋斗"
         profile={{
           name: '埋名',
           avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
         }}
         siderWidth={240}
-        logo={logo}
         topRightMenu={[
           {
             title: '个人中心',
