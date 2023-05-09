@@ -1,6 +1,12 @@
-import { Button } from 'antd';
+import { Divider } from 'antd';
 
 export const columns = [
+  // {
+  //   title: () => <Checkbox></Checkbox>,
+  //   dataIndex: 'checkout',
+  //   hideInSearch: true,
+  //   render: () => <Checkbox></Checkbox>,
+  // },
   {
     title: 'ID',
     dataIndex: 'id',
@@ -89,12 +95,21 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <Button onClick={() => {}} size="small">
+        <a
+          type="link"
+          size="small"
+          // onClick={() => handleEdit('edit', record)}
+        >
           详情
-        </Button>
-        <Button size="small" onClick={() => {}}>
+        </a>
+        <Divider type="vertical" />
+        <a
+          type="link"
+          size="small"
+          // onClick={() => handleEdit('edit', record)}
+        >
           加标签
-        </Button>
+        </a>
       </div>
     ),
   },

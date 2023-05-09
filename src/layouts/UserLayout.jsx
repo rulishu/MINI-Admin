@@ -4,6 +4,7 @@ import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
 import { Form, message } from 'antd';
 import 'antd/dist/reset.css';
+import WechatLogin from './WechatLogin';
 import logo from './logo.png';
 
 const UserLayout = (props) => {
@@ -27,7 +28,7 @@ const UserLayout = (props) => {
             message.warning('登陆失败');
           }
         }}
-        type="account"
+        type="phone"
         formBtns={[
           {
             label: '登录',
@@ -47,7 +48,14 @@ const UserLayout = (props) => {
             },
           },
         ]}
-      />
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ color: 'rgba(0,0,0,.85)', fontSize: 12, marginRight: 10 }}>
+            其他方式登录:
+          </span>
+          <WechatLogin />
+        </div>
+      </UserLogin>
     </Authorized>
   );
 };

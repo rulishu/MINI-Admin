@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Space } from 'antd';
+import { Divider, Popconfirm } from 'antd';
 
 export const columns = (onEdit) => [
   {
@@ -25,20 +25,24 @@ export const columns = (onEdit) => [
     hideInSearch: true,
     render: () => (
       <div>
-        <Space size="middle">
-          <Button type="link" onClick={() => onEdit()}>
-            编辑
-          </Button>
-          <Popconfirm
-            title="权益规则删除"
-            description="删除后无法恢复规则，确认要删除该权益规则吗"
-            okText="确定"
-            cancelText="取消"
-          >
-            <Button type="link">删除</Button>
-          </Popconfirm>
-          <Button type="link">复制</Button>
-        </Space>
+        <a type="link" size="small" onClick={() => onEdit()}>
+          编辑
+        </a>
+        <Divider type="vertical" />
+        <Popconfirm
+          title="权益规则删除"
+          description="删除后无法恢复规则，确认要删除该权益规则吗"
+          okText="确定"
+          cancelText="取消"
+        >
+          <a type="link" size="small">
+            删除
+          </a>
+        </Popconfirm>
+        <Divider type="vertical" />
+        <a type="link" size="small">
+          复制
+        </a>
       </div>
     ),
   },
