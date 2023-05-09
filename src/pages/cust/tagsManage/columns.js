@@ -2,6 +2,11 @@ import { Divider } from 'antd';
 
 export const columns = [
   {
+    title: '关键词',
+    dataIndex: 'key',
+    hideInTable: true,
+  },
+  {
     title: 'ID',
     dataIndex: 'id',
     width: 120,
@@ -14,12 +19,7 @@ export const columns = [
     align: 'center',
     width: 120,
     ellipsis: true,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '全部' },
-      1: { text: '付小小' },
-      2: { text: '曲丽丽' },
-    },
+    hideInSearch: true,
   },
   {
     title: '标签名称',
