@@ -1,11 +1,16 @@
 import { Button } from 'antd';
 
 export const columns = [
+  // {
+  //   title: () => <Checkbox></Checkbox>,
+  //   dataIndex: 'checkout',
+  //   hideInSearch: true,
+  //   render: () => <Checkbox></Checkbox>,
+  // },
   {
     title: 'ID',
     dataIndex: 'number',
-    fixed: 'left',
-    width: 90,
+    width: 120,
     align: 'center',
     hideInSearch: true,
   },
@@ -52,10 +57,61 @@ export const columns = [
     hideInSearch: true,
   },
   {
+    title: '昵称',
+    dataIndex: 'name',
+    align: 'center',
+    width: 90,
+    hideInTable: true,
+  },
+  {
     title: '性别',
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部' },
+      1: { text: '男' },
+      2: { text: '女' },
+    },
+  },
+  {
+    title: '用户身份',
+    dataIndex: 'name',
+    align: 'center',
+    width: 90,
+    hideInTable: true,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部' },
+      1: { text: '经销商' },
+    },
+  },
+  {
+    title: '购物偏好',
+    dataIndex: 'name',
+    align: 'center',
+    width: 90,
+    hideInTable: true,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部' },
+    },
+  },
+  {
+    title: '拉新能力',
+    dataIndex: 'name',
+    align: 'center',
+    width: 90,
+    hideInSearch: true,
+    ellipsis: true,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部' },
+    },
   },
   {
     title: '标签',
