@@ -66,12 +66,13 @@
           },
           {
             "path": "/order/seal",
-            "name": "封坛订单管理"
+            "name": "封坛订单管理",
+            "component": "@/pages/order/sealMangment"
           },
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component":"@page/order/productParameters"
+            "component": "@/pages/cust/memberManage"
           }
         ]
       },
