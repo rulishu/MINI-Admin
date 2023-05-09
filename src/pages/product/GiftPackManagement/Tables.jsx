@@ -1,9 +1,9 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { Col, Input, Row, Space, Switch } from 'antd';
 import { useRef, useState } from 'react';
 import { columns } from './columns';
-import { Input, Space, Switch, Row, Col } from 'antd'
 
 export default function Tables() {
   const ref = useRef();

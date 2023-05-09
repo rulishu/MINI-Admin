@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
+import BasicsTables from './BasicsTables';
+import GiftTables from './GiftTables';
 import Tables from './Tables';
-import GiftTables from './GiftTables'
-import BasicsTables from './BasicsTables'
 
 const GiftPackManagement = () => {
   const onChange = (key) => {

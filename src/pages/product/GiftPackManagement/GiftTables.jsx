@@ -1,9 +1,9 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { Alert, Row, Space } from 'antd';
 import { useRef, useState } from 'react';
 import { columnsGift } from './columns';
-import { Input, Space, Switch, Row, Col, Alert } from 'antd'
 
 export default function GiftTables() {
   const ref = useRef();
@@ -11,9 +11,11 @@ export default function GiftTables() {
   const text = (
     <div>
       <span style={{ color: '#31708F', fontWeight: 'bold' }}>温馨提示:</span>
-      <span style={{ color: '#FF0000' }}>店长大礼包只能在下面商品修改，如果有多种商品，请在商品规格那里录入多种情况。</span>
-    </div >
-  )
+      <span style={{ color: '#FF0000' }}>
+        店长大礼包只能在下面商品修改，如果有多种商品，请在商品规格那里录入多种情况。
+      </span>
+    </div>
+  );
   return (
     <div>
       <Row justify="space-between" style={{ marginBottom: 10 }}>

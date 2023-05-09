@@ -1,7 +1,5 @@
-import { selectPage } from '@/service/memberSettings';
-import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { Input, Space, Switch, Row, Radio, Alert } from 'antd'
+import { Alert, Input, Radio, Row, Space } from 'antd';
 
 export default function GiftTables() {
   const text = (
@@ -9,7 +7,7 @@ export default function GiftTables() {
       <span style={{ color: '#31708F', fontWeight: 'bold' }}>提示! </span>
       <span style={{ color: '#31708F' }}>店长收益计算模式</span>
     </div>
-  )
+  );
   return (
     <div>
       <Row justify="space-between" style={{ marginBottom: 10 }}>
@@ -32,16 +30,18 @@ export default function GiftTables() {
               defaultValue="店长收益计算模式选择:"
               disabled
             />
-            <div style={{
-              width: '100%',
-              backgroundColor: '#FFFFFF',
-              padding: 4,
-              borderTopRightRadius: 8,
-              borderBottomRightRadius: 8,
-              borderWidth: 1,
-              borderColor: '#D9D9D9',
-              borderStyle: 'solid',
-            }}>
+            <div
+              style={{
+                width: '100%',
+                backgroundColor: '#FFFFFF',
+                padding: 4,
+                borderTopRightRadius: 8,
+                borderBottomRightRadius: 8,
+                borderWidth: 1,
+                borderColor: '#D9D9D9',
+                borderStyle: 'solid',
+              }}
+            >
               <Radio.Group>
                 <Radio value={1}>按订单实付金额计算</Radio>
                 <Radio value={2}>按店长所得佣金计算</Radio>
