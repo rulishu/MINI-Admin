@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
-export default function useModelTagsManage() {
+export default function useModelMemberManage() {
   const [store, setStore] = useState({
-    visible: false,
-    visibleTable: false,
+    addVisible: false,
   });
   return {
     store,
