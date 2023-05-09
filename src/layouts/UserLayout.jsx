@@ -4,12 +4,12 @@ import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
 import { Form, message } from 'antd';
 import 'antd/dist/reset.css';
-import WechatLogin from './WechatLogin';
+import SignUp from './SignUp';
 import logo from './logo.png';
 
 const UserLayout = (props) => {
   const [form] = Form.useForm();
-  const { store, setStore } = useModel('global', (model) => ({ ...model }));
+  const { store, setStore, setSignVisible } = useModel('global', (model) => ({ ...model }));
   const mutation = useReactMutation({ url: '/api/users/login' });
   return (
     <Authorized authority={!store.token} redirectPath="/">
@@ -28,7 +28,7 @@ const UserLayout = (props) => {
             message.warning('登陆失败');
           }
         }}
-        type="phone"
+        type="account"
         formBtns={[
           {
             label: '登录',
@@ -41,20 +41,21 @@ const UserLayout = (props) => {
             },
           },
           {
-            label: '重置',
+            label: '注册',
             attr: {
               type: 'primary',
-              onClick: () => form.resetFields(),
+              onClick: () => setSignVisible(true),
             },
           },
         ]}
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ color: 'rgba(0,0,0,.85)', fontSize: 12, marginRight: 10 }}>
             其他方式登录:
           </span>
           <WechatLogin />
-        </div>
+        </div> */}
+        <SignUp />
       </UserLogin>
     </Authorized>
   );
