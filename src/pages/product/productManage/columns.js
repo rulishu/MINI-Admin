@@ -1,4 +1,4 @@
-import { Divider, Space } from 'antd';
+import { Divider } from 'antd';
 
 export const columns = [
   {
@@ -78,19 +78,17 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <Space size="middle">
-          <a type="link" size="small">
-            编辑
-          </a>
-          <Divider type="vertical" />
-          <a type="link" size="small">
-            查看
-          </a>
-          <Divider type="vertical" />
-          <a type="link" size="small">
-            复制
-          </a>
-        </Space>
+        <a type="link" size="small">
+          编辑
+        </a>
+        <Divider type="vertical" />
+        <a type="link" size="small">
+          查看
+        </a>
+        <Divider type="vertical" />
+        <a type="link" size="small">
+          复制
+        </a>
       </div>
     ),
   },

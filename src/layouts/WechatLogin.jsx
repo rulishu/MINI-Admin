@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const WechatLogin = () => {
   const handleWechatLogin = () => {
-    const appID = 'your_app_id';
+    const appID = 'wxac2e1e5f9284de27';
     const redirectURI = encodeURIComponent('http://192.168.188.205:8000/login');
     const authURL = `https://open.weixin.qq.com/connect/qrconnect?appid=${appID}&redirect_uri=${redirectURI}&response_type=code&scope=snsapi_login#wechat_redirect`;
     window.location.href = authURL;

@@ -81,7 +81,7 @@ export default function Page() {
             ],
             onChange: (key) => {
               setStore({ ...store, activeKey: key });
-              reload();
+              ref?.current?.reload();
             },
           },
           actions: (
