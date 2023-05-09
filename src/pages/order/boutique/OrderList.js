@@ -56,7 +56,11 @@ const WineList = () => {
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {filteredWines.map((wine) => (
           <Card key={wine.id} hoverable style={{ width: 240, margin: '16px' }}>
-            <img src={wine.image} alt={wine.name} style={{ height: 240, objectFit: 'cover' }} />
+            <img
+              src={wine.image}
+              alt={wine.name}
+              style={{ height: 240, width: 190, objectFit: 'contain' }}
+            />
             <Meta title={wine.name} description={wine.description} />
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div>价格：{wine.price} 元</div>
