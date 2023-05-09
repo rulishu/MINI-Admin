@@ -77,7 +77,8 @@
           },
           {
             "path": "/order/seal",
-            "name": "封坛订单管理"
+            "name": "封坛订单管理",
+            "component": "@/pages/order/sealMangment"
           },
           {
             "path": "/order/productParameters",
@@ -136,7 +137,7 @@
         ]
       },
       {
-        "path":"/distribution",
+        "path": "/distribution",
         "name": "分销",
         "icon": "table",
         "routes": [
@@ -150,7 +151,8 @@
           },
           {
             "path": "/distribution/shareManage",
-            "name": "分润设置"
+            "name": "分润设置",
+            "component": "@/pages/distribution/shareManage"
           }
         ]
       }
