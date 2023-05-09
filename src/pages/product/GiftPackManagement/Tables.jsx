@@ -53,16 +53,18 @@ export default function Tables() {
             };
           }
         }}
-        title={() => (
-          <ButtonGroupPro
-            button={[
-              {
-                type: 'primary',
-                label: '添加',
-              },
-            ]}
-          />
-        )}
+        toolbar={{
+          actions: (
+            <ButtonGroupPro
+              button={[
+                {
+                  type: 'primary',
+                  label: '添加',
+                },
+              ]}
+            />
+          ),
+        }}
         search={false}
         pagination={{
           pageSize: pageSize,

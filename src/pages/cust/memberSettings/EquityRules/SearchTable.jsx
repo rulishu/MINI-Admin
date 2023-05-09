@@ -27,19 +27,21 @@ export default function SearchTable(props) {
           };
         }
       }}
-      title={() => (
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '新建权益规则',
-              onClick: () => {
-                onAdd();
+      toolbar={{
+        actions: (
+          <ButtonGroupPro
+            button={[
+              {
+                type: 'primary',
+                label: '新建权益规则',
+                onClick: () => {
+                  onAdd();
+                },
               },
-            },
-          ]}
-        />
-      )}
+            ]}
+          />
+        ),
+      }}
       search={false}
       pagination={{
         pageSize: pageSize,

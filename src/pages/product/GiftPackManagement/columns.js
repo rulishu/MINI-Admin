@@ -5,11 +5,12 @@ export const columns = [
     title: '店长等级',
     dataIndex: 'level',
     hideInSearch: true,
+    align: 'center',
     width: 30,
   },
   {
     title: '一级收益比例',
-    dataIndex: 'id',
+    dataIndex: 'name',
     align: 'center',
     hideInSearch: true,
     width: 30,
@@ -33,7 +34,7 @@ export const columns = [
 
   {
     title: '操作',
-    width: 60,
+    width: 30,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
@@ -63,6 +64,7 @@ export const columnsGift = [
     title: '商品名称',
     dataIndex: 'level',
     hideInSearch: true,
+    align: 'center',
     width: 30,
   },
   {
@@ -86,7 +88,7 @@ export const columnsGift = [
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
-    width: 30,
+    width: 60,
   },
   {
     title: '发货/入云仓',
@@ -102,11 +104,11 @@ export const columnsGift = [
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
-    width: 30,
+    width: 60,
   },
   {
     title: '操作',
-    width: 60,
+    width: 40,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
