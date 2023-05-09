@@ -6,7 +6,7 @@ import { Form } from 'antd';
 import { useRef } from 'react';
 import Tags from './components/Tags';
 
-export default function Edit() {
+export default function Edit({ reload }) {
   const ref = useRef();
   const {
     visible,
@@ -20,6 +20,7 @@ export default function Edit() {
     onSuccess: ({ code }) => {
       if (code === 1) {
         setVisible(false);
+        reload();
       }
     },
   });
