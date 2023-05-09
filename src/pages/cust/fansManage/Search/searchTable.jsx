@@ -1,13 +1,13 @@
 import { selectPage } from '@/service/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
+// import { useModel } from '@umijs/max';
 import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const [pageSize, setPageSize] = useState(10);
-  const { store, setStore } = useModel('FansManage', (model) => ({ ...model }));
+  // const { store, setStore } = useModel('MemberManage', (model) => ({ ...model }));
   return (
     <ProTable
       options={false}
@@ -34,13 +34,17 @@ export default function SearchTable() {
       cardBordered
       columns={columns}
       rowKey="id"
-      toolBarRender={() => (
+      search={{
+        optionRender: false,
+        collapsed: false,
+      }}
+      title={() => (
         <ButtonGroupPro
           button={[
             {
               type: 'primary',
               label: '创建导出任务',
-              onClick: () => setStore({ ...store, visible: true }),
+              // onClick: () => setStore({ ...store, visible: true }),
             },
             {
               type: 'primary',
