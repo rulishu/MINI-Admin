@@ -1,9 +1,10 @@
 import SearchTable from './Search/searchTable';
 
-export default function Page() {
+const Page = () => {
   return (
     <div>
       <SearchTable />
     </div>
   );
-}
+};
+export default Page;

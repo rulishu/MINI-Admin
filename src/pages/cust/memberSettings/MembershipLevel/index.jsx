@@ -1,14 +1,13 @@
 import { CardPro } from '@antdp/antdp-ui';
 import { useModel } from '@umijs/max';
-import Modals from './Modals.jsx';
+import Modals from './Modals';
 import SearchTable from './SearchTable';
-
-const EquityRules = () => {
+const MembershipLevel = () => {
   const {
     store,
     store: { visible },
     setStore,
-  } = useModel('equityRules', (model) => ({ ...model }));
+  } = useModel('membershipLevel', (model) => ({ ...model }));
 
   const onAdd = () => {
     setStore({ ...store, visible: true });
@@ -30,4 +29,4 @@ const EquityRules = () => {
     </div>
   );
 };
-export default EquityRules;
+export default MembershipLevel;
