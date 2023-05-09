@@ -57,7 +57,7 @@
       {
         "path": "/order",
         "name": "订单",
-        "icon": "file-text",
+        "icon": "project",
         "routes": [
           {
             "path": "/order/boutique",
@@ -86,6 +86,37 @@
             "path": "/order/productParameters",
             "name": "启封管理",
             "component": "@/pages/order/productParameters"
+          }
+        ]
+      },
+      {
+        "path": "/income",
+        "name": "收益",
+        "icon": "pay-circle",
+        "routes": [
+          {
+            "path": "/income/levelIncome",
+            "name": "等级收益"
+          },
+          {
+            "path": "/order/levelReview",
+            "name": "等级审核"
+          },
+          {
+            "path": "/order/promotionalPoster",
+            "name": "推广海报"
+          },
+          {
+            "path": "/order/promotionSettings",
+            "name": "推广设置"
+          },
+          {
+            "path": "/order/incomeRules",
+            "name": "收益规则"
+          },
+          {
+            "path": "/order/regionalBenefits",
+            "name": "区域收益"
           }
         ]
       },
