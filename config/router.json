@@ -32,6 +32,11 @@
                 "component": "@/pages/cust/memberManage"
               },
               {
+                "path": "/cust/custManage/fansManage",
+                "name": "粉丝管理",
+                "component": "@/pages/cust/fansManage"
+              },
+              {
                 "path": "/cust/custManage/tagsManage",
                 "name": "标签管理",
                 "component": "@/pages/cust/tagsManage"
