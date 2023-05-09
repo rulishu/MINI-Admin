@@ -7,66 +7,75 @@ export const columns = [
     fixed: 'left',
     width: 90,
     align: 'center',
+    hideInSearch: true,
   },
   {
     title: '会员编号',
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    hideInSearch: true,
   },
   {
     title: '头像',
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    hideInSearch: true,
   },
   {
     title: '个人信息',
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    hideInSearch: true,
   },
   {
-    title: '会员等级',
+    title: '门店名称',
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    hideInSearch: true,
   },
   {
-    title: '会员到期时间',
+    title: '关注时间',
     dataIndex: 'name',
     align: 'center',
     width: 120,
+    hideInSearch: true,
   },
   {
-    title: '加入时间(来源)',
+    title: '最后浏览时间',
     dataIndex: 'name',
     align: 'center',
     width: 120,
+    hideInSearch: true,
   },
   {
-    title: '客户类型',
+    title: '性别',
     dataIndex: 'name',
     align: 'center',
     width: 90,
   },
   {
-    title: '所属门店',
+    title: '标签',
     dataIndex: 'name',
     align: 'center',
     width: 90,
+    hideInSearch: true,
   },
   {
     title: '操作',
     width: 140,
     fixed: 'right',
     align: 'center',
+    hideInSearch: true,
     render: () => (
       <div>
-        <Button onClick={() => {}} size="small">
-          详情
-        </Button>
-        <Button size="small" onClick={() => {}}>
+        <Button
+          size="small"
+          // onClick={() => { }}
+        >
           加标签
         </Button>
       </div>
