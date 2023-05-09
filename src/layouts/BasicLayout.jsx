@@ -19,9 +19,7 @@ const Layout = () => {
           {
             title: '个人中心',
             icon: <UserOutlined />,
-            onClick: () => {
-              console.log(222);
-            },
+            onClick: () => {},
           },
           {
             title: '个人设置',

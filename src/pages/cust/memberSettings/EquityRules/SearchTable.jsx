@@ -1,15 +1,16 @@
-import { selectPage } from '@/service/tagsManage';
+import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { columns } from './columns';
 
-export default function SearchTable() {
+export default function SearchTable(props) {
+  const { onEdit, onAdd } = props;
+  const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
-  const { store, setStore } = useModel('tagsManage', (model) => ({ ...model }));
   return (
     <ProTable
+      actionRef={ref}
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
@@ -26,29 +27,28 @@ export default function SearchTable() {
           };
         }
       }}
+      title={() => (
+        <ButtonGroupPro
+          button={[
+            {
+              type: 'primary',
+              label: '新建权益规则',
+              onClick: () => {
+                onAdd();
+              },
+            },
+          ]}
+        />
+      )}
+      search={false}
       pagination={{
         pageSize: pageSize,
         onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
-      cardBordered
-      columns={columns}
+      cardBordered={true}
+      columns={columns(onEdit)}
       rowKey="id"
-      toolBarRender={() => (
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '添加手动标签',
-              onClick: () => setStore({ ...store, visible: true }),
-            },
-            {
-              type: 'primary',
-              label: '导出标签',
-            },
-          ]}
-        />
-      )}
     />
   );
 }
