@@ -38,7 +38,9 @@ export default function Page() {
     } else {
       Modal.confirm({
         title: '确定是否删除',
-        onOk: () => reload(),
+        onOk: () => {
+          ref.current.reload();
+        },
       });
     }
   };
