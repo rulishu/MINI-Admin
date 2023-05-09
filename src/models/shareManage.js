@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useModelProductParameters() {
+export default function useModelShareManage() {
   const [store, setStore] = useState({
     tab: 'tab1',
   });
