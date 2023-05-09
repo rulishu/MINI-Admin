@@ -1,6 +1,7 @@
 import { ProCard } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { Button, Form, Input } from 'antd';
+import FormModals from './FormModals';
 
 const Index = () => {
   const { store, setStore } = useModel('equityRules', (model) => ({ ...model }));
@@ -12,9 +13,14 @@ const Index = () => {
     setStore({ ...store, visible: false });
   };
 
+  //
+  const openTable = () => {
+    setStore({ ...store, visibleTable: true });
+  };
+
   return (
     <div>
-      <ProCard title="添加权益规则">
+      <ProCard title="添加权益规则" headerBordered>
         <Form
           name="basic"
           labelCol={{
@@ -68,7 +74,17 @@ const Index = () => {
               },
             ]}
           >
-            <Input />
+            <div
+              style={{ fontWeight: 'bold', color: '#409EFF', marginTop: 6, marginBottom: 12 }}
+              onClick={() => {
+                openTable();
+              }}
+            >
+              选择商品
+            </div>
+            <p style={{ fontSize: 12, color: '#999999' }}>
+              注：商品设置打折活动价时与商品会员等级价按实际情况做最低折扣计算成交价
+            </p>
           </Form.Item>
           <Form.Item
             wrapperCol={{
@@ -85,6 +101,7 @@ const Index = () => {
           </Form.Item>
         </Form>
       </ProCard>
+      <FormModals />
     </div>
   );
 };

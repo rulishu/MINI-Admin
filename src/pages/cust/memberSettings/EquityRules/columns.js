@@ -43,3 +43,34 @@ export const columns = (onEdit) => [
     ),
   },
 ];
+
+export const columnsFn = [
+  {
+    title: '商品图片',
+    dataIndex: 'name',
+    align: 'center',
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '商品ID',
+    dataIndex: 'num',
+    align: 'center',
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '商品名称',
+    dataIndex: 'name',
+    align: 'center',
+    ellipsis: true,
+    hideInSearch: true,
+  },
+  {
+    title: '商品价格(元)',
+    dataIndex: 'number',
+    align: 'center',
+    ellipsis: true,
+    hideInSearch: true,
+  },
+];

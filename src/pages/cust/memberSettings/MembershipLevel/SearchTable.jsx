@@ -32,7 +32,7 @@ export default function SearchTable(props) {
           button={[
             {
               type: 'primary',
-              label: '新建权益规则',
+              label: '新建会员等级',
               onClick: () => {
                 onAdd();
               },
