@@ -48,7 +48,8 @@
           },
           {
             "path": "/product/productBasic",
-            "name": "商品基础设置"
+            "name": "商品基础设置",
+            "component": "@/pages/product/productBasic"
           }
         ]
       },
@@ -73,7 +74,7 @@
           {
             "path": "/order/shipping",
             "name": "发货管理",
-            "component":"@/pages/order/shipping"
+            "component": "@/pages/order/shipping"
           },
           {
             "path": "/order/seal",
@@ -83,7 +84,7 @@
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component":"@/pages/order/productParameters"
+            "component": "@/pages/order/productParameters"
           }
         ]
       },

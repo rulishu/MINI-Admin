@@ -17,20 +17,6 @@ export default function SearchTable() {
   };
   return (
     <>
-      <ButtonGroupPro
-        button={[
-          {
-            label: '新增参数',
-            icon: <PlusOutlined />,
-            onClick: () => handle('add'),
-          },
-          {
-            label: '同步系统参数模版',
-            type: 'primary',
-            onClick: () => handle('add'),
-          },
-        ]}
-      />
       <ProTable
         options={false}
         request={async (params = {}) => {
@@ -60,6 +46,22 @@ export default function SearchTable() {
           defaultCollapsed: false,
           searchText: '搜索',
         }}
+        toolBarRender={() => (
+          <ButtonGroupPro
+            button={[
+              {
+                label: '新增参数',
+                icon: <PlusOutlined />,
+                onClick: () => handle('add'),
+              },
+              {
+                label: '同步系统参数模版',
+                type: 'primary',
+                onClick: () => handle('add'),
+              },
+            ]}
+          />
+        )}
       />
     </>
   );

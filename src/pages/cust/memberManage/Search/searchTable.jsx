@@ -45,7 +45,7 @@ export default function SearchTable() {
         defaultCollapsed: false,
         // collapsed: false,
       }}
-      title={() => (
+      toolBarRender={() => (
         <ButtonGroupPro
           button={[
             {
