@@ -33,7 +33,7 @@ export const columns = [
   },
   {
     title: '回答内容',
-    dataIndex: 'updateTime',
+    dataIndex: 'answerContent',
     align: 'left',
     width: 120,
   },

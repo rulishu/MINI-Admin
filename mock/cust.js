@@ -13,6 +13,7 @@ export default {
             createName: 'sjc',
             updateName: 'admin',
             mes: '为什么？',
+            answerContent: '因为啊',
             goods: '一个足球',
           },
           {
@@ -22,6 +23,7 @@ export default {
             createName: 'sjc',
             updateName: 'admin',
             mes: '为什么？',
+            answerContent: '因为啊',
             goods: '一个足球',
           },
           {
@@ -31,6 +33,7 @@ export default {
             createName: 'sjc',
             updateName: 'admin',
             mes: '为什么？',
+            answerContent: '因为啊',
             goods: '一个足球',
           },
         ],
