@@ -1,16 +1,16 @@
 import { ProCard } from '@ant-design/pro-components';
-import { Button, Form, Input } from 'antd';
 import { useModel } from '@umijs/max';
+import { Button, Form, Input } from 'antd';
 
-const index = () => {
+const Index = () => {
   const { store, setStore } = useModel('equityRules', (model) => ({ ...model }));
   const onFinish = () => {
-    console.log('Success:', values);
+    // console.log('Success:', values);
   };
 
   const onClose = () => {
     setStore({ ...store, visible: false });
-  }
+  };
 
   return (
     <div>
@@ -86,7 +86,6 @@ const index = () => {
         </Form>
       </ProCard>
     </div>
-
-  )
-}
-export default index;
+  );
+};
+export default Index;
