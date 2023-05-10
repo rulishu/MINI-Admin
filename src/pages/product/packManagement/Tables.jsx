@@ -1,13 +1,33 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { Col, Input, Row, Space, Switch } from 'antd';
+import { useModel } from '@umijs/max';
+import { Col, Input, Modal, Row, Space, Switch } from 'antd';
 import { useRef, useState } from 'react';
+import Edit from './Edit';
 import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
+  const { update } = useModel('packManagement', (model) => ({ ...model }));
+
+  const handleEdit = async (type, record) => {
+    if (type === 'edit') {
+      update({
+        type: type,
+        queryData: record,
+        visible: true,
+      });
+    } else {
+      Modal.confirm({
+        title: '确定是否删除',
+        onOk: () => {
+          ref.current.reload();
+        },
+      });
+    }
+  };
   return (
     <div>
       <Row justify="space-between">
@@ -61,6 +81,9 @@ export default function Tables() {
                 {
                   type: 'primary',
                   label: '添加',
+                  onClick: () => {
+                    update({ visible: true });
+                  },
                 },
               ]}
             />
@@ -73,9 +96,11 @@ export default function Tables() {
           showSizeChanger: true,
         }}
         cardBordered={true}
-        columns={columns}
+        columns={columns({ handleEdit })}
         rowKey="id"
       />
+
+      <Edit />
     </div>
   );
 }

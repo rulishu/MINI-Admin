@@ -1,6 +1,6 @@
 import { Divider, Popconfirm } from 'antd';
 
-export const columns = [
+export const columns = ({ handleEdit }) => [
   {
     title: '店长等级',
     dataIndex: 'level',
@@ -38,22 +38,22 @@ export const columns = [
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
-    render: () => (
+    render: (record) => (
       <div>
-        <a type="link" size="small">
+        <a type="link" size="small" onClick={() => handleEdit('edit', record)}>
           修改
         </a>
         <Divider type="vertical" />
-        <Popconfirm
+        {/* <Popconfirm
           title="权益规则删除"
           description="删除后无法恢复规则，确认要删除该权益规则吗"
           okText="确定"
           cancelText="取消"
-        >
-          <a type="link" size="small">
-            删除
-          </a>
-        </Popconfirm>
+        > */}
+        <a type="link" size="small" onClick={() => handleEdit('del', record)}>
+          删除
+        </a>
+        {/* </Popconfirm> */}
       </div>
     ),
   },
