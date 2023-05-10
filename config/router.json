@@ -196,7 +196,8 @@
           },
           {
             "path": "/income/regionalBenefits",
-            "name": "区域收益"
+            "name": "区域收益",
+            "component": "@/pages/income/regionalBenefits"
           }
         ]
       },
