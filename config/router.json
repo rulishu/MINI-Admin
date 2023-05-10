@@ -110,7 +110,8 @@
             "routes": [
               {
                 "path": "/sales/pointsCenter/merchandiseManagement",
-                "name": "积分商品管理"
+                "name": "积分商品管理",
+                "component": "@/pages/pointsCenter/merchandiseManagement"
               },
               {
                 "path": "/sales/pointsCenter/pointsManagement",
