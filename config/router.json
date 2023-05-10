@@ -178,7 +178,8 @@
           },
           {
             "path": "/income/promotionalPoster",
-            "name": "推广海报"
+            "name": "推广海报",
+            "component": "@/pages/income/promotionalPoster"
           },
           {
             "path": "/income/promotionSettings",

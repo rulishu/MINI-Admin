@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
-import LevelIncome from './levelIncome/levelIncome';
-import ProductIncome from './productIncome/productIncome';
+import Level from './Level/Table';
+import Product from './Product/Table';
 
 const Index = () => {
   const onChange = () => {
@@ -11,12 +11,12 @@ const Index = () => {
     {
       key: '1',
       label: `等级收益`,
-      children: <LevelIncome />,
+      children: <Level />,
     },
     {
       key: '2',
       label: `商品收益`,
-      children: <ProductIncome />,
+      children: <Product />,
     },
   ];
 
