@@ -101,7 +101,7 @@
               {
                 "path": "/sales/promotion/salesActivities",
                 "name": "营销活动",
-                "component":"@/pages/sales/salesActivities"
+                "component": "@/pages/sales/salesActivities"
               }
             ]
           },
@@ -116,7 +116,8 @@
               },
               {
                 "path": "/sales/pointsCenter/pointsManagement",
-                "name": "会员积分管理"
+                "name": "会员积分管理",
+                "component": "@/pages/pointsCenter/pointsManagement"
               },
               {
                 "path": "/sales/pointsCenter/changeDetails",
