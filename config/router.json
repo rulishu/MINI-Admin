@@ -171,7 +171,8 @@
           },
           {
             "path": "/income/levelReview",
-            "name": "等级审核"
+            "name": "等级审核",
+            "component": "@/pages/income/levelReview"
           },
           {
             "path": "/income/promotionalPoster",
