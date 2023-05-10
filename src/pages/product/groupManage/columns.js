@@ -1,6 +1,6 @@
 import { Divider } from 'antd';
 
-export const columns = [
+export const columns = ({ handleEdit }) => [
   {
     title: '分组名称',
     dataIndex: 'name',
@@ -23,29 +23,17 @@ export const columns = [
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
-    render: () => (
+    render: (record) => (
       <div>
-        <a
-          type="link"
-          size="small"
-          // onClick={() => handleEdit('edit', record)}
-        >
+        <a type="link" size="small" onClick={() => handleEdit('manage', record)}>
           商品管理
         </a>
         <Divider type="vertical" />
-        <a
-          type="link"
-          size="small"
-          // onClick={() => handleEdit('edit', record)}
-        >
+        <a type="link" size="small" onClick={() => handleEdit('edit', record)}>
           修改
         </a>
         <Divider type="vertical" />
-        <a
-          type="link"
-          size="small"
-          // onClick={() => handleEdit('edit', record)}
-        >
+        <a type="link" size="small" onClick={() => handleEdit('delete', record)}>
           删除
         </a>
       </div>
