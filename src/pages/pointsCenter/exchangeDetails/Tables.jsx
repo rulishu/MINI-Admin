@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/pointsManagement';
+import { selectPage } from '@/service/exchangeDetails';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useRef, useState } from 'react';
