@@ -1,5 +1,6 @@
 import { Alert, Row, Space, Tabs } from 'antd';
-import IncomeSetting from './IncomeSetting';
+import Fans from './Fans';
+import Income from './Income';
 
 const Index = () => {
   const text = (
@@ -14,13 +15,13 @@ const Index = () => {
     {
       key: '1',
       label: `推广收益配置`,
-      children: <IncomeSetting />,
+      children: <Income />,
     },
-    // {
-    //   key: '2',
-    //   label: `保级审核`,
-    //   children: <Relegation />,
-    // },
+    {
+      key: '2',
+      label: `有效推广直粉配置`,
+      children: <Fans />,
+    },
     // {
     //   key: '3',
     //   label: `审核设置`,
