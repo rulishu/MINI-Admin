@@ -146,7 +146,8 @@
             "routes": [
               {
                 "path": "/sales/store/config",
-                "name": "小店配置"
+                "name": "小店配置",
+                "component": "@/pages/sales/config"
               },
               {
                 "path": "/sales/store/productManage",
