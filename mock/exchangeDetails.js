@@ -1,20 +1,18 @@
 export default {
-  'POST /api/selectPointsPage': (req, res) => {
+  'POST /api/exchangeDetails/selectPage': (req, res) => {
     const { pageSize } = req.body;
     const list = [];
     for (let i = 0; i < pageSize; i++) {
       list[i] = {
         id: i + 1,
-        type: '1',
-        name: '微信用户5800',
-        number: '粉丝',
-        lastName: '用户',
-        birthday: '1987-07-18',
-        phone: '13858700719',
-        allPrice: '657.0',
-        balance: '51.0',
-        label: '',
-        time: '2022-10-24 13:35:52',
+        type: '优惠券商品',
+        day: '20天',
+        number: '10',
+        month: '12',
+        name: '赵锋',
+        num: '50.0',
+        time: '2023-05-03 23:03:45',
+        state: '兑换成功',
       };
     }
     setTimeout(() => {

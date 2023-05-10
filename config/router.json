@@ -121,11 +121,13 @@
               },
               {
                 "path": "/sales/pointsCenter/changeDetails",
-                "name": "积分变动明细"
+                "name": "积分变动明细",
+                "component": "@/pages/pointsCenter/changeDetails"
               },
               {
                 "path": "/sales/pointsCenter/exchangeDetails",
-                "name": "兑换明细"
+                "name": "兑换明细",
+                "component": "@/pages/pointsCenter/exchangeDetails"
               },
               {
                 "path": "/sales/pointsCenter/syncPoints",
