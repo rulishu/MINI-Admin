@@ -100,7 +100,8 @@
             "routes":[
               {
                 "path": "/sales/promotion/salesActivities",
-                "name": "营销活动"
+                "name": "营销活动",
+                "component":"@/pages/sales/salesActivities"
               }
             ]
           },
