@@ -1,10 +1,11 @@
 import { useModel } from '@umijs/max';
 import { Tabs } from 'antd';
+import Forms from './Forms';
 import Tables from './Tables';
 
 export default () => {
   const {
-    store: { tabs },
+    store: { showForm },
     update,
   } = useModel('productManage', (model) => ({ ...model }));
 
@@ -24,7 +25,7 @@ export default () => {
   ];
   return (
     <div>
-      <Tabs accessKey={tabs} items={items} onChange={onChange} />
+      {showForm ? <Forms /> : <Tabs defaultActiveKey="2" items={items} onChange={onChange} />}
     </div>
   );
 };
