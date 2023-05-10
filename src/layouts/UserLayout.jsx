@@ -2,14 +2,20 @@ import Authorized from '@antdp/authorized';
 import { useReactMutation } from '@antdp/hooks';
 import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
-import { Form, message } from 'antd';
+import { Form } from 'antd';
 import 'antd/dist/reset.css';
+import SignUp from './SignUp';
 import logo from './logo.png';
 
 const UserLayout = (props) => {
   const [form] = Form.useForm();
-  const { store, setStore } = useModel('global', (model) => ({ ...model }));
-  const mutation = useReactMutation({ url: '/api/users/login' });
+  const {
+    store,
+    setStore,
+    // setSignVisible
+  } = useModel('global', (model) => ({ ...model }));
+  const mutation = useReactMutation({ url: '/jcgl-mall/mall/login/toLogin' });
+  // const mutation = useReactMutation({ url: '/api/users/login' });
   return (
     <Authorized authority={!store.token} redirectPath="/">
       <UserLogin
@@ -18,13 +24,19 @@ const UserLayout = (props) => {
         projectName=""
         loading={props.loading}
         onFinish={async (values) => {
-          const { code, token } = await mutation.mutateAsync(values);
-          if (code === 1) {
-            await sessionStorage.setItem('token', token);
-            setStore({ ...store, token: token });
+          const { code, result, message } = await mutation.mutateAsync({
+            userName: values.username,
+            passWord: values.password,
+            appId: 'jcgl-mall-admin',
+          });
+          if (code === 200) {
+            await sessionStorage.setItem('token', result.access_token);
+            await sessionStorage.setItem('refresh_token', result.refresh_token);
+            await sessionStorage.setItem('userDate', result.userDto);
+            setStore({ ...store, token: result.access_token });
             history.push('/');
           } else {
-            message.warning('登陆失败');
+            message.warning(message);
           }
         }}
         type="account"
@@ -39,15 +51,23 @@ const UserLayout = (props) => {
               },
             },
           },
-          {
-            label: '重置',
-            attr: {
-              type: 'primary',
-              onClick: () => form.resetFields(),
-            },
-          },
+          // {
+          //   label: '注册',
+          //   attr: {
+          //     type: 'primary',
+          //     onClick: () => setSignVisible(true),
+          //   },
+          // },
         ]}
-      />
+      >
+        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ color: 'rgba(0,0,0,.85)', fontSize: 12, marginRight: 10 }}>
+            其他方式登录:
+          </span>
+          <WechatLogin />
+        </div> */}
+        <SignUp />
+      </UserLogin>
     </Authorized>
   );
 };

@@ -5,8 +5,11 @@ export default function useModelGlobal() {
   const [store, setStore] = useState({
     token: getToken(),
   });
+  const [signVisible, setSignVisible] = useState(false);
   return {
     store,
     setStore,
+    signVisible,
+    setSignVisible,
   };
 }

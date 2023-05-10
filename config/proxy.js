@@ -7,6 +7,13 @@
  */
 export default {
   dev: {
+    '/jcgl-mall/': {
+      target: 'http://192.168.188.222:36911',
+      changeOrigin: true,
+      pathRewrite: {
+        '^': '',
+      },
+    },
     '/api/': {
       target: 'https://preview.pro.ant.design',
       changeOrigin: true,

@@ -9,7 +9,13 @@
     "routes": [
       {
         "path": "/",
-        "redirectTo": "/product/productManage"
+        "redirectTo": "/welcome"
+      },
+      {
+        "path": "/welcome",
+        "name": "首页",
+        "icon": "welcome",
+        "component": "@/pages/home"
       },
       {
         "path": "/product",
@@ -18,38 +24,45 @@
         "routes": [
           {
             "path": "/product/productManage",
-            "name": "商品管理"
+            "name": "商品管理",
+            "component": "@/pages/product/productManage"
           },
           {
-            "path": "/product/packagesManage",
-            "name": "礼包管理"
+            "path": "/product/packManagement",
+            "name": "礼包管理",
+            "component": "@/pages/product/packManagement"
           },
           {
-            "path": "/product/giveawaysManage",
-            "name": "赠品管理"
+            "path": "/product/giftManagement",
+            "name": "赠品管理",
+            "component": "@/pages/product/giftManagement"
           },
           {
             "path": "/product/groupManage",
-            "name": "分组管理"
+            "name": "分组管理",
+            "component": "@/pages/product/groupManage"
           },
           {
             "path": "/product/productParameters",
-            "name": "商品参数"
+            "name": "商品参数",
+            "component": "@/pages/product/productParameters"
           },
           {
             "path": "/product/productBasic",
-            "name": "商品基础设置"
+            "name": "商品基础设置",
+            "component": "@/pages/product/productBasic"
           }
         ]
       },
       {
         "path": "/order",
         "name": "订单",
-        "icon": "circle-check-o",
+        "icon": "project",
         "routes": [
           {
             "path": "/order/boutique",
-            "name": "精品订单管理"
+            "name": "精品订单管理",
+            "component": "@/pages/order/boutique"
           },
           {
             "path": "/order/custom",
@@ -61,15 +74,130 @@
           },
           {
             "path": "/order/shipping",
-            "name": "发货管理"
+            "name": "发货管理",
+            "component": "@/pages/order/shipping"
           },
           {
             "path": "/order/seal",
-            "name": "封坛订单管理"
+            "name": "封坛订单管理",
+            "component": "@/pages/order/sealMangment"
           },
           {
             "path": "/order/productParameters",
-            "name": "启封管理"
+            "name": "启封管理",
+            "component": "@/pages/order/productParameters"
+          }
+        ]
+      },
+      {
+        "path": "/sales",
+        "name": "营销",
+        "icon": "gift",
+        "routes": [
+          {
+            "path": "/sales/promotion",
+            "name": "促销",
+            "routes": [
+              {
+                "path": "/sales/promotion/salesActivities",
+                "name": "营销活动",
+                "component": "@/pages/sales/salesActivities"
+              }
+            ]
+          },
+          {
+            "path": "/sales/pointsCenter",
+            "name": "积分中心",
+            "routes": [
+              {
+                "path": "/sales/pointsCenter/merchandiseManagement",
+                "name": "积分商品管理",
+                "component": "@/pages/pointsCenter/merchandiseManagement"
+              },
+              {
+                "path": "/sales/pointsCenter/pointsManagement",
+                "name": "会员积分管理",
+                "component": "@/pages/pointsCenter/pointsManagement"
+              },
+              {
+                "path": "/sales/pointsCenter/changeDetails",
+                "name": "积分变动明细",
+                "component": "@/pages/pointsCenter/changeDetails"
+              },
+              {
+                "path": "/sales/pointsCenter/exchangeDetails",
+                "name": "兑换明细",
+                "component": "@/pages/pointsCenter/exchangeDetails"
+              },
+              {
+                "path": "/sales/pointsCenter/syncPoints",
+                "name": "同步积分设置",
+                "component": "@/pages/pointsCenter/syncPoints"
+              },
+              {
+                "path": "/sales/pointsCenter/pointsMall",
+                "name": "积分商城设置"
+              },
+              {
+                "path": "/sales/pointsCenter/exchangeBalance",
+                "name": "兑换余额"
+              }
+            ]
+          },
+          {
+            "path": "/sales/store",
+            "name": "视频号小店",
+            "routes": [
+              {
+                "path": "/sales/store/config",
+                "name": "小店配置",
+                "component": "@/pages/sales/storeConfig"
+              },
+              {
+                "path": "/sales/store/productManage",
+                "name": "小店商品管理"
+              },
+              {
+                "path": "/sales/store/typeManage",
+                "name": "小店类目管理"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "path": "/income",
+        "name": "收益",
+        "icon": "pay-circle",
+        "routes": [
+          {
+            "path": "/income/levelIncome",
+            "name": "等级收益",
+            "component": "@/pages/income/levelIncome"
+          },
+          {
+            "path": "/income/levelReview",
+            "name": "等级审核",
+            "component": "@/pages/income/levelReview"
+          },
+          {
+            "path": "/income/promotionalPoster",
+            "name": "推广海报",
+            "component": "@/pages/income/promotionalPoster"
+          },
+          {
+            "path": "/income/promotionSettings",
+            "name": "推广设置",
+            "component": "@/pages/income/promotionSettings"
+          },
+          {
+            "path": "/income/incomeRules",
+            "name": "收益规则"
+          },
+          {
+            "path": "/income/regionalBenefits",
+            "name": "区域收益",
+            "component": "@/pages/income/regionalBenefits"
           }
         ]
       },
@@ -119,6 +247,27 @@
                 "component": "@/pages/cust/memberSettings/EquityRules"
               }
             ]
+          }
+        ]
+      },
+      {
+        "path": "/distribution",
+        "name": "分销",
+        "icon": "table",
+        "hideInMenu": true,
+        "routes": [
+          {
+            "path": "/distribution/provinceAgentManage",
+            "name": "省代管理"
+          },
+          {
+            "path": "/distribution/cityAgentManage",
+            "name": "市代管理"
+          },
+          {
+            "path": "/distribution/shareManage",
+            "name": "分润设置",
+            "component": "@/pages/distribution/shareManage"
           }
         ]
       }

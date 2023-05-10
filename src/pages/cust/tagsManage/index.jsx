@@ -38,7 +38,9 @@ export default function Page() {
     } else {
       Modal.confirm({
         title: '确定是否删除',
-        onOk: () => reload(),
+        onOk: () => {
+          ref.current.reload();
+        },
       });
     }
   };
@@ -79,7 +81,7 @@ export default function Page() {
             ],
             onChange: (key) => {
               setStore({ ...store, activeKey: key });
-              reload();
+              ref?.current?.reload();
             },
           },
           actions: (

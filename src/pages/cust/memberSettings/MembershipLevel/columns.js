@@ -1,10 +1,9 @@
-import { Button, Popconfirm, Space } from 'antd';
-
 export const columns = (onEdit) => [
   {
     title: '等级',
     dataIndex: 'level',
     hideInTable: true,
+    align: 'center',
     width: 30,
   },
   {
@@ -56,26 +55,15 @@ export const columns = (onEdit) => [
   },
   {
     title: '操作',
-    width: 80,
+    width: 30,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
     render: () => (
       <div>
-        <Space size="middle">
-          <Button type="link" onClick={() => onEdit()}>
-            编辑
-          </Button>
-          <Popconfirm
-            title="权益规则删除"
-            description="删除后无法恢复规则，确认要删除该权益规则吗"
-            okText="确定"
-            cancelText="取消"
-          >
-            <Button type="link">删除</Button>
-          </Popconfirm>
-          <Button type="link">复制</Button>
-        </Space>
+        <a type="link" size="small" onClick={() => onEdit()}>
+          编辑
+        </a>
       </div>
     ),
   },
