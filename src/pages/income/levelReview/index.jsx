@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
-import AuditSettings from './auditSettings/auditSettings';
-import LevelReview from './levelReview/levelReview';
-import RelegationReview from './relegationReview/relegationReview';
+import Level from './Level/Table';
+import Relegation from './Relegation/Table';
+import AuditSettings from './auditSettings/Table';
 
 const Index = () => {
   const onChange = () => {
@@ -12,12 +12,12 @@ const Index = () => {
     {
       key: '1',
       label: `等级审核`,
-      children: <LevelReview />,
+      children: <Level />,
     },
     {
       key: '2',
       label: `保级审核`,
-      children: <RelegationReview />,
+      children: <Relegation />,
     },
     {
       key: '3',

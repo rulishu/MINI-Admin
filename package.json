@@ -9,14 +9,11 @@
     "lint": "eslint --ext .js,.jsx src",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "precommit": "npm run lint",
-    "commit": "cz",
     "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix"
-    ],
+    "**/*.{js,jsx,ts,tsx}": "npm run lint",
     "*.{js,jsx,less,md,json}": [
       "prettier --write"
     ]
@@ -50,8 +47,11 @@
     "@umijs/fabric": "~2.14.1",
     "@umijs/max": "~4.0.47",
     "@umijs/plugin-model": "~2.6.2",
+    "eslint-plugin-unicorn": "^47.0.0",
     "eslint-plugin-prettier": "~4.2.1",
+    "eslint-plugin-jest": "^27.2.1",
     "husky": "~8.0.3",
+    "lint-staged": "~13.2.2",
     "typescript": "^5.0.0"
   }
 }

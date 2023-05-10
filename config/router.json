@@ -28,9 +28,9 @@
             "component": "@/pages/product/productManage"
           },
           {
-            "path": "/product/giftPackManagement",
+            "path": "/product/packManagement",
             "name": "礼包管理",
-            "component": "@/pages/product/giftPackManagement"
+            "component": "@/pages/product/packManagement"
           },
           {
             "path": "/product/giftManagement",
@@ -147,7 +147,8 @@
             "routes": [
               {
                 "path": "/sales/store/config",
-                "name": "小店配置"
+                "name": "小店配置",
+                "component": "@/pages/sales/storeConfig"
               },
               {
                 "path": "/sales/store/productManage",
@@ -178,7 +179,8 @@
           },
           {
             "path": "/income/promotionalPoster",
-            "name": "推广海报"
+            "name": "推广海报",
+            "component": "@/pages/income/promotionalPoster"
           },
           {
             "path": "/income/promotionSettings",
