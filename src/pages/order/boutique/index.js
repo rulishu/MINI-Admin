@@ -1,13 +1,11 @@
-import OrderAdd from './OrderAdd';
-import OrderList from './OrderList';
+import Tables from './Table';
 
-const OriderAdd = () => {
+const Orider = () => {
   return (
     <div>
-      <OrderAdd onAdd={() => {}} />
-      <OrderList />
+      <Tables />
     </div>
   );
 };
 
-export default OriderAdd;
+export default Orider;
