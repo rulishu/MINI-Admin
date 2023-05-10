@@ -1,4 +1,4 @@
-import { Divider, Popconfirm } from 'antd';
+import { Divider } from 'antd';
 
 export const columns = ({ handleEdit }) => [
   {
@@ -129,16 +129,16 @@ export const columnsGift = [
             修改
           </a>
           <Divider type="vertical" />
-          <Popconfirm
+          {/* <Popconfirm
             title="权益规则删除"
             description="删除后无法恢复规则，确认要删除该权益规则吗"
             okText="确定"
             cancelText="取消"
-          >
-            <a type="link" size="small">
-              删除
-            </a>
-          </Popconfirm>
+          > */}
+          <a type="link" size="small">
+            删除
+          </a>
+          {/* </Popconfirm> */}
         </div>
       </div>
     ),

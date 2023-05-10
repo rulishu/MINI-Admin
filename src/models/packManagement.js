@@ -6,6 +6,7 @@ export default function useModelProductManage() {
     activeKey: '1',
     type: '',
     visible: false,
+    giftVisible: false,
   });
 
   const update = (value) => {
