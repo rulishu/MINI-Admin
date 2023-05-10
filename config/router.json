@@ -101,7 +101,7 @@
               {
                 "path": "/sales/promotion/salesActivities",
                 "name": "营销活动",
-                "component":"@/pages/sales/salesActivities"
+                "component": "@/pages/sales/salesActivities"
               }
             ]
           },
@@ -177,7 +177,8 @@
           },
           {
             "path": "/income/promotionalPoster",
-            "name": "推广海报"
+            "name": "推广海报",
+            "component": "@/pages/income/promotionalPoster"
           },
           {
             "path": "/income/promotionSettings",
