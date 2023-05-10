@@ -97,7 +97,7 @@
           {
             "path": "/sales/promotion",
             "name": "促销",
-            "routes":[
+            "routes": [
               {
                 "path": "/sales/promotion/salesActivities",
                 "name": "营销活动",
@@ -108,10 +108,11 @@
           {
             "path": "/sales/pointsCenter",
             "name": "积分中心",
-            "routes":[
+            "routes": [
               {
                 "path": "/sales/pointsCenter/merchandiseManagement",
-                "name": "积分商品管理"
+                "name": "积分商品管理",
+                "component": "@/pages/pointsCenter/merchandiseManagement"
               },
               {
                 "path": "/sales/pointsCenter/pointsManagement",
@@ -142,7 +143,7 @@
           {
             "path": "/sales/store",
             "name": "视频号小店",
-            "routes":[
+            "routes": [
               {
                 "path": "/sales/store/config",
                 "name": "小店配置"
@@ -166,11 +167,13 @@
         "routes": [
           {
             "path": "/income/levelIncome",
-            "name": "等级收益"
+            "name": "等级收益",
+            "component": "@/pages/income/levelIncome"
           },
           {
             "path": "/income/levelReview",
-            "name": "等级审核"
+            "name": "等级审核",
+            "component": "@/pages/income/levelReview"
           },
           {
             "path": "/income/promotionalPoster",
@@ -243,7 +246,7 @@
         "path": "/distribution",
         "name": "分销",
         "icon": "table",
-        "hideInMenu":true,
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/distribution/provinceAgentManage",
