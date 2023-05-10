@@ -26,6 +26,7 @@ export default function GiftTables() {
             <Input
               style={{
                 width: 200,
+                color: '#555555',
               }}
               defaultValue="店长收益计算模式选择:"
               disabled
@@ -50,14 +51,16 @@ export default function GiftTables() {
           </Space.Compact>
         </Space>
       </Row>
-      <ButtonGroupPro
-        button={[
-          {
-            type: 'primary',
-            label: '保存',
-          },
-        ]}
-      />
+      <Row justify="center">
+        <ButtonGroupPro
+          button={[
+            {
+              type: 'primary',
+              label: '保存',
+            },
+          ]}
+        />
+      </Row>
     </div>
   );
 }

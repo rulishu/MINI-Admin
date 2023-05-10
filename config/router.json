@@ -131,7 +131,8 @@
               },
               {
                 "path": "/sales/pointsCenter/syncPoints",
-                "name": "同步积分设置"
+                "name": "同步积分设置",
+                "component": "@/pages/pointsCenter/syncPoints"
               },
               {
                 "path": "/sales/pointsCenter/pointsMall",

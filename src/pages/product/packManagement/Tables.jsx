@@ -17,6 +17,7 @@ export default function Tables() {
               <Input
                 style={{
                   width: 200,
+                  color: '#555555',
                 }}
                 defaultValue="平级越级不产生店主收益:"
                 disabled
