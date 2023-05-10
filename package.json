@@ -25,6 +25,7 @@
     "@antdp/hooks": "2.0.4",
     "@antdp/request": "2.0.4",
     "@antdp/user-login": "2.0.4",
+    "@ant-design/pro-components":"^2.4.14",
     "antd": "5.4.7",
     "form-render": "^2.1.19",
     "moment": "^2.29.4",
