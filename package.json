@@ -9,7 +9,6 @@
     "lint": "eslint --ext .js,.jsx src",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "precommit": "npm run lint",
-    "commit": "cz",
     "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
@@ -52,6 +51,7 @@
     "@umijs/plugin-model": "~2.6.2",
     "eslint-plugin-prettier": "~4.2.1",
     "husky": "~8.0.3",
+    "lint-staged":"~13.2.2",
     "typescript": "^5.0.0"
   }
 }
