@@ -97,7 +97,7 @@
           {
             "path": "/sales/promotion",
             "name": "促销",
-            "routes":[
+            "routes": [
               {
                 "path": "/sales/promotion/salesActivities",
                 "name": "营销活动"
@@ -107,7 +107,7 @@
           {
             "path": "/sales/pointsCenter",
             "name": "积分中心",
-            "routes":[
+            "routes": [
               {
                 "path": "/sales/pointsCenter/merchandiseManagement",
                 "name": "积分商品管理"
@@ -141,7 +141,7 @@
           {
             "path": "/sales/store",
             "name": "视频号小店",
-            "routes":[
+            "routes": [
               {
                 "path": "/sales/store/config",
                 "name": "小店配置"
@@ -165,7 +165,8 @@
         "routes": [
           {
             "path": "/income/levelIncome",
-            "name": "等级收益"
+            "name": "等级收益",
+            "component": "@/pages/income/levelIncome"
           },
           {
             "path": "/income/levelReview",
