@@ -28,9 +28,9 @@
             "component": "@/pages/product/productManage"
           },
           {
-            "path": "/product/giftPackManagement",
+            "path": "/product/packManagement",
             "name": "礼包管理",
-            "component": "@/pages/product/giftPackManagement"
+            "component": "@/pages/product/packManagement"
           },
           {
             "path": "/product/giftManagement",
