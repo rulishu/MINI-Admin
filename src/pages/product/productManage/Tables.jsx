@@ -1,27 +1,37 @@
-import { selectPage } from '@/service/memberSettings';
+import { selectPage } from '@/service/productManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useModel } from '@umijs/max';
 import { useRef, useState } from 'react';
 import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
+  const [select, setSelect] = useState({
+    selectedRowKeys: [],
+    selectedRows: [],
+  });
+
+  const {
+    store: { activeKey },
+    update,
+  } = useModel('productManage', (model) => ({ ...model }));
+
   return (
     <ProTable
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
-        const { code, data } = await selectPage({
-          current,
+        const { code, result } = await selectPage({
+          pageNum: current,
           pageSize,
-          queryData: { ...formData },
+          ...formData,
         });
-        if (code === 1) {
+        if (code === 200) {
           return {
-            data: data.rows || [],
-            total: data.total,
+            data: result.records || [],
+            total: result.total,
             success: true,
           };
         }
@@ -29,7 +39,7 @@ export default function Tables() {
       toolbar={{
         menu: {
           type: 'tab',
-          // activeKey: '',
+          activeKey: activeKey,
           items: [
             {
               key: '1',
@@ -44,7 +54,7 @@ export default function Tables() {
               label: `未上架`,
             },
           ],
-          onChange: () => {},
+          onChange: (key) => update({ activeKey: key }),
         },
         actions: (
           <ButtonGroupPro
@@ -75,13 +85,16 @@ export default function Tables() {
         ),
       }}
       pagination={{
-        pageSize: pageSize,
-        onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
       cardBordered={true}
       columns={columns}
       rowKey="id"
+      rowSelection={{
+        selectedRowKeys: select.selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => setSelect({ selectedRowKeys, selectedRows }),
+      }}
+      scroll={{ x: 1300 }}
     />
   );
 }

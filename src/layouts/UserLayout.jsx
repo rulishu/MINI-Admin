@@ -2,7 +2,7 @@ import Authorized from '@antdp/authorized';
 import { useReactMutation } from '@antdp/hooks';
 import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
-import { Form, message } from 'antd';
+import { Form } from 'antd';
 import 'antd/dist/reset.css';
 import SignUp from './SignUp';
 import logo from './logo.png';
@@ -24,20 +24,19 @@ const UserLayout = (props) => {
         projectName=""
         loading={props.loading}
         onFinish={async (values) => {
-          const data = await mutation.mutateAsync({
+          const { code, result, message } = await mutation.mutateAsync({
             userName: values.username,
             passWord: values.password,
             appId: 'jcgl-mall-admin',
           });
-          if (data.code === 200) {
-            console.log(data);
-            await sessionStorage.setItem('token', data.result.access_token);
-            await sessionStorage.setItem('refresh_token', data.result.refresh_token);
-            await sessionStorage.setItem('userDate', data.result.userDto);
-            setStore({ ...store, token: data.result.access_token });
+          if (code === 200) {
+            await sessionStorage.setItem('token', result.access_token);
+            await sessionStorage.setItem('refresh_token', result.refresh_token);
+            await sessionStorage.setItem('userDate', result.userDto);
+            setStore({ ...store, token: result.access_token });
             history.push('/');
           } else {
-            message.warning(data.message);
+            message.warning(message);
           }
         }}
         type="account"

@@ -1,10 +1,15 @@
+import { useModel } from '@umijs/max';
 import { Tabs } from 'antd';
 import Tables from './Tables';
 
-const productManage = () => {
-  const onChange = (key) => {
-    console.log(key);
-  };
+export default () => {
+  const {
+    store: { tabs },
+    update,
+  } = useModel('productManage', (model) => ({ ...model }));
+
+  const onChange = (key) => update({ tabs: key });
+
   const items = [
     {
       key: '1',
@@ -19,8 +24,7 @@ const productManage = () => {
   ];
   return (
     <div>
-      <Tabs defaultActiveKey="2" items={items} onChange={onChange} />
+      <Tabs accessKey={tabs} items={items} onChange={onChange} />
     </div>
   );
 };
-export default productManage;
