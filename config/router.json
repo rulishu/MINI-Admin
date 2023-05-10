@@ -173,6 +173,7 @@
         "path": "/distribution",
         "name": "分销",
         "icon": "table",
+        "hideInMenu":true,
         "routes": [
           {
             "path": "/distribution/provinceAgentManage",
