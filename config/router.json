@@ -147,7 +147,7 @@
               {
                 "path": "/sales/store/config",
                 "name": "小店配置",
-                "component": "@/pages/sales/config"
+                "component":"@/pages/sales/storeConfig"
               },
               {
                 "path": "/sales/store/productManage",
