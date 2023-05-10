@@ -187,7 +187,8 @@
           },
           {
             "path": "/income/promotionSettings",
-            "name": "推广设置"
+            "name": "推广设置",
+            "component": "@/pages/income/promotionSettings"
           },
           {
             "path": "/income/incomeRules",
