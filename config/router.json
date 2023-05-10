@@ -28,9 +28,9 @@
             "component": "@/pages/product/productManage"
           },
           {
-            "path": "/product/giftPackManagement",
+            "path": "/product/packManagement",
             "name": "礼包管理",
-            "component": "@/pages/product/giftPackManagement"
+            "component": "@/pages/product/packManagement"
           },
           {
             "path": "/product/giftManagement",
@@ -148,7 +148,7 @@
               {
                 "path": "/sales/store/config",
                 "name": "小店配置",
-                "component":"@/pages/sales/storeConfig"
+                "component": "@/pages/sales/storeConfig"
               },
               {
                 "path": "/sales/store/productManage",
