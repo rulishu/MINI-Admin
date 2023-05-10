@@ -1,13 +1,17 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useModel } from '@umijs/max';
 import { Alert, Row, Space } from 'antd';
 import { useRef, useState } from 'react';
+import GiftEdit from './GiftEdit/GiftEdit';
 import { columnsGift } from './columns';
 
 export default function GiftTables() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
+  const { update } = useModel('packManagement', (model) => ({ ...model }));
+
   const text = (
     <div>
       <span style={{ color: '#31708F', fontWeight: 'bold' }}>温馨提示:</span>
@@ -46,16 +50,6 @@ export default function GiftTables() {
             };
           }
         }}
-        // title={() => (
-        //   <ButtonGroupPro
-        //     button={[
-        //       {
-        //         type: 'primary',
-        //         label: '新建礼包',
-        //       },
-        //     ]}
-        //   />
-        // )}
         toolbar={{
           actions: (
             <ButtonGroupPro
@@ -63,6 +57,7 @@ export default function GiftTables() {
                 {
                   type: 'primary',
                   label: '新建礼包',
+                  onClick: () => update({ giftVisible: true }),
                 },
               ]}
             />
@@ -78,6 +73,7 @@ export default function GiftTables() {
         columns={columnsGift}
         rowKey="id"
       />
+      <GiftEdit />
     </div>
   );
 }
