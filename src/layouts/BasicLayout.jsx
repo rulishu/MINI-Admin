@@ -9,7 +9,7 @@ const Layout = () => {
   return (
     <Authorized authority={!!store.token} redirectPath="/login">
       <BasicLayout
-        projectName="奋斗"
+        projectName="镖族严选"
         profile={{
           name: '埋名',
           avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',

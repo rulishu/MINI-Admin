@@ -9,8 +9,13 @@ import logo from './logo.png';
 
 const UserLayout = (props) => {
   const [form] = Form.useForm();
-  const { store, setStore, setSignVisible } = useModel('global', (model) => ({ ...model }));
-  const mutation = useReactMutation({ url: '/api/users/login' });
+  const {
+    store,
+    setStore,
+    // setSignVisible
+  } = useModel('global', (model) => ({ ...model }));
+  const mutation = useReactMutation({ url: '/jcgl-mall/mall/login/toLogin' });
+  // const mutation = useReactMutation({ url: '/api/users/login' });
   return (
     <Authorized authority={!store.token} redirectPath="/">
       <UserLogin
@@ -19,13 +24,20 @@ const UserLayout = (props) => {
         projectName=""
         loading={props.loading}
         onFinish={async (values) => {
-          const { code, token } = await mutation.mutateAsync(values);
-          if (code === 1) {
-            await sessionStorage.setItem('token', token);
-            setStore({ ...store, token: token });
+          const data = await mutation.mutateAsync({
+            userName: values.username,
+            passWord: values.password,
+            appId: 'jcgl-mall-admin',
+          });
+          if (data.code === 200) {
+            console.log(data);
+            await sessionStorage.setItem('token', data.result.access_token);
+            await sessionStorage.setItem('refresh_token', data.result.refresh_token);
+            await sessionStorage.setItem('userDate', data.result.userDto);
+            setStore({ ...store, token: data.result.access_token });
             history.push('/');
           } else {
-            message.warning('登陆失败');
+            message.warning(data.message);
           }
         }}
         type="account"
@@ -40,13 +52,13 @@ const UserLayout = (props) => {
               },
             },
           },
-          {
-            label: '注册',
-            attr: {
-              type: 'primary',
-              onClick: () => setSignVisible(true),
-            },
-          },
+          // {
+          //   label: '注册',
+          //   attr: {
+          //     type: 'primary',
+          //     onClick: () => setSignVisible(true),
+          //   },
+          // },
         ]}
       >
         {/* <div style={{ display: 'flex', alignItems: 'center' }}>
