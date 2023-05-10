@@ -62,7 +62,7 @@ export default function Tables() {
               {
                 type: 'primary',
                 label: '发布商品',
-                onClick: () => {},
+                onClick: () => update({ showForm: true }),
               },
               {
                 type: 'primary',
