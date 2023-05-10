@@ -30,7 +30,7 @@ Build Static:
 
 Docker Imgae Build Dev:
   stage: deploy
-  image: docker:19
+  image: docker/compose:1.27.4
   only:
     - main
   before_script:
@@ -44,6 +44,10 @@ Docker Imgae Build Dev:
     - echo "$CI_REGISTRY"
     - echo "$CI_REGISTRY_USER"
     - echo "$CI_REGISTRY_IMAGE"/ronghui-admin-dev
+    #   停止服务
+    - docker-compose -p ronghui-admin-dev -f docker-compose.dev.yml down
+    #   启动服务
+    - docker-compose -p ronghui-admin-dev -f docker-compose.dev.yml up -d
 
 #Docker Imgae Build:
 #  stage: deploy
