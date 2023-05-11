@@ -21,7 +21,7 @@ Build Static:
     - npm -v
     - node -v
     - npm config get registry
-    - npm install --force
+    - npm install --force --registry=https://registry.npmmirror.com
   artifacts: 
     paths: 
       - build
