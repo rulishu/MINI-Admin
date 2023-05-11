@@ -34,13 +34,11 @@
   },
   "overrides": {
     "dva": "^2.6.0-beta.20",
-    "antd": "5.4.7",
-    "eslint": "^8.40.0"
+    "antd": "5.4.7"
   },
   "resolutions": {
     "dva": "^2.6.0-beta.20",
-    "antd": "5.4.7",
-    "eslint": "^8.40.0"
+    "antd": "5.4.7"
   },
   "devDependencies": {
     "@antdp/config": "2.0.7",
