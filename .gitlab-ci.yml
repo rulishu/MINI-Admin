@@ -21,7 +21,7 @@ Build Static:
     - npm -v
     - node -v
     - npm config get registry
-    - npm install
+    - npm install --legacy-peer-deps
   artifacts: 
     paths: 
       - build
