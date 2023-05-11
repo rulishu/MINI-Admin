@@ -1,5 +1,5 @@
 default:
-  image: node:14
+  image: node:16
 
 services:
   - name: docker:19.03.13-dind
