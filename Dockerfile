@@ -5,7 +5,7 @@ RUN mkdir -p $APPDIR
 
 WORKDIR $APPDIR
 
-ADD ./build $APPDIR
+ADD ./dist $APPDIR
 
 COPY nginx.conf /etc/nginx/conf.d
 RUN cat /etc/nginx/conf.d/nginx.conf
