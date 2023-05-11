@@ -1,8 +1,12 @@
 import request from '@antdp/request';
 
-export const selectPage = async (params) => {
-  return request('/api/selectEqutiyPage', {
-    method: 'POST',
-    data: params,
-  });
+// 查询
+export const selectPage = async ({ pageNum, pageSize, ...body }) => {
+  return request(
+    `/jcgl-mall/app/member/power/select/page/list?pageSize=${pageSize}&pageNum=${pageNum}`,
+    {
+      method: 'POST',
+      data: body,
+    },
+  );
 };
