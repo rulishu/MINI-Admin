@@ -5,6 +5,8 @@ export default function useModelMemberManage() {
     tabs: '1',
     activeKey: '1',
     type: '',
+    visible: false,
+    queryData: {},
   });
 
   const update = (value) => {

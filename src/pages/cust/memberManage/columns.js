@@ -1,91 +1,44 @@
-import { Divider } from 'antd';
-
-export const columns = [
-  // {
-  //   title: () => <Checkbox></Checkbox>,
-  //   dataIndex: 'checkout',
-  //   hideInSearch: true,
-  //   render: () => <Checkbox></Checkbox>,
-  // },
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    width: 120,
-    align: 'center',
-    hideInSearch: true,
-  },
+export const columns = (handleEdit) => [
   {
     title: '会员编号',
-    dataIndex: 'userId',
-    align: 'center',
-    width: 90,
-  },
-  {
-    title: '头像',
-    dataIndex: 'name',
+    dataIndex: 'id',
     align: 'center',
     width: 90,
     hideInSearch: true,
   },
   {
-    title: '个人信息',
-    dataIndex: 'userName',
+    title: '公司名称',
+    dataIndex: 'companyName',
+    align: 'center',
+    width: 90,
+  },
+  {
+    title: '手机号',
+    dataIndex: 'phone',
     align: 'center',
     width: 90,
     hideInSearch: true,
   },
   {
-    title: '会员等级',
-    dataIndex: 'type',
+    title: '会员类型',
+    dataIndex: 'memberType',
     align: 'center',
     width: 120,
-    ellipsis: true,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '全部' },
-      1: { text: '粉丝' },
-      2: { text: '奋斗者' },
-    },
+    hideInSearch: true,
   },
   {
-    title: '会员到期时间',
+    title: '到期时间',
     dataIndex: 'expirationTime',
     align: 'center',
     width: 120,
     hideInSearch: true,
   },
   {
-    title: '来源',
-    dataIndex: 'name',
+    title: '开通时间',
+    dataIndex: 'openTime',
     align: 'center',
     width: 120,
-    ellipsis: true,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '全部' },
-      1: { text: '粉丝' },
-      2: { text: '奋斗者' },
-    },
-  },
-  {
-    title: '客户类型',
-    dataIndex: 'memberType',
-    align: 'center',
-    width: 90,
     hideInSearch: true,
-  },
-  {
-    title: '所属门店',
-    dataIndex: 'companyName',
-    align: 'center',
-    width: 90,
-    ellipsis: true,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '全部' },
-      1: { text: '粉丝' },
-      2: { text: '奋斗者' },
-    },
   },
   {
     title: '操作',
@@ -93,24 +46,64 @@ export const columns = [
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
-    render: () => (
+    render: (record) => (
       <div>
-        <a
-          type="link"
-          size="small"
-          // onClick={() => handleEdit('edit', record)}
-        >
+        <a type="link" size="small" onClick={() => handleEdit('view', record)}>
           详情
         </a>
-        <Divider type="vertical" />
+        {/* <Divider type="vertical" />
         <a
           type="link"
           size="small"
-          // onClick={() => handleEdit('edit', record)}
+        // onClick={() => handleEdit('edit', record)}
         >
           加标签
-        </a>
+        </a> */}
       </div>
     ),
   },
 ];
+export const schema = ({ queryData }) => {
+  return {
+    type: 'object',
+    displayType: 'row',
+    properties: {
+      input1: {
+        title: '商品名称',
+        type: 'string',
+        widget: 'input',
+        defaultValue: queryData.companyName,
+      },
+      input2: {
+        title: '手机号',
+        type: 'string',
+        widget: 'input',
+        defaultValue: queryData.phone,
+      },
+      input3: {
+        title: '会员类型',
+        type: 'string',
+        widget: 'input',
+        defaultValue: queryData.memberType,
+      },
+      input4: {
+        title: '金额',
+        type: 'string',
+        widget: 'input',
+        defaultValue: queryData.payPrice,
+      },
+      input5: {
+        title: '开通时间',
+        type: 'string',
+        widget: 'input',
+        defaultValue: queryData.openTime,
+      },
+      input6: {
+        title: '到期时间',
+        type: 'string',
+        widget: 'input',
+        defaultValue: queryData.expirationTime,
+      },
+    },
+  };
+};
