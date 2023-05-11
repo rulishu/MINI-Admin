@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ronghui-admin-dev:
+    image: 192.168.188.222:5008/ronghui/admin/ronghui-admin-dev:latest
+    container_name: ronghui-admin-dev
+    # links:
+    #   - jcgl-gateway-server
+    ports:
+      #     开放宿主机端口给测试环境使用api
+      - "36901:34800"
+    networks:
+      - dbmm-dev_dbmm-network-dev
+    restart: always
+
+networks:
+  dbmm-dev_dbmm-network-dev:
+    external: true

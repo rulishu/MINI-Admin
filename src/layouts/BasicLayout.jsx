@@ -3,6 +3,7 @@ import Authorized from '@antdp/authorized';
 import BasicLayout from '@antdp/basic-layouts';
 import { history, useModel } from '@umijs/max';
 import 'antd/dist/reset.css';
+import logo from './fendouzhilu-logo.png';
 
 const Layout = () => {
   const { setStore, store } = useModel('global', (model) => ({ ...model }));
@@ -10,6 +11,7 @@ const Layout = () => {
     <Authorized authority={!!store.token} redirectPath="/login">
       <BasicLayout
         projectName="镖族严选"
+        logo={logo}
         profile={{
           name: '埋名',
           avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
