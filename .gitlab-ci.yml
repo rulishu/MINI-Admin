@@ -24,7 +24,7 @@ Build Static:
     - npm install --force --registry=https://registry.npmmirror.com
   artifacts: 
     paths: 
-      - build
+      - dist
   script:
     - npm run build
   only:
