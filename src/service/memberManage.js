@@ -1,8 +1,11 @@
 import request from '@antdp/request';
 
-export const selectPage = async (params) => {
-  return request('/api/selectPage', {
-    method: 'POST',
-    data: params,
-  });
+export const selectPage = async ({ pageNum, pageSize, ...body }) => {
+  return request(
+    `/jcgl-mall/admin/member/info/select/page/list?pageSize=${pageSize}&pageNum=${pageNum}`,
+    {
+      method: 'POST',
+      data: body,
+    },
+  );
 };
