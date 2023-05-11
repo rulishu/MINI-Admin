@@ -18,6 +18,8 @@ Build Static:
   before_script: 
     - pwd
     - ls -al
+    - npm -v
+    - node -v
     - npm config get registry
     - npm install
   artifacts: 
