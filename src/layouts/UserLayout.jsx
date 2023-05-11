@@ -2,7 +2,7 @@ import Authorized from '@antdp/authorized';
 import { useReactMutation } from '@antdp/hooks';
 import UserLogin from '@antdp/user-login';
 import { history, useModel } from '@umijs/max';
-import { Form } from 'antd';
+import { Form, message } from 'antd';
 import 'antd/dist/reset.css';
 import SignUp from './SignUp';
 import logo from './logo.png';
@@ -24,7 +24,11 @@ const UserLayout = (props) => {
         projectName=""
         loading={props.loading}
         onFinish={async (values) => {
-          const { code, result, message } = await mutation.mutateAsync({
+          const {
+            code,
+            result,
+            message: msg,
+          } = await mutation.mutateAsync({
             userName: values.username,
             passWord: values.password,
             appId: 'jcgl-mall-admin',
@@ -36,7 +40,7 @@ const UserLayout = (props) => {
             setStore({ ...store, token: result.access_token });
             history.push('/');
           } else {
-            message.warning(message);
+            message.warning(msg);
           }
         }}
         type="account"
