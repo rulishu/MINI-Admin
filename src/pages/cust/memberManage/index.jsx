@@ -1,11 +1,9 @@
-import AddEdit from './Modal/addEdit';
-import SearchTable from './Search/searchTable';
+import Table from './Table';
 
 export default function Page() {
   return (
     <div>
-      <SearchTable />
-      <AddEdit />
+      <Table />
     </div>
   );
 }

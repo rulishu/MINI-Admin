@@ -2,11 +2,10 @@ import { selectPage } from '@/service/memberManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 // import { useModel } from '@umijs/max';
-import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  const [pageSize, setPageSize] = useState(10);
+  // const [pageSize, setPageSize] = useState(10);
   // const { store, setStore } = useModel('memberManage', (model) => ({ ...model }));
 
   const handle = (type) => {
@@ -19,31 +18,27 @@ export default function SearchTable() {
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
-        const { code, data } = await selectPage({
-          current,
+        const { code, result } = await selectPage({
+          pageNum: current,
           pageSize,
-          queryData: { ...formData },
+          ...formData,
         });
-        if (code === 1) {
+        if (code === 200) {
           return {
-            data: data.rows || [],
-            total: data.total,
+            data: result.records || [],
+            total: result.total,
             success: true,
           };
         }
       }}
       pagination={{
-        pageSize: pageSize,
-        onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
       cardBordered
       columns={columns}
       rowKey="id"
       search={{
-        // optionRender: false,
         defaultCollapsed: false,
-        // collapsed: false,
       }}
       toolBarRender={() => (
         <ButtonGroupPro

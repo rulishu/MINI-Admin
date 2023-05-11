@@ -16,7 +16,7 @@ export const columns = [
   },
   {
     title: '会员编号',
-    dataIndex: 'name',
+    dataIndex: 'userId',
     align: 'center',
     width: 90,
   },
@@ -29,7 +29,7 @@ export const columns = [
   },
   {
     title: '个人信息',
-    dataIndex: 'name',
+    dataIndex: 'userName',
     align: 'center',
     width: 90,
     hideInSearch: true,
@@ -49,7 +49,7 @@ export const columns = [
   },
   {
     title: '会员到期时间',
-    dataIndex: 'name',
+    dataIndex: 'expirationTime',
     align: 'center',
     width: 120,
     hideInSearch: true,
@@ -69,14 +69,14 @@ export const columns = [
   },
   {
     title: '客户类型',
-    dataIndex: 'name',
+    dataIndex: 'memberType',
     align: 'center',
     width: 90,
     hideInSearch: true,
   },
   {
     title: '所属门店',
-    dataIndex: 'name',
+    dataIndex: 'companyName',
     align: 'center',
     width: 90,
     ellipsis: true,
