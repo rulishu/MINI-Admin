@@ -3,7 +3,7 @@ import { Divider, Popconfirm } from 'antd';
 export const columns = (onEdit) => [
   {
     title: '权益规则名称',
-    dataIndex: 'name',
+    dataIndex: 'platformName',
     align: 'center',
     width: 120,
     ellipsis: true,
@@ -11,7 +11,7 @@ export const columns = (onEdit) => [
   },
   {
     title: '权益规则详情',
-    dataIndex: 'number',
+    dataIndex: 'content',
     align: 'center',
     width: 120,
     ellipsis: true,

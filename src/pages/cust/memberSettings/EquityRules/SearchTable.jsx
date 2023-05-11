@@ -13,16 +13,15 @@ export default function SearchTable(props) {
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
-        const { current, pageSize, ...formData } = params;
-        const { code, data } = await selectPage({
-          current,
+        const { current, pageSize } = params;
+        const { code, result } = await selectPage({
           pageSize,
-          queryData: { ...formData },
+          pageNum: current,
         });
-        if (code === 1) {
+        if (code === 200) {
           return {
-            data: data.rows || [],
-            total: data.total,
+            data: result.records || [],
+            total: result.total,
             success: true,
           };
         }
