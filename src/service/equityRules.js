@@ -1,0 +1,16 @@
+import request from '@antdp/request';
+
+export const selectPage = async ({ pageNum, pageSize, ...body }) => {
+  return request(
+    `/jcgl-mall/app/member/power/select/page/list?pageSize=${pageSize}&pageNum=${pageNum}`,
+    {
+      method: 'POST',
+      data: body,
+    },
+  );
+};
+
+export const add = '/jcgl-mall/admin/member/power/create';
+
+export const edit = '/jcgl-mall/admin/member/power/update';
+export const del = '/jcgl-mall/admin/member/power/delete';
