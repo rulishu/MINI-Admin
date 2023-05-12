@@ -1,7 +1,6 @@
-import { useState } from 'react';
-
-export default function useModelProductManage() {
-  const [store, setStore] = useState({
+export default {
+  namespace: 'productManage',
+  state: {
     /** tabbar activeKey  */
     tabs: 2,
     /** table activeKey  */
@@ -19,13 +18,12 @@ export default function useModelProductManage() {
     },
     /** 是否刷新分页  */
     reload: false,
-  });
-
-  const update = (value) => {
-    setStore({ ...store, ...value });
-  };
-  return {
-    store,
-    update,
-  };
-}
+  },
+  reducers: {
+    update: (state, { payload }) => ({
+      ...state,
+      ...payload,
+    }),
+  },
+  effects: {},
+};

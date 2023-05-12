@@ -2,7 +2,7 @@ import { added, deleteProduct, details, selectSellPage, takeDown } from '@/servi
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { message } from 'antd';
 import { useEffect, useRef } from 'react';
 import { columns } from './columns';
@@ -10,10 +10,8 @@ import { columns } from './columns';
 export default function Tables() {
   const ref = useRef();
 
-  const {
-    store: { activeKey, tabs, select, reload },
-    update,
-  } = useModel('productManage', (model) => ({ ...model }));
+  const { activeKey, tabs, select, reload } = useSelector((state) => state.productManage);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (reload) {
@@ -58,7 +56,13 @@ export default function Tables() {
     method: 'GET',
     onSuccess: ({ code, result }) => {
       if (code === 200) {
-        update({ showForm: true, queryInfo: result });
+        dispatch({
+          type: 'productManage/update',
+          payload: {
+            showForm: true,
+            queryInfo: result,
+          },
+        });
       }
     },
   });
@@ -67,11 +71,16 @@ export default function Tables() {
     const { selectedRowKeys } = select;
     // 新增
     if (type === 'add') {
-      update({ type: type, showForm: true, queryInfo: { categoryId: String(tabs) } });
+      dispatch({
+        type: 'productManage/update',
+        payload: {
+          showForm: true,
+          queryInfo: { categoryId: String(tabs) },
+        },
+      });
     }
     // 编辑
     if (type === 'edit' || type == 'view') {
-      update({ type: type });
       selectById({ id: record.id });
     }
     // 上架/下架/删除
@@ -84,6 +93,12 @@ export default function Tables() {
         message.warning('请勾选商品');
       }
     }
+    dispatch({
+      type: 'productManage/update',
+      payload: {
+        type: type,
+      },
+    });
   };
 
   return (
@@ -113,7 +128,13 @@ export default function Tables() {
         };
         const { code, result } = await selectSellPage(body);
         if (code === 200) {
-          update({ select: { selectedRowKeys: [], selectedRows: [], reload: false } });
+          dispatch({
+            type: 'productManage/update',
+            payload: {
+              select: { selectedRowKeys: [], selectedRows: [] },
+              reload: false,
+            },
+          });
           return {
             data: result.records || [],
             total: result.total,
@@ -140,7 +161,12 @@ export default function Tables() {
             },
           ],
           onChange: (key) => {
-            update({ activeKey: key });
+            dispatch({
+              type: 'productManage/update',
+              payload: {
+                select: { activeKey: key },
+              },
+            });
             ref?.current?.reload();
           },
         },
@@ -189,8 +215,14 @@ export default function Tables() {
       rowKey="id"
       rowSelection={{
         selectedRowKeys: select.selectedRowKeys,
-        onChange: (selectedRowKeys, selectedRows) =>
-          update({ select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows } }),
+        onChange: (selectedRowKeys, selectedRows) => {
+          dispatch({
+            type: 'productManage/update',
+            payload: {
+              select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows },
+            },
+          });
+        },
       }}
       scroll={{ x: 1300 }}
     />

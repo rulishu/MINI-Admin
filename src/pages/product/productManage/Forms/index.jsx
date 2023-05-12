@@ -2,27 +2,28 @@
 import { addItem, updateItem } from '@/service/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import item from './item';
 
 const Index = () => {
   const form = useForm();
-  const {
-    update,
-    store: { type, queryInfo, showForm },
-  } = useModel('productManage', (model) => ({ ...model }));
+  const { type, queryInfo, showForm } = useSelector((state) => state.productManage);
+  const dispatch = useDispatch();
 
   const { mutateAsync, isLoading } = useReactMutation({
     mutationFn: type === 'add' ? addItem : updateItem,
     onSuccess: ({ code }) => {
       if (code === 200) {
-        update({
-          showForm: false,
-          reload: true,
-          type: '',
-          queryInfo: {},
+        dispatch({
+          type: 'productManage/update',
+          payload: {
+            showForm: false,
+            reload: true,
+            type: '',
+            queryInfo: {},
+          },
         });
       }
     },
@@ -57,7 +58,14 @@ const Index = () => {
               },
               {
                 label: '取消',
-                onClick: () => update({ showForm: false }),
+                onClick: () => {
+                  dispatch({
+                    type: 'productManage/update',
+                    payload: {
+                      showForm: false,
+                    },
+                  });
+                },
               },
             ]}
           />
