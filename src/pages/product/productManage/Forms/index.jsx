@@ -1,9 +1,19 @@
-import PriceName from '@/components/sku';
+import GoodsSKU from '@/components/sku';
+import { useMemo } from 'react';
 
 const Index = () => {
+  const options = useMemo(() => [
+    { value: 1, label: '酒精度' },
+    { value: 2, label: '容量' },
+  ]);
+
+  const onChange = (value) => {
+    console.log(JSON.stringify(value));
+  };
+
   return (
     <div>
-      <PriceName />
+      <GoodsSKU onChange={onChange} options={options} />
       {/* <FormRender
         form={form}
         schema={item}
