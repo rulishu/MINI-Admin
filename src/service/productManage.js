@@ -34,3 +34,26 @@ export const takeDown = async (body) => {
     data: body,
   });
 };
+
+// 新增商品
+export const addItem = async (body) => {
+  return request(`/jcgl-mall/admin/create/item`, {
+    method: 'POST',
+    data: body,
+  });
+};
+
+// 编辑商品
+export const updateItem = async (body) => {
+  return request(`/jcgl-mall/admin/info/update`, {
+    method: 'PUT',
+    data: body,
+  });
+};
+
+// 详情
+export const details = async ({ id }) => {
+  return request(`/jcgl-mall/admin/approval/item/details?id=${id}`, {
+    method: 'GET',
+  });
+};

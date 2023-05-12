@@ -1,60 +1,31 @@
-import { added, deleteProduct, takeDown } from '@/service/productManage';
-import { message } from 'antd';
 import { useState } from 'react';
 
 export default function useModelProductManage() {
   const [store, setStore] = useState({
-    tabs: '1',
+    /** tabbar activeKey  */
+    tabs: 2,
+    /** table activeKey  */
     activeKey: '1',
+    /** 是否打开form表单  */
+    showForm: false,
+    /** add新增 / edit编辑 / view查看  */
     type: '',
+    /** 详情数据  */
+    queryInfo: {},
+    /** 分页选择框  */
     select: {
       selectedRowKeys: [],
       selectedRows: [],
     },
+    /** 是否刷新分页  */
+    reload: false,
   });
 
   const update = (value) => {
     setStore({ ...store, ...value });
   };
-
-  const deletePro = async (select, callBack) => {
-    if (select.selectedRowKeys.length !== 0) {
-      const res = await deleteProduct(select.selectedRowKeys);
-      if (res.code === 200) {
-        callBack();
-      }
-    } else {
-      message.warning('请勾选商品');
-    }
-  };
-
-  const upload = async (selectedRowKeys, callBack) => {
-    if (selectedRowKeys.length !== 0) {
-      const res = await added(selectedRowKeys);
-      if (res.code === 200) {
-        callBack();
-      }
-    } else {
-      message.warning('请勾选商品');
-    }
-  };
-
-  const down = async (selectedRowKeys, callBack) => {
-    if (selectedRowKeys.length !== 0) {
-      const res = await takeDown({ ids: selectedRowKeys, soldOutReason: 'why' });
-      if (res.code === 200) {
-        callBack();
-      }
-    } else {
-      message.warning('请勾选商品');
-    }
-  };
-
   return {
     store,
     update,
-    deletePro,
-    upload,
-    down,
   };
 }
