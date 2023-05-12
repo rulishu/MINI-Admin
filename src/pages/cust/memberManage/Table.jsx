@@ -1,10 +1,12 @@
 import { selectPage } from '@/service/memberManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
+import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const { update } = useModel('memberManage', (model) => ({ ...model }));
+  const [pageSize, setPageSize] = useState(10);
 
   const handleEdit = (type, data) => {
     if (type === 'view') {
@@ -31,6 +33,8 @@ export default function SearchTable() {
       }}
       pagination={{
         showSizeChanger: true,
+        pageSize: pageSize,
+        onChange: (_, pageSize) => setPageSize(pageSize),
       }}
       cardBordered
       columns={columns(handleEdit)}
