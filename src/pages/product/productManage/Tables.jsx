@@ -1,21 +1,24 @@
-import { selectPage } from '@/service/productManage';
+import { selectSellPage } from '@/service/productManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useModel } from '@umijs/max';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
-  const [select, setSelect] = useState({
-    selectedRowKeys: [],
-    selectedRows: [],
-  });
 
   const {
-    store: { activeKey },
+    store: { activeKey, tabs, select },
     update,
+    deletePro,
+    upload,
+    down,
   } = useModel('productManage', (model) => ({ ...model }));
+
+  const edit = () => {
+    console.log(select);
+  };
 
   return (
     <ProTable
@@ -23,12 +26,27 @@ export default function Tables() {
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
-        const { code, result } = await selectPage({
+        let body = {
           pageNum: current,
           pageSize,
           ...formData,
-        });
+        };
+        if (tabs === '1') {
+          body.categoryId = 2;
+        }
+        if (tabs === '2') {
+          body.categoryId = 3;
+        }
+
+        if (activeKey === '2') {
+          body.stock = 0;
+        }
+        if (activeKey === '3') {
+          body.onShelf = 0;
+        }
+        const { code, result } = await selectSellPage(body);
         if (code === 200) {
+          update({ select: { selectedRowKeys: [], selectedRows: [] } });
           return {
             data: result.records || [],
             total: result.total,
@@ -54,7 +72,10 @@ export default function Tables() {
               label: `未上架`,
             },
           ],
-          onChange: (key) => update({ activeKey: key }),
+          onChange: (key) => {
+            update({ activeKey: key });
+            ref?.current?.reload();
+          },
         },
         actions: (
           <ButtonGroupPro
@@ -67,14 +88,18 @@ export default function Tables() {
               {
                 type: 'primary',
                 label: '上架',
+                onClick: () => upload(select.selectedRowKeys, () => ref?.current?.reload()),
               },
               {
                 type: 'primary',
                 label: '下架',
+                onClick: () => down(select.selectedRowKeys, () => ref?.current?.reload()),
               },
+
               {
                 type: 'primary',
                 label: '删除',
+                onClick: () => deletePro(select, () => ref?.current?.reload()),
               },
               {
                 type: 'primary',
@@ -88,11 +113,12 @@ export default function Tables() {
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns}
+      columns={columns(edit)}
       rowKey="id"
       rowSelection={{
         selectedRowKeys: select.selectedRowKeys,
-        onChange: (selectedRowKeys, selectedRows) => setSelect({ selectedRowKeys, selectedRows }),
+        onChange: (selectedRowKeys, selectedRows) =>
+          update({ select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows } }),
       }}
       scroll={{ x: 1300 }}
     />

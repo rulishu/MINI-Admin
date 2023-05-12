@@ -1,12 +1,20 @@
 import { useState } from 'react';
 
-export default function useModelTagsManage() {
+export default function useModelEquityRules() {
   const [store, setStore] = useState({
+    tabs: '1',
+    activeKey: '1',
+    type: '',
     visible: false,
-    visibleTable: false,
+    queryData: {},
   });
+
+  const update = (value) => {
+    setStore({ ...store, ...value });
+  };
+
   return {
     store,
-    setStore,
+    update,
   };
 }
