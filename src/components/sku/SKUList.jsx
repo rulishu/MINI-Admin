@@ -1,0 +1,122 @@
+import { Button, Input, Table } from 'antd';
+import { useEffect, useState } from 'react';
+
+const SKUList = ({ data, onChange }) => {
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    const generateSKUs = (attributes, index, prefix, skuList) => {
+      if (index === attributes.length) {
+        skuList.push({
+          ...prefix,
+          skuName: '',
+          sales: 0,
+          price: 0,
+          stock: 0,
+        });
+        return;
+      }
+
+      const attribute = attributes[index];
+      const { attribute_name, valueList } = attribute;
+      for (let i = 0; i < valueList.length; i++) {
+        const value = valueList[i];
+        const newPrefix = {
+          ...prefix,
+          [attribute_name]: value,
+        };
+        generateSKUs(attributes, index + 1, newPrefix, skuList);
+      }
+    };
+
+    // Generate SKU data
+    const updatedDataSource = [];
+    generateSKUs(data, 0, {}, updatedDataSource);
+    setDataSource(updatedDataSource);
+  }, [data]);
+
+  const columns = [
+    ...data.map((attribute, index) => ({
+      itemId: index,
+      title: attribute.attribute_name,
+      dataIndex: attribute.attribute_name,
+      key: attribute.attribute_name,
+    })),
+    {
+      title: 'SKU名称',
+      dataIndex: 'skuName',
+      key: 'skuName',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'skuName', e.target.value)}
+        />
+      ),
+    },
+    {
+      title: '销量',
+      dataIndex: 'sales',
+      key: 'sales',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'sales', e.target.value)}
+        />
+      ),
+    },
+    {
+      title: '价格',
+      dataIndex: 'price',
+      key: 'price',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'price', e.target.value)}
+        />
+      ),
+    },
+    {
+      title: '库存',
+      dataIndex: 'stock',
+      key: 'stock',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'stock', e.target.value)}
+        />
+      ),
+    },
+  ];
+
+  const handleEntryDataChange = (index, dataIndex, value) => {
+    const newData = [...dataSource];
+    newData[index][dataIndex] = value;
+    setDataSource(newData);
+  };
+
+  return (
+    <div>
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+        bordered
+        size="small"
+        scroll={{ x: 'max-content' }}
+      />
+      <Button
+        type="primary"
+        style={{ marginBlock: 16, width: 120 }}
+        onClick={() => onChange?.(dataSource)}
+      >
+        保存SKU
+      </Button>
+    </div>
+  );
+};
+
+export default SKUList;
