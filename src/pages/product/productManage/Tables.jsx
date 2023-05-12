@@ -164,7 +164,7 @@ export default function Tables() {
             dispatch({
               type: 'productManage/update',
               payload: {
-                select: { activeKey: key },
+                activeKey: key,
               },
             });
             ref?.current?.reload();
