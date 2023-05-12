@@ -1,11 +1,12 @@
 import { useModel } from '@umijs/max';
 import { Tabs } from 'antd';
+import { useMemo } from 'react';
 import Forms from './Forms';
 import Tables from './Tables';
 
 export default () => {
   const {
-    store: { showForm },
+    store: { showForm, tabs },
     update,
   } = useModel('productManage', (model) => ({ ...model }));
 
@@ -23,9 +24,11 @@ export default () => {
       children: <Tables />,
     },
   ];
-  return (
-    <div>
-      {showForm ? <Forms /> : <Tabs defaultActiveKey="2" items={items} onChange={onChange} />}
-    </div>
-  );
+  const render = useMemo(() => {
+    if (showForm) {
+      return <Forms />;
+    }
+    return <Tabs activeKey={tabs} items={items} onChange={onChange} />;
+  }, [showForm]);
+  return <div> {render}</div>;
 };
