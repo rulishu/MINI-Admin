@@ -9,14 +9,14 @@ export default function SearchTable({ reload }) {
   const [form] = Form.useForm();
 
   const {
-    store: { visible, queryData },
+    store: { visible, type },
     update,
   } = useModel('equityRules', (model) => ({ ...model }));
 
   /** 新增/编辑 **/
-  const mutation = useReactMutation({
+  const { mutateAsync } = useReactMutation({
     url: add,
-    mutationKey: ['user'],
+    method: 'POST',
     onSuccess: ({ code }) => {
       if (code === 200) {
         update({ visible: false });
@@ -25,23 +25,29 @@ export default function SearchTable({ reload }) {
     },
   });
 
-  const onCancel = () => update({ visible: false, queryData: {}, type: '' });
+  const onCancel = () => {
+    form?.resetFields();
+    update({ queryData: {} });
+
+    update({ visible: false, type: '', queryData: {} });
+  };
   const onOk = async () => {
     // 触发校验
     await form?.validateFields();
     const values = form?.getFieldsValue();
-    mutation.mutateAsync(values);
+    mutateAsync(values);
   };
+
   return (
-    <Modal open={visible} onCancel={onCancel} onOk={onOk}>
+    <Modal destroyOnClose open={visible} onCancel={onCancel} onOk={onOk}>
       <QuickForm
-        header="新增会员权益"
+        header={type === 'add' ? '新增会员权益' : '编辑会员权益'}
         type="CardPro"
         // ref={baseRef}
         form={form}
         colspan={1}
         layout="horizontal"
-        formDatas={schema(queryData)}
+        formDatas={schema()}
       />
     </Modal>
   );

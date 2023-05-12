@@ -1,8 +1,9 @@
-import { selectPage } from '@/service/equityRules';
+import { del, selectPage } from '@/service/equityRules';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useModel } from '@umijs/max';
+import { Modal } from 'antd';
 import { useRef, useState } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -12,27 +13,29 @@ export default function SearchTable() {
   const [pageSize, setPageSize] = useState(10);
   const {
     update,
-    store: { queryData },
+    // store: { queryData },
   } = useModel('equityRules', (model) => ({ ...model }));
   const reload = ref?.current?.reload;
 
   const handle = async (type, data) => {
     update({ type: type });
     if (type === 'add') {
-      update({ visible: true, queryData: {} });
+      update({ visible: true, queryData: {}, type: type });
     }
     if (type === 'edit') {
-      update({ visible: true, queryData: { ...data, ...queryData } });
+      update({ visible: true, queryData: { ...data }, type: type });
     }
-    if (type === 'delete') {
-      // await mutation.mutateAsync({ id: 1 });
+    if (type === 'del') {
+      Modal.confirm({
+        title: '确定是否删除',
+        onOk: async () => {
+          const { code } = await del(data?.id);
+          if (code === 200) {
+            ref?.current?.reload();
+          }
+        },
+      });
     }
-    // Modal.confirm({
-    //   title: '确定是否删除',
-    //   onOk: () => {
-    //     ref.current.reload();
-    //   },
-    // });
   };
 
   return (
@@ -51,7 +54,7 @@ export default function SearchTable() {
             return {
               data: result.records || [],
               total: result.total,
-              success: true,
+              // success: true,
             };
           }
         }}

@@ -50,21 +50,19 @@ export const columns = (handle) => [
   },
 ];
 
-export const schema = (queryData) => {
+export const schema = () => {
   return [
     {
       label: '权益规则名称',
       name: 'platformName',
       type: 'input',
       rules: [{ required: true }],
-      initialValue: queryData?.platformName,
     },
     {
       label: '权益规则详情',
       name: 'content',
       type: 'TextArea',
       rules: [{ required: true }],
-      initialValue: queryData?.content,
     },
   ];
 };
