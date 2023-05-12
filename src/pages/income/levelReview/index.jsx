@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
+import AuditSettings from './Audit/Table';
 import Level from './Level/Table';
 import Relegation from './Relegation/Table';
-import AuditSettings from './auditSettings/Table';
 
 const Index = () => {
   const onChange = () => {
