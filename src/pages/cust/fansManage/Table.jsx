@@ -1,27 +1,26 @@
-import { selectPage } from '@/service/tagsManage';
+import { selectPage } from '@/service/fansManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-// import { useModel } from '@umijs/max';
 import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const [pageSize, setPageSize] = useState(10);
-  // const { store, setStore } = useModel('MemberManage', (model) => ({ ...model }));
+  // const { store, setStore, select } = useModel('memberManage', (model) => ({ ...model }));
   return (
     <ProTable
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
-        const { code, data } = await selectPage({
-          current,
+        const { code, result } = await selectPage({
+          pageNum: current,
           pageSize,
-          queryData: { ...formData },
+          ...formData,
         });
-        if (code === 1) {
+        if (code === 200) {
           return {
-            data: data.rows || [],
-            total: data.total,
+            data: result.records || [],
+            total: result.total,
             success: true,
           };
         }
@@ -39,6 +38,11 @@ export default function SearchTable() {
         defaultCollapsed: false,
         // collapsed: false,
       }}
+      // rowSelection={{
+      //   selectedRowKeys: select.selectedRowKeys,
+      //   onChange: (selectedRowKeys, selectedRows) =>
+      //     update({ select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows } }),
+      // }}
       toolBarRender={() => (
         <ButtonGroupPro
           button={[
