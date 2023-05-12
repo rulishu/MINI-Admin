@@ -1,8 +1,9 @@
-import { selectPage } from '@/service/memberShipLevel';
+import { del, selectPage } from '@/service/memberShipLevel';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useModel } from '@umijs/max';
+import { Modal } from 'antd';
 import { useRef, useState } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -13,9 +14,23 @@ export default function SearchTable() {
   const reload = ref?.current?.reload;
   const { update } = useModel('memberShipLevel', (model) => ({ ...model }));
 
-  const handle = (type) => {
+  const handle = (type, data) => {
     if (type === 'add') {
       update({ visible: true, queryData: {}, type: type });
+    }
+    if (type === 'edit') {
+      update({ visible: true, queryData: { ...data }, type: type });
+    }
+    if (type === 'del') {
+      Modal.confirm({
+        title: '确定是否删除',
+        onOk: async () => {
+          const { code } = await del(data?.id);
+          if (code === 200) {
+            ref?.current?.reload();
+          }
+        },
+      });
     }
   };
 
@@ -60,7 +75,7 @@ export default function SearchTable() {
           showSizeChanger: true,
         }}
         cardBordered={true}
-        columns={columns()}
+        columns={columns(handle)}
         rowKey="id"
       />
       <Edit reload={reload} />

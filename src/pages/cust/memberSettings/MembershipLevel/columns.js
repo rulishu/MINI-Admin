@@ -1,14 +1,16 @@
-export const columns = () => [
+import { Divider } from 'antd';
+
+export const columns = (handle) => [
   {
     title: '等级',
-    dataIndex: 'level',
-    hideInTable: true,
+    dataIndex: 'createBy',
+    hideInSearch: true,
     align: 'center',
     width: 30,
   },
   {
     title: '称谓',
-    dataIndex: 'createName',
+    dataIndex: 'type',
     align: 'center',
     hideInSearch: true,
     width: 30,
@@ -59,10 +61,14 @@ export const columns = () => [
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
-    render: () => (
+    render: (record) => (
       <div>
-        <a type="link" size="small">
+        <a type="link" size="small" onClick={() => handle('edit', record)}>
           编辑
+        </a>
+        <Divider type="vertical" />
+        <a type="link" size="small" onClick={() => handle('del', record)}>
+          删除
         </a>
       </div>
     ),
@@ -75,13 +81,13 @@ export const schema = ({ queryData }) => {
     displayType: 'row',
     labelWidth: '100%',
     properties: {
-      platformName: {
+      type: {
         title: '称谓',
         type: 'string',
         widget: 'input',
         placeholder: '请输入称谓',
         required: true,
-        defaultValue: queryData.platformName,
+        defaultValue: queryData.type,
       },
       content: {
         title: '等级权重',

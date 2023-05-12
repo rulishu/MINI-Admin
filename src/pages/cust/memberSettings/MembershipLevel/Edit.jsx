@@ -1,4 +1,4 @@
-import { add } from '@/service/memberShipLevel';
+import { add, edit } from '@/service/memberShipLevel';
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
@@ -15,7 +15,7 @@ export default function SearchTable({ reload }) {
     update,
   } = useModel('memberShipLevel', (model) => ({ ...model }));
 
-  /** 新增/编辑 **/
+  /** 新增 **/
   const { mutateAsync } = useReactMutation({
     url: add,
     method: 'POST',
@@ -26,26 +26,21 @@ export default function SearchTable({ reload }) {
       }
     },
   });
-  console.log('type', type);
-  const onFinish = async () => {
-    console.log('type', type);
+
+  const onFinish = async (data) => {
     if (type === 'add') {
-      await mutateAsync({
-        createTime: '',
-        price: 50,
-        type: '',
-      });
+      await mutateAsync(data);
     }
-    // if (type === 'edit') {
-    //   const { code } = await edit({
-    //     ...data,
-    //     id: queryData?.id,
-    //   });
-    //   if (code === 200) {
-    //     update({ visible: false });
-    //     reload();
-    //   }
-    // }
+    if (type === 'edit') {
+      const { code } = await edit({
+        ...data,
+        id: queryData?.id,
+      });
+      if (code === 200) {
+        update({ visible: false });
+        reload();
+      }
+    }
   };
 
   return (
