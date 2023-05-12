@@ -78,6 +78,28 @@
             "component": "@/pages/order/shipping"
           },
           {
+            "path": "/order/afterSales",
+            "name": "售后管理",
+            "routes": [
+              {
+                "path": "/order/afterSales/afterSalesApplication",
+                "name": "售后申请审核"
+              },
+              {
+                "path": "/order/afterSales/afterSalesReasons",
+                "name": "售后原因维护"
+              },
+              {
+                "path": "/order/afterSales/afterSalesLogList",
+                "name": "售后记录列表"
+              },
+              {
+                "path": "/order/afterSales/afterSalesAuditPassed",
+                "name": "售后审核通过记录"
+              }
+            ]
+          },
+          {
             "path": "/order/seal",
             "name": "封坛订单管理",
             "component": "@/pages/order/sealMangment"
