@@ -25,7 +25,7 @@ export default () => {
   ];
   return (
     <div>
-      {showForm ? <Forms /> : <Tabs defaultActiveKey="2" items={items} onChange={onChange} />}
+      {showForm ? <Forms /> : <Tabs defaultActiveKey="1" items={items} onChange={onChange} />}
     </div>
   );
 };

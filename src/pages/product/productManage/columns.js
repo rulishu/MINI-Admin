@@ -1,6 +1,6 @@
 import { Divider } from 'antd';
 
-export const columns = [
+export const columns = (edit) => [
   {
     title: '商品名称',
     dataIndex: 'itemName',
@@ -43,7 +43,7 @@ export const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'time',
+    dataIndex: 'createTime',
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
@@ -80,7 +80,7 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <a type="link" size="small">
+        <a type="link" size="small" onClick={() => edit()}>
           编辑
         </a>
         <Divider type="vertical" />

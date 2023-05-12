@@ -5,10 +5,13 @@ import item from './item';
 
 const Index = () => {
   const form = useForm();
-  const { update } = useModel('productManage', (model) => ({ ...model }));
-
-  const onFinish = () => {
-    // console.log('Success:', values);
+  const {
+    store: { select },
+    update,
+  } = useModel('productManage', (model) => ({ ...model }));
+  console.log(select);
+  const onFinish = (formData) => {
+    console.log('formData:', formData);
   };
 
   return (
