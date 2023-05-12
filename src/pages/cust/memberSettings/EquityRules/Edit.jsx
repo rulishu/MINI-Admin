@@ -1,15 +1,17 @@
-import { add } from '@/service/equityRules';
-import { QuickForm } from '@antdp/antdp-ui';
+import { add, edit } from '@/service/equityRules';
+import { ProCard } from '@ant-design/pro-components';
+import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useModel } from '@umijs/max';
-import { Form, Modal } from 'antd';
+import { Modal } from 'antd';
+import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
 export default function SearchTable({ reload }) {
-  const [form] = Form.useForm();
+  const form = useForm();
 
   const {
-    store: { visible, type },
+    store: { visible, type, queryData },
     update,
   } = useModel('equityRules', (model) => ({ ...model }));
 
@@ -24,31 +26,50 @@ export default function SearchTable({ reload }) {
       }
     },
   });
-
-  const onCancel = () => {
-    form?.resetFields();
-    update({ queryData: {} });
-
-    update({ visible: false, type: '', queryData: {} });
-  };
-  const onOk = async () => {
-    // 触发校验
-    await form?.validateFields();
-    const values = form?.getFieldsValue();
-    mutateAsync(values);
+  const onFinish = async (data) => {
+    if (type === 'add') {
+      mutateAsync(data);
+    }
+    if (type === 'edit') {
+      const { code } = await edit({
+        ...data,
+        id: queryData?.id,
+      });
+      if (code === 200) {
+        update({ visible: false });
+        reload();
+      }
+    }
   };
 
   return (
-    <Modal destroyOnClose open={visible} onCancel={onCancel} onOk={onOk}>
-      <QuickForm
-        header={type === 'add' ? '新增会员权益' : '编辑会员权益'}
-        type="CardPro"
-        // ref={baseRef}
-        form={form}
-        colspan={1}
-        layout="horizontal"
-        formDatas={schema()}
-      />
+    <Modal
+      open={visible}
+      onCancel={() => update({ visible: false })}
+      footer={
+        <ButtonGroupPro
+          button={[
+            {
+              type: 'primary',
+              label: '确认',
+              onClick: form.submit,
+            },
+            {
+              // type: 'primary',
+              label: '取消',
+              onClick: () => update({ visible: false }),
+            },
+          ]}
+        />
+      }
+    >
+      <ProCard
+        title={type === 'add' ? '新增会员权益' : '编辑会员权益'}
+        style={{ maxWidth: '100%' }}
+        headerBordered
+      >
+        <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
+      </ProCard>
     </Modal>
   );
 }

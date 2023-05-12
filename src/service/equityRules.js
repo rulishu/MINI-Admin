@@ -11,9 +11,15 @@ export const selectPage = async ({ pageNum, pageSize, ...body }) => {
 };
 export const add = '/jcgl-mall/admin/member/power/create';
 
-export const edit = '/jcgl-mall/admin/member/power/update';
+// export const edit = '/jcgl-mall/admin/member/power/update';
 // export const del = '/jcgl-mall/admin/member/power/delete';
 
+export const edit = async (params) => {
+  return request('/jcgl-mall/admin/member/power/update', {
+    method: 'PUT',
+    data: params,
+  });
+};
 export const del = async (params) => {
   return request(`/jcgl-mall/admin/member/power/delete?id=${params}`, {
     method: 'Delete',

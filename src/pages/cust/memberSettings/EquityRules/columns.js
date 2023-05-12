@@ -50,19 +50,28 @@ export const columns = (handle) => [
   },
 ];
 
-export const schema = () => {
-  return [
-    {
-      label: '权益规则名称',
-      name: 'platformName',
-      type: 'input',
-      rules: [{ required: true }],
+export const schema = ({ queryData }) => {
+  return {
+    type: 'object',
+    displayType: 'row',
+    labelWidth: '100%',
+    properties: {
+      platformName: {
+        title: '权益规则名称',
+        type: 'string',
+        widget: 'input',
+        placeholder: '请输入权益规则名称',
+        required: true,
+        defaultValue: queryData.platformName,
+      },
+      content: {
+        title: '权益规则详情',
+        type: 'string',
+        widget: 'textArea',
+        placeholder: '请输入权益规则详情',
+        required: true,
+        defaultValue: queryData.content,
+      },
     },
-    {
-      label: '权益规则详情',
-      name: 'content',
-      type: 'TextArea',
-      rules: [{ required: true }],
-    },
-  ];
+  };
 };
