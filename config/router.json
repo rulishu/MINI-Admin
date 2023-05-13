@@ -83,7 +83,8 @@
             "routes": [
               {
                 "path": "/order/afterSales/afterSalesApplication",
-                "name": "售后申请审核"
+                "name": "售后申请审核",
+                "component": "@/pages/afterSale/afterSalesAudit"
               },
               {
                 "path": "/order/afterSales/afterSalesReasons",
