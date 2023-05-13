@@ -6,7 +6,7 @@ import { Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 
-export default ({ reload }) => {
+export default () => {
   const form = useForm();
   const { visible, queryInfo, type } = useSelector((state) => state.afterSalesReasons);
   const dispatch = useDispatch();
@@ -20,18 +20,17 @@ export default ({ reload }) => {
     add: create,
     edit: updateInfo,
   };
-
   const { mutateAsync, isLoading } = useReactMutation({
     mutationFn: fn[type],
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         update({
           visible: false,
           reload: true,
           type: '',
           queryInfo: {},
+          relaod: true,
         });
-        reload();
       }
     },
   });

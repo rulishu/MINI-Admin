@@ -2,21 +2,33 @@ import { deleteItem, selectById, selectPage } from '@/service/afterSalesReasons'
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
-import { useDispatch } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Modal } from 'antd';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
 
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
+  const { reload } = useSelector((state) => state.afterSalesReasons);
+  const update = (data) => {
+    dispatch({
+      type: 'afterSalesReasons/update',
+      payload: data,
+    });
+  };
 
-  // 详情
+  // 新增编辑刷新分页
+  useEffect(() => {
+    if (reload) ref?.current?.reload();
+  }, [reload]);
+
+  // 详情接口
   const { mutateAsync } = useReactMutation({
     mutationFn: selectById,
     onSuccess: ({ code, result }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         update({
           visible: true,
           queryInfo: result,
@@ -24,20 +36,18 @@ export default () => {
       }
     },
   });
+
+  // 删除接口
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
     mutationFn: deleteItem,
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         ref?.current?.reload();
       }
     },
   });
-  const update = (data) => {
-    dispatch({
-      type: 'afterSalesReasons/update',
-      payload: data,
-    });
-  };
+
+  // 操作
   const handleEdit = (type, record) => {
     update({ type });
     if (type === 'add') {
@@ -74,7 +84,8 @@ export default () => {
             ...formData,
           };
           const { code, result } = await selectPage(body);
-          if (code === 200) {
+          if (code && code === 200) {
+            update({ reload: false });
             return {
               data: result.records || [],
               total: result.total,
@@ -103,7 +114,7 @@ export default () => {
         rowKey="id"
         scroll={{ x: 1300 }}
       />
-      <Details reload={ref?.current?.reload} />
+      <Details />
     </div>
   );
 };

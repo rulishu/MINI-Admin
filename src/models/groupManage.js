@@ -29,7 +29,7 @@ const group = {
   effects: {
     *getAllCategory(_, { call, put }) {
       const { code, data, msg } = yield call(getAllCategory);
-      if (code === 200 && data) {
+      if (code && code === 200 && data) {
         yield put({
           type: 'updateState',
           payload: {
@@ -55,7 +55,7 @@ const group = {
         pageSize,
       });
       let tableData = [];
-      if (code === 200 && data) {
+      if (code && code === 200 && data) {
         //
         tableData = data;
       } else {
@@ -72,7 +72,7 @@ const group = {
 
     *addCategory({ payload }, { call, put }) {
       const { code, data, msg } = yield call(addCategory, payload.searchParams);
-      if (code === 200 && data) {
+      if (code && code === 200 && data) {
         //
         message.success('新增分类成功');
 
@@ -99,7 +99,7 @@ const group = {
         ...payload.searchParams,
         id: drawerParams?.id,
       });
-      if (code === 200 && data) {
+      if (code && code === 200 && data) {
         //
         message.success('信息更新成功');
         yield put({
@@ -119,7 +119,7 @@ const group = {
 
     *deleteCategory({ payload }, { call, put }) {
       const { code, data, msg } = yield call(deleteCategory, payload);
-      if (code === 200 && data) {
+      if (code && code === 200 && data) {
         //
         message.success('删除成功');
         yield put({

@@ -15,7 +15,7 @@ const Index = () => {
   const { mutateAsync, isLoading } = useReactMutation({
     mutationFn: type === 'add' ? addItem : updateItem,
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         dispatch({
           type: 'productManage/update',
           payload: {

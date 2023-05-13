@@ -33,7 +33,7 @@ const UserLayout = () => {
             passWord: values.password,
             appId: 'jcgl-mall-admin',
           });
-          if (code === 200) {
+          if (code && code === 200) {
             await sessionStorage.setItem('token', result.access_token);
             await sessionStorage.setItem('refresh_token', result.refresh_token);
             await sessionStorage.setItem('userDate', result.userDto);

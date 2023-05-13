@@ -14,7 +14,7 @@ export default () => {
   const { mutateAsync } = useReactMutation({
     mutationFn: selectById,
     onSuccess: ({ code, result }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         update({
           visible: true,
           queryInfo: result,
@@ -51,7 +51,7 @@ export default () => {
             ...formData,
           };
           const { code, result } = await selectPage(body);
-          if (code === 200) {
+          if (code && code === 200) {
             return {
               data: result.records || [],
               total: result.total,

@@ -30,7 +30,7 @@ export default function SearchTable() {
         title: '确定是否删除',
         onOk: async () => {
           const { code } = await del(data?.id);
-          if (code === 200) {
+          if (code && code === 200) {
             ref?.current?.reload();
           }
         },
@@ -50,7 +50,7 @@ export default function SearchTable() {
             pageNum: current,
             ...formData,
           });
-          if (code === 200) {
+          if (code && code === 200) {
             return {
               data: result.records || [],
               total: result.total,

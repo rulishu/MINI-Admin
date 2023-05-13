@@ -27,7 +27,7 @@ export default function Tables() {
             pageSize,
             ...formData,
           });
-          if (code === 200) {
+          if (code && code === 200) {
             return {
               data: result.records || [],
               total: result.total,

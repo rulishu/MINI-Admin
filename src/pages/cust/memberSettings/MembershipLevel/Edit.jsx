@@ -20,7 +20,7 @@ export default function SearchTable({ reload }) {
     url: add,
     method: 'POST',
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         update({ visible: false });
         reload();
       }
@@ -36,7 +36,7 @@ export default function SearchTable({ reload }) {
         ...data,
         id: queryData?.id,
       });
-      if (code === 200) {
+      if (code && code === 200) {
         update({ visible: false });
         reload();
       }

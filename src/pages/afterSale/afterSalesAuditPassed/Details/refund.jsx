@@ -27,7 +27,7 @@ export default ({ reload }) => {
   const { mutateAsync, isLoading } = useReactMutation({
     mutationFn: refund,
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         update({
           refundVisible: false,
           refundInfo: {},

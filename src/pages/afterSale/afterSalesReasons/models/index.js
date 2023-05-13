@@ -5,6 +5,7 @@ export default {
     /** add新增 / edit编辑 / view查看  */
     type: '',
     queryInfo: {},
+    relaod: false,
   },
   reducers: {
     update: (state, { payload }) => ({

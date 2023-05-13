@@ -9,7 +9,6 @@ import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
-
   const { activeKey, tabs, select, reload } = useSelector((state) => state.productManage);
   const dispatch = useDispatch();
 
@@ -23,7 +22,7 @@ export default function Tables() {
   const { mutateAsync: uploadAsync, isLoading: uploadLoading } = useReactMutation({
     mutationFn: added,
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         ref?.current?.reload();
       }
     },
@@ -33,7 +32,7 @@ export default function Tables() {
   const { mutateAsync: downAsync, isLoading: downLoading } = useReactMutation({
     mutationFn: takeDown,
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         ref?.current?.reload();
       }
     },
@@ -43,7 +42,7 @@ export default function Tables() {
   const { mutateAsync: deleteAsync, isLoading: delteLoading } = useReactMutation({
     mutationFn: deleteProduct,
     onSuccess: ({ code }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         ref?.current?.reload();
       }
     },
@@ -55,7 +54,7 @@ export default function Tables() {
     contentType: 'form',
     method: 'GET',
     onSuccess: ({ code, result }) => {
-      if (code === 200) {
+      if (code && code === 200) {
         dispatch({
           type: 'productManage/update',
           payload: {
@@ -127,7 +126,7 @@ export default function Tables() {
           ...formData,
         };
         const { code, result } = await selectSellPage(body);
-        if (code === 200) {
+        if (code && code === 200) {
           dispatch({
             type: 'productManage/update',
             payload: {
