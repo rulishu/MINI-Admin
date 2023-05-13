@@ -1,52 +1,79 @@
-import GoodsSKU from '@/components/sku';
-import SKUList from '@/components/sku/SKUList';
-import { Card } from 'antd';
-import { useMemo, useState } from 'react';
+// import PriceName from '@/components/sku';
+import { addItem, updateItem } from '@/service/productManage';
+import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useReactMutation } from '@antdp/hooks';
+import { useDispatch, useSelector } from '@umijs/max';
+import FormRender, { useForm } from 'form-render';
+import { useEffect } from 'react';
+import item from './item';
 
 const Index = () => {
-  const options = useMemo(() => [
-    { value: 1, label: '酒精度' },
-    { value: 2, label: '容量' },
-  ]);
+  const form = useForm();
+  const { type, queryInfo, showForm } = useSelector((state) => state.productManage);
+  const dispatch = useDispatch();
 
-  const [sku, setSku] = useState([]);
-  const [spectList, setSpectList] = useState();
+  const { mutateAsync, isLoading } = useReactMutation({
+    mutationFn: type === 'add' ? addItem : updateItem,
+    onSuccess: ({ code }) => {
+      if (code === 200) {
+        dispatch({
+          type: 'productManage/update',
+          payload: {
+            showForm: false,
+            reload: true,
+            type: '',
+            queryInfo: {},
+          },
+        });
+      }
+    },
+  });
 
-  const onChange = (value, list) => {
-    console.log(value, list);
-    setSku(value);
-  };
+  useEffect(() => {
+    form.setValues({
+      form1: { ...queryInfo },
+    });
+  }, [showForm, queryInfo]);
 
-  const saveSpect = (spect) => {
-    console.log('【 spect 】==>', spect);
-    setSpectList(spect);
+  const onFinish = (values) => {
+    const { form1 } = values;
+    mutateAsync(form1);
   };
 
   return (
-    <Card>
-      <GoodsSKU onChange={onChange} options={options} />
-      <SKUList data={sku} onChange={saveSpect} />
-      {/* <FormRender
+    <div style={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
+      <FormRender
         form={form}
+        readOnly={type === 'view'}
         schema={item}
-        watch={watch}
         footer={() => (
-          <ButtonGroupPro button={[
-            {
-              label: '取消',
-              onClick: () => update({ showForm: false })
-            },
-            {
-              label: '保存并查看',
-              type: 'primary',
-              onClick: form.submit
-            },
-          ]}
+          <ButtonGroupPro
+            button={[
+              {
+                label: '保存',
+                type: 'primary',
+                onClick: form.submit,
+                loading: isLoading,
+                show: type !== 'view',
+              },
+              {
+                label: '取消',
+                onClick: () => {
+                  dispatch({
+                    type: 'productManage/update',
+                    payload: {
+                      showForm: false,
+                    },
+                  });
+                },
+              },
+            ]}
           />
         )}
         onFinish={onFinish}
-      /> */}
-    </Card>
+      />
+      {/* <PriceName /> */}
+    </div>
   );
 };
 export default Index;

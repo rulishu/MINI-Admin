@@ -7,8 +7,8 @@ export const columns = (handleEdit) => [
     hideInSearch: true,
   },
   {
-    title: '公司名称',
-    dataIndex: 'companyName',
+    title: '会员名称',
+    dataIndex: 'userName',
     align: 'center',
     width: 90,
   },
@@ -69,10 +69,10 @@ export const schema = ({ queryData }) => {
     displayType: 'row',
     properties: {
       input1: {
-        title: '商品名称',
+        title: '会员名称',
         type: 'string',
         widget: 'input',
-        defaultValue: queryData.companyName,
+        defaultValue: queryData.userName,
       },
       input2: {
         title: '手机号',
@@ -85,12 +85,6 @@ export const schema = ({ queryData }) => {
         type: 'string',
         widget: 'input',
         defaultValue: queryData.memberType,
-      },
-      input4: {
-        title: '金额',
-        type: 'string',
-        widget: 'input',
-        defaultValue: queryData.payPrice,
       },
       input5: {
         title: '开通时间',

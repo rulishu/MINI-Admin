@@ -1,7 +1,7 @@
 export default function HomePage() {
   return (
     <div>
-      <h2>Yay! Welcome to home!</h2>
+      <h2>欢迎进入镖族严选</h2>
     </div>
   );
 }

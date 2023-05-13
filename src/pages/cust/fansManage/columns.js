@@ -1,10 +1,4 @@
 export const columns = [
-  // {
-  //   title: () => <Checkbox></Checkbox>,
-  //   dataIndex: 'checkout',
-  //   hideInSearch: true,
-  //   render: () => <Checkbox></Checkbox>,
-  // },
   {
     title: 'ID',
     dataIndex: 'number',

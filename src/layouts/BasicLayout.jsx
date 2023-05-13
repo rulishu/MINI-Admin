@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <Authorized authority={!!store.token} redirectPath="/login">
       <BasicLayout
-        projectName="镖族严选"
+        projectName="奋斗之露"
         logo={logo}
         profile={{
           name: '埋名',

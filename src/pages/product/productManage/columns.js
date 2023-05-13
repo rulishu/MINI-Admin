@@ -1,6 +1,6 @@
 import { Divider } from 'antd';
 
-export const columns = (edit) => [
+export const columns = ({ handleEdit }) => [
   {
     title: '商品名称',
     dataIndex: 'itemName',
@@ -9,16 +9,16 @@ export const columns = (edit) => [
     width: 80,
   },
   {
-    title: '销售价(元/件)',
-    dataIndex: 'itemPrice',
+    title: '商品型号',
+    dataIndex: 'model',
     align: 'center',
-    hideInSearch: true,
     ellipsis: true,
     width: 80,
+    hideInSearch: true,
   },
   {
-    title: '成本价(元/件)',
-    dataIndex: 'type',
+    title: '规格',
+    dataIndex: 'specifications',
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
@@ -32,13 +32,20 @@ export const columns = (edit) => [
     hideInSearch: true,
     width: 80,
   },
-
   {
-    title: '销量(件)',
-    dataIndex: 'num',
+    title: '税率',
+    dataIndex: 'taxRate',
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
+    width: 80,
+  },
+  {
+    title: '商品价格',
+    dataIndex: 'price',
+    align: 'center',
+    hideInSearch: true,
+    ellipsis: true,
     width: 80,
   },
   {
@@ -49,14 +56,14 @@ export const columns = (edit) => [
     hideInSearch: true,
     width: 80,
   },
-  {
-    title: '排序',
-    dataIndex: 'order',
-    align: 'center',
-    ellipsis: true,
-    hideInSearch: true,
-    width: 80,
-  },
+  // {
+  //   title: '排序',
+  //   dataIndex: 'order',
+  //   align: 'center',
+  //   ellipsis: true,
+  //   hideInSearch: true,
+  //   width: 80,
+  // },
   {
     title: '商品分组',
     dataIndex: 'sort',
@@ -64,31 +71,31 @@ export const columns = (edit) => [
     ellipsis: true,
     width: 80,
   },
-  {
-    title: '销量商',
-    dataIndex: 'companyName',
-    align: 'center',
-    ellipsis: true,
-    width: 80,
-    hideInTable: true,
-  },
+  // {
+  //   title: '销量商',
+  //   dataIndex: 'companyName',
+  //   align: 'center',
+  //   ellipsis: true,
+  //   width: 80,
+  //   hideInTable: true,
+  // },
   {
     title: '操作',
     width: 120,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
-    render: () => (
+    render: (record) => (
       <div>
-        <a type="link" size="small" onClick={() => edit()}>
+        <a type="link" size="small" onClick={() => handleEdit('edit', record)}>
           编辑
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small">
+        {/* <a type="link" size="small" onClick={() => handleEdit('view', record)}>
           查看
-        </a>
+        </a> */}
         <Divider type="vertical" />
-        <a type="link" size="small">
+        <a type="link" size="small ">
           复制
         </a>
       </div>

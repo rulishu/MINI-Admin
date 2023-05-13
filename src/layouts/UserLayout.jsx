@@ -7,7 +7,7 @@ import 'antd/dist/reset.css';
 import SignUp from './SignUp';
 import logo from './logo.png';
 
-const UserLayout = (props) => {
+const UserLayout = () => {
   const [form] = Form.useForm();
   const {
     store,
@@ -22,7 +22,7 @@ const UserLayout = (props) => {
         logo={logo}
         form={form}
         projectName=""
-        loading={props.loading}
+        loading={mutation.isLoading}
         onFinish={async (values) => {
           const {
             code,
