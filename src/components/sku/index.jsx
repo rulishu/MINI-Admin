@@ -1,25 +1,9 @@
-import { Button, Card, Form, Input, Select, Space, Typography } from 'antd';
+import { Button, Form, Input, Select, Space, Typography } from 'antd';
 import { useState } from 'react';
+import styles from './index.less';
 const FormItem = Form.Item;
 
-const options = [
-  { value: 1, label: '酒精度' },
-  { value: 2, label: '容量' },
-];
-
-export default ({
-  value = [
-    {
-      attribute_name: 1,
-      valueList: ['52', '42'],
-    },
-    {
-      attribute_name: 2,
-      valueList: ['52', '42'],
-    },
-  ],
-  onChange,
-}) => {
+const SKU = ({ onChange, options }) => {
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -29,48 +13,51 @@ export default ({
     },
   };
 
-  const [data, setData] = useState(value);
-
-  console.log('data', data);
+  const [data, setData] = useState([]);
 
   const handleAddData = () => {
     const newData = [...data, { attribute_name: '', valueList: [] }];
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
-  // 规格名变化
-  const handleAttributeNameChange = (value, index) => {
+  const handleRemoveData = (index) => {
     const newData = [...data];
-    newData[index].attribute_name = value;
+    newData.splice(index, 1);
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
-  // 规格值变化
+  const handleAttributeNameChange = (value, attrIndex) => {
+    const newData = [...data];
+    const att = options.find((option) => option.value === value);
+    newData[attrIndex].attribute_name = att.label;
+    newData[attrIndex].attribute_value = att.value;
+    setData(newData);
+    onChange?.(newData);
+  };
+
   const handleValueChange = (value, attrIndex, valueIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList[valueIndex] = value;
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const handleAddValue = (attrIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList.push('');
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
-  // 添加规格
+  const handleRemoveValue = (attrIndex, valueIndex) => {
+    const newData = [...data];
+    newData[attrIndex].valueList.splice(valueIndex, 1);
+    setData(newData);
+    onChange?.(newData);
+  };
+
   const renderProps = (item, attrIndex) => {
     return (
       <div key={attrIndex}>
@@ -87,9 +74,14 @@ export default ({
                 </Select.Option>
               ))}
             </Select>
+            {attrIndex !== 0 && (
+              <Button type="link" danger size="small" onClick={() => handleRemoveData(attrIndex)}>
+                删除
+              </Button>
+            )}
           </Form.Item>
         </div>
-        <Form.Item label="规格值">
+        <Form.Item label="规格值" className={styles.box}>
           <Space>
             {(item.valueList || []).map((input, valueIndex) => (
               <Form.Item key={valueIndex} noStyle>
@@ -98,6 +90,16 @@ export default ({
                   style={{ width: 160 }}
                   onChange={(e) => handleValueChange(e.target.value, attrIndex, valueIndex)}
                 />
+                {valueIndex !== 0 && (
+                  <Button
+                    type="link"
+                    danger
+                    size="small"
+                    onClick={() => handleRemoveValue(attrIndex, valueIndex)}
+                  >
+                    删除
+                  </Button>
+                )}
               </Form.Item>
             ))}
             <Typography.Link onClick={() => handleAddValue(attrIndex)}>添加规格值</Typography.Link>
@@ -108,15 +110,17 @@ export default ({
   };
 
   return (
-    <Card>
+    <div>
       <Form>
         <FormItem {...formItemLayout}>
           {data.map((item, attrIndex) => renderProps(item, attrIndex))}
-          <Button onClick={handleAddData} style={{ margin: '10px 0' }}>
+          <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
             添加规格项目
           </Button>
         </FormItem>
       </Form>
-    </Card>
+    </div>
   );
 };
+
+export default SKU;
