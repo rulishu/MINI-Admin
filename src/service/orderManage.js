@@ -16,3 +16,17 @@ export const details = async (params) => {
     data: params,
   });
 };
+
+export const all = async (params) => {
+  return request('/jcgl-mall/admin/sell/select/all', {
+    method: 'GET',
+    data: params,
+  });
+};
+
+export const odd = async (params) => {
+  return request('/jcgl-mall/admin/sell/update/odd', {
+    method: 'PUT',
+    data: params,
+  });
+};
