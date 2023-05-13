@@ -88,7 +88,8 @@
               },
               {
                 "path": "/order/afterSales/afterSalesReasons",
-                "name": "售后原因维护"
+                "name": "售后原因维护",
+                "component": "@/pages/afterSale/afterSalesReasons"
               },
               {
                 "path": "/order/afterSales/afterSalesLogList",
