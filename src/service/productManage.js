@@ -45,7 +45,7 @@ export const addItem = async (body) => {
 
 // 编辑商品
 export const updateItem = async (body) => {
-  return request(`/jcgl-mall/admin/info/update`, {
+  return request(`/jcgl-mall/admin/item/info/update`, {
     method: 'PUT',
     data: body,
   });
