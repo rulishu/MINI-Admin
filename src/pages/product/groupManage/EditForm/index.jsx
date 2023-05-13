@@ -1,13 +1,21 @@
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { Cascader, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
+import { useEffect } from 'react';
 import { connect } from 'umi';
 
 const EditForm = (props) => {
-  const { dispatch, groupManage, loading } = props;
-  const { addOpen } = groupManage;
+  const { dispatch, groupManage, loading, actionRef } = props;
+  const { addOpen, categoryList, drawerParams, drawerType } = groupManage;
 
   const form = useForm();
+
+  useEffect(() => {
+    console.log('drawerParams: ', drawerParams);
+    if (drawerType === 'edit') {
+      form.setValues({ ...drawerParams });
+    }
+  }, [drawerParams, drawerType]);
 
   const update = (data) => {
     dispatch({
@@ -16,36 +24,55 @@ const EditForm = (props) => {
     });
   };
 
+  const handler = (data) => {
+    return data.map((item) => {
+      let arr = [];
+      const obj = { label: item?.categoryName || '', value: item?.id };
+      if (item?.children && item?.children.length > 0) {
+        arr = arr.push(handler(item.children));
+        obj.children = arr;
+      }
+      return obj;
+    });
+  };
+
+  const options = () => {
+    if (categoryList.length > 0) {
+      return [{ label: '一级分类', value: '0' }, ...handler(categoryList)];
+    } else {
+      return [];
+    }
+  };
+
   const schema = {
     type: 'object',
     properties: {
-      location: {
+      parentId: {
         title: '上级分类',
-        type: 'string',
+        type: 'object',
         widget: 'cascader',
         required: true,
         props: {
           expandTrigger: 'hover',
-          options: options,
+          options: options(),
           changeOnSelect: true,
         },
       },
-
-      input: {
+      categoryName: {
         title: '分组名称',
         type: 'string',
         required: true,
         props: {},
       },
-      radio1: {
+      status: {
         title: '是否显示',
         required: true,
-        type: 'string',
+        type: 'number',
         widget: 'radio',
         props: {
           options: [
-            { label: '是', value: 'a' },
-            { label: '否', value: 'b' },
+            { label: '是', value: 1 },
+            { label: '否', value: 0 },
           ],
         },
       },
@@ -58,13 +85,34 @@ const EditForm = (props) => {
 
   const onFinish = (data) => {
     console.log('data', data);
+    let searchParams = {
+      ...data,
+      parentId: data?.parentId?.slice(-1)?.[0],
+    };
+    // parentId:
+    if (drawerType === 'edit') {
+      dispatch({
+        type: 'groupManage/updateCategory',
+        payload: { searchParams, actionRef },
+      });
+    }
+    if (drawerType === 'add') {
+      dispatch({
+        type: 'groupManage/addCategory',
+        payload: { searchParams, actionRef },
+      });
+    }
   };
 
   return (
     <Modal
       title="分组信息"
       open={addOpen}
-      onCancel={() => update({ addOpen: false })}
+      destroyOnClose
+      onCancel={() => {
+        form.resetFields();
+        update({ addOpen: false });
+      }}
       footer={
         <ButtonGroupPro
           button={[
@@ -99,38 +147,3 @@ export default connect(({ groupManage, loading }) => {
     loading: loading.effects['groupManage/selectPage'],
   };
 })(EditForm);
-
-const options = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hanzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];

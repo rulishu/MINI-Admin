@@ -41,9 +41,9 @@ export async function updateCategory(params) {
 }
 
 export async function deleteCategory(params) {
-  return request(`/jcgl-mall/admin/item/category/delete`, {
+  return request(`/jcgl-mall/admin/item/category/delete?id=${params?.id}`, {
     method: 'DELETE',
-    data: params,
+    // data: params,
     // requestType: 'json',
   });
 }
