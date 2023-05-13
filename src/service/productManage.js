@@ -57,3 +57,27 @@ export const details = async ({ id }) => {
     method: 'GET',
   });
 };
+
+// 查询商品下的SKU列表
+export const selectSKU = async (body) => {
+  return request(`/jcgl-mall/admin/item/info/select/item/sku`, {
+    method: 'POST',
+    data: body,
+  });
+};
+
+export const createSKU = async (body) => {
+  const { id, payload } = body;
+  return request(`/jcgl-mall/admin/item/info/create/item/sku?id=${id}`, {
+    method: 'POST',
+    data: payload,
+  });
+};
+
+export const updateSKU = async (body) => {
+  const { id, payload } = body;
+  return request(`/jcgl-mall/admin/item/info/update/item/sku?id=${id}`, {
+    method: 'POST',
+    data: payload,
+  });
+};

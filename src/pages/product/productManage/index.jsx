@@ -1,11 +1,20 @@
 import { useDispatch, useSelector } from '@umijs/max';
 import { Tabs } from 'antd';
+import { useEffect } from 'react';
 import Forms from './Forms';
+import SKUModal from './SKUModal';
 import Tables from './Tables';
 
 export default () => {
-  const { tabs, showForm } = useSelector((state) => state.productManage);
+  const { tabs, showForm, showSKU } = useSelector((state) => state.productManage);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: 'groupManage/getAllCategory',
+    });
+  }, []);
+
   const items = [
     {
       key: 2,
@@ -19,6 +28,9 @@ export default () => {
     },
   ];
   const render = () => {
+    if (showSKU) {
+      return <SKUModal />;
+    }
     if (showForm) {
       return <Forms />;
     }
