@@ -102,7 +102,7 @@ export const columns = (handle) => [
         </a>
         <Divider type="vertical" />
         {record.orderStatus === -2 && (
-          <a type="link" size="small" onClick={() => handle('upload', record)}>
+          <a type="link" size="small" onClick={() => handle('upOrder', record)}>
             上传单号
           </a>
         )}
@@ -250,6 +250,30 @@ export const schema = ({ queryData }) => {
             },
           },
         },
+      },
+    },
+  };
+};
+
+export const schemaUpOrder = ({ companySelect }) => {
+  return {
+    type: 'object',
+    displayType: 'row',
+    labelWidth: '100%',
+    properties: {
+      logisticsCompany: {
+        title: '物流公司',
+        type: 'string',
+        props: {
+          options: companySelect,
+        },
+        placeholder: '请输入物流公司',
+      },
+      trackingNumber: {
+        title: '运单号',
+        type: 'string',
+        required: true,
+        placeholder: '请输入运单号',
       },
     },
   };

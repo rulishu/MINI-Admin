@@ -1,16 +1,24 @@
 import { details, selectPage } from '@/service/orderManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useDispatch } from '@umijs/max';
-import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from '@umijs/max';
+import { useEffect, useRef, useState } from 'react';
 import Edit from './Edit';
+import UpOrder from './UpOrder';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
   const dispatch = useDispatch();
+  const { reload } = useSelector((state) => state.orderManage);
 
   const [pageSize, setPageSize] = useState(10);
   const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (reload) {
+      ref?.current?.reload();
+    }
+  }, [reload]);
 
   const updateFn = (payload) => {
     dispatch({
@@ -19,12 +27,16 @@ export default function SearchTable() {
     });
   };
   const handle = async (type, data) => {
+    updateFn({ type: type });
     if (type === 'view') {
       updateFn({ visible: true });
       const { code, result } = await details(data?.id);
       if (code === 200) {
         updateFn({ queryData: result });
       }
+    }
+    if (type === 'upOrder') {
+      updateFn({ upVisible: true, queryData: { id: data?.id } });
     }
   };
 
@@ -41,6 +53,7 @@ export default function SearchTable() {
             ...formData,
           });
           if (code === 200) {
+            updateFn({ reload: false });
             return {
               data: result.records || [],
               total: result.total,
@@ -62,6 +75,7 @@ export default function SearchTable() {
         rowKey="id"
       />
       <Edit />
+      <UpOrder />
     </>
   );
 }
