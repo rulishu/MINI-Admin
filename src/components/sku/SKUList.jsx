@@ -18,12 +18,16 @@ const SKUList = ({ data, onChange }) => {
       }
 
       const attribute = attributes[index];
-      const { attribute_name, valueList } = attribute;
+      const { attribute_name, attribute_value, valueList } = attribute;
       for (let i = 0; i < valueList.length; i++) {
         const value = valueList[i];
+        const attributes_teemp = { ...prefix.attributes };
+        attributes_teemp[attribute_name] = { value, attributeId: attribute_value, attribute_name };
         const newPrefix = {
           ...prefix,
+          itemId: skuList.length,
           [attribute_name]: value,
+          attributes: attributes_teemp,
         };
         generateSKUs(attributes, index + 1, newPrefix, skuList);
       }
@@ -36,8 +40,7 @@ const SKUList = ({ data, onChange }) => {
   }, [data]);
 
   const columns = [
-    ...data.map((attribute, index) => ({
-      itemId: index,
+    ...data.map((attribute) => ({
       title: attribute.attribute_name,
       dataIndex: attribute.attribute_name,
       key: attribute.attribute_name,
@@ -98,8 +101,23 @@ const SKUList = ({ data, onChange }) => {
     setDataSource(newData);
   };
 
+  const handleEntryDataSave = () => {
+    const datas = dataSource.map((item) => {
+      const { attributes, ...rest } = item;
+      return {
+        ...rest,
+        attributes: Object.values(attributes),
+      };
+    });
+
+    onChange?.(datas);
+  };
+
   return (
     <div>
+      <Button type="primary" style={{ marginBlock: 16, width: 120 }} onClick={handleEntryDataSave}>
+        保存规格列表
+      </Button>
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -108,13 +126,6 @@ const SKUList = ({ data, onChange }) => {
         size="small"
         scroll={{ x: 'max-content' }}
       />
-      <Button
-        type="primary"
-        style={{ marginBlock: 16, width: 120 }}
-        onClick={() => onChange?.(dataSource)}
-      >
-        保存SKU
-      </Button>
     </div>
   );
 };

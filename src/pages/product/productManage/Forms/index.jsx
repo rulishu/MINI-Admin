@@ -1,5 +1,7 @@
 import GoodsSKU from '@/components/sku';
-import { useMemo } from 'react';
+import SKUList from '@/components/sku/SKUList';
+import { Card } from 'antd';
+import { useMemo, useState } from 'react';
 
 const Index = () => {
   const options = useMemo(() => [
@@ -7,13 +9,23 @@ const Index = () => {
     { value: 2, label: '容量' },
   ]);
 
-  const onChange = (value) => {
-    console.log(JSON.stringify(value));
+  const [sku, setSku] = useState([]);
+  const [spectList, setSpectList] = useState();
+
+  const onChange = (value, list) => {
+    console.log(value, list);
+    setSku(value);
+  };
+
+  const saveSpect = (spect) => {
+    console.log('【 spect 】==>', spect);
+    setSpectList(spect);
   };
 
   return (
-    <div>
+    <Card>
       <GoodsSKU onChange={onChange} options={options} />
+      <SKUList data={sku} onChange={saveSpect} />
       {/* <FormRender
         form={form}
         schema={item}
@@ -34,7 +46,7 @@ const Index = () => {
         )}
         onFinish={onFinish}
       /> */}
-    </div>
+    </Card>
   );
 };
 export default Index;

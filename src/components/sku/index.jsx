@@ -1,9 +1,9 @@
-import { Button, Card, Form, Input, Select, Space, Typography } from 'antd';
+import { Button, Form, Input, Select, Space, Typography } from 'antd';
 import { useState } from 'react';
 import styles from './index.less';
 const FormItem = Form.Item;
 
-export default ({ onChange, options }) => {
+const SKU = ({ onChange, options }) => {
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -18,18 +18,14 @@ export default ({ onChange, options }) => {
   const handleAddData = () => {
     const newData = [...data, { attribute_name: '', valueList: [] }];
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const handleRemoveData = (index) => {
     const newData = [...data];
     newData.splice(index, 1);
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const handleAttributeNameChange = (value, attrIndex) => {
@@ -38,36 +34,28 @@ export default ({ onChange, options }) => {
     newData[attrIndex].attribute_name = att.label;
     newData[attrIndex].attribute_value = att.value;
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const handleValueChange = (value, attrIndex, valueIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList[valueIndex] = value;
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const handleAddValue = (attrIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList.push('');
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const handleRemoveValue = (attrIndex, valueIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList.splice(valueIndex, 1);
     setData(newData);
-    if (onChange) {
-      onChange(newData);
-    }
+    onChange?.(newData);
   };
 
   const renderProps = (item, attrIndex) => {
@@ -122,15 +110,17 @@ export default ({ onChange, options }) => {
   };
 
   return (
-    <Card>
+    <div>
       <Form>
         <FormItem {...formItemLayout}>
           {data.map((item, attrIndex) => renderProps(item, attrIndex))}
-          <Button onClick={handleAddData} style={{ margin: '10px 0' }}>
+          <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
             添加规格项目
           </Button>
         </FormItem>
       </Form>
-    </Card>
+    </div>
   );
 };
+
+export default SKU;
