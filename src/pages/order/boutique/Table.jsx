@@ -1,6 +1,7 @@
-import { selectPage } from '@/service/memberSettings';
+import { selectPage } from '@/service/boutique';
 import { ProCard, ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useDispatch, useSelector } from '@umijs/max';
 import { useRef, useState } from 'react';
 import Search from './Search';
 import { columns } from './columns';
@@ -8,6 +9,9 @@ import { columns } from './columns';
 export default function Tables() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
+  const { select } = useSelector((state) => state.boutique);
+  const dispatch = useDispatch();
+
   return (
     <>
       <ProCard bordered style={{ marginBottom: 20 }}>
@@ -18,15 +22,15 @@ export default function Tables() {
         options={false}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
-          const { code, data } = await selectPage({
-            current,
+          const { code, result } = await selectPage({
+            pageNum: current,
             pageSize,
-            queryData: { ...formData },
+            ...formData,
           });
-          if (code === 1) {
+          if (code === 200) {
             return {
-              data: data.rows || [],
-              total: data.total,
+              data: result.records || [],
+              total: result.total,
               success: true,
             };
           }
@@ -60,6 +64,17 @@ export default function Tables() {
           pageSize: pageSize,
           onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
+        }}
+        rowSelection={{
+          selectedRowKeys: select.selectedRowKeys,
+          onChange: (selectedRowKeys, selectedRows) => {
+            dispatch({
+              type: 'boutique/update',
+              payload: {
+                select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows },
+              },
+            });
+          },
         }}
         cardBordered={true}
         columns={columns}
