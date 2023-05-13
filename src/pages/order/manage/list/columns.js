@@ -51,12 +51,29 @@ export const columns = (handle) => [
     dataIndex: 'orderStatus',
     align: 'center',
     valueType: 'select',
-    valueEnum: {
-      1: { text: '待定价' },
-      2: { text: '待付款' },
-      3: { text: '备货中' },
-      4: { text: '待收货' },
-      5: { text: '已完成' },
+    fieldProps: {
+      options: [
+        {
+          label: '待定价',
+          value: 0,
+        },
+        {
+          label: '待付款',
+          value: 1,
+        },
+        {
+          label: '备货中',
+          value: -2,
+        },
+        {
+          label: '待收货',
+          value: 3,
+        },
+        {
+          label: '已完成',
+          value: 4,
+        },
+      ],
     },
   },
   {
@@ -64,10 +81,21 @@ export const columns = (handle) => [
     dataIndex: 'isOpenInvoice',
     align: 'center',
     valueType: 'select',
-    valueEnum: {
-      1: { text: '未开票' },
-      2: { text: '待开票' },
-      3: { text: '已开票' },
+    fieldProps: {
+      options: [
+        {
+          label: '未开票',
+          value: 0,
+        },
+        {
+          label: '待开票',
+          value: 1,
+        },
+        {
+          label: '已开票',
+          value: 2,
+        },
+      ],
     },
   },
   {

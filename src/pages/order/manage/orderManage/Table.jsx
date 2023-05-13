@@ -1,20 +1,30 @@
-import { selectPage } from '@/service/equityRules';
+import { details, selectPage } from '@/service/orderManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
+import { useDispatch } from '@umijs/max';
 import { useRef, useState } from 'react';
-// import Edit from './Edit';
+import Edit from './Edit';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
+  const dispatch = useDispatch();
+
   const [pageSize, setPageSize] = useState(10);
   const [collapsed, setCollapsed] = useState(false);
 
-  const { update } = useModel('equityRules', (model) => ({ ...model }));
-
-  const handle = async (type) => {
+  const updateFn = (payload) => {
+    dispatch({
+      type: 'orderManage/update',
+      payload: payload,
+    });
+  };
+  const handle = async (type, data) => {
     if (type === 'view') {
-      update({ visible: true });
+      updateFn({ visible: true });
+      const { code, result } = await details(data?.id);
+      if (code === 200) {
+        updateFn({ queryData: result });
+      }
     }
   };
 
@@ -34,7 +44,7 @@ export default function SearchTable() {
             return {
               data: result.records || [],
               total: result.total,
-              // success: true,
+              success: true,
             };
           }
         }}
@@ -51,7 +61,7 @@ export default function SearchTable() {
         columns={columns(handle)}
         rowKey="id"
       />
-      {/* <Edit reload={reload} /> */}
+      <Edit />
     </>
   );
 }
