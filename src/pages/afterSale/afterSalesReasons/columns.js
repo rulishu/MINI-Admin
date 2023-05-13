@@ -21,13 +21,9 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
     render: (record) => (
       <div>
-        <a type="link" size="small" onClick={() => handleEdit('edit', record)}>
-          编辑
-        </a>
+        <a onClick={() => handleEdit('edit', record)}>编辑</a>
         <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handleEdit('delete', record)}>
-          删除
-        </a>
+        <a onClick={() => handleEdit('delete', record)}>删除</a>
       </div>
     ),
   },

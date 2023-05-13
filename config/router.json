@@ -118,11 +118,13 @@
               },
               {
                 "path": "/order/afterSales/afterSalesLogList",
-                "name": "售后记录列表"
+                "name": "售后记录列表",
+                "component": "@/pages/afterSale/afterSalesLogList"
               },
               {
                 "path": "/order/afterSales/afterSalesAuditPassed",
-                "name": "售后审核通过记录"
+                "name": "售后审核通过记录",
+                "component": "@/pages/afterSale/afterSalesAuditPassed"
               }
             ]
           },

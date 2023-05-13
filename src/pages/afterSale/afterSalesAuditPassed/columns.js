@@ -1,9 +1,11 @@
-import { auditStatusEnum } from './enum';
+import { Divider } from 'antd';
+import React from 'react';
+import { refundStatusEnum } from './enum';
 
 export const columns = ({ handleEdit }) => [
   {
     title: 'ID',
-    dataIndex: 'orderNumber',
+    dataIndex: 'id',
     align: 'center',
     ellipsis: true,
     width: 80,
@@ -59,23 +61,35 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
   },
   {
-    title: '审核状态',
-    dataIndex: 'status',
+    title: '退款状态',
+    dataIndex: 'refundStatus',
     align: 'center',
     ellipsis: true,
     width: 150,
     valueType: 'select',
-    valueEnum: auditStatusEnum,
+    valueEnum: refundStatusEnum,
+    hideInSearch: true,
   },
   {
     title: '操作',
-    width: 80,
+    width: 120,
     align: 'center',
     hideInSearch: true,
-    render: (record) => (
-      <div>
-        <a onClick={() => handleEdit('view', record)}>详情</a>
-      </div>
-    ),
+    render: (record) => {
+      const { refundStatus } = record;
+      return (
+        <div>
+          <a onClick={() => handleEdit('view', record)}>详情</a>
+          <Divider type="vertical" />
+          <a onClick={() => handleEdit('refundDetails', record)}>退款详情</a>
+          {!refundStatus && (
+            <React.Fragment>
+              <Divider type="vertical" />
+              <a onClick={() => handleEdit('refund', record)}>退款</a>
+            </React.Fragment>
+          )}
+        </div>
+      );
+    },
   },
 ];

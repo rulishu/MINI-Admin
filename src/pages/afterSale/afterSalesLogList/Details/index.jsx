@@ -4,12 +4,12 @@ import { Modal, Table } from 'antd';
 import { basicItem, columns, detailItem } from './items';
 
 export default () => {
-  const { visible, queryInfo } = useSelector((state) => state.afterSalesAudit);
+  const { visible, queryInfo } = useSelector((state) => state.afterSalesLogList);
   const { itemList, ...others } = queryInfo;
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'afterSalesAudit/update',
+      type: 'afterSalesLogList/update',
       payload: data,
     });
   };

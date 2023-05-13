@@ -3,7 +3,7 @@ import { auditStatusEnum } from './enum';
 export const columns = ({ handleEdit }) => [
   {
     title: 'ID',
-    dataIndex: 'orderNumber',
+    dataIndex: 'id',
     align: 'center',
     ellipsis: true,
     width: 80,

@@ -1,9 +1,7 @@
-import { deleteItem, selectById, selectPage } from '@/service/afterSalesReasons';
+import { selectById, selectPage } from '@/service/afterSalesLogList';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';
-import { Button, Modal } from 'antd';
 import { useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
@@ -24,33 +22,17 @@ export default () => {
       }
     },
   });
-  const { mutateAsync: mutateDeleteAsync } = useReactMutation({
-    mutationFn: deleteItem,
-    onSuccess: ({ code }) => {
-      if (code === 200) {
-        ref?.current?.reload();
-      }
-    },
-  });
   const update = (data) => {
     dispatch({
-      type: 'afterSalesReasons/update',
+      type: 'afterSalesLogList/update',
       payload: data,
     });
   };
   const handleEdit = (type, record) => {
     update({ type });
-    if (type === 'add') {
-      update({ visible: true, queryInfo: {} });
-    }
-    if (type === 'edit') {
+
+    if (type === 'view') {
       mutateAsync({ id: record.id });
-    }
-    if (type === 'delete') {
-      Modal.confirm({
-        title: '确定是否删除',
-        onOk: () => mutateDeleteAsync({ id: record.id }),
-      });
     }
   };
   return (
@@ -60,11 +42,6 @@ export default () => {
         options={false}
         search={{
           labelWidth: 120,
-          optionRender: () => (
-            <Button type="primary" onClick={() => ref?.current?.reload()}>
-              搜索
-            </Button>
-          ),
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
@@ -82,19 +59,6 @@ export default () => {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  label: '新增申请原因',
-                  type: 'primary',
-                  onClick: () => handleEdit('add'),
-                },
-              ]}
-            />
-          ),
-        }}
         pagination={{
           showSizeChanger: true,
         }}
@@ -103,7 +67,7 @@ export default () => {
         rowKey="id"
         scroll={{ x: 1300 }}
       />
-      <Details reload={ref?.current?.reload} />
+      <Details />
     </div>
   );
 };
