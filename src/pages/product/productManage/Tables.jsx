@@ -101,6 +101,20 @@ export default function Tables() {
     });
   };
 
+  const handlerSKU = (record) => {
+    dispatch({
+      type: 'productManage/update',
+      payload: {
+        queryInfo: record,
+      },
+    });
+
+    dispatch({
+      type: 'productManage/selectSKU',
+      payload: record?.id,
+    });
+  };
+
   return (
     <ProTable
       actionRef={ref}
@@ -118,6 +132,9 @@ export default function Tables() {
         // 未上架
         if (activeKey === '3') {
           status = { onShelf: 0 };
+        }
+        if (activeKey === '4') {
+          status = {};
         }
         let body = {
           pageNum: current,
@@ -149,15 +166,19 @@ export default function Tables() {
           items: [
             {
               key: '1',
-              label: `销售中`,
+              label: `在售中`,
             },
             {
               key: '2',
-              label: `已售空`,
+              label: `已售罄`,
             },
             {
               key: '3',
-              label: `未上架`,
+              label: `已下架`,
+            },
+            {
+              key: '4',
+              label: `全部`,
             },
           ],
           onChange: (key) => {
@@ -211,7 +232,7 @@ export default function Tables() {
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns({ handleEdit })}
+      columns={columns({ handleEdit, handlerSKU })}
       rowKey="id"
       rowSelection={{
         selectedRowKeys: select.selectedRowKeys,

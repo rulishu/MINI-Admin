@@ -1,4 +1,4 @@
-export default {
+export default (options) => ({
   type: 'object',
   widget: 'lineTitle',
   displayType: 'column',
@@ -51,6 +51,18 @@ export default {
             showCount: true,
           },
         },
+        parentId: {
+          title: '商品类目',
+          type: 'object',
+          widget: 'cascader',
+          required: true,
+          props: {
+            expandTrigger: 'hover',
+            options: options(),
+            changeOnSelect: true,
+          },
+        },
+
         remark: {
           type: 'string',
           title: '备注',
@@ -128,4 +140,4 @@ export default {
       },
     },
   },
-};
+});
