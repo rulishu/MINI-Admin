@@ -5,11 +5,11 @@ import {
   getCategory,
   updateCategory,
 } from '@/service/groupManage';
-import { message } from 'antd';
 
 const group = {
   namespace: 'groupManage',
   state: {
+    categoryList: [],
     page: 1,
     pageSize: 20,
     searchParams: {},
@@ -19,6 +19,7 @@ const group = {
     addOpen: false,
     drawerType: 'edit',
     drawerParams: {},
+    message: '',
   },
   reducers: {
     updateState: (state, { payload }) => ({
@@ -28,16 +29,14 @@ const group = {
   },
   effects: {
     *getAllCategory(_, { call, put }) {
-      const { code, data, msg } = yield call(getAllCategory);
-      if (code === 200 && data) {
+      const { code, result } = yield call(getAllCategory);
+      if (code === 200 && result) {
         yield put({
           type: 'updateState',
           payload: {
-            // drawerParams: {},
+            categoryList: result || [],
           },
         });
-      } else {
-        message.error(msg);
       }
     },
 
@@ -45,36 +44,36 @@ const group = {
       const { groupManage } = yield select(({ groupManage }) => ({
         groupManage,
       }));
+      const obj = {
+        page: payload?.page ? payload?.page : groupManage.page,
+        pageSize: payload?.pageSize ? payload?.pageSize : groupManage.pageSize,
+      };
 
-      const page = payload?.page ? payload?.page : groupManage.page;
-      const pageSize = payload?.pageSize ? payload?.pageSize : groupManage.pageSize;
-
-      const { code, data, msg } = yield call(getCategory, {
-        ...groupManage.searchParams,
-        page,
-        pageSize,
-      });
-      let tableData = [];
-      if (code === 200 && data) {
-        //
-        tableData = data;
-      } else {
-        message.error(msg);
+      if (groupManage?.searchParams?.categoryName?.label) {
+        obj.categoryName = groupManage?.searchParams?.categoryName?.label;
       }
 
+      const { code, result, message } = yield call(getCategory, obj);
+      let tableData = [];
+      if (code === 200 && result) {
+        //
+        tableData = result?.records || [];
+      }
       yield put({
         type: 'updateState',
         payload: {
           tableData,
+          message,
+          total: result?.total || 0,
         },
       });
     },
 
     *addCategory({ payload }, { call, put }) {
-      const { code, data, msg } = yield call(addCategory, payload.searchParams);
-      if (code === 200 && data) {
+      const { code } = yield call(addCategory, payload.searchParams);
+      console.log('code: ', code);
+      if (code === 200) {
         //
-        message.success('新增分类成功');
 
         yield put({
           type: 'updateState',
@@ -83,11 +82,7 @@ const group = {
             drawerParams: {},
           },
         });
-        yield put({
-          type: 'selectPage',
-        });
-      } else {
-        message.error(msg);
+        payload.actionRef.current?.reload();
       }
     },
 
@@ -95,13 +90,12 @@ const group = {
       const groupManage = yield select(({ groupManage }) => groupManage);
       const { drawerParams } = groupManage;
 
-      const { code, data, msg } = yield call(updateCategory, {
+      const { code } = yield call(updateCategory, {
         ...payload.searchParams,
         id: drawerParams?.id,
       });
-      if (code === 200 && data) {
+      if (code === 200) {
         //
-        message.success('信息更新成功');
         yield put({
           type: 'updateState',
           payload: {
@@ -109,24 +103,15 @@ const group = {
             drawerParams: {},
           },
         });
-        yield put({
-          type: 'selectPage',
-        });
-      } else {
-        message.error(msg);
+        payload.actionRef.current?.reload();
       }
     },
 
-    *deleteCategory({ payload }, { call, put }) {
-      const { code, data, msg } = yield call(deleteCategory, payload);
-      if (code === 200 && data) {
+    *deleteCategory({ payload }, { call }) {
+      const { code } = yield call(deleteCategory, payload);
+      if (code === 200) {
         //
-        message.success('删除成功');
-        yield put({
-          type: 'selectPage',
-        });
-      } else {
-        message.error(msg);
+        payload.actionRef.current?.reload();
       }
     },
   },

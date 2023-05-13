@@ -1,15 +1,17 @@
+import { getCategory } from '@/service/groupManage';
+import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { history } from '@umijs/max';
-import { Modal } from 'antd';
-import React, { useEffect } from 'react';
+import { Button, Modal } from 'antd';
+import { useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import EditForm from './EditForm';
 import { columns } from './columns';
 
 const SearchTable = (props) => {
-  const { dispatch, groupManage, loading } = props;
-  const { pageSize } = groupManage;
+  const { dispatch, groupManage } = props;
+  const { pageSize, categoryList } = groupManage;
+  const actionRef = useRef();
 
   useEffect(() => {
     dispatch({
@@ -24,27 +26,19 @@ const SearchTable = (props) => {
     });
   };
 
-  const selectPage = (pg, pgz) => {
-    dispatch({
-      type: 'groupManage/selectPage',
-      payload: {
-        page: pg,
-        pageSize: pgz,
-      },
-    });
-  };
-
-  const handleEdit = (type) => {
+  const handleEdit = (type, data) => {
     update({ type });
     if (type === 'add') {
       update({
         drawerParams: {},
+        drawerType: 'add',
         addOpen: true,
       });
     }
     if (type === 'edit') {
       update({
-        drawerParams: { input: '测试编辑' },
+        drawerParams: data,
+        drawerType: 'edit',
         addOpen: true,
       });
     }
@@ -54,53 +48,72 @@ const SearchTable = (props) => {
     if (type === 'delete') {
       Modal.confirm({
         title: '确定是否删除',
-        onOk: () => {},
+        onOk: () => {
+          dispatch({
+            type: 'groupManage/deleteCategory',
+            payload: { id: data?.id, actionRef },
+          });
+        },
       });
     }
   };
-
   return (
-    <React.Fragment>
+    <>
       <ProTable
-        loading={loading}
+        columns={columns({ handleEdit, categoryList })}
+        actionRef={actionRef}
+        cardBordered
         options={false}
-        request={async (params = {}) => {
+        request={async (params = {}, sort, filter) => {
+          console.log(sort, filter);
+          const { current, pageSize } = params;
           console.log('params: ', params);
-          const { current, pageSize, ...formData } = params;
-          update({ page: current, pageSize, searchParams: formData });
-          selectPage(current, pageSize);
+
+          const { code, result } = await getCategory({
+            page: current,
+            pageSize,
+            categoryName: params?.categoryName?.label,
+          });
+          let tableData = [];
+          if (code === 200 && result) {
+            //
+            tableData =
+              result?.records.map((item) => {
+                delete item?.children;
+                return item;
+              }) || [];
+          }
+          console.log('tableData: ', tableData);
+          return { data: tableData, success: code === 200, total: result?.total || 0 };
         }}
+        rowKey="id"
         pagination={{
           pageSize: pageSize,
           onChange: (_, pageSize) => update({ pageSize }),
           showSizeChanger: true,
         }}
-        cardBordered
-        columns={columns({ handleEdit })}
-        rowKey="id"
-        search={{
-          defaultCollapsed: false,
-        }}
+        headerTitle="高级表格"
         toolBarRender={() => (
-          <ButtonGroupPro
-            button={[
-              {
-                type: 'primary',
-                label: '新增分组',
-                onClick: () => handleEdit('add'),
-              },
-            ]}
-          />
+          <Button
+            key="button"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              // actionRef.current?.reload();
+              handleEdit('add');
+            }}
+            type="primary"
+          >
+            新增分组
+          </Button>
         )}
       />
-      <EditForm />
-    </React.Fragment>
+      <EditForm actionRef={actionRef} />
+    </>
   );
 };
 
-export default connect(({ groupManage, loading }) => {
+export default connect(({ groupManage }) => {
   return {
     groupManage,
-    loading: loading.effects['groupManage/selectPage'],
   };
 })(SearchTable);
