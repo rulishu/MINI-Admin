@@ -9,7 +9,7 @@ const SKUList = ({ data, onChange }) => {
       if (index === attributes.length) {
         skuList.push({
           ...prefix,
-          skuName: '',
+          // skuName: '',
           sales: 0,
           price: 0,
           stock: 0,
@@ -45,18 +45,18 @@ const SKUList = ({ data, onChange }) => {
       dataIndex: attribute.attribute_name,
       key: attribute.attribute_name,
     })),
-    {
-      title: 'SKU名称',
-      dataIndex: 'skuName',
-      key: 'skuName',
-      render: (text, record, index) => (
-        <Input
-          value={text}
-          style={{ width: 160 }}
-          onChange={(e) => handleEntryDataChange(index, 'skuName', e.target.value)}
-        />
-      ),
-    },
+    // {
+    //   title: 'SKU名称',
+    //   dataIndex: 'skuName',
+    //   key: 'skuName',
+    //   render: (text, record, index) => (
+    //     <Input
+    //       value={text}
+    //       style={{ width: 160 }}
+    //       onChange={(e) => handleEntryDataChange(index, 'skuName', e.target.value)}
+    //     />
+    //   ),
+    // },
     {
       title: '销量',
       dataIndex: 'sales',
@@ -103,7 +103,7 @@ const SKUList = ({ data, onChange }) => {
 
   const handleEntryDataSave = () => {
     const datas = dataSource.map((item) => {
-      const { attributes, ...rest } = item;
+      const { attributes = [], ...rest } = item;
       return {
         ...rest,
         attributes: Object.values(attributes),

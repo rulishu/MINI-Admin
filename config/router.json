@@ -39,7 +39,7 @@
           },
           {
             "path": "/product/groupManage",
-            "name": "分组管理",
+            "name": "类目管理",
             "component": "@/pages/product/groupManage"
           },
           {

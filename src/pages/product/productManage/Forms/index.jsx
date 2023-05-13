@@ -3,13 +3,17 @@ import { addItem, updateItem } from '@/service/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
+import { Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import item from './item';
 
 const Index = () => {
   const form = useForm();
-  const { type, queryInfo, showForm } = useSelector((state) => state.productManage);
+  const { productManage, groupManage } = useSelector((state) => state);
+  const { type, queryInfo, showForm } = productManage;
+  const { categoryList } = groupManage;
+
   const dispatch = useDispatch();
 
   const { mutateAsync, isLoading } = useReactMutation({
@@ -37,7 +41,27 @@ const Index = () => {
 
   const onFinish = (values) => {
     const { form1 } = values;
-    mutateAsync(form1);
+    mutateAsync({ ...form1, id: queryInfo?.id, parentId: form1?.parentId?.slice(-1)?.[0] });
+  };
+
+  const handler = (data) => {
+    return data.map((item) => {
+      let arr = [];
+      const obj = { label: item?.categoryName || '', value: item?.id };
+      if (item?.children && item?.children.length > 0) {
+        arr = arr.push(handler(item.children));
+        obj.children = arr;
+      }
+      return obj;
+    });
+  };
+
+  const options = () => {
+    if (categoryList.length > 0) {
+      return [...handler(categoryList)];
+    } else {
+      return [];
+    }
   };
 
   return (
@@ -45,7 +69,8 @@ const Index = () => {
       <FormRender
         form={form}
         readOnly={type === 'view'}
-        schema={item}
+        schema={item(options)}
+        widgets={{ cascader: Cascader }}
         footer={() => (
           <ButtonGroupPro
             button={[

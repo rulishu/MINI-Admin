@@ -45,7 +45,7 @@ export const addItem = async (body) => {
 
 // 编辑商品
 export const updateItem = async (body) => {
-  return request(`/jcgl-mall/admin/info/update`, {
+  return request(`/jcgl-mall/admin/item/info/update`, {
     method: 'PUT',
     data: body,
   });
@@ -55,5 +55,29 @@ export const updateItem = async (body) => {
 export const details = async ({ id }) => {
   return request(`/jcgl-mall/admin/approval/item/details?id=${id}`, {
     method: 'GET',
+  });
+};
+
+// 查询商品下的SKU列表
+export const selectSKU = async (body) => {
+  return request(`/jcgl-mall/admin/item/info/select/item/sku`, {
+    method: 'POST',
+    data: body,
+  });
+};
+
+export const createSKU = async (body) => {
+  const { id, payload } = body;
+  return request(`/jcgl-mall/admin/item/info/create/item/sku?id=${id}`, {
+    method: 'POST',
+    data: payload,
+  });
+};
+
+export const updateSKU = async (body) => {
+  const { id, payload } = body;
+  return request(`/jcgl-mall/admin/item/info/update/item/sku?id=${id}`, {
+    method: 'POST',
+    data: payload,
   });
 };

@@ -1,3 +1,4 @@
+import { createSKU, selectSKU, updateSKU } from '@/service/productManage';
 export default {
   namespace: 'productManage',
   state: {
@@ -18,6 +19,9 @@ export default {
     },
     /** 是否刷新分页  */
     reload: false,
+
+    showSKU: false,
+    SKUtype: 'add',
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -25,5 +29,58 @@ export default {
       ...payload,
     }),
   },
-  effects: {},
+  effects: {
+    *selectSKU({ payload }, { call, put }) {
+      const { code, result } = yield call(selectSKU, { id: payload });
+      if (code === 200) {
+        let SKUtype = 'add';
+        if (result && result.length > 0) {
+          //
+          SKUtype = 'edit';
+        } else {
+          //
+        }
+        yield put({
+          type: 'update',
+          payload: {
+            showSKU: true,
+            SKUtype,
+          },
+        });
+      }
+    },
+
+    *createSKU({ payload }, { call, put, select }) {
+      const productManage = yield select(({ productManage }) => productManage);
+      const { queryInfo } = productManage;
+
+      const { code } = yield call(createSKU, { payload, id: queryInfo?.id });
+      if (code === 200) {
+        //
+        yield put({
+          type: 'update',
+          payload: {
+            showSKU: false,
+            queryInfo: {},
+          },
+        });
+      }
+    },
+    *updateSKU({ payload }, { call, put, select }) {
+      const productManage = yield select(({ productManage }) => productManage);
+      const { queryInfo } = productManage;
+
+      const { code } = yield call(updateSKU, { payload, id: queryInfo?.id });
+      if (code === 200) {
+        //
+        yield put({
+          type: 'update',
+          payload: {
+            showSKU: false,
+            queryInfo: {},
+          },
+        });
+      }
+    },
+  },
 };
