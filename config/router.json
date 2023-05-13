@@ -60,6 +60,30 @@
         "icon": "project",
         "routes": [
           {
+            "path": "/order/manage",
+            "name": "订单管理",
+            "routes": [
+              {
+                "path": "/order/manage/list",
+                "name": "订单列表",
+                "component": "@/pages/order/manage/list"
+              },
+              {
+                "path": "/order/manage/supplier",
+                "name": "供应商订单管理"
+              },
+              {
+                "path": "/order/manage/orderManage",
+                "name": "订单管理",
+                "component": "@/pages/order/manage/orderManage"
+              },
+              {
+                "path": "/order/manage/abnormal",
+                "name": "异常订单管理"
+              }
+            ]
+          },
+          {
             "path": "/order/boutique",
             "name": "精品订单管理",
             "component": "@/pages/order/boutique"
