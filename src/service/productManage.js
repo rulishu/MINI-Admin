@@ -67,17 +67,15 @@ export const selectSKU = async (body) => {
 };
 
 export const createSKU = async (body) => {
-  const { id, payload } = body;
-  return request(`/jcgl-mall/admin/item/info/create/item/sku?id=${id}`, {
+  return request(`/jcgl-mall/admin/item/info/create/item/sku`, {
     method: 'POST',
-    data: payload,
+    data: body,
   });
 };
 
 export const updateSKU = async (body) => {
-  const { id, payload } = body;
-  return request(`/jcgl-mall/admin/item/info/update/item/sku?id=${id}`, {
+  return request(`/jcgl-mall/admin/item/info/update/item/sku`, {
     method: 'POST',
-    data: payload,
+    data: body,
   });
 };

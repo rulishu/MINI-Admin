@@ -69,6 +69,11 @@
                 "component": "@/pages/order/manage/list"
               },
               {
+                "path": "/order/manage/shipping",
+                "name": "发货管理",
+                "component": "@/pages/order/shipping"
+              },
+              {
                 "path": "/order/manage/supplier",
                 "name": "供应商订单管理"
               },
@@ -97,11 +102,7 @@
             "path": "/order/pick",
             "name": "拣货单管理"
           },
-          {
-            "path": "/order/shipping",
-            "name": "发货管理",
-            "component": "@/pages/order/shipping"
-          },
+
           {
             "path": "/order/afterSales",
             "name": "售后管理",
