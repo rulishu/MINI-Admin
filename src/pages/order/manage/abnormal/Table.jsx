@@ -1,17 +1,33 @@
-import { selectPage } from '@/service/order/abnormal';
+import { details, selectPage } from '@/service/order/abnormal';
 import { ProTable } from '@ant-design/pro-components';
-import { useRef, useState } from 'react';
+import { useDispatch } from '@umijs/max';
+import { Fragment, useRef } from 'react';
+import Details from './Details/Details';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
-  const [collapsed, setCollapsed] = useState(false);
 
-  // eslint-disable-next-line no-unused-vars
-  const handle = (type) => {};
+  const dispatch = useDispatch();
+  const updateFn = (payload) => {
+    dispatch({
+      type: 'abnormal/update',
+      payload: payload,
+    });
+  };
+
+  const handle = async (type, data) => {
+    updateFn({ type: type });
+    if (type === 'view') {
+      const { code, result } = await details({ id: data?.id });
+      if (code === 200) {
+        updateFn({ queryData: result, visible: true });
+      }
+    }
+  };
 
   return (
-    <>
+    <Fragment>
       <ProTable
         actionRef={ref}
         options={false}
@@ -30,10 +46,6 @@ export default function SearchTable() {
             };
           }
         }}
-        search={{
-          collapsed,
-          onCollapse: setCollapsed,
-        }}
         pagination={{
           showSizeChanger: true,
         }}
@@ -41,6 +53,7 @@ export default function SearchTable() {
         columns={columns(handle)}
         rowKey="id"
       />
-    </>
+      <Details />
+    </Fragment>
   );
 }

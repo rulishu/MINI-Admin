@@ -9,8 +9,8 @@ export const columns = (handle) => [
     render: (text, record, index) => index + 1,
   },
   {
-    title: '公司名称',
-    dataIndex: 'companyName',
+    title: '商品名称',
+    dataIndex: 'itemName',
     align: 'center',
     hideInSearch: true,
   },
@@ -20,17 +20,16 @@ export const columns = (handle) => [
     align: 'center',
   },
   {
-    title: '物流单号',
-    dataIndex: 'outOrderNo',
+    title: '快递单号',
+    dataIndex: 'trackingNumber',
     align: 'center',
     hideInSearch: true,
   },
   {
-    title: '下单日期',
+    title: '下单时间',
     dataIndex: 'createTime',
     align: 'center',
     valueType: 'date',
-    // sorter: true,
   },
   {
     title: '收货人',
@@ -72,7 +71,7 @@ export const columns = (handle) => [
     render: (record) => (
       <div>
         <a type="link" size="small" onClick={() => handle('view', record)}>
-          查看详情
+          详情
         </a>
       </div>
     ),

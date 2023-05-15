@@ -5,11 +5,11 @@ import { basicItem, manageColumn, manageItem } from './items';
 
 export default function Edit() {
   const dispatch = useDispatch();
-  const { visible, queryData } = useSelector((state) => state.list);
+  const { visible, queryData } = useSelector((state) => state.orderManage);
 
   const handleCancel = () => {
     dispatch({
-      type: 'list/update',
+      type: 'orderManage/update',
       payload: {
         visible: false,
       },

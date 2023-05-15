@@ -1,71 +1,61 @@
-import { Divider } from 'antd';
+import { orderStatusEnum } from './enum';
 
 export const columns = (handle) => [
   {
     title: 'ID',
     dataIndex: 'id',
+    width: 80,
     align: 'center',
     hideInSearch: true,
     render: (text, record, index) => index + 1,
   },
   {
     title: '公司名称',
-    dataIndex: 'id',
-    align: 'center',
-    hideInSearch: true,
-  },
-  {
-    title: '商品名称',
-    dataIndex: 'id',
+    dataIndex: 'companyName',
     align: 'center',
     hideInSearch: true,
   },
   {
     title: '订单编号',
-    dataIndex: 'id',
+    dataIndex: 'orderNumber',
     align: 'center',
   },
   {
     title: '异常原因',
-    dataIndex: 'id',
+    dataIndex: 'resultParam',
     align: 'center',
     hideInSearch: true,
+    render: (text) => <span style={{ color: 'red' }}>{text.message || '-'}</span>,
   },
   {
     title: '下单时间',
-    dataIndex: 'id',
+    dataIndex: 'createTime',
     align: 'center',
     valueType: 'date',
   },
   {
     title: '收货人',
-    dataIndex: 'id',
+    dataIndex: 'consignee',
     align: 'center',
   },
   {
     title: '数量',
-    dataIndex: 'id',
+    dataIndex: 'preferentialAmount',
     align: 'center',
     hideInSearch: true,
   },
   {
     title: '订单金额',
-    dataIndex: 'id',
+    dataIndex: 'orderPrice',
     align: 'center',
     hideInSearch: true,
   },
   {
     title: '订单状态',
-    dataIndex: 'id',
+    dataIndex: 'orderStatus',
     align: 'center',
     valueType: 'select',
-    valueEnum: {
-      1: { text: '待定价' },
-      2: { text: '待付款' },
-      3: { text: '备货中' },
-      4: { text: '待收货' },
-      5: { text: '已完成' },
-    },
+    valueEnum: orderStatusEnum,
   },
   {
     title: '操作',
@@ -78,10 +68,10 @@ export const columns = (handle) => [
         <a type="link" size="small" onClick={() => handle('view', record)}>
           详情
         </a>
-        <Divider type="vertical" />
+        {/* <Divider type="vertical" />
         <a type="link" size="small" onClick={() => handle('upload', record)}>
           上传单号
-        </a>
+        </a> */}
       </div>
     ),
   },

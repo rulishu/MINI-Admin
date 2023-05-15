@@ -1,14 +1,13 @@
 import { details, selectPage } from '@/service/order/list';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Edit from './Details/Details';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
   const dispatch = useDispatch();
-  const [collapsed, setCollapsed] = useState(false);
 
   const updateFn = (payload) => {
     dispatch({
@@ -46,10 +45,6 @@ export default function SearchTable() {
               success: true,
             };
           }
-        }}
-        search={{
-          collapsed,
-          onCollapse: setCollapsed,
         }}
         pagination={{
           showSizeChanger: true,

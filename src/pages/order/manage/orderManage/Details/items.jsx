@@ -142,3 +142,33 @@ export const manageColumn = [
     width: 80,
   },
 ];
+
+export const schemaUpOrder = ({ companySelect }) => {
+  return {
+    type: 'object',
+    displayType: 'row',
+    labelWidth: '100%',
+    properties: {
+      logisticsCompany: {
+        title: '物流公司',
+        type: 'string',
+        widget: 'select',
+        required: true,
+        props: {
+          options: companySelect,
+          showSearch: true,
+          allowClear: true,
+          filterOption: (input, option) =>
+            (option?.label ?? '').toLowerCase().includes(input.toLowerCase()),
+        },
+        placeholder: '请输入物流公司',
+      },
+      trackingNumber: {
+        title: '运单号',
+        type: 'string',
+        required: true,
+        placeholder: '请输入运单号',
+      },
+    },
+  };
+};

@@ -9,3 +9,9 @@ export const selectPage = async ({ pageNum, pageSize, ...body }) => {
     },
   );
 };
+
+export const details = async ({ id }) => {
+  return request(`/jcgl-mall/admin/order/info/details?id=${id}`, {
+    method: 'GET',
+  });
+};
