@@ -8,7 +8,7 @@ export default function SearchTable() {
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'memberManage/update',
+      type: 'fansManage/update',
       payload: data,
     });
   };
