@@ -20,7 +20,7 @@ const RelegationReview = () => {
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           const { code, data } = await selectPage({
-            current,
+            pageNum: current,
             pageSize,
             queryData: { ...formData },
           });
