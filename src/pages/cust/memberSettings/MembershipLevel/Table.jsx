@@ -2,7 +2,7 @@ import { del, selectPage } from '@/service/memberShipLevel';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
+import { useDispatch } from '@umijs/max';
 import { Modal } from 'antd';
 import { useRef, useState } from 'react';
 import Edit from './Edit';
@@ -12,7 +12,13 @@ export default function SearchTable() {
   const ref = useRef();
   const [pageSize, setPageSize] = useState(10);
   const reload = ref?.current?.reload;
-  const { update } = useModel('memberShipLevel', (model) => ({ ...model }));
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'membershipLevel/update',
+      payload: data,
+    });
+  };
 
   const handle = (type, data) => {
     if (type === 'add') {

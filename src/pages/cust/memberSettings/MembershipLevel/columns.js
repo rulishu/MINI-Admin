@@ -79,7 +79,7 @@ export const schema = ({ queryData }) => {
   return {
     type: 'object',
     displayType: 'row',
-    labelWidth: '100%',
+    column: 2,
     properties: {
       type: {
         title: '称谓',

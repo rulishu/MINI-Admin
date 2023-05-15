@@ -2,7 +2,7 @@ import { add, edit } from '@/service/memberShipLevel';
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
@@ -10,10 +10,15 @@ import { schema } from './columns';
 export default function SearchTable({ reload }) {
   const form = useForm();
 
-  const {
-    store: { visible, type, queryData },
-    update,
-  } = useModel('memberShipLevel', (model) => ({ ...model }));
+  const { visible, type, queryData } = useSelector((state) => state.membershipLevel);
+
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'membershipLevel/update',
+      payload: data,
+    });
+  };
 
   /** 新增 **/
   const { mutateAsync } = useReactMutation({
@@ -47,6 +52,7 @@ export default function SearchTable({ reload }) {
     <Modal
       open={visible}
       onCancel={() => update({ visible: false })}
+      width={800}
       footer={
         <ButtonGroupPro
           button={[
@@ -63,11 +69,7 @@ export default function SearchTable({ reload }) {
         />
       }
     >
-      <ProCard
-        title={type === 'add' ? '新建会员等级' : '编辑会员等级'}
-        style={{ maxWidth: '100%' }}
-        headerBordered
-      >
+      <ProCard title={type === 'add' ? '新建会员等级' : '编辑会员等级'} headerBordered>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
       </ProCard>
     </Modal>
