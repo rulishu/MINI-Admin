@@ -1,12 +1,33 @@
-import { selectPage } from '@/service/fansManage';
+import { selectById, selectPage } from '@/service/fansManage';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useState } from 'react';
+import { useReactMutation } from '@antdp/hooks';
+import { useDispatch } from '@umijs/max';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  const [pageSize, setPageSize] = useState(10);
-  // const { store, setStore, select } = useModel('memberManage', (model) => ({ ...model }));
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'fansManage/update',
+      payload: data,
+    });
+  };
+
+  const { mutateAsync } = useReactMutation({
+    mutationFn: selectById,
+    onSuccess: ({ code, result }) => {
+      if (code && code === 200) {
+        update({ visible: true, queryData: result });
+      }
+    },
+  });
+
+  const handleEdit = (type, data) => {
+    if (type === 'view') {
+      mutateAsync({ id: data.id });
+    }
+  };
+
   return (
     <ProTable
       options={false}
@@ -15,6 +36,7 @@ export default function SearchTable() {
         const { code, result } = await selectPage({
           pageNum: current,
           pageSize,
+          memberType: '粉丝',
           ...formData,
         });
         if (code && code === 200) {
@@ -26,38 +48,14 @@ export default function SearchTable() {
         }
       }}
       pagination={{
-        pageSize: pageSize,
-        onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
       cardBordered
-      columns={columns}
+      columns={columns({ handleEdit })}
       rowKey="id"
       search={{
-        // optionRender: false,
         defaultCollapsed: false,
-        // collapsed: false,
       }}
-      // rowSelection={{
-      //   selectedRowKeys: select.selectedRowKeys,
-      //   onChange: (selectedRowKeys, selectedRows) =>
-      //     update({ select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows } }),
-      // }}
-      toolBarRender={() => (
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '创建导出任务',
-              // onClick: () => setStore({ ...store, visible: true }),
-            },
-            {
-              type: 'primary',
-              label: '查看导出列表',
-            },
-          ]}
-        />
-      )}
     />
   );
 }

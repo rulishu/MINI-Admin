@@ -1,10 +1,8 @@
-import { useModel } from '@umijs/max';
 import { Tabs } from 'antd';
+import { useState } from 'react';
 
 export default function Page() {
-  const { store, setStore } = useModel('shareManage', (model) => ({
-    ...model,
-  }));
+  const [tab, setTab] = useState('tab1');
   const items = [
     {
       label: `待生效`,
@@ -22,11 +20,5 @@ export default function Page() {
       children: '已作废',
     },
   ];
-  return (
-    <Tabs
-      activeKey={store.tab}
-      items={items}
-      onChange={(key) => setStore({ ...store, tab: key })}
-    />
-  );
+  return <Tabs activeKey={tab} items={items} onChange={(key) => setTab(key)} />;
 }

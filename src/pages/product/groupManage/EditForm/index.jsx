@@ -38,7 +38,7 @@ const EditForm = (props) => {
 
   const options = () => {
     if (categoryList.length > 0) {
-      return [{ label: '一级分类', value: '0' }, ...handler(categoryList)];
+      return [{ label: '一级类目', value: '0' }, ...handler(categoryList)];
     } else {
       return [];
     }
@@ -48,7 +48,7 @@ const EditForm = (props) => {
     type: 'object',
     properties: {
       parentId: {
-        title: '上级分类',
+        title: '上级类目',
         type: 'object',
         widget: 'cascader',
         required: true,

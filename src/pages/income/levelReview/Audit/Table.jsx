@@ -1,13 +1,11 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { columns } from './columns';
 
 const AuditSettings = () => {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
-
   return (
     <div>
       <ProTable
@@ -16,7 +14,7 @@ const AuditSettings = () => {
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           const { code, data } = await selectPage({
-            current,
+            pageNum: current,
             pageSize,
             queryData: { ...formData },
           });
@@ -29,8 +27,6 @@ const AuditSettings = () => {
           }
         }}
         pagination={{
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
         }}
         search={false}

@@ -1,17 +1,22 @@
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import schema from './schema';
 
 export default () => {
   const form = useForm();
-  const {
-    store: { visible },
-    update,
-  } = useModel('storeConfig', (model) => ({
-    ...model,
-  }));
+
+  const { visible } = useSelector((state) => state.storeConfig);
+
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'storeConfig/update',
+      payload: data,
+    });
+  };
+
   const handleOk = () => {};
 
   const onFinish = (data) => {

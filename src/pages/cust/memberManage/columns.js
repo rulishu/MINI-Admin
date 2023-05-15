@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 export const columns = (handleEdit) => [
   {
     title: '会员编号',
@@ -40,64 +41,49 @@ export const columns = (handleEdit) => [
     width: 120,
     hideInSearch: true,
   },
+  // {
+  //   title: '操作',
+  //   width: 140,
+  //   fixed: 'right',
+  //   align: 'center',
+  //   hideInSearch: true,
+  //   render: (record) => (
+  //     <div>
+  //       <a onClick={() => handleEdit('view', record)}>详情</a>
+  //     </div>
+  //   ),
+  // },
+];
+
+export const basicItem = [
   {
-    title: '操作',
-    width: 140,
-    fixed: 'right',
-    align: 'center',
-    hideInSearch: true,
-    render: (record) => (
-      <div>
-        <a type="link" size="small" onClick={() => handleEdit('view', record)}>
-          详情
-        </a>
-        {/* <Divider type="vertical" />
-        <a
-          type="link"
-          size="small"
-        // onClick={() => handleEdit('edit', record)}
-        >
-          加标签
-        </a> */}
-      </div>
-    ),
+    title: '会员名称',
+    key: 'userName',
+    dataIndex: 'userName',
+    ellipsis: true,
+  },
+  {
+    title: '手机号',
+    key: 'phone',
+    dataIndex: 'phone',
+    ellipsis: true,
+  },
+  {
+    title: '会员类型',
+    key: 'memberType',
+    dataIndex: 'memberType',
+    ellipsis: true,
+  },
+  {
+    title: '到期时间',
+    key: 'expirationTime',
+    dataIndex: 'expirationTime',
+    ellipsis: true,
+  },
+  {
+    title: '开通时间',
+    key: 'openTime',
+    dataIndex: 'openTime',
+    ellipsis: true,
   },
 ];
-export const schema = ({ queryData }) => {
-  return {
-    type: 'object',
-    displayType: 'row',
-    properties: {
-      input1: {
-        title: '会员名称',
-        type: 'string',
-        widget: 'input',
-        defaultValue: queryData.userName,
-      },
-      input2: {
-        title: '手机号',
-        type: 'string',
-        widget: 'input',
-        defaultValue: queryData.phone,
-      },
-      input3: {
-        title: '会员类型',
-        type: 'string',
-        widget: 'input',
-        defaultValue: queryData.memberType,
-      },
-      input5: {
-        title: '开通时间',
-        type: 'string',
-        widget: 'input',
-        defaultValue: queryData.openTime,
-      },
-      input6: {
-        title: '到期时间',
-        type: 'string',
-        widget: 'input',
-        defaultValue: queryData.expirationTime,
-      },
-    },
-  };
-};

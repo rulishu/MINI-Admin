@@ -1,18 +1,33 @@
-import { selectPage } from '@/service/memberManage';
+import { selectById, selectPage } from '@/service/memberManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
-import { useState } from 'react';
+import { useReactMutation } from '@antdp/hooks';
+import { useDispatch } from '@umijs/max';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  const { update } = useModel('memberManage', (model) => ({ ...model }));
-  const [pageSize, setPageSize] = useState(10);
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'memberManage/update',
+      payload: data,
+    });
+  };
+
+  const { mutateAsync } = useReactMutation({
+    mutationFn: selectById,
+    onSuccess: ({ code, result }) => {
+      if (code && code === 200) {
+        update({ visible: true, queryData: result });
+      }
+    },
+  });
 
   const handleEdit = (type, data) => {
     if (type === 'view') {
-      update({ visible: true, queryData: data });
+      mutateAsync({ id: data.id });
     }
   };
+
   return (
     <ProTable
       options={false}
@@ -33,8 +48,6 @@ export default function SearchTable() {
       }}
       pagination={{
         showSizeChanger: true,
-        pageSize: pageSize,
-        onChange: (_, pageSize) => setPageSize(pageSize),
       }}
       cardBordered
       columns={columns(handleEdit)}

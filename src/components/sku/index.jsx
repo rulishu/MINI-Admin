@@ -1,9 +1,10 @@
-import { Button, Form, Input, Select, Space, Typography } from 'antd';
+import { Button, Card, Form, Input, Select, Space, Typography } from 'antd';
 import { useState } from 'react';
+import SKUList from './SKUList';
 import styles from './index.less';
 const FormItem = Form.Item;
 
-const SKU = ({ onChange, options }) => {
+const SKU = ({ value = [], onChange, options }) => {
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -13,19 +14,17 @@ const SKU = ({ onChange, options }) => {
     },
   };
 
-  const [data, setData] = useState([]);
-
+  const [data, setData] = useState(value);
+  console.log('data', data);
   const handleAddData = () => {
     const newData = [...data, { attribute_name: '', valueList: [] }];
     setData(newData);
-    onChange?.(newData);
   };
 
   const handleRemoveData = (index) => {
     const newData = [...data];
     newData.splice(index, 1);
     setData(newData);
-    onChange?.(newData);
   };
 
   const handleAttributeNameChange = (value, attrIndex) => {
@@ -34,28 +33,24 @@ const SKU = ({ onChange, options }) => {
     newData[attrIndex].attribute_name = att.label;
     newData[attrIndex].attribute_value = att.value;
     setData(newData);
-    onChange?.(newData);
   };
 
   const handleValueChange = (value, attrIndex, valueIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList[valueIndex] = value;
     setData(newData);
-    onChange?.(newData);
   };
 
   const handleAddValue = (attrIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList.push('');
     setData(newData);
-    onChange?.(newData);
   };
 
   const handleRemoveValue = (attrIndex, valueIndex) => {
     const newData = [...data];
     newData[attrIndex].valueList.splice(valueIndex, 1);
     setData(newData);
-    onChange?.(newData);
   };
 
   const renderProps = (item, attrIndex) => {
@@ -111,14 +106,19 @@ const SKU = ({ onChange, options }) => {
 
   return (
     <div>
-      <Form>
-        <FormItem {...formItemLayout}>
-          {data.map((item, attrIndex) => renderProps(item, attrIndex))}
-          <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
-            添加规格项目
-          </Button>
-        </FormItem>
-      </Form>
+      <Card>
+        <Form>
+          <FormItem {...formItemLayout}>
+            {data.map((item, attrIndex) => renderProps(item, attrIndex))}
+            <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
+              添加规格项目
+            </Button>
+          </FormItem>
+        </Form>
+      </Card>
+      <Card style={{ marginTop: 20 }}>
+        <SKUList data={data} onChange={onChange} />
+      </Card>
     </div>
   );
 };

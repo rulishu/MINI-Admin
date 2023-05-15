@@ -1,16 +1,22 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
+import { useDispatch } from '@umijs/max';
 import { Alert, Row, Space } from 'antd';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import GiftEdit from './GiftEdit/GiftEdit';
 import { columnsGift } from './columns';
 
 export default function GiftTables() {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
-  const { update } = useModel('packManagement', (model) => ({ ...model }));
+
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'packManagement/update',
+      payload: data,
+    });
+  };
 
   const text = (
     <div>
@@ -38,7 +44,7 @@ export default function GiftTables() {
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           const { code, data } = await selectPage({
-            current,
+            pageNum: current,
             pageSize,
             queryData: { ...formData },
           });
@@ -65,8 +71,6 @@ export default function GiftTables() {
         }}
         search={false}
         pagination={{
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
         }}
         cardBordered={true}

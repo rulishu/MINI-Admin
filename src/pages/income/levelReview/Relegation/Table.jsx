@@ -1,17 +1,20 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
-import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from '@umijs/max';
+import { useRef } from 'react';
 import { columns } from './columns';
 
 const RelegationReview = () => {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
-  const { store, setStore } = useModel('levelReview', (model) => ({
-    ...model,
-  }));
-  console.log(111, store);
+  const { activeKey } = useSelector((state) => state.levelReview);
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'levelReview/update',
+      payload: data,
+    });
+  };
   return (
     <div>
       <ProTable
@@ -20,7 +23,7 @@ const RelegationReview = () => {
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           const { code, data } = await selectPage({
-            current,
+            pageNum: current,
             pageSize,
             queryData: { ...formData },
           });
@@ -36,14 +39,12 @@ const RelegationReview = () => {
           defaultCollapsed: false,
         }}
         pagination={{
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
         }}
         toolbar={{
           menu: {
             type: 'tab',
-            activeKey: store.activeKey,
+            activeKey: activeKey,
             items: [
               {
                 key: 'tab1',
@@ -67,7 +68,7 @@ const RelegationReview = () => {
               },
             ],
             onChange: (key) => {
-              setStore({ ...store, activeKey: key });
+              update({ activeKey: key });
               ref?.current?.reload();
             },
           },

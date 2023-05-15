@@ -3,7 +3,7 @@ import { Divider } from 'antd';
 export const columns = [
   {
     title: '用户信息',
-    dataIndex: 'it',
+    dataIndex: 'it1',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -11,7 +11,7 @@ export const columns = [
   },
   {
     title: '变更前',
-    dataIndex: 'it',
+    dataIndex: 'it2',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -19,7 +19,7 @@ export const columns = [
   },
   {
     title: '变更后',
-    dataIndex: 'it',
+    dataIndex: 'it3',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -27,7 +27,7 @@ export const columns = [
   },
   {
     title: '降级条件',
-    dataIndex: 'it',
+    dataIndex: 'it4',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -35,7 +35,7 @@ export const columns = [
   },
   {
     title: '考核类型',
-    dataIndex: 'it',
+    dataIndex: 'it5',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -43,7 +43,7 @@ export const columns = [
   },
   {
     title: '完成情况',
-    dataIndex: 'it',
+    dataIndex: 'it6',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -51,7 +51,7 @@ export const columns = [
   },
   {
     title: '完成比例',
-    dataIndex: 'it',
+    dataIndex: 'it7',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -59,7 +59,7 @@ export const columns = [
   },
   {
     title: '考核时间',
-    dataIndex: 'it',
+    dataIndex: 'it8',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -67,7 +67,7 @@ export const columns = [
   },
   {
     title: '审核状态',
-    dataIndex: 'it',
+    dataIndex: 'it9',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -88,7 +88,7 @@ export const columns = [
   },
   {
     title: '申请时间',
-    dataIndex: 'it',
+    dataIndex: 'it10',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -96,7 +96,7 @@ export const columns = [
   },
   {
     title: '审核时间',
-    dataIndex: 'it',
+    dataIndex: 'it11',
     align: 'center',
     ellipsis: true,
     width: 30,
@@ -105,7 +105,7 @@ export const columns = [
   },
   {
     title: '用户等级',
-    dataIndex: 'it',
+    dataIndex: 'it12',
     align: 'center',
     width: 30,
     ellipsis: true,
@@ -121,7 +121,7 @@ export const columns = [
   },
   {
     title: '申请人信息',
-    dataIndex: 'it',
+    dataIndex: 'it13',
     align: 'center',
     ellipsis: true,
     width: 30,

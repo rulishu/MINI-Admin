@@ -2,7 +2,7 @@ import { selectById, selectPage } from '@/service/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Modal } from 'antd';
 import React, { useRef, useState } from 'react';
 import Edit from './Edit';
@@ -10,10 +10,15 @@ import { columns } from './columns';
 
 export default function Page() {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
-  const { store, setStore, setVisible } = useModel('tagsManage', (model) => ({
-    ...model,
-  }));
+  const [visible, setVisible] = useState(false);
+  const { activeKey, queryInfo, type } = useSelector((state) => state.tagsManage);
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'tagsManage/update',
+      payload: data,
+    });
+  };
   const reload = ref?.current?.reload;
 
   /** 详情接口 */
@@ -21,8 +26,7 @@ export default function Page() {
     url: selectById,
     onSuccess: ({ code, data }) => {
       if (code === 1) {
-        setStore({
-          ...store,
+        update({
           queryInfo: data || {},
         });
         setVisible(true);
@@ -33,7 +37,7 @@ export default function Page() {
   // eslint-disable-next-line no-unused-vars
   const handleEdit = async (type, record) => {
     if (type === 'edit') {
-      setStore({ ...store, type });
+      update({ type });
       await mutateAsync({ id: 1 });
     } else {
       Modal.confirm({
@@ -68,7 +72,7 @@ export default function Page() {
         toolbar={{
           menu: {
             type: 'tab',
-            activeKey: store.activeKey,
+            activeKey: activeKey,
             items: [
               {
                 key: 'tab1',
@@ -80,7 +84,7 @@ export default function Page() {
               },
             ],
             onChange: (key) => {
-              setStore({ ...store, activeKey: key });
+              update({ activeKey: key });
               ref?.current?.reload();
             },
           },
@@ -89,11 +93,10 @@ export default function Page() {
               button={[
                 {
                   type: 'primary',
-                  label: store.activeKey === 'tab1' ? '添加手动标签' : '添加自动标签',
+                  label: activeKey === 'tab1' ? '添加手动标签' : '添加自动标签',
                   onClick: () => {
                     setVisible(true);
-                    setStore({
-                      ...store,
+                    update({
                       queryInfo: {},
                       type: 'add',
                     });
@@ -108,15 +111,19 @@ export default function Page() {
           ),
         }}
         pagination={{
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
         }}
         cardBordered={true}
         columns={columns({ handleEdit })}
         rowKey="id"
       />
-      <Edit reload={reload} />
+      <Edit
+        visible={visible}
+        setVisible={setVisible}
+        queryInfo={queryInfo}
+        type={type}
+        reload={reload}
+      />
     </React.Fragment>
   );
 }

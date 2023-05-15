@@ -275,7 +275,8 @@
               {
                 "path": "/cust/custManage/tagsManage",
                 "name": "标签管理",
-                "component": "@/pages/cust/tagsManage"
+                "component": "@/pages/cust/tagsManage",
+                "hideInMenu": true
               }
             ]
           },
