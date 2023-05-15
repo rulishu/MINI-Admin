@@ -1,14 +1,19 @@
 import { selectPage } from '@/service/productParameters';
 import { ProTable } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Tabs } from 'antd';
 import { columns } from './columns';
 import styles from './index.less';
 
 export default function Page() {
-  const { store, setStore } = useModel('productParameters', (model) => ({
-    ...model,
-  }));
+  const { tab } = useSelector((state) => state.afterSalesAudit);
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'afterSalesAudit/update',
+      payload: data,
+    });
+  };
 
   const Table = (
     <ProTable
@@ -17,7 +22,7 @@ export default function Page() {
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
         const { code, data } = await selectPage({
-          current,
+          pageNum: current,
           pageSize,
           queryData: { ...formData },
         });
@@ -34,7 +39,7 @@ export default function Page() {
       }}
       cardBordered={true}
       columns={columns({
-        activeKey: store.tab,
+        activeKey: tab,
       })}
       rowKey="id"
       scroll={{ x: 1300 }}
@@ -69,11 +74,5 @@ export default function Page() {
     },
   ];
 
-  return (
-    <Tabs
-      activeKey={store.tab}
-      items={items}
-      onChange={(key) => setStore({ ...store, tab: key })}
-    />
-  );
+  return <Tabs activeKey={tab} items={items} onChange={(key) => update({ tab: key })} />;
 }

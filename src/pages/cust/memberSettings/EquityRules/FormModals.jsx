@@ -1,25 +1,27 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Input, Modal, Select } from 'antd';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { columnsFn } from './columns';
 const { Search } = Input;
 
 const FormModals = () => {
-  const {
-    store,
-    store: { visibleTable },
-    setStore,
-  } = useModel('equityRules', (model) => ({ ...model }));
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
+  const { visibleTable } = useSelector((state) => state.equityRules);
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'equityRules/update',
+      payload: data,
+    });
+  };
 
   const handleOk = () => {
-    setStore({ ...store, visibleTable: false });
+    update({ visibleTable: false });
   };
   const handleCancel = () => {
-    setStore({ ...store, visibleTable: false });
+    update({ visibleTable: false });
   };
 
   const onSearch = (value) => console.log(value);
@@ -89,8 +91,6 @@ const FormModals = () => {
         }}
         search={false}
         pagination={{
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
         }}
         cardBordered={true}

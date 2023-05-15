@@ -1,7 +1,7 @@
 import { selectPage } from '@/service/tagsManage';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
+import { useDispatch } from '@umijs/max';
 import { useRef } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -9,9 +9,14 @@ import styles from './index.less';
 
 export default () => {
   const ref = useRef();
-  const { update } = useModel('storeConfig', (model) => ({
-    ...model,
-  }));
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'storeConfig/update',
+      payload: data,
+    });
+  };
+
   const content = (
     <div>
       <div>视频号小店：</div>

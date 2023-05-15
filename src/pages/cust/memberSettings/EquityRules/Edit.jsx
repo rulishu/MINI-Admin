@@ -2,18 +2,21 @@ import { add, edit } from '@/service/equityRules';
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
-import { useModel } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
 export default function SearchTable({ reload }) {
   const form = useForm();
-
-  const {
-    store: { visible, type, queryData },
-    update,
-  } = useModel('equityRules', (model) => ({ ...model }));
+  const { visible, type, queryData } = useSelector((state) => state.equityRules);
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'equityRules/update',
+      payload: data,
+    });
+  };
 
   /** 新增/编辑 **/
   const { mutateAsync } = useReactMutation({

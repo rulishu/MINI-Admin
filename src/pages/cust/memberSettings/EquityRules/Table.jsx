@@ -2,19 +2,22 @@ import { del, selectPage } from '@/service/equityRules';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useModel } from '@umijs/max';
+import { useDispatch } from '@umijs/max';
 import { Modal } from 'antd';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
-  const {
-    update,
-    // store: { queryData },
-  } = useModel('equityRules', (model) => ({ ...model }));
+
+  const dispatch = useDispatch();
+  const update = (data) => {
+    dispatch({
+      type: 'fansManage/update',
+      payload: data,
+    });
+  };
   const reload = ref?.current?.reload;
 
   const handle = async (type, data) => {
@@ -75,8 +78,6 @@ export default function SearchTable() {
         search={false}
         pagination={{
           showSizeChanger: true,
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
         }}
         cardBordered={true}
         columns={columns(handle)}
