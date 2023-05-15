@@ -1,19 +1,12 @@
 import { add, edit } from '@/service/tagsManage';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
-import { useModel } from '@umijs/max';
 import { Form } from 'antd';
 import { useRef } from 'react';
 import Tags from './components/Tags';
 
-export default function Edit({ reload }) {
+export default function Edit({ visible, setVisible, queryInfo, type, reload }) {
   const ref = useRef();
-  const {
-    visible,
-    setVisible,
-    store: { queryInfo, type },
-  } = useModel('tagsManage', (model) => ({ ...model }));
-
   /** 新增编辑接口 **/
   const mutation = useReactMutation({
     url: type === 'edit' ? edit : add,
