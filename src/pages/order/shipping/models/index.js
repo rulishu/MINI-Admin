@@ -6,6 +6,8 @@ export default {
     /** 详情数据  */
     queryInfo: {},
     visible: false,
+    selectedRowKeys: [],
+    selectedRows: [],
   },
   reducers: {
     update: (state, { payload }) => ({

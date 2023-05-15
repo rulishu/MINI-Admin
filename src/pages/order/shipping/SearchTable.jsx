@@ -1,9 +1,12 @@
 import { selectPage } from '@/service/questionManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { useDispatch, useSelector } from '@umijs/max';
 import { columns } from './columns';
 
 export default function SearchTable() {
+  const { selectedRowKeys } = useSelector((state) => state.shipping);
+  const dispatch = useDispatch();
   return (
     <ProTable
       options={false}
@@ -28,34 +31,45 @@ export default function SearchTable() {
       cardBordered
       columns={columns}
       rowKey="id"
-      title={() => (
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '查询',
-              // onClick: () => setStore({ ...store, visible: true }),
+      toolbar={{
+        actions: (
+          <ButtonGroupPro
+            button={[
+              {
+                label: '批量发货',
+                type: 'primary',
+              },
+              {
+                label: '批量修改物流',
+                type: 'primary',
+              },
+              {
+                label: '批量取消发货',
+                type: 'primary',
+              },
+              {
+                label: '下载批量发货模板',
+                type: 'link',
+              },
+              {
+                label: '下载批量修改物流模板',
+                type: 'link',
+              },
+            ]}
+          />
+        ),
+      }}
+      rowSelection={{
+        selectedRowKeys: selectedRowKeys,
+        onChange: (selectedRowKeys, selectedRows) => {
+          dispatch({
+            type: 'shipping/update',
+            payload: {
+              select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows },
             },
-            {
-              label: '批量发货',
-            },
-            {
-              label: '批量修改物流',
-            },
-            {
-              label: '批量取消发货',
-            },
-            {
-              label: '下载批量发货模板',
-              type: 'link',
-            },
-            {
-              label: '下载批量修改物流模板',
-              type: 'link',
-            },
-          ]}
-        />
-      )}
+          });
+        },
+      }}
     />
   );
 }
