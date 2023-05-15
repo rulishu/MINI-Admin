@@ -1,63 +1,67 @@
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload } from 'antd';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import request from '@antdp/request';
+import { Button, Upload, message } from 'antd';
+import { useEffect, useState } from 'react';
 
-export default () => {
-  // const [fileList, setFileList] = useState([
-  //   {
-  //     uid: '-1',
-  //     name: 'image.png',
-  //     status: 'done',
-  //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  //   },
-  //   {
-  //     uid: '-2',
-  //     name: 'image.png',
-  //     status: 'done',
-  //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  //   },
-  //   {
-  //     uid: '-3',
-  //     name: 'image.png',
-  //     status: 'done',
-  //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  //   },
-  //   {
-  //     uid: '-4',
-  //     name: 'image.png',
-  //     status: 'done',
-  //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  //   },
-  // ]);
+export default ({ value = [], onChange, listType = 'text', showUploadList, ...others }) => {
+  const [fileList, setFileList] = useState(value);
+
+  useEffect(() => {
+    onChange?.(fileList);
+  }, [fileList]);
 
   const handleChange = async ({ file }) => {
     const data = new FormData();
     data.append('file', file);
     // 发送 fetch 请求
-    const response = await fetch('/jcgl-user/oss/upload', {
+    const { code, result } = await request('/jcgl-user/oss/upload', {
       method: 'POST',
       body: data,
     });
-
-    // 处理响应数据
-    if (response.status !== 200) {
+    if (code === 200) {
+      const newFile = {
+        url: result,
+        name: file.name,
+        uid: file.uid,
+      };
+      const newFileList = [...fileList, newFile];
+      setFileList(newFileList);
       // 失败情况处理
-      console.error('Upload failed with status ' + response.status);
     } else {
-      // 成功情况处理
-      const responseData = await response.json();
-      console.log('Upload succeeded with response', responseData);
+      message.warning('上传失败');
     }
   };
 
+  const handleRemove = (file) => {
+    const newFileList = fileList.filter((item) => item.url !== file.url);
+    setFileList(newFileList);
+  };
+
   const uplpodProps = {
-    headers: {},
-    // fileList: fileList,
+    fileList: fileList,
     customRequest: handleChange,
+    onRemove: handleRemove,
+    listType: listType,
+    showUploadList: {
+      showPreviewIcon: true,
+      showRemoveIcon: true,
+      showDownloadIcon: true,
+      ...showUploadList,
+    },
+    ...others,
   };
 
   return (
     <Upload {...uplpodProps}>
-      <Button icon={<UploadOutlined />}>上传</Button>
+      {(listType === 'text' || listType === 'picture') && (
+        <Button icon={<UploadOutlined />}>上传</Button>
+      )}
+      {(listType === 'picture-card' || listType === 'picture-circle') && (
+        <div>
+          <PlusOutlined />
+          <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+      )}
     </Upload>
   );
 };
