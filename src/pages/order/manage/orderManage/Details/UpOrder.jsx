@@ -1,11 +1,11 @@
-import { odd } from '@/service/orderManage';
+import { odd } from '@/service/order/orderManage';
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
-import { schemaUpOrder } from './columns';
+import { schemaUpOrder } from './items';
 
 export default function UpOrder() {
   const form = useForm();

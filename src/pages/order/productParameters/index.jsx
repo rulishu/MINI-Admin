@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/productParameters';
+import { selectPage } from '@/service/order/productParameters';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Tabs } from 'antd';

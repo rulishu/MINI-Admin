@@ -1,18 +1,13 @@
-import { details, selectPage } from '@/service/list';
+import { details, selectPage } from '@/service/order/list';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
-import { useRef, useState } from 'react';
-import Edit from './Edit';
+import React, { useRef } from 'react';
+import Edit from './Details/Details';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
   const dispatch = useDispatch();
-  // const { visible } = useSelector((state) => state.list);
-
-  const [pageSize, setPageSize] = useState(10);
-  const [collapsed, setCollapsed] = useState(false);
-  // const reload = ref?.current?.reload;
 
   const updateFn = (payload) => {
     dispatch({
@@ -20,19 +15,19 @@ export default function SearchTable() {
       payload: payload,
     });
   };
+
   const handle = async (type, data) => {
     updateFn({ type: type });
     if (type === 'view') {
-      updateFn({ visible: true });
       const { code, result } = await details(data?.id);
       if (code === 200) {
-        updateFn({ queryData: result });
+        updateFn({ queryData: result, visible: true });
       }
     }
   };
 
   return (
-    <>
+    <React.Fragment>
       <ProTable
         actionRef={ref}
         options={false}
@@ -51,20 +46,14 @@ export default function SearchTable() {
             };
           }
         }}
-        search={{
-          collapsed,
-          onCollapse: setCollapsed,
-        }}
         pagination={{
           showSizeChanger: true,
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
         }}
         cardBordered={true}
         columns={columns(handle)}
         rowKey="id"
       />
       <Edit />
-    </>
+    </React.Fragment>
   );
 }

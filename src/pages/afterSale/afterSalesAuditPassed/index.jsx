@@ -1,4 +1,4 @@
-import { selectById, selectByRefund, selectPage } from '@/service/afterSalesAuditPassed';
+import { selectById, selectByRefund, selectPage } from '@/service/afterSale/afterSalesAuditPassed';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';

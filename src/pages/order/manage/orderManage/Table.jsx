@@ -1,9 +1,9 @@
-import { details, selectPage } from '@/service/orderManage';
+import { details, selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { useEffect, useRef, useState } from 'react';
-import Edit from './Edit';
-import UpOrder from './UpOrder';
+import Details from './Details/Details';
+import UpOrder from './Details/UpOrder';
 import { columns } from './columns';
 
 export default function SearchTable() {
@@ -29,10 +29,9 @@ export default function SearchTable() {
   const handle = async (type, data) => {
     updateFn({ type: type });
     if (type === 'view') {
-      updateFn({ visible: true });
       const { code, result } = await details(data?.id);
       if (code === 200) {
-        updateFn({ queryData: result });
+        updateFn({ queryData: result, visible: true });
       }
     }
     if (type === 'upOrder') {
@@ -74,7 +73,7 @@ export default function SearchTable() {
         columns={columns(handle)}
         rowKey="id"
       />
-      <Edit />
+      <Details />
       <UpOrder />
     </>
   );

@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/memberSettings';
+import { selectPage } from '@/service/cust/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Input, Modal, Select } from 'antd';

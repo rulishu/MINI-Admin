@@ -13,6 +13,5 @@ export const selectPage = async ({ pageNum, pageSize, ...body }) => {
 export const details = async (params) => {
   return request(`/jcgl-mall/admin/order/info/details?id=${params}`, {
     method: 'GET',
-    data: params,
   });
 };

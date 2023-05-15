@@ -1,4 +1,4 @@
-import { del, selectPage } from '@/service/equityRules';
+import { del, selectPage } from '@/service/cust/equityRules';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';

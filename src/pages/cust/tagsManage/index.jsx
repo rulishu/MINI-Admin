@@ -1,4 +1,4 @@
-import { selectById, selectPage } from '@/service/tagsManage';
+import { selectById, selectPage } from '@/service/cust/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';

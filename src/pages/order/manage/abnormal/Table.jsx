@@ -1,25 +1,33 @@
-import { selectPage } from '@/service/equityRules';
+import { details, selectPage } from '@/service/order/abnormal';
 import { ProTable } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
-import { useRef, useState } from 'react';
-// import Edit from './Edit';
+import { useDispatch } from '@umijs/max';
+import { Fragment, useRef } from 'react';
+import Details from './Details/Details';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
-  const [collapsed, setCollapsed] = useState(false);
 
-  const { update } = useModel('equityRules', (model) => ({ ...model }));
+  const dispatch = useDispatch();
+  const updateFn = (payload) => {
+    dispatch({
+      type: 'abnormal/update',
+      payload: payload,
+    });
+  };
 
-  const handle = async (type) => {
+  const handle = async (type, data) => {
+    updateFn({ type: type });
     if (type === 'view') {
-      update({ visible: true });
+      const { code, result } = await details({ id: data?.id });
+      if (code === 200) {
+        updateFn({ queryData: result, visible: true });
+      }
     }
   };
 
   return (
-    <>
+    <Fragment>
       <ProTable
         actionRef={ref}
         options={false}
@@ -38,20 +46,14 @@ export default function SearchTable() {
             };
           }
         }}
-        search={{
-          collapsed,
-          onCollapse: setCollapsed,
-        }}
         pagination={{
           showSizeChanger: true,
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
         }}
         cardBordered={true}
         columns={columns(handle)}
         rowKey="id"
       />
-      {/* <Edit reload={reload} /> */}
-    </>
+      <Details />
+    </Fragment>
   );
 }

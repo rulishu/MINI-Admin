@@ -1,4 +1,4 @@
-import { add, edit } from '@/service/equityRules';
+import { add, edit } from '@/service/cust/equityRules';
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';

@@ -1,10 +1,22 @@
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import request from '@antdp/request';
 import { Button, Upload, message } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { getDefaultValue } from './utils';
 
-export default ({ value = [], onChange, listType = 'text', showUploadList, ...others }) => {
-  const [fileList, setFileList] = useState(value);
+export default ({
+  value = [],
+  onChange,
+  listType = 'text',
+  showUploadList,
+  maxCount = 1,
+  ...others
+}) => {
+  const defaultValue = useMemo(() => {
+    return getDefaultValue(value);
+  }, [value]);
+
+  const [fileList, setFileList] = useState(defaultValue);
 
   useEffect(() => {
     onChange?.(fileList);
@@ -20,12 +32,11 @@ export default ({ value = [], onChange, listType = 'text', showUploadList, ...ot
     });
     if (code === 200) {
       const newFile = {
-        url: result,
+        url: `http://${result}`,
         name: file.name,
         uid: file.uid,
       };
-      const newFileList = [...fileList, newFile];
-      setFileList(newFileList);
+      setFileList((prevList) => [...prevList, newFile]);
       // 失败情况处理
     } else {
       message.warning('上传失败');
@@ -52,17 +63,22 @@ export default ({ value = [], onChange, listType = 'text', showUploadList, ...ot
     ...others,
   };
 
-  return (
-    <Upload {...uplpodProps}>
-      {(listType === 'text' || listType === 'picture') && (
-        <Button icon={<UploadOutlined />}>上传</Button>
-      )}
-      {(listType === 'picture-card' || listType === 'picture-circle') && (
+  const renderButton = () => {
+    if (listType === 'text' && fileList.length < maxCount) {
+      return <Button icon={<UploadOutlined />}>上传</Button>;
+    }
+    if (
+      (listType === 'picture-card' || listType === 'picture-circle') &&
+      fileList.length < maxCount
+    ) {
+      return (
         <div>
           <PlusOutlined />
-          <div style={{ marginTop: 8 }}>Upload</div>
+          <div style={{ marginTop: 8 }}>上传</div>
         </div>
-      )}
-    </Upload>
-  );
+      );
+    }
+  };
+
+  return <Upload {...uplpodProps}>{renderButton()}</Upload>;
 };

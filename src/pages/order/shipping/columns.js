@@ -91,13 +91,9 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <a type="link" size="small">
-          下载上传文件
-        </a>
+        <a>下载上传文件</a>
         <Divider type="vertical" />
-        <a type="link" size="small">
-          明细
-        </a>
+        <a>明细</a>
       </div>
     ),
   },

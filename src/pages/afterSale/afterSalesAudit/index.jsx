@@ -1,4 +1,4 @@
-import { selectById, selectPage } from '@/service/afterSalesAudit';
+import { selectById, selectPage } from '@/service/afterSale/afterSalesAudit';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';

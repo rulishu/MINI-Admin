@@ -7,6 +7,7 @@ export const columns = ({ handleEdit }) => [
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
+    render: (text, record, index) => index + 1,
   },
   {
     title: '申请原因',

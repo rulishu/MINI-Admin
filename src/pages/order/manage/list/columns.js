@@ -1,13 +1,16 @@
+import { isOpenInvoiceEnum, orderStatusEnum } from './enum';
+
 export const columns = (handle) => [
   {
     title: 'ID',
     dataIndex: 'id',
     align: 'center',
     hideInSearch: true,
+    render: (text, record, index) => index + 1,
   },
   {
-    title: '公司名称',
-    dataIndex: 'companyName',
+    title: '商品名称',
+    dataIndex: 'itemName',
     align: 'center',
     hideInSearch: true,
   },
@@ -17,17 +20,16 @@ export const columns = (handle) => [
     align: 'center',
   },
   {
-    title: '物流单号',
-    dataIndex: 'outOrderNo',
+    title: '快递单号',
+    dataIndex: 'trackingNumber',
     align: 'center',
     hideInSearch: true,
   },
   {
-    title: '下单日期',
+    title: '下单时间',
     dataIndex: 'createTime',
     align: 'center',
     valueType: 'date',
-    // sorter: true,
   },
   {
     title: '收货人',
@@ -51,52 +53,14 @@ export const columns = (handle) => [
     dataIndex: 'orderStatus',
     align: 'center',
     valueType: 'select',
-    fieldProps: {
-      options: [
-        {
-          label: '待定价',
-          value: 0,
-        },
-        {
-          label: '待付款',
-          value: 1,
-        },
-        {
-          label: '备货中',
-          value: -2,
-        },
-        {
-          label: '待收货',
-          value: 3,
-        },
-        {
-          label: '已完成',
-          value: 4,
-        },
-      ],
-    },
+    valueEnum: orderStatusEnum,
   },
   {
     title: '开票状态',
     dataIndex: 'isOpenInvoice',
     align: 'center',
     valueType: 'select',
-    fieldProps: {
-      options: [
-        {
-          label: '未开票',
-          value: 0,
-        },
-        {
-          label: '待开票',
-          value: 1,
-        },
-        {
-          label: '已开票',
-          value: 2,
-        },
-      ],
-    },
+    valueEnum: isOpenInvoiceEnum,
   },
   {
     title: '操作',
@@ -107,166 +71,9 @@ export const columns = (handle) => [
     render: (record) => (
       <div>
         <a type="link" size="small" onClick={() => handle('view', record)}>
-          查看详情
+          详情
         </a>
       </div>
     ),
   },
 ];
-
-export const schema = ({ queryData }) => {
-  const itemList = queryData?.itemList || [];
-  return {
-    type: 'object',
-    displayType: 'row',
-    labelWidth: '100%',
-    properties: {
-      orderNumber: {
-        title: '订单编号',
-        type: 'string',
-        span: 12,
-        defaultValue: queryData.orderNumber,
-      },
-      userName: {
-        title: '卖家信息',
-        type: 'string',
-        span: 12,
-        defaultValue: queryData.userName,
-      },
-      phone: {
-        title: '手机号',
-        type: 'string',
-        span: 12,
-        defaultValue: queryData.phone,
-      },
-      consignee: {
-        title: '买家信息',
-        type: 'string',
-        span: 12,
-        defaultValue: queryData.consignee,
-      },
-
-      itemList: {
-        title: '商品详情',
-        type: 'array',
-        widget: 'tableList',
-        items: {
-          type: 'object',
-          properties: {
-            mainGraph: {
-              title: '商品图片',
-              type: 'string',
-            },
-            brandName: {
-              title: '商品名称',
-              type: 'string',
-              defaultValue: itemList?.at(0)?.categoryName || '',
-            },
-            input3: {
-              title: '规格',
-              type: 'string',
-              defaultValue: itemList?.at(0)?.brandName || '',
-            },
-            input4: {
-              title: '型号',
-              type: 'string',
-              defaultValue: itemList?.at(0)?.brandName || '',
-            },
-            input5: {
-              title: '数量',
-              type: 'string',
-              defaultValue: itemList?.at(0)?.brandName || '',
-            },
-            input6: {
-              title: '商品价格(元)',
-              type: 'string',
-              defaultValue: itemList?.at(0)?.unitPrice || '',
-            },
-            input7: {
-              title: '运费',
-              type: 'string',
-              defaultValue: itemList?.at(0)?.brandName || '',
-            },
-          },
-        },
-      },
-
-      list: {
-        type: 'array',
-        widget: 'simpleList',
-        display: 'inline',
-        props: {
-          hasBackground: true,
-        },
-        items: {
-          type: 'object',
-          properties: {
-            createTime: {
-              title: '下单时间',
-              type: 'string',
-              defaultValue: queryData.createTime,
-            },
-            orderStatus: {
-              title: '订单状态',
-              type: 'string',
-              defaultValue: queryData.orderStatus,
-            },
-          },
-        },
-      },
-      list1: {
-        type: 'array',
-        widget: 'simpleList',
-        display: 'inline',
-        props: {
-          hasBackground: true,
-        },
-        items: {
-          type: 'object',
-          displayType: 'row',
-          properties: {
-            consignee: {
-              title: '收货人',
-              type: 'string',
-              defaultValue: queryData.consignee,
-              span: 12,
-            },
-            phone: {
-              title: '手机号',
-              type: 'string',
-              defaultValue: queryData.phone,
-              span: 12,
-            },
-            address: {
-              title: '收货地址',
-              type: 'string',
-              defaultValue: queryData.address,
-              span: 12,
-              labelCol: 7,
-              fieldCol: 16,
-            },
-            orderNumber: {
-              title: '快递单号',
-              type: 'string',
-              defaultValue: queryData.orderNumber,
-              span: 12,
-              labelCol: 7,
-              fieldCol: 16,
-            },
-            companyName: {
-              title: '物流公司',
-              type: 'string',
-              span: 24,
-              defaultValue: queryData.companyName,
-            },
-            isOpenInvoice: {
-              title: '开票状态',
-              type: 'string',
-              defaultValue: queryData.isOpenInvoice,
-            },
-          },
-        },
-      },
-    },
-  };
-};

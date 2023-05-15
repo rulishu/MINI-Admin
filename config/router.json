@@ -45,12 +45,19 @@
           {
             "path": "/product/productParameters",
             "name": "商品参数",
-            "component": "@/pages/product/productParameters"
+            "component": "@/pages/product/productParameters",
+            "hideInMenu": true
           },
           {
             "path": "/product/productBasic",
             "name": "商品基础设置",
-            "component": "@/pages/product/productBasic"
+            "component": "@/pages/product/productBasic",
+            "hideInMenu": true
+          },
+          {
+            "path": "/product/supplier",
+            "name": "供应商管理",
+            "component": "@/pages/product/supplier"
           }
         ]
       },
@@ -74,10 +81,6 @@
                 "component": "@/pages/order/shipping"
               },
               {
-                "path": "/order/manage/supplier",
-                "name": "供应商订单管理"
-              },
-              {
                 "path": "/order/manage/orderManage",
                 "name": "订单管理",
                 "component": "@/pages/order/manage/orderManage"
@@ -92,20 +95,24 @@
           {
             "path": "/order/boutique",
             "name": "精品订单管理",
-            "component": "@/pages/order/boutique"
+            "component": "@/pages/order/boutique",
+            "hideInMenu": true
           },
           {
             "path": "/order/custom",
-            "name": "定制订单管理"
+            "name": "定制订单管理",
+            "hideInMenu": true
           },
           {
             "path": "/order/pick",
-            "name": "拣货单管理"
+            "name": "拣货单管理",
+            "hideInMenu": true
           },
 
           {
             "path": "/order/afterSales",
             "name": "售后管理",
+            "hideInMenu": true,
             "routes": [
               {
                 "path": "/order/afterSales/afterSalesApplication",
@@ -132,12 +139,14 @@
           {
             "path": "/order/seal",
             "name": "封坛订单管理",
-            "component": "@/pages/order/sealMangment"
+            "component": "@/pages/order/sealMangment",
+            "hideInMenu": true
           },
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component": "@/pages/order/productParameters"
+            "component": "@/pages/order/productParameters",
+            "hideInMenu": true
           }
         ]
       },
@@ -145,6 +154,7 @@
         "path": "/sales",
         "name": "营销",
         "icon": "gift",
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/sales/promotion",
@@ -221,6 +231,7 @@
         "path": "/income",
         "name": "收益",
         "icon": "pay-circle",
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/income/levelIncome",

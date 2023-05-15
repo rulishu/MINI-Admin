@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/tagsManage';
+import { selectPage } from '@/service/cust/tagsManage';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch } from '@umijs/max';
