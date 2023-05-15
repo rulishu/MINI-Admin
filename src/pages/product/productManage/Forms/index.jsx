@@ -36,7 +36,10 @@ const Index = () => {
 
   useEffect(() => {
     form.setValues({
-      form1: { ...queryInfo },
+      form1: {
+        ...queryInfo,
+        mainGraph: queryInfo?.mainGraph ? [{ url: queryInfo?.mainGraph, name: 'goods' }] : [],
+      },
     });
   }, [showForm, queryInfo]);
 

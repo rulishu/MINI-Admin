@@ -10,8 +10,12 @@ export default () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // 类目tree
     dispatch({
       type: 'groupManage/getCategoryTree',
+    });
+    dispatch({
+      type: 'productManage/selectAttr',
     });
   }, []);
 

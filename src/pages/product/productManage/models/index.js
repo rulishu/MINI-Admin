@@ -22,6 +22,7 @@ export default {
 
     showSKU: false,
     SKUtype: 'add',
+    attrOptions: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -81,20 +82,12 @@ export default {
       }
     },
     *selectAttr(_, { call, put }) {
-      const { code } = yield call(selectAttr, {});
+      const { code, result } = yield call(selectAttr, {});
       if (code === 200) {
-        // let SKUtype = 'add';
-        // if (result && result.length > 0) {
-        //   //
-        //   SKUtype = 'edit';
-        // } else {
-        //   //
-        //   SKUtype = 'add';
-        // }
         yield put({
           type: 'update',
           payload: {
-            //
+            attrOptions: result,
           },
         });
       }

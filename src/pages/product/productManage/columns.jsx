@@ -17,11 +17,7 @@ export const columns = ({ handleEdit, handlerSKU }) => [
     render: (_, record) => {
       return (
         <div style={{ height: 80, display: 'flex', flexDirection: 'row' }}>
-          <Image
-            width={80}
-            height={80}
-            src={`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png`}
-          />
+          <Image width={80} height={80} src={record?.mainGraph} />
           <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
             【爆品酒】 奋斗之露 {record?.itemName} {record?.model}*{record?.specifications}
           </div>

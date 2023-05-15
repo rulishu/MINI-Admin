@@ -54,6 +54,12 @@ export default (options) => ({
         mainGraph: {
           title: '图片上传',
           widget: 'picupload',
+          required: true,
+          maxCount: 1,
+          props: {
+            listType: 'picture-card',
+            maxCount: 1,
+          },
         },
         parentId: {
           title: '商品类目',
