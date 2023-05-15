@@ -70,7 +70,7 @@ export const schema = {
             listType: 'picture-card',
           },
         },
-        identityCar2: {
+        identityCard2: {
           title: '法人身份证反面',
           type: 'array',
           widget: 'upload',

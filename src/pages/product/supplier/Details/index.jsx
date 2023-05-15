@@ -42,7 +42,7 @@ export default () => {
       reason: queryInfo.reason || '',
     });
     form.removeErrorField('form2.contract');
-    form.removeErrorField('form2.identityCar2');
+    form.removeErrorField('form2.identityCard2');
     form.removeErrorField('form2.identityCard');
     form.removeErrorField('form2.businessLicense');
     form.removeErrorField('form2.foodProductioLicense');
