@@ -1,4 +1,10 @@
-import { added, deleteProduct, details, selectSellPage, takeDown } from '@/service/productManage';
+import {
+  added,
+  deleteProduct,
+  details,
+  selectSellPage,
+  takeDown,
+} from '@/service/goods/productManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';

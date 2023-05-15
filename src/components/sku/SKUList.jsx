@@ -1,42 +1,51 @@
 import { Button, Input, Table } from 'antd';
 import { useEffect, useState } from 'react';
 
-const SKUList = ({ data = [], onChange }) => {
+const SKUList = ({ value = [], data = [], onChange }) => {
+  console.log('SKUListvalue: ', value);
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
-    const generateSKUs = (attributes, index, prefix, skuList) => {
-      if (index === attributes.length) {
-        skuList.push({
-          ...prefix,
-          // skuName: '',
-          sales: 0,
-          price: 0,
-          stock: 0,
-        });
-        return;
-      }
+    if (data && data.length > 0) {
+      const generateSKUs = (attributes, index, prefix, skuList) => {
+        if (index === attributes.length) {
+          skuList.push({
+            ...prefix,
+            // skuName: '',
+            sales: 0,
+            price: 0,
+            stock: 0,
+          });
+          return;
+        }
 
-      const attribute = attributes[index];
-      const { attribute_name = '', attribute_value = '', valueList = [] } = attribute;
-      for (let i = 0; i < valueList.length; i++) {
-        const value = valueList[i];
-        const attributes_teemp = { ...prefix.attributes };
-        attributes_teemp[attribute_name] = { value, attributeId: attribute_value, attribute_name };
-        const newPrefix = {
-          ...prefix,
-          itemId: skuList.length,
-          [attribute_name]: value,
-          attributes: attributes_teemp,
-        };
-        generateSKUs(attributes, index + 1, newPrefix, skuList);
-      }
-    };
+        const attribute = attributes[index];
+        const { attribute_name = '', attribute_value = '', valueList = [] } = attribute;
+        for (let i = 0; i < valueList.length; i++) {
+          const value = valueList[i];
+          const attributes_teemp = { ...prefix.attributes };
+          attributes_teemp[attribute_name] = {
+            value,
+            attributeId: attribute_value,
+            attribute_name,
+          };
 
-    // Generate SKU data
-    const updatedDataSource = [];
-    generateSKUs(data, 0, {}, updatedDataSource);
-    setDataSource(updatedDataSource);
+          const newPrefix = {
+            ...prefix,
+            itemId: skuList.length,
+            [attribute_name]: value,
+            attributes: attributes_teemp,
+          };
+          generateSKUs(attributes, index + 1, newPrefix, skuList);
+        }
+      };
+
+      // Generate SKU data
+      const updatedDataSource = [];
+      generateSKUs(data, 0, {}, updatedDataSource);
+      console.log('updatedDataSource: ', updatedDataSource);
+      setDataSource(updatedDataSource);
+    }
   }, [data]);
 
   const columns = [

@@ -51,6 +51,16 @@ export default (options) => ({
             showCount: true,
           },
         },
+        mainGraph: {
+          title: '图片上传',
+          widget: 'picupload',
+          required: true,
+          maxCount: 1,
+          props: {
+            listType: 'picture-card',
+            maxCount: 1,
+          },
+        },
         parentId: {
           title: '商品类目',
           type: 'object',
@@ -58,8 +68,8 @@ export default (options) => ({
           required: true,
           props: {
             expandTrigger: 'hover',
+            // displayRender: (labels) => labels[labels.length - 1],
             options: options(),
-            changeOnSelect: true,
           },
         },
 

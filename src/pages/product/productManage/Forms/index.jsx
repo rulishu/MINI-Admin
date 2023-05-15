@@ -1,5 +1,6 @@
 // import PriceName from '@/components/sku';
-import { addItem, updateItem } from '@/service/productManage';
+import TheUpload from '@/components/upload';
+import { addItem, updateItem } from '@/service/goods/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
@@ -12,7 +13,7 @@ const Index = () => {
   const form = useForm();
   const { productManage, groupManage } = useSelector((state) => state);
   const { type, queryInfo, showForm } = productManage;
-  const { categoryList } = groupManage;
+  const { categoryTree } = groupManage;
 
   const dispatch = useDispatch();
 
@@ -35,30 +36,36 @@ const Index = () => {
 
   useEffect(() => {
     form.setValues({
-      form1: { ...queryInfo },
+      form1: {
+        ...queryInfo,
+        mainGraph: queryInfo?.mainGraph ? [{ url: queryInfo?.mainGraph, name: 'goods' }] : [],
+      },
     });
   }, [showForm, queryInfo]);
 
   const onFinish = (values) => {
     const { form1 } = values;
-    mutateAsync({ ...form1, id: queryInfo?.id, parentId: form1?.parentId?.slice(-1)?.[0] });
+    mutateAsync({
+      ...form1,
+      id: queryInfo?.id, // 商品ID
+      parentId: form1?.parentId?.slice(-1)?.[0], // 类目ID
+      mainGraph: form1.mainGraph?.[0]?.url, // 图片url
+    });
   };
 
   const handler = (data) => {
     return data.map((item) => {
-      let arr = [];
-      const obj = { label: item?.categoryName || '', value: item?.id };
+      const obj = { label: item?.label || '', value: item?.id };
       if (item?.children && item?.children.length > 0) {
-        arr = arr.push(handler(item.children));
-        obj.children = arr;
+        obj.children = handler(item.children);
       }
       return obj;
     });
   };
 
   const options = () => {
-    if (categoryList.length > 0) {
-      return [...handler(categoryList)];
+    if (categoryTree.length > 0) {
+      return [...handler(categoryTree)];
     } else {
       return [];
     }
@@ -70,7 +77,7 @@ const Index = () => {
         form={form}
         readOnly={type === 'view'}
         schema={item(options)}
-        widgets={{ cascader: Cascader }}
+        widgets={{ cascader: Cascader, picupload: TheUpload }}
         footer={() => (
           <ButtonGroupPro
             button={[

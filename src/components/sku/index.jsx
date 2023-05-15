@@ -4,7 +4,9 @@ import SKUList from './SKUList';
 import styles from './index.less';
 const FormItem = Form.Item;
 
-const SKU = ({ value = [], onChange, options }) => {
+const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
+  console.log('attrValue: ', attrValue);
+
   const formItemLayout = {
     labelCol: {
       span: 6,
@@ -14,21 +16,22 @@ const SKU = ({ value = [], onChange, options }) => {
     },
   };
 
-  const [data, setData] = useState(value);
-  console.log('data', data);
+  const [formData, setData] = useState(attrValue);
+  const [tableData, setTableData] = useState([]);
+  console.log('formData', formData);
   const handleAddData = () => {
-    const newData = [...data, { attribute_name: '', valueList: [] }];
+    const newData = [...formData, { attribute_name: '', valueList: [] }];
     setData(newData);
   };
 
   const handleRemoveData = (index) => {
-    const newData = [...data];
+    const newData = [...formData];
     newData.splice(index, 1);
     setData(newData);
   };
 
   const handleAttributeNameChange = (value, attrIndex) => {
-    const newData = [...data];
+    const newData = [...formData];
     const att = options.find((option) => option.value === value);
     newData[attrIndex].attribute_name = att.label;
     newData[attrIndex].attribute_value = att.value;
@@ -36,19 +39,19 @@ const SKU = ({ value = [], onChange, options }) => {
   };
 
   const handleValueChange = (value, attrIndex, valueIndex) => {
-    const newData = [...data];
+    const newData = [...formData];
     newData[attrIndex].valueList[valueIndex] = value;
     setData(newData);
   };
 
   const handleAddValue = (attrIndex) => {
-    const newData = [...data];
+    const newData = [...formData];
     newData[attrIndex].valueList.push('');
     setData(newData);
   };
 
   const handleRemoveValue = (attrIndex, valueIndex) => {
-    const newData = [...data];
+    const newData = [...formData];
     newData[attrIndex].valueList.splice(valueIndex, 1);
     setData(newData);
   };
@@ -79,7 +82,7 @@ const SKU = ({ value = [], onChange, options }) => {
         <Form.Item label="规格值" className={styles.box}>
           <Space>
             {(item.valueList || []).map((input, valueIndex) => (
-              <Form.Item key={valueIndex} noStyle>
+              <Form.Item key={input} noStyle>
                 <Input
                   value={input}
                   style={{ width: 160 }}
@@ -104,20 +107,33 @@ const SKU = ({ value = [], onChange, options }) => {
     );
   };
 
+  const addTableList = () => {
+    setTableData(formData);
+  };
+
   return (
     <div>
       <Card>
         <Form>
           <FormItem {...formItemLayout}>
-            {data.map((item, attrIndex) => renderProps(item, attrIndex))}
+            {formData.map((item, attrIndex) => renderProps(item, attrIndex))}
             <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
               添加规格项目
             </Button>
+            {formData.length > 0 && (
+              <Button
+                onClick={addTableList}
+                type="primary"
+                style={{ margin: '10px 20px', width: 120 }}
+              >
+                生成规格列表
+              </Button>
+            )}
           </FormItem>
         </Form>
       </Card>
       <Card style={{ marginTop: 20 }}>
-        <SKUList data={data} onChange={onChange} />
+        <SKUList value={value} data={tableData} onChange={onChange} />
       </Card>
     </div>
   );
