@@ -1,7 +1,7 @@
 import { Button, Input, Table } from 'antd';
 import { useEffect, useState } from 'react';
 
-const SKUList = ({ data, onChange }) => {
+const SKUList = ({ data = [], onChange }) => {
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const SKUList = ({ data, onChange }) => {
       }
 
       const attribute = attributes[index];
-      const { attribute_name, attribute_value, valueList } = attribute;
+      const { attribute_name = '', attribute_value = '', valueList = [] } = attribute;
       for (let i = 0; i < valueList.length; i++) {
         const value = valueList[i];
         const attributes_teemp = { ...prefix.attributes };
