@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/memberManage';
+import { selectPage } from '@/service/cust/memberManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 // import { useModel } from '@umijs/max';

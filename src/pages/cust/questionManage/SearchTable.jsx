@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/questionManage';
+import { selectPage } from '@/service/cust/questionManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useState } from 'react';
 import { columns } from './columns';

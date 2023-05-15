@@ -1,4 +1,4 @@
-import { selectById, selectPage } from '@/service/fansManage';
+import { selectById, selectPage } from '@/service/cust/fansManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';

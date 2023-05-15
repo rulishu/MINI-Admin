@@ -1,4 +1,4 @@
-import { add, edit } from '@/service/tagsManage';
+import { add, edit } from '@/service/cust/tagsManage';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { Form } from 'antd';

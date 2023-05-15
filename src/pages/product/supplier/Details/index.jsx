@@ -1,5 +1,5 @@
 import Upload from '@/components/upload';
-import { create, updateInfo } from '@/service/afterSalesReasons';
+import { create, updateInfo } from '@/service/afterSale/afterSalesReasons';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';

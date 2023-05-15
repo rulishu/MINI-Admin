@@ -1,4 +1,4 @@
-import { refund } from '@/service/afterSalesAuditPassed';
+import { refund } from '@/service/afterSale/afterSalesAuditPassed';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
