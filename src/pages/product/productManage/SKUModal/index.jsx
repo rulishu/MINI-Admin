@@ -5,7 +5,8 @@ import { Button, Card } from 'antd';
 import { useMemo, useState } from 'react';
 
 const Index = () => {
-  const { SKUtype } = useSelector((state) => state.productManage);
+  const { SKUtype, queryInfo, skuList } = useSelector((state) => state.productManage);
+  console.log('skuList: ', skuList);
   const dispatch = useDispatch();
 
   const options = useMemo(() => [
@@ -14,6 +15,12 @@ const Index = () => {
   ]);
 
   const [sku, setSku] = useState([]);
+  // useEffect(() => {
+  //   if (skuList && skuList.length > 0) {
+  //     setSku(skuList);
+  //   }
+  // }, [JSON.stringify(skuList)]);
+
   console.log('sku: ', sku);
   const [spectList, setSpectList] = useState([]);
   console.log('spectList: ', spectList);
@@ -29,13 +36,13 @@ const Index = () => {
     if (SKUtype === 'add') {
       dispatch({
         type: 'productManage/createSKU',
-        payload: spect,
+        payload: spect.map((item) => ({ ...item, itemId: queryInfo.id })),
       });
     }
     if (SKUtype === 'edit') {
       dispatch({
         type: 'productManage/updateSKU',
-        payload: spect,
+        payload: spect.map((item) => ({ ...item, itemId: queryInfo.id })),
       });
     }
   };
