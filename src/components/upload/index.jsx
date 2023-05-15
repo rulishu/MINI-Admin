@@ -42,6 +42,7 @@ export default ({ value = [], onChange, listType = 'text', showUploadList, ...ot
     customRequest: handleChange,
     onRemove: handleRemove,
     listType: listType,
+    maxCount: 1,
     showUploadList: {
       showPreviewIcon: true,
       showRemoveIcon: true,

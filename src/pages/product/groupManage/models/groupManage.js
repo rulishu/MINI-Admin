@@ -3,6 +3,7 @@ import {
   deleteCategory,
   getAllCategory,
   getCategory,
+  getCategoryTree,
   updateCategory,
 } from '@/service/groupManage';
 
@@ -35,6 +36,17 @@ const group = {
           type: 'updateState',
           payload: {
             categoryList: result || [],
+          },
+        });
+      }
+    },
+    *getCategoryTree(_, { call, put }) {
+      const { code, result } = yield call(getCategoryTree);
+      if (code === 200 && result) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            categoryTree: result || [],
           },
         });
       }

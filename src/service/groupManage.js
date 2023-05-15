@@ -47,3 +47,11 @@ export async function deleteCategory(params) {
     // requestType: 'json',
   });
 }
+
+export async function getCategoryTree() {
+  return request(`/jcgl-mall/admin/create/item/category/select/tree`, {
+    method: 'POST',
+    data: {},
+    requestType: 'json',
+  });
+}

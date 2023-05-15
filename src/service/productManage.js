@@ -79,3 +79,10 @@ export const updateSKU = async (body) => {
     data: body,
   });
 };
+
+export const selectAttr = async (body) => {
+  return request(`/jcgl-mall/admin/item/info/select/sku/attribute`, {
+    method: 'POST',
+    data: body,
+  });
+};

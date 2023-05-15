@@ -91,7 +91,7 @@ export const columns = ({ handleEdit, handlerSKU }) => [
   },
   {
     title: '商品状态',
-    dataIndex: '111111c',
+    dataIndex: 'status',
     align: 'center',
     search: false,
     width: 50,

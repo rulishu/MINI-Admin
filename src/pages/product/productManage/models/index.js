@@ -1,4 +1,4 @@
-import { createSKU, selectSKU, updateSKU } from '@/service/productManage';
+import { createSKU, selectAttr, selectSKU, updateSKU } from '@/service/productManage';
 export default {
   namespace: 'productManage',
   state: {
@@ -76,6 +76,25 @@ export default {
             showSKU: false,
             queryInfo: {},
             skuList: [],
+          },
+        });
+      }
+    },
+    *selectAttr(_, { call, put }) {
+      const { code } = yield call(selectAttr, {});
+      if (code === 200) {
+        // let SKUtype = 'add';
+        // if (result && result.length > 0) {
+        //   //
+        //   SKUtype = 'edit';
+        // } else {
+        //   //
+        //   SKUtype = 'add';
+        // }
+        yield put({
+          type: 'update',
+          payload: {
+            //
           },
         });
       }

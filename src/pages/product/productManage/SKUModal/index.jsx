@@ -15,11 +15,12 @@ const Index = () => {
   ]);
 
   const [sku, setSku] = useState([]);
+
   // useEffect(() => {
-  //   if (skuList && skuList.length > 0) {
-  //     setSku(skuList);
-  //   }
-  // }, [JSON.stringify(skuList)]);
+  //   dispatch({
+  //     type: 'productManage/selectAttr',
+  //   });
+  // }, []);
 
   console.log('sku: ', sku);
   const [spectList, setSpectList] = useState([]);

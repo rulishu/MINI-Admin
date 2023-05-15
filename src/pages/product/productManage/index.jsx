@@ -11,7 +11,7 @@ export default () => {
 
   useEffect(() => {
     dispatch({
-      type: 'groupManage/getAllCategory',
+      type: 'groupManage/getCategoryTree',
     });
   }, []);
 
