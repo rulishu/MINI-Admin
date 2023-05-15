@@ -73,7 +73,7 @@ export default ({
       return (
         <div>
           <PlusOutlined />
-          <div style={{ marginTop: 8 }}>Upload</div>
+          <div style={{ marginTop: 8 }}>上传</div>
         </div>
       );
     }

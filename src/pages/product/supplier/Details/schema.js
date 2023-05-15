@@ -48,54 +48,81 @@ export const schema = {
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         businessLicense: {
           title: '营业执照',
           type: 'array',
           widget: 'upload',
           required: true,
-        },
-        id: {
-          title: '法人身份证',
-          type: 'array',
-          widget: 'upload',
-          required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         identityCard: {
-          title: '法人身份证',
+          title: '法人身份证正面',
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
+        },
+        identityCar2: {
+          title: '法人身份证反面',
+          type: 'array',
+          widget: 'upload',
+          required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         foodProductioLicense: {
           title: '食品生产许可证',
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         foodBusinessLicense: {
           title: '食品经营许可证',
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         certificates: {
           title: '行业颁发证书',
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         testReport: {
           title: '检测报告',
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
         promotionMaterials: {
           title: '品宣资料',
           type: 'array',
           widget: 'upload',
           required: true,
+          props: {
+            listType: 'picture-card',
+          },
         },
       },
     },

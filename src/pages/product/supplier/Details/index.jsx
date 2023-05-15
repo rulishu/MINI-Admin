@@ -41,17 +41,15 @@ export default () => {
     form.setValues({
       reason: queryInfo.reason || '',
     });
-    if (type === 'add') {
-      form.removeErrorField('form2.contract');
-      form.removeErrorField('form2.id');
-      form.removeErrorField('form2.identityCard');
-      form.removeErrorField('form2.businessLicense');
-      form.removeErrorField('form2.foodProductioLicense');
-      form.removeErrorField('form2.foodBusinessLicense');
-      form.removeErrorField('form2.certificates');
-      form.removeErrorField('form2.testReport');
-      form.removeErrorField('form2.promotionMaterials');
-    }
+    form.removeErrorField('form2.contract');
+    form.removeErrorField('form2.identityCar2');
+    form.removeErrorField('form2.identityCard');
+    form.removeErrorField('form2.businessLicense');
+    form.removeErrorField('form2.foodProductioLicense');
+    form.removeErrorField('form2.foodBusinessLicense');
+    form.removeErrorField('form2.certificates');
+    form.removeErrorField('form2.testReport');
+    form.removeErrorField('form2.promotionMaterials');
   }, [visible, queryInfo]);
 
   const onFinish = (values) => {
