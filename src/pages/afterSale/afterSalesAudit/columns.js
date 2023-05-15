@@ -8,6 +8,7 @@ export const columns = ({ handleEdit }) => [
     ellipsis: true,
     width: 80,
     hideInSearch: true,
+    render: (text, record, index) => index + 1,
   },
   {
     title: '公司名称',

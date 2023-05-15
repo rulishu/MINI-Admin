@@ -8,6 +8,7 @@ export const columns = (handle) => [
     width: 120,
     ellipsis: true,
     hideInSearch: true,
+    render: (text, record, index) => index + 1,
   },
   {
     title: '权益规则名称',

@@ -6,6 +6,7 @@ export const columns = (handle) => [
     dataIndex: 'id',
     align: 'center',
     hideInSearch: true,
+    render: (text, record, index) => index + 1,
   },
   {
     title: '订单编号',
