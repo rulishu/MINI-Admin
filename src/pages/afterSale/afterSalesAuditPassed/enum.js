@@ -16,9 +16,13 @@ export const refundStatusEnum = {
 export const isOpenInvoiceEnum = {
   0: {
     text: '未开票',
-    status: 'Error',
+    status: 'Default',
   },
   1: {
+    text: '待开票',
+    status: 'Processing',
+  },
+  2: {
     text: '已开票',
     status: 'Success',
   },

@@ -1,14 +1,9 @@
 import { selectPage } from '@/service/questionManage';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  const [pageSize, setPageSize] = useState(10);
-  // const deleteQ = (id) => {
-
-  // }
   return (
     <ProTable
       options={false}
@@ -28,8 +23,6 @@ export default function SearchTable() {
         }
       }}
       pagination={{
-        pageSize: pageSize,
-        onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
       cardBordered
