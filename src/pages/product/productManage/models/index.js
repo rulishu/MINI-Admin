@@ -39,22 +39,21 @@ export default {
           SKUtype = 'edit';
         } else {
           //
+          SKUtype = 'add';
         }
         yield put({
           type: 'update',
           payload: {
             showSKU: true,
             SKUtype,
+            skuList: result,
           },
         });
       }
     },
 
-    *createSKU({ payload }, { call, put, select }) {
-      const productManage = yield select(({ productManage }) => productManage);
-      const { queryInfo } = productManage;
-
-      const { code } = yield call(createSKU, { payload, id: queryInfo?.id });
+    *createSKU({ payload }, { call, put }) {
+      const { code } = yield call(createSKU, payload);
       if (code === 200) {
         //
         yield put({
@@ -62,15 +61,13 @@ export default {
           payload: {
             showSKU: false,
             queryInfo: {},
+            skuList: [],
           },
         });
       }
     },
-    *updateSKU({ payload }, { call, put, select }) {
-      const productManage = yield select(({ productManage }) => productManage);
-      const { queryInfo } = productManage;
-
-      const { code } = yield call(updateSKU, { payload, id: queryInfo?.id });
+    *updateSKU({ payload }, { call, put }) {
+      const { code } = yield call(updateSKU, payload);
       if (code === 200) {
         //
         yield put({
@@ -78,6 +75,7 @@ export default {
           payload: {
             showSKU: false,
             queryInfo: {},
+            skuList: [],
           },
         });
       }

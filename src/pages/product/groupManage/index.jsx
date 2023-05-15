@@ -92,7 +92,7 @@ const SearchTable = (props) => {
           onChange: (_, pageSize) => update({ pageSize }),
           showSizeChanger: true,
         }}
-        headerTitle="高级表格"
+        headerTitle="商品类目"
         toolBarRender={() => (
           <Button
             key="button"

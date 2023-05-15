@@ -8,7 +8,7 @@ export const columns = ({ handleEdit, categoryList }) => [
     search: false,
   },
   {
-    title: '分类名称',
+    title: '类目名称',
     dataIndex: 'categoryName',
     align: 'center',
     valueType: 'select',
@@ -22,7 +22,7 @@ export const columns = ({ handleEdit, categoryList }) => [
     },
   },
   {
-    title: '上级分类',
+    title: '上级类目',
     dataIndex: 'parentId',
     align: 'center',
     search: false,
