@@ -11,11 +11,6 @@ export default {
     visible: false,
     /** 详情数据  */
     queryData: {},
-    /** 分页选择框  */
-    // select: {
-    //   selectedRowKeys: [],
-    //   selectedRows: [],
-    // },
     /** 是否刷新分页  */
     reload: false,
   },

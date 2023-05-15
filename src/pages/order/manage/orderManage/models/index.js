@@ -1,6 +1,4 @@
-import { all } from '@/service/orderManage';
-// import { useDispatch, useSelector } from '@umijs/max';
-// import { message } from "antd";
+import { all } from '@/service/order/orderManage';
 
 export default {
   namespace: 'orderManage',

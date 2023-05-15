@@ -1,4 +1,4 @@
-import { details, selectPage } from '@/service/list';
+import { details, selectPage } from '@/service/order/list';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import React, { useRef, useState } from 'react';

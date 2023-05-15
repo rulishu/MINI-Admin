@@ -76,10 +76,10 @@ export const columns = (handle) => [
     render: (record) => (
       <div>
         <a type="link" size="small" onClick={() => handle('view', record)}>
-          查看详情
+          详情
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handle('view', record)}>
+        <a type="link" size="small" onClick={() => handle('upload', record)}>
           上传单号
         </a>
       </div>

@@ -1,22 +1,14 @@
-import { selectPage } from '@/service/equityRules';
+import { selectPage } from '@/service/order/abnormal';
 import { ProTable } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
 import { useRef, useState } from 'react';
-// import Edit from './Edit';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
-  const [pageSize, setPageSize] = useState(10);
   const [collapsed, setCollapsed] = useState(false);
 
-  const { update } = useModel('equityRules', (model) => ({ ...model }));
-
-  const handle = async (type) => {
-    if (type === 'view') {
-      update({ visible: true });
-    }
-  };
+  // eslint-disable-next-line no-unused-vars
+  const handle = (type) => {};
 
   return (
     <>
@@ -44,14 +36,11 @@ export default function SearchTable() {
         }}
         pagination={{
           showSizeChanger: true,
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
         }}
         cardBordered={true}
         columns={columns(handle)}
         rowKey="id"
       />
-      {/* <Edit reload={reload} /> */}
     </>
   );
 }

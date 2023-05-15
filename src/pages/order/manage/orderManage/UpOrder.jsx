@@ -1,4 +1,4 @@
-import { odd } from '@/service/orderManage';
+import { odd } from '@/service/order/orderManage';
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';

@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/questionManage';
+import { selectPage } from '@/service/order/shipping';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
