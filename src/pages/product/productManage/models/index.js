@@ -1,4 +1,4 @@
-import { createSKU, selectAttr, selectSKU, updateSKU } from '@/service/productManage';
+import { createSKU, selectAttr, selectSKU, updateSKU } from '@/service/goods/productManage';
 export default {
   namespace: 'productManage',
   state: {

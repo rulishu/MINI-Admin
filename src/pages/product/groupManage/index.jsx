@@ -1,4 +1,4 @@
-import { getCategory } from '@/service/groupManage';
+import { getCategory } from '@/service/goods/groupManage';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { history } from '@umijs/max';

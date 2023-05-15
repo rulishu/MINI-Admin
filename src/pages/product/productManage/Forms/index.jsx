@@ -1,6 +1,6 @@
 // import PriceName from '@/components/sku';
 import TheUpload from '@/components/upload';
-import { addItem, updateItem } from '@/service/productManage';
+import { addItem, updateItem } from '@/service/goods/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';

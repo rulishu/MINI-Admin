@@ -5,7 +5,7 @@ import {
   getCategory,
   getCategoryTree,
   updateCategory,
-} from '@/service/groupManage';
+} from '@/service/goods/groupManage';
 
 const group = {
   namespace: 'groupManage',
