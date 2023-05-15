@@ -82,7 +82,7 @@ export default (options) => ({
         // },
         categoryId: {
           type: 'string',
-          title: '商品分类',
+          title: '商品类目',
           required: true,
           widget: 'select',
           disabled: true,
