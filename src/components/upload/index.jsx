@@ -1,7 +1,7 @@
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { DownloadOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
 import { Button, Upload, message } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { getDefaultValue } from './utils';
 
 export default ({
@@ -17,12 +17,15 @@ export default ({
   }, [value]);
 
   const [fileList, setFileList] = useState(defaultValue);
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [rotateDegree, setRotateDegree] = useState(0);
 
   useEffect(() => {
     onChange?.(fileList);
   }, [fileList]);
 
-  const handleChange = async ({ file, onSuccess, onProgress }) => {
+  const customRequest = async ({ file, onSuccess, onProgress }) => {
     const token = sessionStorage.getItem('token');
     const data = new FormData();
     // 将文件添加到 FormData 中
@@ -44,6 +47,7 @@ export default ({
           url: `http://${response.result}`,
           name: file.name,
           uid: file.uid,
+          status: 'success',
         };
         setFileList((prevList) => [...prevList, newFile]);
         onSuccess?.(response, file);
@@ -61,35 +65,29 @@ export default ({
     setFileList(newFileList);
   };
 
-  // const handlePreview = async (file) => {
-  //   let src = file.url;
-  //   if (!src) {
-  //     src = await new Promise((resolve) => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file.originFileObj);
-  //       reader.onload = () => resolve(reader.result);
-  //     });
-  //   }
-  //   const image = new Image();
-  //   image.src = src;
-  //   const imgWindow = window.open(src);
-  //   imgWindow.document.write(image.outerHTML);
-  // };
+  // 预览
+  const handlePreview = async (file) => {
+    let src = file.url || '';
+    // 如果url中最后.jpg不是图片类型直接下载
+    const suffix = src.substring(src.lastIndexOf('.') + 1); // 获取文件后缀名
+    if (!suffix.match(/(png|jpeg|jpg|gif)$/i)) {
+      // 如果不是图片类型
+      handleDownload(src); // 直接下载该文件
+      return;
+    }
+    setPreviewUrl(src);
+    setPreviewVisible(true);
+  };
 
-  const uplpodProps = {
-    fileList: fileList,
-    customRequest: handleChange,
-    onRemove: handleRemove,
-    listType: listType,
-    maxCount: 1,
-    showUploadList: {
-      showPreviewIcon: true,
-      showRemoveIcon: true,
-      showDownloadIcon: true,
-      ...showUploadList,
-    },
-    // onPreview: handlePreview,
-    ...others,
+  // 下载
+  const handleDownload = (e, url) => {
+    e.stopPropagation(); // 阻止事件冒泡
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   const renderButton = () => {
@@ -109,9 +107,60 @@ export default ({
     }
   };
 
+  const uplpodProps = {
+    fileList: fileList,
+    customRequest: customRequest,
+    onRemove: handleRemove,
+    listType: listType,
+    maxCount: 1,
+    showUploadList: {
+      showPreviewIcon: true,
+      showRemoveIcon: true,
+      showDownloadIcon: true,
+      ...showUploadList,
+    },
+    onPreview: handlePreview,
+    ...others,
+  };
+
   return (
-    <>
+    <Fragment>
       <Upload {...uplpodProps}>{renderButton()}</Upload>
-    </>
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          backgroundColor: 'rgba(0,0,0,.9)',
+          display: previewVisible ? 'flex' : 'none',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 2023,
+        }}
+        onClick={() => setPreviewVisible(false)}
+      >
+        <img
+          src={previewUrl}
+          alt="预览"
+          style={{
+            maxHeight: '100%',
+            maxWidth: '100%',
+            objectFit: 'contain',
+            transform: `rotate(${rotateDegree}deg)`,
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setRotateDegree((rotateDegree - 90) % 360); // 顺时针旋转90度
+          }}
+        />
+        {previewVisible && (
+          <div style={{ position: 'absolute', top: 10, right: 10 }}>
+            <Button icon={<DownloadOutlined />} onClick={(e) => handleDownload(e, previewUrl)} />
+          </div>
+        )}
+      </div>
+    </Fragment>
   );
 };
