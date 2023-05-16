@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }) => {
   const [rotateDegree, setRotateDegree] = useState(0);
+  const [zoomFactor, setZoomFactor] = useState(1);
   return (
     <div
       style={{
@@ -35,9 +36,17 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
             maxWidth: '100%',
             objectFit: 'contain',
             transform: `rotate(${rotateDegree}deg)`,
+            width: `${100 * zoomFactor}%`,
+            height: `${100 * zoomFactor}%`,
           }}
           onClick={(e) => {
             e.stopPropagation();
+          }}
+          onWheel={(e) => {
+            e.preventDefault();
+            const deltaY = e.nativeEvent.deltaY;
+            // 每次滚动增加 / 减少 0.1 的缩放比例
+            setZoomFactor(Math.max(0.1, Math.min(zoomFactor + deltaY / 1000, 10)));
           }}
         />
       )}
