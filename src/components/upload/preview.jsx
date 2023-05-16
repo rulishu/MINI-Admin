@@ -1,5 +1,5 @@
-import { DownloadOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { CloseOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Space } from 'antd';
 import { useState } from 'react';
 
 export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }) => {
@@ -44,7 +44,16 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
       )}
       {previewUrl && (
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
-          <Button icon={<DownloadOutlined />} onClick={(e) => handleDownload(e, previewUrl)} />
+          <Space size="large">
+            <DownloadOutlined
+              onClick={(e) => handleDownload(e, previewUrl)}
+              style={{ color: '#fff', fontSize: 20 }}
+            />
+            <CloseOutlined
+              onClick={() => handleClosePreview()}
+              style={{ color: '#fff', fontSize: 20 }}
+            />
+          </Space>
         </div>
       )}
     </div>
