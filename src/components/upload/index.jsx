@@ -86,7 +86,7 @@ export default ({
 
   // 下载
   const handleDownload = (e, url) => {
-    e.stopPropagation(); // 阻止事件冒泡
+    e?.stopPropagation?.(); // 阻止事件冒泡
     const a = document.createElement('a');
     a.href = url;
     a.download = '';
