@@ -57,6 +57,7 @@ export const schema = {
                   <Space>
                     <Avatar
                       src={'https://xsgames.co/randomusers/avatar.php?g=pixel&key=1'}
+                      alt="头像"
                       size="small"
                     />
                     张三 13761578901

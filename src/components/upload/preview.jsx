@@ -1,4 +1,4 @@
-import { CloseOutlined, DownloadOutlined } from '@ant-design/icons';
+import { CloseOutlined, DownloadOutlined, RedoOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 import { useState } from 'react';
 
@@ -38,13 +38,19 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
           }}
           onClick={(e) => {
             e.stopPropagation();
-            setRotateDegree((rotateDegree - 90) % 360);
           }}
         />
       )}
       {previewUrl && (
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <Space size="large">
+            <RedoOutlined
+              onClick={(e) => {
+                e.stopPropagation();
+                setRotateDegree((rotateDegree - 90) % 360);
+              }}
+              style={{ color: '#fff', fontSize: 20 }}
+            />
             <DownloadOutlined
               onClick={(e) => handleDownload(e, previewUrl)}
               style={{ color: '#fff', fontSize: 20 }}
