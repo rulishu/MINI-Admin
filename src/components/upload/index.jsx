@@ -19,6 +19,7 @@ export default ({
 
   const [fileList, setFileList] = useState(defaultValue);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [isVideo, setIsVideo] = useState(false);
 
   useEffect(() => {
     onChange?.(fileList);
@@ -67,11 +68,14 @@ export default ({
   // 预览
   const handlePreview = async (file) => {
     let src = file.url || '';
-    // 如果url中最后.jpg不是图片类型直接下载
     const suffix = src.substring(src.lastIndexOf('.') + 1); // 获取文件后缀名
-    if (!suffix.match(/(png|jpeg|jpg|gif)$/i)) {
-      // 如果不是图片类型
-      handleDownload(src); // 直接下载该文件
+    if (suffix.match(/(png|jpeg|jpg|gif)$/i)) {
+      setIsVideo(false);
+    } else if (suffix.match(/(mp4)$/i)) {
+      setIsVideo(true);
+    } else {
+      // 其他类型的文件，如文档、PDF 等
+      handleDownload(file.url);
       return;
     }
     setPreviewUrl(src);
@@ -128,6 +132,7 @@ export default ({
     previewUrl,
     handleDownload,
     handleClosePreview,
+    isVideo,
   };
 
   return (

@@ -2,7 +2,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useState } from 'react';
 
-export default ({ previewUrl = '', handleDownload, handleClosePreview }) => {
+export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }) => {
   const [rotateDegree, setRotateDegree] = useState(0);
   return (
     <div
@@ -20,20 +20,28 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview }) => {
       }}
       onClick={() => handleClosePreview()}
     >
-      <img
-        src={previewUrl}
-        alt="预览"
-        style={{
-          maxHeight: '100%',
-          maxWidth: '100%',
-          objectFit: 'contain',
-          transform: `rotate(${rotateDegree}deg)`,
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setRotateDegree((rotateDegree - 90) % 360); // 顺时针旋转90度
-        }}
-      />
+      {isVideo ? (
+        <video
+          src={previewUrl}
+          controls // 显示控制条
+          style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
+        />
+      ) : (
+        <img
+          src={previewUrl}
+          alt="预览"
+          style={{
+            maxHeight: '100%',
+            maxWidth: '100%',
+            objectFit: 'contain',
+            transform: `rotate(${rotateDegree}deg)`,
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setRotateDegree((rotateDegree - 90) % 360);
+          }}
+        />
+      )}
       {previewUrl && (
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <Button icon={<DownloadOutlined />} onClick={(e) => handleDownload(e, previewUrl)} />
