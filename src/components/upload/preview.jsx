@@ -19,7 +19,7 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
         alignItems: 'center',
         zIndex: 2023,
       }}
-      onClick={() => handleClosePreview()}
+      onClick={(e) => handleClosePreview(e)}
     >
       {isVideo ? (
         <video
@@ -38,9 +38,6 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
             transform: `rotate(${rotateDegree}deg)`,
             width: `${100 * zoomFactor}%`,
             height: `${100 * zoomFactor}%`,
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
           }}
           onWheel={(e) => {
             e.preventDefault();
@@ -65,7 +62,7 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
               style={{ color: '#fff', fontSize: 20 }}
             />
             <CloseOutlined
-              onClick={() => handleClosePreview()}
+              onClick={(e) => handleClosePreview(e)}
               style={{ color: '#fff', fontSize: 20 }}
             />
           </Space>
