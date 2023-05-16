@@ -1,7 +1,8 @@
-import { DownloadOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
 import { Button, Upload, message } from 'antd';
 import { Fragment, useEffect, useMemo, useState } from 'react';
+import Preview from './preview';
 import { getDefaultValue } from './utils';
 
 export default ({
@@ -18,8 +19,6 @@ export default ({
 
   const [fileList, setFileList] = useState(defaultValue);
   const [previewUrl, setPreviewUrl] = useState('');
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [rotateDegree, setRotateDegree] = useState(0);
 
   useEffect(() => {
     onChange?.(fileList);
@@ -76,8 +75,10 @@ export default ({
       return;
     }
     setPreviewUrl(src);
-    setPreviewVisible(true);
   };
+
+  // 取消预览
+  const handleClosePreview = () => setPreviewUrl('');
 
   // 下载
   const handleDownload = (e, url) => {
@@ -123,44 +124,16 @@ export default ({
     ...others,
   };
 
+  const previewProps = {
+    previewUrl,
+    handleDownload,
+    handleClosePreview,
+  };
+
   return (
     <Fragment>
       <Upload {...uplpodProps}>{renderButton()}</Upload>
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          backgroundColor: 'rgba(0,0,0,.9)',
-          display: previewVisible ? 'flex' : 'none',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 2023,
-        }}
-        onClick={() => setPreviewVisible(false)}
-      >
-        <img
-          src={previewUrl}
-          alt="预览"
-          style={{
-            maxHeight: '100%',
-            maxWidth: '100%',
-            objectFit: 'contain',
-            transform: `rotate(${rotateDegree}deg)`,
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            setRotateDegree((rotateDegree - 90) % 360); // 顺时针旋转90度
-          }}
-        />
-        {previewVisible && (
-          <div style={{ position: 'absolute', top: 10, right: 10 }}>
-            <Button icon={<DownloadOutlined />} onClick={(e) => handleDownload(e, previewUrl)} />
-          </div>
-        )}
-      </div>
+      <Preview {...previewProps} />
     </Fragment>
   );
 };
