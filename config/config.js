@@ -16,7 +16,7 @@ export default config(router, {
     // ANTD_MENU_TOP_LEFT: true,
     ANTD_TITLE_TOP: true,
     /** 是否展示搜索菜单  */
-    ANTD_MENU_SEARCH_IS_SHOW: false,
+    ANTD_MENU_SEARCH_IS_SHOW: true,
   },
   locale: {
     default: 'zh-CN', // default zh-CN
