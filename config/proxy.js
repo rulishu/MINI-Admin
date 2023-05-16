@@ -8,10 +8,10 @@
 export default {
   dev: {
     '/jcgl-mall/': {
-      target: 'https://rh-api.nihaosi.com',
+      // target: 'https://rh-api.nihaosi.com',
       // target: 'http://192.168.188.84:8888/', //邹思远
       // target: 'http://192.168.10.178:8888/',// 黄来平
-      //target: 'http://192.168.188.84:8888/', // 安江峰
+      target: 'http://192.168.188.84:8888/', // 安江峰
       changeOrigin: true,
       pathRewrite: {
         '^': '',

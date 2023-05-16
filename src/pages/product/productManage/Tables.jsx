@@ -225,10 +225,10 @@ export default function Tables() {
                 onClick: () => handleEdit('delete'),
                 loading: delteLoading,
               },
-              {
-                type: 'primary',
-                label: '改分组',
-              },
+              // {
+              //   type: 'primary',
+              //   label: '改类目',
+              // },
             ]}
           />
         ),

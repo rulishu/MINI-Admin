@@ -11,10 +11,11 @@
         "path": "/",
         "redirectTo": "/welcome"
       },
+      { "path": "/*", "component": "@/pages/404" },
       {
         "path": "/welcome",
         "name": "首页",
-        "icon": "welcome",
+        "icon": "home",
         "component": "@/pages/home"
       },
       {

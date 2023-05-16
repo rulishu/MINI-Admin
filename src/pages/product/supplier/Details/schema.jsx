@@ -1,3 +1,5 @@
+import { Avatar, Space } from 'antd';
+
 export const schema = {
   type: 'object',
   properties: {
@@ -34,6 +36,37 @@ export const schema = {
             min: 0,
           },
           required: true,
+        },
+      },
+    },
+    form3: {
+      type: 'object',
+      column: 2,
+      widget: 'lineTitle',
+      title: '推荐人信息',
+      properties: {
+        reference: {
+          title: '推荐人',
+          type: 'string',
+          widget: 'select',
+          required: true,
+          props: {
+            options: [
+              {
+                label: (
+                  <Space>
+                    <Avatar
+                      src={'https://xsgames.co/randomusers/avatar.php?g=pixel&key=1'}
+                      alt="头像"
+                      size="small"
+                    />
+                    张三 13761578901
+                  </Space>
+                ),
+                value: '1',
+              },
+            ],
+          },
         },
       },
     },
