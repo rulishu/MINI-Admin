@@ -47,8 +47,14 @@ const EditForm = (props) => {
   const schema = {
     type: 'object',
     properties: {
+      categoryName: {
+        title: '类目名称',
+        type: 'string',
+        required: true,
+        props: {},
+      },
       parentId: {
-        title: '上级类目',
+        title: '父类目',
         type: 'object',
         widget: 'cascader',
         required: true,
@@ -58,24 +64,29 @@ const EditForm = (props) => {
           changeOnSelect: true,
         },
       },
-      categoryName: {
-        title: '分组名称',
+      jibie666666: {
+        title: '类目级别',
         type: 'string',
         required: true,
-        props: {},
+        enum: ['一级', '二级', '三级'],
+        enumNames: ['一级', '二级', '三级'],
+        disabled: drawerType === 'add' ? true : false,
+        defaultValue: '一级',
       },
       status: {
-        title: '是否显示',
+        title: '是否叶子类目',
         required: true,
-        type: 'number',
+        type: 'string',
         widget: 'radio',
-        props: {
-          options: [
-            { label: '是', value: 1 },
-            { label: '否', value: 0 },
-          ],
-        },
+        enum: ['a', 'b'],
+        enumNames: ['是', '否'],
+        disabled: "{{ formData.jibie666666 === '三级' }}",
+        defaultValue: 'b',
       },
+    },
+    formData: {
+      // jibie666666: '一级',
+      // status: 'b',
     },
   };
 
@@ -89,7 +100,7 @@ const EditForm = (props) => {
       ...data,
       parentId: data?.parentId?.slice(-1)?.[0],
     };
-    // parentId:
+    console.log('searchParams: ', searchParams);
     if (drawerType === 'edit') {
       dispatch({
         type: 'groupManage/updateCategory',
@@ -102,6 +113,19 @@ const EditForm = (props) => {
         payload: { searchParams, actionRef },
       });
     }
+  };
+
+  const watch = {
+    jibie666666: (val) => {
+      console.log('val: ', val);
+      form.setSchemaByPath('status', (props) => {
+        console.log('props: ', props);
+        return {
+          defaultValue: 'a',
+          value: 'a',
+        };
+      });
+    },
   };
 
   return (
@@ -134,6 +158,7 @@ const EditForm = (props) => {
       <FormRender
         widgets={{ cascader: Cascader }}
         form={form}
+        watch={watch}
         schema={schema}
         onFinish={onFinish}
       />

@@ -2,8 +2,14 @@ import { Button, Input, Table } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ value = [], data = [], onChange }) => {
-  console.log('SKUListvalue: ', value);
+  console.log('SKUListvalue: ', value, data);
   const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    if (value.length > 0 && data.length === 0) {
+      setDataSource(value);
+    }
+  }, []);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -46,7 +52,7 @@ const SKUList = ({ value = [], data = [], onChange }) => {
       console.log('updatedDataSource: ', updatedDataSource);
       setDataSource(updatedDataSource);
     }
-  }, [data]);
+  }, []);
 
   const columns = [
     ...data.map((attribute) => ({

@@ -1,23 +1,37 @@
 import { Button, Card, Form, Input, Select, Space, Typography } from 'antd';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SKUList from './SKUList';
 import styles from './index.less';
+
 const FormItem = Form.Item;
 
 const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
-  console.log('attrValue: ', attrValue);
-
-  const formItemLayout = {
-    labelCol: {
-      span: 6,
-    },
-    wrapperCol: {
-      span: 18,
-    },
-  };
-
   const [formData, setData] = useState(attrValue);
   const [tableData, setTableData] = useState([]);
+  const [form] = Form.useForm();
+  console.log('attrValue: ', attrValue);
+
+  useMemo(() => {
+    if (attrValue.length > 0) {
+      setData(attrValue);
+      let obj = {};
+      attrValue.forEach((item, is) => {
+        if (item?.valueList) {
+          item.valueList.forEach((i, idx) => {
+            obj[`inp${is}_${idx}`] = i;
+          });
+        }
+      });
+      console.log('obj: ', obj);
+      form.setFields([
+        { name: 'inp0_0', value: '53' },
+        { name: 'inp0_1', value: '53' },
+        { name: 'inp1_0', value: '53' },
+        { name: 'inp1_1', value: '53' },
+      ]);
+    }
+  }, []);
+
   console.log('formData', formData);
   const handleAddData = () => {
     const newData = [...formData, { attribute_name: '', valueList: [] }];
@@ -81,25 +95,29 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
         </div>
         <Form.Item label="规格值" className={styles.box}>
           <Space>
-            {(item.valueList || []).map((input, valueIndex) => (
-              <Form.Item key={input} noStyle>
-                <Input
-                  value={input}
-                  style={{ width: 160 }}
-                  onChange={(e) => handleValueChange(e.target.value, attrIndex, valueIndex)}
-                />
-                {valueIndex !== 0 && (
-                  <Button
-                    type="link"
-                    danger
-                    size="small"
-                    onClick={() => handleRemoveValue(attrIndex, valueIndex)}
-                  >
-                    删除
-                  </Button>
-                )}
-              </Form.Item>
-            ))}
+            {(item.valueList || []).map((input, valueIndex) => {
+              console.log(`inp${attrIndex}_${valueIndex}: `);
+              return (
+                <Form.Item key={input} name={`inp${attrIndex}_${valueIndex}`} noStyle>
+                  <Input
+                    style={{ width: 160 }}
+                    onChange={(e) => handleValueChange(e.target.value, attrIndex, valueIndex)}
+                    addonAfter={
+                      valueIndex !== 0 && (
+                        <Button
+                          type="link"
+                          danger
+                          size="small"
+                          onClick={() => handleRemoveValue(attrIndex, valueIndex)}
+                        >
+                          删除
+                        </Button>
+                      )
+                    }
+                  />
+                </Form.Item>
+              );
+            })}
             <Typography.Link onClick={() => handleAddValue(attrIndex)}>添加规格值</Typography.Link>
           </Space>
         </Form.Item>
@@ -114,7 +132,7 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
   return (
     <div>
       <Card>
-        <Form>
+        <Form form={form} initialValues={attrValue}>
           <FormItem {...formItemLayout}>
             {formData.map((item, attrIndex) => renderProps(item, attrIndex))}
             <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
@@ -124,9 +142,9 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
               <Button
                 onClick={addTableList}
                 type="primary"
-                style={{ margin: '10px 20px', width: 120 }}
+                style={{ margin: '10px 20px', width: value.length > 0 ? 140 : 120 }}
               >
-                生成规格列表
+                {value.length > 0 ? '重新生成规格列表' : '生成规格列表'}
               </Button>
             )}
           </FormItem>
@@ -140,3 +158,12 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
 };
 
 export default SKU;
+
+const formItemLayout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 18,
+  },
+};

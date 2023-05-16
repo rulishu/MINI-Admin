@@ -21,15 +21,15 @@ const Index = () => {
       });
     }
   };
-  const list = skuList.map((item) => ({ ...item, attributes: { ...item?.attributes } }));
-  console.log('list: ', list);
+  // const list = skuList.map((item) => ({ ...item, attributes: { ...item?.attributes } }));
+  // console.log('list: ', list);
 
   return (
     <Card>
       <Card>
         <GoodsSKU
           attrValue={attrParams(skuList, attrOptions)}
-          value={list}
+          value={skuList}
           onChange={onChange}
           options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
         />
@@ -62,7 +62,7 @@ const attrParams = (skuList, attrOptions) => {
   attrLists.map((item) => {
     const idx = arr.findIndex((i) => i?.attribute_value === item?.attributeId);
     if (idx > -1) {
-      if (arr[idx].valueList.findIndex((attrdata) => attrdata !== item?.value)) {
+      if (arr[idx].valueList.findIndex((attrdata) => attrdata === item?.value) === -1) {
         arr[idx].valueList = arr[idx].valueList.concat([item?.value]);
       }
     } else {

@@ -1,7 +1,6 @@
 import { getCategory } from '@/service/goods/groupManage';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
 import { Button, Modal } from 'antd';
 import { useEffect, useRef } from 'react';
 import { connect } from 'umi';
@@ -42,8 +41,12 @@ const SearchTable = (props) => {
         addOpen: true,
       });
     }
-    if (type === 'manage') {
-      history.push('/product/productManage');
+    if (type === 'addChildren') {
+      update({
+        drawerParams: data,
+        drawerType: 'addChildren',
+        addOpen: true,
+      });
     }
     if (type === 'delete') {
       Modal.confirm({

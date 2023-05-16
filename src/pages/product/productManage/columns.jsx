@@ -1,3 +1,4 @@
+import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
 // 商品id，商品（需要有图），商品类目，价格，销量，库存，商品状态，创建时间，上架（上架时间）
 export const columns = ({ handleEdit, handlerSKU }) => [
@@ -5,7 +6,6 @@ export const columns = ({ handleEdit, handlerSKU }) => [
     title: '商品id',
     dataIndex: 'id',
     align: 'center',
-    search: false,
     width: 50,
   },
   {
@@ -26,11 +26,18 @@ export const columns = ({ handleEdit, handlerSKU }) => [
     },
   },
   {
-    title: '类目',
-    dataIndex: '111111',
-    align: 'center',
-    search: false,
-    width: 50,
+    title: '商品类目',
+    key: 'cascader',
+    dataIndex: 'cascader',
+    width: 100,
+    fieldProps: {
+      options: cascaderOptions,
+      fieldNames: {
+        children: 'language',
+        label: 'field',
+      },
+    },
+    valueType: 'cascader',
   },
   {
     title: '商品名称',
@@ -39,37 +46,52 @@ export const columns = ({ handleEdit, handlerSKU }) => [
     hideInTable: true,
     width: 80,
   },
+  {
+    title: '时间',
+    dataIndex: '111111t',
+    align: 'center',
+    hideInTable: true,
+    width: 80,
+    valueType: 'dateRange',
+  },
+
+  {
+    title: '商品类型',
+    dataIndex: '111111lx',
+    align: 'center',
+    hideInTable: true,
+    width: 80,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部', status: 'Default' },
+      running: { text: '运行中', status: 'Processing' },
+      online: { text: '已上线', status: 'Success' },
+      error: { text: '异常', status: 'Error' },
+    },
+  },
   // {
-  //   title: '商品型号',
-  //   dataIndex: 'model',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   width: 80,
-  //   hideInSearch: true,
-  // },
-  // {
-  //   title: '规格',
-  //   dataIndex: 'specifications',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   hideInSearch: true,
-  //   width: 80,
-  // },
-  // {
-  //   title: '税率',
-  //   dataIndex: 'taxRate',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   hideInSearch: true,
-  //   width: 80,
+  //   title: '单选按钮状态',
+  //   dataIndex: 'status',
+  //   hideInTable: true,
+
+  //   valueType: 'radioButton',
+  //   initialValue: 'all',
+  //   width: 100,
+  //   valueEnum: {
+  //     all: { text: '全部', status: 'Default' },
+  //     running: { text: '运行中', status: 'Processing' },
+  //     online: { text: '已上线', status: 'Success' },
+  //     error: { text: '异常', status: 'Error' },
+  //   },
   // },
 
   {
     title: '价格',
     dataIndex: 'price',
     align: 'center',
-    search: false,
     width: 80,
+    valueType: 'digit',
+    renderFormItem: () => <PriceRange />,
   },
   {
     title: '销量',
@@ -86,48 +108,46 @@ export const columns = ({ handleEdit, handlerSKU }) => [
     width: 50,
   },
   {
-    title: '商品状态',
-    dataIndex: 'status',
+    title: '销售商',
+    dataIndex: '111111x',
     align: 'center',
-    search: false,
-    width: 50,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    align: 'center',
-    search: false,
     width: 80,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部', status: 'Default' },
+      running: { text: '运行中', status: 'Processing' },
+      online: { text: '已上线', status: 'Success' },
+      error: { text: '异常', status: 'Error' },
+    },
   },
   {
-    title: '上架',
-    dataIndex: '111111d',
+    title: '业务员',
+    dataIndex: '111111ywy',
     align: 'center',
     search: false,
     width: 50,
   },
+
   // {
-  //   title: '排序',
-  //   dataIndex: 'order',
+  //   title: '商品状态',
+  //   dataIndex: 'status',
   //   align: 'center',
-  //   ellipsis: true,
-  //   hideInSearch: true,
+  //   search: false,
+  //   width: 50,
+  // },
+  // {
+  //   title: '创建时间',
+  //   dataIndex: 'createTime',
+  //   align: 'center',
+  //   search: false,
   //   width: 80,
   // },
   // {
-  //   title: '商品分组',
-  //   dataIndex: 'sort',
+  //   title: '上架',
+  //   dataIndex: '111111d',
   //   align: 'center',
-  //   ellipsis: true,
-  //   width: 80,
-  // },
-  // {
-  //   title: '销量商',
-  //   dataIndex: 'companyName',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   width: 80,
-  //   hideInTable: true,
+  //   search: false,
+  //   width: 50,
   // },
   {
     title: '操作',
@@ -154,5 +174,36 @@ export const columns = ({ handleEdit, handlerSKU }) => [
         </a>
       </div>
     ),
+  },
+];
+
+const cascaderOptions = [
+  {
+    field: 'front end',
+    value: 'fe',
+    language: [
+      {
+        field: 'Javascript',
+        value: 'js',
+      },
+      {
+        field: 'Typescript',
+        value: 'ts',
+      },
+    ],
+  },
+  {
+    field: 'back end',
+    value: 'be',
+    language: [
+      {
+        field: 'Java',
+        value: 'java',
+      },
+      {
+        field: 'Go',
+        value: 'go',
+      },
+    ],
   },
 ];
