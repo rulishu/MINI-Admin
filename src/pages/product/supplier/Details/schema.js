@@ -1,4 +1,4 @@
-export const schema = ({ type, visible, province }) => {
+export const schema = ({ province }) => {
   return {
     type: 'object',
     properties: {
@@ -49,13 +49,9 @@ export const schema = ({ type, visible, province }) => {
         properties: {
           productId: {
             title: '推荐人',
-            type: 'string',
+            type: 'object',
             widget: 'selectUser',
             required: true,
-            props: {
-              type,
-              visible,
-            },
           },
         },
       },

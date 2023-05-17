@@ -20,10 +20,7 @@ export default () => {
   };
 
   useEffect(() => {
-    dispatch({
-      type: 'supplier/getUserList',
-      payload: {},
-    });
+    dispatch({ type: 'supplier/getUserList' });
     dispatch({ type: 'commonInterface/getTreeList' });
   }, []);
 
@@ -31,10 +28,7 @@ export default () => {
   useEffect(() => {
     if (reload) {
       ref?.current?.reload();
-      dispatch({
-        type: 'supplier/getUserList',
-        payload: {},
-      });
+      dispatch({ type: 'supplier/getUserList' });
     }
   }, [reload]);
 

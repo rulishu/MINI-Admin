@@ -48,7 +48,12 @@ export default () => {
         province: queryInfo.province && [queryInfo.province, queryInfo.city, queryInfo.district],
       },
       form2: {
-        productId: queryInfo.productId,
+        productId: queryInfo.productSelector
+          ? {
+              label: queryInfo.productSelector,
+              value: queryInfo.productId,
+            }
+          : undefined,
       },
     });
   }, [visible, queryInfo]);
@@ -69,7 +74,6 @@ export default () => {
   });
 
   const onFinish = (values) => {
-    // eslint-disable-next-line no-unused-vars
     const { form1, form2 } = values;
     const params = {
       address: form1.address,
@@ -79,7 +83,8 @@ export default () => {
       province: form1.province && form1.province[0] && form1.province[0],
       city: form1.province && form1.province[1] && form1.province[1],
       district: form1.province && form1.province[2] && form1.province[2],
-      productId: form2.productId && form2.productId,
+      productId: form2.productId && form2.productId.value,
+      productSelectorContact: form2.productId && form2.productId.label,
       supplierId: queryInfo.supplierId,
     };
     mutateAsync(params);
@@ -112,7 +117,6 @@ export default () => {
       <FormRender
         form={form}
         schema={schema({
-          type,
           province: {
             options: convert(treeList),
           },

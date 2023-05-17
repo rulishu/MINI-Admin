@@ -44,9 +44,8 @@ export const getProductSelector = async (body) => {
   });
 };
 
-export const getUserList = async (body) => {
+export const getUserList = async () => {
   return request(`/jcgl-user/admin/user/suppliers/product/all`, {
     method: 'POST',
-    data: body,
   });
 };
