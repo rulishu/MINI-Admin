@@ -64,7 +64,7 @@ const Index = () => {
   };
 
   const options = () => {
-    if (categoryTree.length > 0) {
+    if (categoryTree && categoryTree.length > 0) {
       return [...handler(categoryTree)];
     } else {
       return [];

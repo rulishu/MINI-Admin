@@ -1,7 +1,7 @@
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
 import { Button, Upload, message } from 'antd';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
 import { getDefaultValue } from './utils';
 
@@ -11,15 +11,16 @@ export default ({
   listType = 'picture-card',
   showUploadList,
   maxCount = 1,
+  addons,
   ...others
 }) => {
-  const defaultValue = useMemo(() => {
-    return getDefaultValue(value);
-  }, [value]);
-
-  const [fileList, setFileList] = useState(defaultValue);
+  const [fileList, setFileList] = useState(getDefaultValue(value));
   const [previewUrl, setPreviewUrl] = useState('');
   const [isVideo, setIsVideo] = useState(false);
+
+  useEffect(() => {
+    addons && addons.removeErrorField(addons.dataPath);
+  }, [addons, value]);
 
   useEffect(() => {
     onChange?.(fileList);

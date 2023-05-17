@@ -1,8 +1,7 @@
-const getToken = () => sessionStorage.getItem('token');
 export default {
-  namespace: 'global',
+  namespace: 'questionManage',
   state: {
-    token: getToken(),
+    visible: false,
   },
   reducers: {
     update: (state, { payload }) => ({

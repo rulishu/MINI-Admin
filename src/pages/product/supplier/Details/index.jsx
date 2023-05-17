@@ -1,4 +1,3 @@
-import Upload from '@/components/upload';
 import { create, updateInfo } from '@/service/goods/supplier';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
@@ -6,16 +5,16 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { Cascader, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
+import SelectUser from '../components/selectUser';
 import { schema } from './schema';
 
 const convert = (data) => {
   return data.map((item) => {
-    // eslint-disable-next-line no-unused-vars
     const { areaCode, areaName } = item;
     const newChildren = item.children ? convert(item.children) : [];
     return {
       label: areaName,
-      value: areaName,
+      value: areaCode,
       children: newChildren,
     };
   });
@@ -27,7 +26,10 @@ export default () => {
     add: create,
     edit: updateInfo,
   };
-  const { visible, queryInfo, type, treeList, userList } = useSelector((state) => state.supplier);
+  const {
+    supplier: { visible, queryInfo, type },
+    commonInterface: { treeList },
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const update = (data) => {
@@ -44,6 +46,15 @@ export default () => {
         contactPhone: queryInfo.contactPhone || '',
         address: queryInfo.address || '',
         province: queryInfo.province && [queryInfo.province, queryInfo.city, queryInfo.district],
+      },
+      form2: {
+        productId: queryInfo.productSelector
+          ? {
+              label: queryInfo.productSelector,
+              value: queryInfo.productId,
+            }
+          : undefined,
+        productSelectorContact: queryInfo.productSelectorContact,
       },
     });
   }, [visible, queryInfo]);
@@ -64,7 +75,6 @@ export default () => {
   });
 
   const onFinish = (values) => {
-    // eslint-disable-next-line no-unused-vars
     const { form1, form2 } = values;
     const params = {
       address: form1.address,
@@ -74,10 +84,20 @@ export default () => {
       province: form1.province && form1.province[0] && form1.province[0],
       city: form1.province && form1.province[1] && form1.province[1],
       district: form1.province && form1.province[2] && form1.province[2],
-      // productSelector: form2.productSelector && form2.productSelector.label,
-      id: queryInfo.supplierId,
+      productId: form2.productId && form2.productId.value,
+      productSelector: form2.productId && form2.productId.label,
+      productSelectorContact: form2.productSelectorContact && form2.productSelectorContact,
+      supplierId: queryInfo.supplierId,
     };
     mutateAsync(params);
+  };
+
+  const watch = {
+    'form2.productId': (value) => {
+      if (value) {
+        form.setValueByPath('form2.productSelectorContact', value.phone);
+      }
+    },
   };
 
   return (
@@ -107,30 +127,13 @@ export default () => {
       <FormRender
         form={form}
         schema={schema({
-          productSelector: {
-            onFocus: () => {
-              dispatch({
-                type: 'supplier/getUserList',
-                payload: {},
-              });
-            },
-            onSearch: (value) => {
-              dispatch({
-                type: 'supplier/getUserList',
-                payload: { userName: value },
-              });
-            },
-            options: userList.map((item) => ({
-              label: `${item.userName}-${item.mobile}`,
-              value: item.userId,
-            })),
-          },
           province: {
             options: convert(treeList),
           },
         })}
         onFinish={onFinish}
-        widgets={{ upload: Upload, cascader: Cascader }}
+        watch={watch}
+        widgets={{ selectUser: SelectUser, cascader: Cascader }}
       />
     </Modal>
   );

@@ -60,13 +60,9 @@ export const columns = [
     hideInSearch: true,
     render: () => (
       <div>
-        <a type="link" size="small">
-          删除
-        </a>
+        <a>删除</a>
         <Divider type="vertical" />
-        <a type="link" size="small">
-          编辑
-        </a>
+        <a>编辑</a>
       </div>
     ),
   },

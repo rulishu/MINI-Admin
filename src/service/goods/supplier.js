@@ -44,15 +44,8 @@ export const getProductSelector = async (body) => {
   });
 };
 
-export const getTreeList = async () => {
-  return request(`/jcgl-user/area/query/treeList`, {
-    method: 'GET',
-  });
-};
-
-export const getUserList = async (body) => {
-  return request(`/jcgl-user/admin/user/select/page/list?pageNum=1&pageSize=20`, {
+export const getUserList = async () => {
+  return request(`/jcgl-user/admin/user/suppliers/product/all`, {
     method: 'POST',
-    data: body,
   });
 };

@@ -1,20 +1,12 @@
 import { selectPage } from '@/service/cust/memberManage';
+import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-// import { useModel } from '@umijs/max';
-import { PlusOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  const [pageSize, setPageSize] = useState(10);
-  // const { store, setStore } = useModel('memberManage', (model) => ({ ...model }));
-
-  const handle = (type) => {
-    if (type === 'add') {
-      // setStore({ addVisible: true });
-    }
-  };
+  // eslint-disable-next-line no-unused-vars
+  const handle = (type) => {};
   return (
     <>
       <ProTable
@@ -35,8 +27,6 @@ export default function SearchTable() {
           }
         }}
         pagination={{
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
           showSizeChanger: true,
         }}
         cardBordered
