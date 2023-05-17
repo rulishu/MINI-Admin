@@ -1,23 +1,33 @@
 import { Button, Card, Form, Input, Select, Space, Typography } from 'antd';
-import { useState } from 'react';
-import SKUList from './SKUList';
-import styles from './index.less';
+import { useEffect, useState } from 'react';
 const FormItem = Form.Item;
 
-const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
+const SKU = ({ attrValue = [], onChange, options }) => {
+  const [formData, setData] = useState(attrValue);
+  const [form] = Form.useForm();
   console.log('attrValue: ', attrValue);
 
-  const formItemLayout = {
-    labelCol: {
-      span: 6,
-    },
-    wrapperCol: {
-      span: 18,
-    },
-  };
+  useEffect(() => {
+    if (attrValue.length > 0) {
+      setData(attrValue);
+      // let obj = {};
+      // attrValue.forEach((item, is) => {
+      //   if (item?.valueList) {
+      //     item.valueList.forEach((i, idx) => {
+      //       obj[`inp${is}_${idx}`] = i;
+      //     });
+      //   }
+      // });
+      // console.log('obj: ', obj);
+      // form.setFields([
+      //   { name: 'inp0_0', value: '53' },
+      //   { name: 'inp0_1', value: '53' },
+      //   { name: 'inp1_0', value: '53' },
+      //   { name: 'inp1_1', value: '53' },
+      // ]);
+    }
+  }, []);
 
-  const [formData, setData] = useState(attrValue);
-  const [tableData, setTableData] = useState([]);
   console.log('formData', formData);
   const handleAddData = () => {
     const newData = [...formData, { attribute_name: '', valueList: [] }];
@@ -30,6 +40,7 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
     setData(newData);
   };
 
+  // 规格名变化
   const handleAttributeNameChange = (value, attrIndex) => {
     const newData = [...formData];
     const att = options.find((option) => option.value === value);
@@ -38,6 +49,7 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
     setData(newData);
   };
 
+  // 规格值变化
   const handleValueChange = (value, attrIndex, valueIndex) => {
     const newData = [...formData];
     newData[attrIndex].valueList[valueIndex] = value;
@@ -56,6 +68,7 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
     setData(newData);
   };
 
+  // 添加规格
   const renderProps = (item, attrIndex) => {
     return (
       <div key={attrIndex}>
@@ -79,10 +92,10 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
             )}
           </Form.Item>
         </div>
-        <Form.Item label="规格值" className={styles.box}>
+        <Form.Item label="规格值">
           <Space>
             {(item.valueList || []).map((input, valueIndex) => (
-              <Form.Item key={input} noStyle>
+              <Form.Item key={valueIndex} noStyle>
                 <Input
                   value={input}
                   style={{ width: 160 }}
@@ -106,37 +119,39 @@ const SKU = ({ attrValue = [], onChange, options, value = [] }) => {
       </div>
     );
   };
-
   const addTableList = () => {
-    setTableData(formData);
+    onChange(formData);
   };
-
   return (
-    <div>
-      <Card>
-        <Form>
-          <FormItem {...formItemLayout}>
-            {formData.map((item, attrIndex) => renderProps(item, attrIndex))}
-            <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
-              添加规格项目
+    <Card>
+      <Form form={form} initialValues={attrValue}>
+        <FormItem {...formItemLayout}>
+          {formData.map((item, attrIndex) => renderProps(item, attrIndex))}
+          <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
+            添加规格项目
+          </Button>
+          {formData.length > 0 && (
+            <Button
+              onClick={addTableList}
+              type="primary"
+              style={{ margin: '10px 20px', width: attrValue.length > 0 ? 140 : 120 }}
+            >
+              {attrValue.length > 0 ? '重新生成规格列表' : '生成规格列表'}
             </Button>
-            {formData.length > 0 && (
-              <Button
-                onClick={addTableList}
-                type="primary"
-                style={{ margin: '10px 20px', width: 120 }}
-              >
-                生成规格列表
-              </Button>
-            )}
-          </FormItem>
-        </Form>
-      </Card>
-      <Card style={{ marginTop: 20 }}>
-        <SKUList value={value} data={tableData} onChange={onChange} />
-      </Card>
-    </div>
+          )}
+        </FormItem>
+      </Form>
+    </Card>
   );
 };
 
 export default SKU;
+
+const formItemLayout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 18,
+  },
+};

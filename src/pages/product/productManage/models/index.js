@@ -20,6 +20,7 @@ export default {
     /** 是否刷新分页  */
     reload: false,
 
+    skuList: [],
     showSKU: false,
     SKUtype: 'add',
     attrOptions: [],
