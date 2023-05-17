@@ -24,6 +24,7 @@ export default () => {
       type: 'supplier/getUserList',
       payload: {},
     });
+    dispatch({ type: 'commonInterface/getTreeList' });
   }, []);
 
   // 新增编辑刷新分页
@@ -75,7 +76,8 @@ export default () => {
     }
     if (type === 'delete') {
       Modal.confirm({
-        title: '确定是否删除',
+        title: '确定是否删除该供应商？',
+        maskClosable: true,
         onOk: () => mutateDeleteAsync({ id: record.supplierId }),
       });
     }

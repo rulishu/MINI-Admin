@@ -80,7 +80,7 @@ export default () => {
       city: form1.province && form1.province[1] && form1.province[1],
       district: form1.province && form1.province[2] && form1.province[2],
       productId: form2.productId && form2.productId,
-      id: queryInfo.supplierId,
+      supplierId: queryInfo.supplierId,
     };
     mutateAsync(params);
   };

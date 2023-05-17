@@ -14,7 +14,7 @@ export default ({ type, value = '', onChange, ...others }) => {
     }
     if (type === 'add') {
       mutateAsync({});
-      setDefaultValue('');
+      setDefaultValue(value);
     }
   }, [type, value]);
 
