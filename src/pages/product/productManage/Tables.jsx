@@ -15,7 +15,11 @@ import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
-  const { activeKey, tabs, select, reload } = useSelector((state) => state.productManage);
+  const { productManage, groupManage } = useSelector((state) => state);
+  console.log('groupManage: ', groupManage);
+  const { activeKey, tabs, select, reload } = productManage;
+  const { categoryTree } = groupManage;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -120,11 +124,29 @@ export default function Tables() {
     });
   };
 
+  const handler = (data) => {
+    return data.map((item) => {
+      const obj = { label: item?.label || '', value: item?.id };
+      if (item?.children && item?.children.length > 0) {
+        obj.children = handler(item.children);
+      }
+      return obj;
+    });
+  };
+  const options = () => {
+    if (categoryTree.length > 0) {
+      return [...handler(categoryTree)];
+    } else {
+      return [];
+    }
+  };
+
   return (
     <ProTable
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
+        console.log('params: ', params);
         const { current, pageSize, ...formData } = params;
         let status = {};
         if (activeKey === '1') {
@@ -147,7 +169,10 @@ export default function Tables() {
           categoryId: tabs,
           ...status,
           ...formData,
+          startTime: params?.timerange ? `${params?.timerange?.[0]} 00:00:00` : undefined,
+          endTime: params?.timerange ? `${params?.timerange?.[1]} 23:59:59` : undefined,
         };
+        delete body?.timerange;
         const { code, result } = await selectSellPage(body);
         if (code && code === 200) {
           dispatch({
@@ -237,7 +262,7 @@ export default function Tables() {
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns({ handleEdit, handlerSKU })}
+      columns={columns({ handleEdit, handlerSKU, options })}
       rowKey="id"
       rowSelection={{
         selectedRowKeys: select.selectedRowKeys,

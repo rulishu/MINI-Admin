@@ -1,9 +1,9 @@
 import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
 // 商品id，商品（需要有图），商品类目，价格，销量，库存，商品状态，创建时间，上架（上架时间）
-export const columns = ({ handleEdit, handlerSKU }) => [
+export const columns = ({ handleEdit, handlerSKU, options }) => [
   {
-    title: '商品id',
+    title: '商品ID',
     dataIndex: 'id',
     align: 'center',
     width: 50,
@@ -27,14 +27,15 @@ export const columns = ({ handleEdit, handlerSKU }) => [
   },
   {
     title: '商品类目',
-    key: 'cascader',
+    key: 'categoryName',
     dataIndex: 'cascader',
     width: 100,
     fieldProps: {
-      options: cascaderOptions,
+      expandTrigger: 'hover',
+      options: options(),
       fieldNames: {
-        children: 'language',
-        label: 'field',
+        children: 'children',
+        label: 'label',
       },
     },
     valueType: 'cascader',
@@ -48,27 +49,27 @@ export const columns = ({ handleEdit, handlerSKU }) => [
   },
   {
     title: '时间',
-    dataIndex: '111111t',
+    dataIndex: 'timerange',
     align: 'center',
     hideInTable: true,
     width: 80,
     valueType: 'dateRange',
   },
 
-  {
-    title: '商品类型',
-    dataIndex: '111111lx',
-    align: 'center',
-    hideInTable: true,
-    width: 80,
-    valueType: 'select',
-    valueEnum: {
-      all: { text: '全部', status: 'Default' },
-      running: { text: '运行中', status: 'Processing' },
-      online: { text: '已上线', status: 'Success' },
-      error: { text: '异常', status: 'Error' },
-    },
-  },
+  // {
+  //   title: '商品类型',
+  //   dataIndex: '',
+  //   align: 'center',
+  //   hideInTable: true,
+  //   width: 80,
+  //   valueType: 'select',
+  //   valueEnum: {
+  //     all: { text: '全部', status: 'Default' },
+  //     running: { text: '运行中', status: 'Processing' },
+  //     online: { text: '已上线', status: 'Success' },
+  //     error: { text: '异常', status: 'Error' },
+  //   },
+  // },
   // {
   //   title: '单选按钮状态',
   //   dataIndex: 'status',
@@ -95,7 +96,7 @@ export const columns = ({ handleEdit, handlerSKU }) => [
   },
   {
     title: '销量',
-    dataIndex: '111111a',
+    dataIndex: 'volume',
     align: 'center',
     search: false,
     width: 80,
@@ -174,36 +175,5 @@ export const columns = ({ handleEdit, handlerSKU }) => [
         </a>
       </div>
     ),
-  },
-];
-
-const cascaderOptions = [
-  {
-    field: 'front end',
-    value: 'fe',
-    language: [
-      {
-        field: 'Javascript',
-        value: 'js',
-      },
-      {
-        field: 'Typescript',
-        value: 'ts',
-      },
-    ],
-  },
-  {
-    field: 'back end',
-    value: 'be',
-    language: [
-      {
-        field: 'Java',
-        value: 'java',
-      },
-      {
-        field: 'Go',
-        value: 'go',
-      },
-    ],
   },
 ];

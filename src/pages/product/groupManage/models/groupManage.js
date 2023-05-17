@@ -11,6 +11,7 @@ const group = {
   namespace: 'groupManage',
   state: {
     categoryList: [],
+    categoryTree: [],
     page: 1,
     pageSize: 20,
     searchParams: {},
@@ -95,6 +96,12 @@ const group = {
           },
         });
         payload.actionRef.current?.reload();
+        yield put({
+          type: 'getCategoryTree',
+        });
+        yield put({
+          type: 'getAllCategory',
+        });
       }
     },
 
@@ -116,14 +123,26 @@ const group = {
           },
         });
         payload.actionRef.current?.reload();
+        yield put({
+          type: 'getCategoryTree',
+        });
+        yield put({
+          type: 'getAllCategory',
+        });
       }
     },
 
-    *deleteCategory({ payload }, { call }) {
+    *deleteCategory({ payload }, { call, put }) {
       const { code } = yield call(deleteCategory, payload);
       if (code === 200) {
         //
         payload.actionRef.current?.reload();
+        yield put({
+          type: 'getCategoryTree',
+        });
+        yield put({
+          type: 'getAllCategory',
+        });
       }
     },
   },

@@ -6,14 +6,29 @@ import { connect } from 'umi';
 
 const EditForm = (props) => {
   const { dispatch, groupManage, loading, actionRef } = props;
-  const { addOpen, categoryList, drawerParams, drawerType } = groupManage;
+  const { addOpen, drawerParams, drawerType, categoryTree } = groupManage;
 
   const form = useForm();
 
   useEffect(() => {
     console.log('drawerParams: ', drawerParams);
-    if (drawerType === 'edit') {
-      form.setValues({ ...drawerParams });
+    if (drawerType === 'edit' || drawerType === 'addChildren') {
+      let parr = (drawerParams?.parentArray?.split(',') || []).concat([]);
+      let level = drawerParams?.level;
+
+      if (drawerType === 'addChildren') {
+        if (level === 1) {
+          parr = [drawerParams?.id];
+        }
+        if (level === 2) {
+          parr.push(drawerParams?.id);
+        }
+        level = level + 1;
+        form.setValues({ ...drawerParams, parr, level, categoryName: '' });
+
+        return;
+      }
+      form.setValues({ ...drawerParams, parr, level });
     }
   }, [drawerParams, drawerType]);
 
@@ -26,24 +41,23 @@ const EditForm = (props) => {
 
   const handler = (data) => {
     return data.map((item) => {
-      let arr = [];
-      const obj = { label: item?.categoryName || '', value: item?.id };
+      const obj = { label: item?.label || '', value: item?.id };
       if (item?.children && item?.children.length > 0) {
-        arr = arr.push(handler(item.children));
-        obj.children = arr;
+        obj.children = handler(item.children);
       }
       return obj;
     });
   };
 
   const options = () => {
-    if (categoryList.length > 0) {
-      return [{ label: '一级类目', value: '0' }, ...handler(categoryList)];
+    if (categoryTree.length > 0) {
+      return [...handler(categoryTree)];
     } else {
       return [];
     }
   };
 
+  console.log('schema: ', schema);
   const schema = {
     type: 'object',
     properties: {
@@ -53,54 +67,47 @@ const EditForm = (props) => {
         required: true,
         props: {},
       },
-      parentId: {
+      parr: {
         title: '父类目',
         type: 'object',
         widget: 'cascader',
         required: true,
+        disabled: true,
+        defaultValue: ['0'],
         props: {
-          expandTrigger: 'hover',
+          // expandTrigger: 'hover',
           options: options(),
-          changeOnSelect: true,
+          // changeOnSelect: true,
         },
       },
-      jibie666666: {
+      level: {
         title: '类目级别',
-        type: 'string',
+        type: 'number',
         required: true,
-        enum: ['一级', '二级', '三级'],
+        enum: [1, 2, 3],
         enumNames: ['一级', '二级', '三级'],
-        disabled: drawerType === 'add' ? true : false,
-        defaultValue: '一级',
+        disabled: true,
+        defaultValue: 1,
       },
-      status: {
+      leafOrder: {
         title: '是否叶子类目',
         required: true,
-        type: 'string',
+        type: 'number',
         widget: 'radio',
-        enum: ['a', 'b'],
+        enum: [1, 2],
         enumNames: ['是', '否'],
-        disabled: "{{ formData.jibie666666 === '三级' }}",
-        defaultValue: 'b',
+        disabled: '{{ formData.level === 3 }}',
+        defaultValue: 1,
       },
-    },
-    formData: {
-      // jibie666666: '一级',
-      // status: 'b',
     },
   };
 
-  // useEffect(() => {
-  //   form.setValues({ input: drawerParams.input });
-  // }, [addOpen, drawerParams]);
-
   const onFinish = (data) => {
+    const { parr, ...others } = data;
     console.log('data', data);
     let searchParams = {
-      ...data,
-      parentId: data?.parentId?.slice(-1)?.[0],
+      ...others,
     };
-    console.log('searchParams: ', searchParams);
     if (drawerType === 'edit') {
       dispatch({
         type: 'groupManage/updateCategory',
@@ -108,23 +115,40 @@ const EditForm = (props) => {
       });
     }
     if (drawerType === 'add') {
+      searchParams.parentArray = parr.join();
+      searchParams.parentId = '0';
+      searchParams.status = 1;
       dispatch({
         type: 'groupManage/addCategory',
         payload: { searchParams, actionRef },
       });
     }
+    if (drawerType === 'addChildren') {
+      const { level, categoryName, leafOrder } = searchParams;
+
+      dispatch({
+        type: 'groupManage/addCategory',
+        payload: {
+          searchParams: {
+            level,
+            categoryName,
+            leafOrder,
+            parentArray: parr.join(),
+            parentId: drawerParams?.id,
+            status: 1,
+          },
+          actionRef,
+        },
+      });
+    }
+    console.log('searchParams: ', searchParams);
   };
 
   const watch = {
-    jibie666666: (val) => {
-      console.log('val: ', val);
-      form.setSchemaByPath('status', (props) => {
-        console.log('props: ', props);
-        return {
-          defaultValue: 'a',
-          value: 'a',
-        };
-      });
+    level: (val) => {
+      if (val === 3) {
+        form.setFields([{ name: 'status', value: 'a' }]);
+      }
     },
   };
 
@@ -147,7 +171,6 @@ const EditForm = (props) => {
               onClick: form.submit,
             },
             {
-              type: 'primary',
               label: '取消',
               onClick: () => update({ addOpen: false }),
             },

@@ -14,6 +14,9 @@ const SearchTable = (props) => {
 
   useEffect(() => {
     dispatch({
+      type: 'groupManage/getCategoryTree',
+    });
+    dispatch({
       type: 'groupManage/getAllCategory',
     });
   }, []);
@@ -29,7 +32,7 @@ const SearchTable = (props) => {
     update({ type });
     if (type === 'add') {
       update({
-        drawerParams: {},
+        drawerParams: { parentId: '0', level: 1 },
         drawerType: 'add',
         addOpen: true,
       });
