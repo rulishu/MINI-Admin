@@ -1,9 +1,9 @@
-import { deleteItem, selectById, selectPage } from '@/service/afterSale/afterSalesReasons';
+import { deleteItem, selectById, selectPage } from '@/service/goods/supplier';
 import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
@@ -11,7 +11,7 @@ import { columns } from './columns';
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload } = useSelector((state) => state.supplier);
+  const { reload, userList } = useSelector((state) => state.supplier);
   const update = (data) => {
     dispatch({
       type: 'supplier/update',
@@ -23,6 +23,10 @@ export default () => {
   useEffect(() => {
     if (reload) ref?.current?.reload();
   }, [reload]);
+
+  useEffect(() => {
+    dispatch({ type: 'supplier/getTreeList' });
+  }, []);
 
   // 详情接口
   const { mutateAsync } = useReactMutation({
@@ -54,12 +58,12 @@ export default () => {
       update({ visible: true, queryInfo: {} });
     }
     if (type === 'edit') {
-      mutateAsync({ id: record.id });
+      mutateAsync({ id: record.supplierId });
     }
     if (type === 'delete') {
       Modal.confirm({
         title: '确定是否删除',
-        onOk: () => mutateDeleteAsync({ id: record.id }),
+        onOk: () => mutateDeleteAsync({ id: record.supplierId }),
       });
     }
   };
@@ -70,18 +74,13 @@ export default () => {
         options={false}
         search={{
           labelWidth: 120,
-          optionRender: () => (
-            <Button type="primary" onClick={() => ref?.current?.reload()}>
-              搜索
-            </Button>
-          ),
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           let body = {
+            ...formData,
             pageNum: current,
             pageSize,
-            ...formData,
           };
           const { code, result } = await selectPage(body);
           if (code && code === 200) {
@@ -110,8 +109,28 @@ export default () => {
           showSizeChanger: true,
         }}
         cardBordered={true}
-        columns={columns({ handleEdit })}
-        rowKey="id"
+        columns={columns({
+          handleEdit,
+          productSelector: {
+            onFocus: () => {
+              dispatch({
+                type: 'supplier/getUserList',
+                payload: {},
+              });
+            },
+            onSearch: (value) => {
+              dispatch({
+                type: 'supplier/getUserList',
+                payload: { userName: value },
+              });
+            },
+            options: userList.map((item) => ({
+              label: `${item.userName}-${item.mobile}`,
+              value: item.userId,
+            })),
+          },
+        })}
+        rowKey="supplierId"
         scroll={{ x: 1300 }}
       />
       <Details />

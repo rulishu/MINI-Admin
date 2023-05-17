@@ -1,6 +1,6 @@
 import { Divider } from 'antd';
 
-export const columns = ({ handleEdit }) => [
+export const columns = ({ handleEdit, productSelector }) => [
   {
     title: 'ID',
     dataIndex: 'id',
@@ -13,21 +13,21 @@ export const columns = ({ handleEdit }) => [
   {
     title: '供应商名称',
     width: 120,
-    dataIndex: 'name',
+    dataIndex: 'supplierName',
     align: 'center',
     ellipsis: true,
   },
   {
     title: '联系人',
     width: 120,
-    dataIndex: 'name1',
+    dataIndex: 'contactName',
     align: 'center',
     ellipsis: true,
   },
   {
     title: '联系方式',
     width: 120,
-    dataIndex: 'phone',
+    dataIndex: 'contactPhone',
     align: 'center',
     ellipsis: true,
     hideInSearch: true,
@@ -41,24 +41,32 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
   },
   {
-    title: '注册资本',
+    title: '选品人',
     width: 120,
-    dataIndex: 'price',
+    dataIndex: 'productSelectorId',
     align: 'center',
     ellipsis: true,
-    hideInSearch: true,
+    valueType: 'select',
+    hideInTable: true,
+    fieldProps: {
+      showSearch: true,
+      filterOption: false,
+      onFocus: productSelector.onFocus,
+      onSearch: productSelector.onSearch,
+      options: productSelector.options,
+    },
   },
   {
-    title: '推荐人',
+    title: '选品人',
     width: 120,
-    dataIndex: 'contract',
+    dataIndex: 'productSelector',
     align: 'center',
     ellipsis: true,
   },
   {
-    title: '推荐人账号',
+    title: '选品人联系方式',
     width: 120,
-    dataIndex: 'businessLicense',
+    dataIndex: 'productSelectorContact',
     align: 'center',
     ellipsis: true,
     hideInSearch: true,

@@ -50,7 +50,7 @@ export default ({
           status: 'success',
         };
         setFileList((prevList) => [...prevList, newFile]);
-        onSuccess?.(response, file);
+        onSuccess(response, file);
         // 失败情况处理
       } else {
         message.warning('上传失败');
@@ -82,7 +82,10 @@ export default ({
   };
 
   // 取消预览
-  const handleClosePreview = () => setPreviewUrl('');
+  const handleClosePreview = (e) => {
+    e.stopPropagation();
+    setPreviewUrl('');
+  };
 
   // 下载
   const handleDownload = (e, url) => {
