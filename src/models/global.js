@@ -6,9 +6,15 @@ export default function useModelGlobal() {
     token: getToken(),
   });
   const [signVisible, setSignVisible] = useState(false);
+
+  const update = (payload) => {
+    setStore({ ...store, ...payload });
+  };
+
   return {
     store,
     setStore,
+    update,
     signVisible,
     setSignVisible,
   };

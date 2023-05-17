@@ -1,4 +1,4 @@
-export const schema = ({ productSelector, province }) => {
+export const schema = ({ type, visible, province }) => {
   return {
     type: 'object',
     properties: {
@@ -22,6 +22,7 @@ export const schema = ({ productSelector, province }) => {
             title: '联系方式',
             type: 'string',
             required: true,
+            rules: [{ pattern: '^1[0-9]{10}$', message: '请输入正确手机号' }],
           },
           province: {
             title: '省市区',
@@ -46,19 +47,14 @@ export const schema = ({ productSelector, province }) => {
         widget: 'lineTitle',
         title: '推荐人信息',
         properties: {
-          productSelector: {
+          productId: {
             title: '推荐人',
-            type: 'object',
-            widget: 'select',
+            type: 'string',
+            widget: 'selectUser',
             required: true,
             props: {
-              labelInValue: true,
-              optionFilterProp: 'children',
-              filterOption: false,
-              showSearch: true,
-              onFocus: productSelector.onFocus,
-              onSearch: productSelector.onSearch,
-              options: productSelector.options,
+              type,
+              visible,
             },
           },
         },

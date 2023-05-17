@@ -6,7 +6,7 @@ import 'antd/dist/reset.css';
 import logo from './fendouzhilu-logo.png';
 
 const Layout = () => {
-  const { setStore, store } = useModel('global', (model) => ({ ...model }));
+  const { update, store } = useModel('global', (model) => ({ ...model }));
   return (
     <Authorized authority={!!store.token} redirectPath="/login">
       <BasicLayout
@@ -36,7 +36,7 @@ const Layout = () => {
             icon: <LogoutOutlined />,
             onClick: async () => {
               await sessionStorage.removeItem('token');
-              setStore({ ...store, token: '' });
+              update({ token: '' });
               history.push('/login');
             },
           },

@@ -19,14 +19,23 @@ export default () => {
     });
   };
 
+  useEffect(() => {
+    dispatch({
+      type: 'supplier/getUserList',
+      payload: {},
+    });
+  }, []);
+
   // 新增编辑刷新分页
   useEffect(() => {
-    if (reload) ref?.current?.reload();
+    if (reload) {
+      ref?.current?.reload();
+      dispatch({
+        type: 'supplier/getUserList',
+        payload: {},
+      });
+    }
   }, [reload]);
-
-  useEffect(() => {
-    dispatch({ type: 'supplier/getTreeList' });
-  }, []);
 
   // 详情接口
   const { mutateAsync } = useReactMutation({
@@ -47,6 +56,10 @@ export default () => {
     onSuccess: ({ code }) => {
       if (code && code === 200) {
         ref?.current?.reload();
+        dispatch({
+          type: 'supplier/getUserList',
+          payload: {},
+        });
       }
     },
   });
@@ -112,21 +125,9 @@ export default () => {
         columns={columns({
           handleEdit,
           productSelector: {
-            onFocus: () => {
-              dispatch({
-                type: 'supplier/getUserList',
-                payload: {},
-              });
-            },
-            onSearch: (value) => {
-              dispatch({
-                type: 'supplier/getUserList',
-                payload: { userName: value },
-              });
-            },
             options: userList.map((item) => ({
-              label: `${item.userName}-${item.mobile}`,
-              value: item.userId,
+              label: item.productSelector,
+              value: item.productId,
             })),
           },
         })}

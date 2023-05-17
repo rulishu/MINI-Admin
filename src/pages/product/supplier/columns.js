@@ -43,16 +43,16 @@ export const columns = ({ handleEdit, productSelector }) => [
   {
     title: '选品人',
     width: 120,
-    dataIndex: 'productSelectorId',
+    dataIndex: 'productId',
     align: 'center',
     ellipsis: true,
     valueType: 'select',
     hideInTable: true,
     fieldProps: {
+      allowClear: true,
       showSearch: true,
-      filterOption: false,
-      onFocus: productSelector.onFocus,
-      onSearch: productSelector.onSearch,
+      filterOption: (input, option) =>
+        (option?.label ?? '').toLowerCase().includes(input.toLowerCase()),
       options: productSelector.options,
     },
   },
@@ -62,6 +62,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     dataIndex: 'productSelector',
     align: 'center',
     ellipsis: true,
+    hideInSearch: true,
   },
   {
     title: '选品人联系方式',
