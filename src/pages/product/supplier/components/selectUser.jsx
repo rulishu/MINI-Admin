@@ -25,9 +25,9 @@ export default ({ value = undefined, onChange, ...others }) => {
     onSearch: (value) => mutateAsync({ userName: value }),
     onSelect: (value, option) => {
       // 取出 label 和 value 组成 SelectValue 对象
-      const { label, value: val } = option;
-      setDefaultValue({ label, value: val });
-      onChange?.({ label, value: val });
+      const { label, value: val, phone } = option;
+      setDefaultValue({ label, value: val, phone });
+      onChange?.({ label, value: val, phone });
     },
     onClear: () => {
       setDefaultValue(undefined);
@@ -45,7 +45,12 @@ export default ({ value = undefined, onChange, ...others }) => {
   return (
     <Select {...selectProps} style={{ width: '100%' }}>
       {options.map((item) => (
-        <Option value={item.userId} key={item.userId} label={item.userName}>
+        <Option
+          value={item.userId}
+          key={item.userId}
+          label={item.userName}
+          phone={item.consumerPhone}
+        >
           <Space>
             <Avatar src={item.headUrl} size="small" />
             {`${item.userName}-${item.mobile}`}

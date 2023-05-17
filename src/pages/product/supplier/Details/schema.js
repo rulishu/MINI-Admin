@@ -45,13 +45,19 @@ export const schema = ({ province }) => {
         type: 'object',
         column: 2,
         widget: 'lineTitle',
-        title: '推荐人信息',
+        title: '选品人信息',
         properties: {
           productId: {
-            title: '推荐人',
+            title: '选品人',
             type: 'object',
             widget: 'selectUser',
             required: true,
+          },
+          productSelectorContact: {
+            title: '联系方式',
+            type: 'string',
+            disabled: true,
+            required: false,
           },
         },
       },

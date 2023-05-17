@@ -54,6 +54,7 @@ export default () => {
               value: queryInfo.productId,
             }
           : undefined,
+        productSelectorContact: queryInfo.productSelectorContact,
       },
     });
   }, [visible, queryInfo]);
@@ -84,10 +85,19 @@ export default () => {
       city: form1.province && form1.province[1] && form1.province[1],
       district: form1.province && form1.province[2] && form1.province[2],
       productId: form2.productId && form2.productId.value,
-      productSelectorContact: form2.productId && form2.productId.label,
+      productSelector: form2.productId && form2.productId.label,
+      productSelectorContact: form2.productSelectorContact && form2.productSelectorContact,
       supplierId: queryInfo.supplierId,
     };
     mutateAsync(params);
+  };
+
+  const watch = {
+    'form2.productId': (value) => {
+      if (value) {
+        form.setValueByPath('form2.productSelectorContact', value.phone);
+      }
+    },
   };
 
   return (
@@ -122,6 +132,7 @@ export default () => {
           },
         })}
         onFinish={onFinish}
+        watch={watch}
         widgets={{ selectUser: SelectUser, cascader: Cascader }}
       />
     </Modal>
