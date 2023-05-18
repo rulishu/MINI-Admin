@@ -19,7 +19,7 @@ const group = {
     tableData: [],
     platformList: [],
     addOpen: false,
-    drawerType: 'edit',
+    drawerType: 'add',
     drawerParams: {},
     message: '',
   },
@@ -84,10 +84,7 @@ const group = {
 
     *addCategory({ payload }, { call, put }) {
       const { code } = yield call(addCategory, payload.searchParams);
-      console.log('code: ', code);
       if (code === 200) {
-        //
-
         yield put({
           type: 'updateState',
           payload: {
@@ -136,6 +133,8 @@ const group = {
       const { code } = yield call(deleteCategory, payload);
       if (code === 200) {
         //
+        payload.modal.destroy();
+
         payload.actionRef.current?.reload();
         yield put({
           type: 'getCategoryTree',

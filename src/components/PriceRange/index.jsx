@@ -26,9 +26,19 @@ const PriceRange = ({ value = [undefined, undefined], onChange }) => {
         alignItems: 'center',
       }}
     >
-      <InputNumber defaultValue={value[0]} style={{ width: '45%' }} onChange={onBeforeChange} />
+      <InputNumber
+        defaultValue={value[0]}
+        min={0}
+        style={{ width: '45%' }}
+        onChange={onBeforeChange}
+      />
       <div style={{ width: '10%', textAlign: 'center', fontSize: 'large' }}>-</div>
-      <InputNumber defaultValue={value[1]} style={{ width: '45%' }} onChange={onAfterChange} />
+      <InputNumber
+        defaultValue={value[1]}
+        min={0}
+        style={{ width: '45%' }}
+        onChange={onAfterChange}
+      />
     </div>
   );
 };

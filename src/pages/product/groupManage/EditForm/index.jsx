@@ -11,7 +11,6 @@ const EditForm = (props) => {
   const form = useForm();
 
   useEffect(() => {
-    console.log('drawerParams: ', drawerParams);
     if (drawerType === 'edit' || drawerType === 'addChildren') {
       let parr = (drawerParams?.parentArray?.split(',') || []).concat([]);
       let level = drawerParams?.level;
@@ -57,7 +56,6 @@ const EditForm = (props) => {
     }
   };
 
-  console.log('schema: ', schema);
   const schema = {
     type: 'object',
     properties: {
@@ -104,7 +102,6 @@ const EditForm = (props) => {
 
   const onFinish = (data) => {
     const { parr, ...others } = data;
-    console.log('data', data);
     let searchParams = {
       ...others,
     };
@@ -125,7 +122,6 @@ const EditForm = (props) => {
     }
     if (drawerType === 'addChildren') {
       const { level, categoryName, leafOrder } = searchParams;
-
       dispatch({
         type: 'groupManage/addCategory',
         payload: {
@@ -141,7 +137,6 @@ const EditForm = (props) => {
         },
       });
     }
-    console.log('searchParams: ', searchParams);
   };
 
   const watch = {
