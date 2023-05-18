@@ -81,6 +81,9 @@ export default () => {
       <ProTable
         actionRef={ref}
         options={false}
+        form={{
+          defaultCollapsed: false,
+        }}
         search={{
           labelWidth: 120,
         }}

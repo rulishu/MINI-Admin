@@ -1,7 +1,7 @@
 import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
 // 商品id，商品（需要有图），商品类目，价格，销量，库存，商品状态，创建时间，上架（上架时间）
-export const columns = ({ handleEdit, handlerSKU, options }) => [
+export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
   {
     title: '商品ID',
     dataIndex: 'id',
@@ -19,7 +19,7 @@ export const columns = ({ handleEdit, handlerSKU, options }) => [
         <div style={{ height: 80, display: 'flex', flexDirection: 'row' }}>
           <Image width={80} height={80} src={record?.mainGraph} />
           <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
-            【爆品酒】 奋斗之露 {record?.itemName} {record?.model}*{record?.specifications}
+            {record?.itemName} {record?.model}*{record?.specifications}
           </div>
         </div>
       );
@@ -27,18 +27,20 @@ export const columns = ({ handleEdit, handlerSKU, options }) => [
   },
   {
     title: '商品类目',
-    key: 'categoryName',
+    key: 'categoryId',
     dataIndex: 'cascader',
     width: 100,
     fieldProps: {
       expandTrigger: 'hover',
       options: options(),
+      changeOnSelect: true,
       fieldNames: {
         children: 'children',
         label: 'label',
       },
     },
     valueType: 'cascader',
+    renderText: (txt) => categoryList.find((item) => item?.id === txt)?.categoryName,
   },
   {
     title: '商品名称',
@@ -115,10 +117,10 @@ export const columns = ({ handleEdit, handlerSKU, options }) => [
     width: 80,
     valueType: 'select',
     valueEnum: {
-      all: { text: '全部', status: 'Default' },
-      running: { text: '运行中', status: 'Processing' },
-      online: { text: '已上线', status: 'Success' },
-      error: { text: '异常', status: 'Error' },
+      // all: { text: '全部', status: 'Default' },
+      // running: { text: '运行中', status: 'Processing' },
+      // online: { text: '已上线', status: 'Success' },
+      // error: { text: '异常', status: 'Error' },
     },
   },
   {
@@ -160,14 +162,6 @@ export const columns = ({ handleEdit, handlerSKU, options }) => [
       <div>
         <a type="link" size="small" onClick={() => handleEdit('edit', record)}>
           编辑
-        </a>
-        <Divider type="vertical" />
-        {/* <a type="link" size="small" onClick={() => handleEdit('view', record)}>
-          查看
-        </a> */}
-        {/* <Divider type="vertical" /> */}
-        <a type="link" size="small ">
-          复制
         </a>
         <Divider type="vertical" />
         <a type="link" size="small" onClick={() => handlerSKU(record)}>

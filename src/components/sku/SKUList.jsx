@@ -2,7 +2,6 @@ import { Button, Input, Table } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
-  console.log('SKUListvalue: ', editData, data);
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       // Generate SKU data
       const updatedDataSource = [];
       generateSKUs(data, 0, {}, updatedDataSource);
-      console.log('updatedDataSource: ', updatedDataSource);
       if (editData.length > 0) {
         setDataSource(editData);
       } else {
@@ -126,7 +124,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     onChange?.(datas);
   };
 
-  console.log('dataSource: ', dataSource);
   return (
     <div>
       <Button type="primary" style={{ marginBlock: 16, width: 120 }} onClick={handleEntryDataSave}>

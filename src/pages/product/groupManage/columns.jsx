@@ -5,6 +5,7 @@ export const columns = ({ handleEdit, categoryList }) => [
     title: '类目ID',
     dataIndex: 'id',
     align: 'center',
+    search: false,
     render: (text, record, index) => index + 1,
   },
   {
@@ -57,7 +58,7 @@ export const columns = ({ handleEdit, categoryList }) => [
     dataIndex: 'categoryName',
     align: 'center',
     valueType: 'select',
-    // hideInTable: true,
+    hideInTable: true,
     fieldProps: {
       showSearch: true,
       labelInValue: true,
@@ -68,7 +69,7 @@ export const columns = ({ handleEdit, categoryList }) => [
     },
   },
   {
-    title: '类目级别',
+    title: '类目等级',
     dataIndex: 'level',
     align: 'center',
     valueType: 'select',

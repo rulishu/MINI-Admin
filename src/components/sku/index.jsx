@@ -2,42 +2,44 @@ import { Button, Card, Form, Input, Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 const FormItem = Form.Item;
 
-const SKU = ({ attrValue = [], onChange, options }) => {
+const SKU = ({ attrValue = [], onChange, options = [] }) => {
+  const [option, setOption] = useState(options);
   const [formData, setData] = useState(attrValue);
   const [form] = Form.useForm();
-  console.log('attrValue: ', attrValue);
 
   useEffect(() => {
     if (attrValue.length > 0) {
       setData(attrValue);
-      // let obj = {};
-      // attrValue.forEach((item, is) => {
-      //   if (item?.valueList) {
-      //     item.valueList.forEach((i, idx) => {
-      //       obj[`inp${is}_${idx}`] = i;
-      //     });
-      //   }
-      // });
-      // console.log('obj: ', obj);
-      // form.setFields([
-      //   { name: 'inp0_0', value: '53' },
-      //   { name: 'inp0_1', value: '53' },
-      //   { name: 'inp1_0', value: '53' },
-      //   { name: 'inp1_1', value: '53' },
-      // ]);
+      handlerOption(attrValue);
     }
   }, []);
 
-  console.log('formData', formData);
+  const handlerOption = (data) => {
+    const arr = [];
+    if (data?.length > 1) {
+      options.forEach((item) => {
+        if (data.findIndex((i) => String(i?.attribute_value) === item?.value) === -1) {
+          arr.push(item);
+        }
+      });
+
+      setOption(arr);
+    } else {
+      setOption(options);
+    }
+  };
+
   const handleAddData = () => {
     const newData = [...formData, { attribute_name: '', valueList: [] }];
     setData(newData);
+    handlerOption(newData);
   };
 
   const handleRemoveData = (index) => {
     const newData = [...formData];
     newData.splice(index, 1);
     setData(newData);
+    handlerOption(newData);
   };
 
   // 规格名变化
@@ -47,6 +49,7 @@ const SKU = ({ attrValue = [], onChange, options }) => {
     newData[attrIndex].attribute_name = att.label;
     newData[attrIndex].attribute_value = att.value;
     setData(newData);
+    handlerOption(newData);
   };
 
   // 规格值变化
@@ -79,7 +82,7 @@ const SKU = ({ attrValue = [], onChange, options }) => {
               style={{ width: 160 }}
               onChange={(value) => handleAttributeNameChange(value, attrIndex)}
             >
-              {options.map((option) => (
+              {option.map((option) => (
                 <Select.Option key={option.value} value={option.value}>
                   {option.label}
                 </Select.Option>
@@ -127,7 +130,12 @@ const SKU = ({ attrValue = [], onChange, options }) => {
       <Form form={form} initialValues={attrValue}>
         <FormItem {...formItemLayout}>
           {formData.map((item, attrIndex) => renderProps(item, attrIndex))}
-          <Button onClick={handleAddData} type="primary" style={{ margin: '10px 0', width: 120 }}>
+          <Button
+            onClick={handleAddData}
+            disabled={options.length === formData.length ? true : false}
+            type="primary"
+            style={{ margin: '10px 0', width: 120 }}
+          >
             添加规格项目
           </Button>
           {formData.length > 0 && (
