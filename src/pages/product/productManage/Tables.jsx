@@ -9,16 +9,15 @@ import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { message } from 'antd';
+import { Modal, message } from 'antd';
 import { useEffect, useRef } from 'react';
 import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
-  const { productManage, groupManage } = useSelector((state) => state);
-  console.log('groupManage: ', groupManage);
-  const { activeKey, tabs, select, reload } = productManage;
-  const { categoryTree } = groupManage;
+  const { productManage, groupManage, loading } = useSelector((state) => state);
+  const { activeKey, select, reload } = productManage;
+  const { categoryTree, categoryList } = groupManage;
 
   const dispatch = useDispatch();
 
@@ -29,7 +28,10 @@ export default function Tables() {
   }, [reload]);
 
   /** 上架/下架/删除  */
-  const { mutateAsync: uploadAsync, isLoading: uploadLoading } = useReactMutation({
+  const {
+    mutateAsync: uploadAsync,
+    // isLoading: uploadLoading
+  } = useReactMutation({
     mutationFn: added,
     onSuccess: ({ code }) => {
       if (code && code === 200) {
@@ -39,7 +41,10 @@ export default function Tables() {
   });
 
   // 下架
-  const { mutateAsync: downAsync, isLoading: downLoading } = useReactMutation({
+  const {
+    mutateAsync: downAsync,
+    //  isLoading: downLoading
+  } = useReactMutation({
     mutationFn: takeDown,
     onSuccess: ({ code }) => {
       if (code && code === 200) {
@@ -49,7 +54,10 @@ export default function Tables() {
   });
 
   // 上传
-  const { mutateAsync: deleteAsync, isLoading: delteLoading } = useReactMutation({
+  const {
+    mutateAsync: deleteAsync,
+    //  isLoading: delteLoading
+  } = useReactMutation({
     mutationFn: deleteProduct,
     onSuccess: ({ code }) => {
       if (code && code === 200) {
@@ -84,7 +92,7 @@ export default function Tables() {
         type: 'productManage/update',
         payload: {
           showForm: true,
-          queryInfo: { categoryId: String(tabs) },
+          // queryInfo: { categoryId: String(tabs) },
         },
       });
     }
@@ -97,7 +105,33 @@ export default function Tables() {
       if (selectedRowKeys.length !== 0) {
         if (type === 'upload') uploadAsync(selectedRowKeys);
         if (type === 'down') downAsync({ ids: selectedRowKeys });
-        if (type === 'delete') deleteAsync(selectedRowKeys);
+        if (type === 'delete') {
+          const modal = Modal.confirm();
+
+          modal.update({
+            title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
+            content: (
+              <div>
+                <p>确定要删除这些商品吗？</p>
+                {/* <p style={{ color: 'RGB(25,158,215)' }}>是否依旧删除？</p> */}
+              </div>
+            ),
+            maskClosable: true,
+            closable: true,
+            cancelText: '取消',
+            // cancelButtonProps: {
+            //   ghost: true,
+            //   style: { backgroundColor: 'RGB(44,240,152)' },
+            // },
+            onCancel: () => {},
+            autoFocusButton: null,
+            okText: '确定删除',
+            // okType: 'default',
+            onOk: () => {
+              deleteAsync(selectedRowKeys);
+            },
+          });
+        }
       } else {
         message.warning('请勾选商品');
       }
@@ -147,7 +181,7 @@ export default function Tables() {
       options={false}
       request={async (params = {}) => {
         console.log('params: ', params);
-        const { current, pageSize, ...formData } = params;
+        const { current, pageSize, price, timerange, ...formData } = params;
         let status = {};
         if (activeKey === '1') {
           status = { onShelf: 2 };
@@ -166,13 +200,17 @@ export default function Tables() {
         let body = {
           pageNum: current,
           pageSize,
-          categoryId: tabs,
           ...status,
           ...formData,
-          startTime: params?.timerange ? `${params?.timerange?.[0]} 00:00:00` : undefined,
-          endTime: params?.timerange ? `${params?.timerange?.[1]} 23:59:59` : undefined,
+          minPrice: price?.[0],
+          maxPrice: price?.[1],
+          startTime: timerange ? `${timerange?.[0]} 00:00:00` : undefined,
+          endTime: timerange ? `${timerange?.[1]} 23:59:59` : undefined,
         };
-        delete body?.timerange;
+        if (formData?.categoryId && formData?.categoryId.length > 0) {
+          body.categoryId = formData?.categoryId[formData?.categoryId.length - 1];
+        }
+        console.log('body: ', body);
         const { code, result } = await selectSellPage(body);
         if (code && code === 200) {
           dispatch({
@@ -232,23 +270,25 @@ export default function Tables() {
               {
                 type: 'primary',
                 label: '上架',
+                loading: loading.global,
                 onClick: () => handleEdit('upload'),
                 disabled: activeKey !== '3',
-                loading: uploadLoading,
+                // loading: uploadLoading,
               },
               {
                 type: 'primary',
                 label: '下架',
+                loading: loading.global,
                 disabled: activeKey === '3' || activeKey === '2',
                 onClick: () => handleEdit('down'),
-                loading: downLoading,
+                // loading: downLoading,
               },
-
               {
                 type: 'primary',
                 label: '删除',
+                loading: loading.global,
                 onClick: () => handleEdit('delete'),
-                loading: delteLoading,
+                // loading: delteLoading,
               },
               // {
               //   type: 'primary',
@@ -262,7 +302,7 @@ export default function Tables() {
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns({ handleEdit, handlerSKU, options })}
+      columns={columns({ handleEdit, handlerSKU, options, categoryList })}
       rowKey="id"
       rowSelection={{
         selectedRowKeys: select.selectedRowKeys,

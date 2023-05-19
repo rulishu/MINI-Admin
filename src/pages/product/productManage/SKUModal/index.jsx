@@ -1,10 +1,10 @@
 import GoodsSKU from '@/components/sku';
 import SKUList from '@/components/sku/SKUList';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Card } from 'antd';
+import { Button, Card, message } from 'antd';
 import { useEffect, useState } from 'react';
 
-const Index = () => {
+const SKUModal = () => {
   const { SKUtype, queryInfo, skuList, attrOptions } = useSelector((state) => state.productManage);
   const dispatch = useDispatch();
 
@@ -17,52 +17,56 @@ const Index = () => {
   }, [skuList]);
 
   const onChange = (list = []) => {
-    console.log('list: ', list);
-
-    if (SKUtype === 'add') {
-      dispatch({
-        type: 'productManage/createSKU',
-        payload: {
-          itemId: queryInfo.id,
-          list: list.map((item) => ({
-            price: item?.price,
-            sales: item?.sales,
-            stock: item?.stock,
-            attributes: item?.attributes,
+    if (list?.length > 0) {
+      if (SKUtype === 'add') {
+        dispatch({
+          type: 'productManage/createSKU',
+          payload: {
             itemId: queryInfo.id,
-          })),
-        },
-      });
-    }
-    if (SKUtype === 'edit') {
-      dispatch({
-        type: 'productManage/updateSKU',
-        payload: {
-          itemId: queryInfo.id,
-          list: list.map((item) => ({
-            price: item?.price,
-            sales: item?.sales,
-            stock: item?.stock,
-            attributes: item?.attributes,
+            list: list.map((item) => ({
+              price: item?.price,
+              sales: item?.sales,
+              stock: item?.stock,
+              attributes: item?.attributes,
+              itemId: queryInfo.id,
+            })),
+          },
+        });
+      }
+      if (SKUtype === 'edit') {
+        dispatch({
+          type: 'productManage/updateSKU',
+          payload: {
             itemId: queryInfo.id,
-          })),
-        },
-      });
+            list: list.map((item) => ({
+              skuId: item?.skuId,
+              price: item?.price,
+              sales: item?.sales,
+              stock: item?.stock,
+              attributes: item?.attributes,
+              itemId: queryInfo.id,
+            })),
+          },
+        });
+      }
+    } else {
+      message.warning('请先添加规格');
     }
   };
   // const list = skuList.map((item) => ({ ...item, attributes: { ...item?.attributes } }));
-  // console.log('list: ', list);
 
   const getSKU = (val) => {
-    console.log('val: ', val);
     //
-    setToSku(val);
-    setTableSource([]);
+    if (val?.length > 0) {
+      setToSku(val);
+      setTableSource([]);
+    } else {
+      message.warning('请先添加规格');
+    }
   };
 
   const skuArrInTable = () => {
     return skuList.map((theSKU) => {
-      delete theSKU?.skuId;
       if (theSKU?.attributes) {
         let obj = {};
         let attributesObj = {};
@@ -87,13 +91,7 @@ const Index = () => {
       <GoodsSKU
         attrValue={attrParams(skuList, attrOptions)}
         onChange={getSKU}
-        options={
-          [
-            { value: 1, label: '酒精度' },
-            { value: 2, label: '容量' },
-          ]
-          // attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))
-        }
+        options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
       />
       <Card style={{ marginTop: 20 }}>
         <SKUList data={toSku} onChange={onChange} editData={tableSource} />
@@ -112,7 +110,7 @@ const Index = () => {
     </Card>
   );
 };
-export default Index;
+export default SKUModal;
 
 const attrParams = (skuList, attrOptions) => {
   let attrLists = [];

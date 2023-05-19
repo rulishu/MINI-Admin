@@ -8,7 +8,7 @@ import EditForm from './EditForm';
 import { columns } from './columns';
 
 const SearchTable = (props) => {
-  const { dispatch, groupManage } = props;
+  const { dispatch, groupManage, loading } = props;
   const { pageSize, categoryList } = groupManage;
   const actionRef = useRef();
 
@@ -52,14 +52,57 @@ const SearchTable = (props) => {
       });
     }
     if (type === 'delete') {
-      Modal.confirm({
-        title: '确定是否删除',
-        onOk: () => {
-          dispatch({
-            type: 'groupManage/deleteCategory',
-            payload: { id: data?.id, actionRef },
-          });
-        },
+      const modal = Modal.confirm();
+
+      modal.update({
+        title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
+        content: (
+          <div>
+            <p>删除类目会导致该类目下所有子类目全部被删除，并导致所有关联商品下架！</p>
+            <p style={{ color: 'RGB(25,158,215)' }}>是否依旧删除？</p>
+          </div>
+        ),
+        maskClosable: true,
+        closable: true,
+        // cancelText: '取消',
+        // cancelButtonProps: {
+        //   ghost: true,
+        //   style: { backgroundColor: 'RGB(44,240,152)' },
+        // },
+        // onCancel: () => {},
+        // autoFocusButton: null,
+        // okText: '确定删除',
+        // okType: 'default',
+        // onOk: () => {
+        //   // dispatch({
+        //   //   type: 'groupManage/deleteCategory',
+        //   //   payload: { id: data?.id, actionRef },
+        //   // });
+        // },
+        footer: (
+          <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <Button
+              ghost
+              style={{ margin: '0px 10px', color: 'white', backgroundColor: 'RGB(44,240,152)' }}
+              onClick={() => {
+                modal.destroy();
+              }}
+            >
+              取消
+            </Button>
+            <Button
+              style={{ color: 'RGB(170,170,170)' }}
+              onClick={() => {
+                dispatch({
+                  type: 'groupManage/deleteCategory',
+                  payload: { id: data?.id, actionRef, modal },
+                });
+              }}
+            >
+              确定删除
+            </Button>
+          </div>
+        ),
       });
     }
   };
@@ -70,10 +113,8 @@ const SearchTable = (props) => {
         actionRef={actionRef}
         cardBordered
         options={false}
-        request={async (params = {}, sort, filter) => {
-          console.log(sort, filter);
+        request={async (params = {}) => {
           const { current, pageSize } = params;
-          console.log('params: ', params);
 
           const { code, result } = await getCategory({
             page: current,
@@ -89,7 +130,6 @@ const SearchTable = (props) => {
                 return item;
               }) || [];
           }
-          console.log('tableData: ', tableData);
           return { data: tableData, success: code === 200, total: result?.total || 0 };
         }}
         rowKey="id"
@@ -103,6 +143,7 @@ const SearchTable = (props) => {
           <Button
             key="button"
             icon={<PlusOutlined />}
+            loading={loading?.global}
             onClick={() => {
               // actionRef.current?.reload();
               handleEdit('add');
@@ -118,8 +159,9 @@ const SearchTable = (props) => {
   );
 };
 
-export default connect(({ groupManage }) => {
+export default connect(({ groupManage, loading }) => {
   return {
     groupManage,
+    loading,
   };
 })(SearchTable);
