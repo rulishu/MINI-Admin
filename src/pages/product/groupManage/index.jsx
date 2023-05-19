@@ -120,6 +120,7 @@ const SearchTable = (props) => {
             page: current,
             pageSize,
             categoryName: params?.categoryName?.label,
+            level: params?.level,
           });
           let tableData = [];
           if (code === 200 && result) {
