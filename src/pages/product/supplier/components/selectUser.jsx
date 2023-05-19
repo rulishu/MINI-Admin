@@ -1,3 +1,4 @@
+import { UserOutlined } from '@ant-design/icons';
 import { useReactMutation } from '@antdp/hooks';
 import { Avatar, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -7,10 +8,10 @@ export default ({ value = undefined, onChange, ...others }) => {
   const [defaultValue, setDefaultValue] = useState(undefined);
   const [options, setOptions] = useState([]);
   const { mutateAsync } = useReactMutation({
-    url: '/jcgl-user/admin/user/select/page/list?pageNum=1&pageSize=20',
+    url: '/jcgl-user/admin/user/select/list',
     onSuccess: ({ code, result }) => {
       if (code === 200) {
-        setOptions(result.records);
+        setOptions(result);
       }
     },
   });
@@ -52,8 +53,18 @@ export default ({ value = undefined, onChange, ...others }) => {
           phone={item.consumerPhone}
         >
           <Space>
-            <Avatar src={item.headUrl} size="small" />
-            {`${item.userName}-${item.mobile}`}
+            {item?.headUrl ? (
+              <Avatar src={item?.headUrl} size="small" />
+            ) : (
+              <Avatar
+                size="small"
+                style={{
+                  backgroundColor: '#87d068',
+                }}
+                icon={<UserOutlined />}
+              />
+            )}
+            {`${item.userName}-${item?.mobile}`}
           </Space>
         </Option>
       ))}

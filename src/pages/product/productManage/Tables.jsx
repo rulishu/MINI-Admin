@@ -9,7 +9,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal, message } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { useEffect, useRef } from 'react';
 import { columns } from './columns';
 
@@ -102,9 +102,13 @@ export default function Tables() {
     }
     // 上架/下架/删除
     if (type === 'upload' || type === 'down' || type == 'delete') {
-      if (selectedRowKeys.length !== 0) {
-        if (type === 'upload') uploadAsync(selectedRowKeys);
-        if (type === 'down') downAsync({ ids: selectedRowKeys });
+      let srks = record;
+      if (!srks) {
+        srks = selectedRowKeys;
+      }
+      if (srks.length !== 0) {
+        if (type === 'upload') uploadAsync(srks);
+        if (type === 'down') downAsync({ ids: srks });
         if (type === 'delete') {
           const modal = Modal.confirm();
 
@@ -128,7 +132,7 @@ export default function Tables() {
             okText: '确定删除',
             // okType: 'default',
             onOk: () => {
-              deleteAsync(selectedRowKeys);
+              deleteAsync(srks);
             },
           });
         }
@@ -144,19 +148,19 @@ export default function Tables() {
     });
   };
 
-  const handlerSKU = (record) => {
-    dispatch({
-      type: 'productManage/update',
-      payload: {
-        queryInfo: record,
-      },
-    });
+  // const handlerSKU = (record) => {
+  //   dispatch({
+  //     type: 'productManage/update',
+  //     payload: {
+  //       queryInfo: record,
+  //     },
+  //   });
 
-    dispatch({
-      type: 'productManage/selectSKU',
-      payload: record?.id,
-    });
-  };
+  //   dispatch({
+  //     type: 'productManage/selectSKU',
+  //     payload: record?.id,
+  //   });
+  // };
 
   const handler = (data) => {
     return data.map((item) => {
@@ -177,23 +181,26 @@ export default function Tables() {
 
   return (
     <ProTable
+      className="the-pro-table"
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
         console.log('params: ', params);
         const { current, pageSize, price, timerange, ...formData } = params;
         let status = {};
+        // 出售中=== 已上架&&开售时间>=当前时间
         if (activeKey === '1') {
           status = { onShelf: 2 };
         }
-        // 已售空
+        // 仓库中=== 待上架&&开售时间===null
         if (activeKey === '2') {
           status = { stock: 0 };
         }
-        // 未上架
+        // 待开售=== 已上架&&开售时间<当前时间
         if (activeKey === '3') {
           status = { onShelf: 0 };
         }
+        // 全部
         if (activeKey === '4') {
           status = {};
         }
@@ -229,71 +236,85 @@ export default function Tables() {
       }}
       toolbar={{
         menu: {
-          type: 'tab',
-          activeKey: activeKey,
+          type: 'inline',
+          activeKey: '__',
           items: [
+            // {
+            //   key: '3',
+            //   label: `已选中${select?.selectedRowKeys?.length || 0}条数据`,
+            // },
             {
               key: '1',
-              label: `在售中`,
+              label: (
+                <Button
+                  type="primary"
+                  loading={loading.global}
+                  disabled={!(select?.selectedRowKeys?.length > 0)}
+                  onClick={() => handleEdit('delete')}
+                >
+                  批量删除
+                </Button>
+              ),
             },
             {
               key: '2',
-              label: `已售罄`,
-            },
-            {
-              key: '3',
-              label: `已下架`,
-            },
-            {
-              key: '4',
-              label: `全部`,
+              label: (
+                <Button
+                  type="primary"
+                  disabled={!(select?.selectedRowKeys?.length > 0)}
+                  loading={loading.global}
+                  onClick={() => handleEdit('upload')}
+                >
+                  批量上架
+                </Button>
+              ),
             },
           ],
-          onChange: (key) => {
-            dispatch({
-              type: 'productManage/update',
-              payload: {
-                activeKey: key,
-              },
-            });
-            ref?.current?.reload();
-          },
+          // onChange: (key) => {
+          //   dispatch({
+          //     type: 'productManage/update',
+          //     payload: {
+          //       activeKey: key,
+          //     },
+          //   });
+          //   ref?.current?.reload();
+          // },
         },
         actions: (
           <ButtonGroupPro
             button={[
               {
                 type: 'primary',
-                label: '发布商品',
+                label: '新建商品',
                 onClick: () => handleEdit('add'),
-              },
-              {
-                type: 'primary',
-                label: '上架',
-                loading: loading.global,
-                onClick: () => handleEdit('upload'),
-                disabled: activeKey !== '3',
-                // loading: uploadLoading,
-              },
-              {
-                type: 'primary',
-                label: '下架',
-                loading: loading.global,
-                disabled: activeKey === '3' || activeKey === '2',
-                onClick: () => handleEdit('down'),
-                // loading: downLoading,
-              },
-              {
-                type: 'primary',
-                label: '删除',
-                loading: loading.global,
-                onClick: () => handleEdit('delete'),
-                // loading: delteLoading,
               },
               // {
               //   type: 'primary',
-              //   label: '改类目',
+              //   label: '上架',
+              //   loading: loading.global,
+              //   onClick: () => handleEdit('upload'),
+              //   disabled: activeKey !== '3',
+              //   // loading: uploadLoading,
               // },
+              // {
+              //   type: 'primary',
+              //   label: '下架',
+              //   loading: loading.global,
+              //   disabled: activeKey === '3' || activeKey === '2',
+              //   onClick: () => handleEdit('down'),
+              //   // loading: downLoading,
+              // },
+              // {
+              //   type: 'primary',
+              //   label: '删除',
+              //   loading: loading.global,
+              //   onClick: () => handleEdit('delete'),
+              //   // loading: delteLoading,
+              // },
+              // // {
+              // //   type: 'primary',
+              // //   label: '改类目',
+              // // },
             ]}
           />
         ),
@@ -302,7 +323,7 @@ export default function Tables() {
         showSizeChanger: true,
       }}
       cardBordered={true}
-      columns={columns({ handleEdit, handlerSKU, options, categoryList })}
+      columns={columns({ handleEdit, options, categoryList })}
       rowKey="id"
       rowSelection={{
         selectedRowKeys: select.selectedRowKeys,

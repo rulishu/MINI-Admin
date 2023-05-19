@@ -1,25 +1,37 @@
 import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
-// 商品id，商品（需要有图），商品类目，价格，销量，库存，商品状态，创建时间，上架（上架时间）
-export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
+
+export const columns = ({ handleEdit, options, categoryList }) => [
+  {
+    title: '商品名称',
+    dataIndex: 'itemName',
+    align: 'center',
+    hideInTable: true,
+    width: 200,
+  },
   {
     title: '商品ID',
     dataIndex: 'id',
     align: 'center',
+    hideInTable: true,
     width: 50,
   },
   {
     title: '商品',
-    dataIndex: 'itemName',
+    dataIndex: 'item',
     align: 'center',
     search: false,
     width: 200,
     render: (_, record) => {
       return (
-        <div style={{ height: 80, display: 'flex', flexDirection: 'row' }}>
+        <div style={{ height: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Image width={80} height={80} src={record?.mainGraph} />
+          {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
           <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
-            {record?.itemName} {record?.model}*{record?.specifications}
+            <p style={{ padding: 0, margin: 0 }}>
+              {record?.itemName} {record?.model} * {record?.specifications}
+            </p>
+            <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
           </div>
         </div>
       );
@@ -31,6 +43,7 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
     dataIndex: 'cascader',
     align: 'center',
     width: 100,
+    hideInTable: true,
     fieldProps: {
       expandTrigger: 'hover',
       options: options(),
@@ -48,15 +61,16 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
     ),
   },
   {
-    title: '商品名称',
-    dataIndex: 'itemName',
+    title: '创建时间',
+    dataIndex: 'createTimeRange',
     align: 'center',
     hideInTable: true,
     width: 80,
+    valueType: 'dateRange',
   },
   {
-    title: '时间',
-    dataIndex: 'timerange',
+    title: '开售时间',
+    dataIndex: 'sellTimeRange',
     align: 'center',
     hideInTable: true,
     width: 80,
@@ -92,7 +106,6 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
   //     error: { text: '异常', status: 'Error' },
   //   },
   // },
-
   {
     title: '价格',
     dataIndex: 'price',
@@ -102,21 +115,28 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
     renderFormItem: () => <PriceRange />,
   },
   {
-    title: '销量',
-    dataIndex: 'volume',
-    align: 'center',
-    search: false,
-    width: 80,
-  },
-  {
-    title: '库存',
+    title: '总库存',
     dataIndex: 'stock',
     align: 'center',
     search: false,
     width: 50,
   },
   {
-    title: '销售商',
+    title: '总销量',
+    dataIndex: 'volume',
+    align: 'center',
+    search: false,
+    width: 80,
+  },
+  {
+    title: '商品状态',
+    dataIndex: '11111111111ss',
+    align: 'center',
+    search: false,
+    width: 80,
+  },
+  {
+    title: '供应商',
     dataIndex: '111111x',
     align: 'center',
     width: 80,
@@ -128,14 +148,13 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
       // error: { text: '异常', status: 'Error' },
     },
   },
-  {
-    title: '业务员',
-    dataIndex: '111111ywy',
-    align: 'center',
-    search: false,
-    width: 50,
-  },
-
+  // {
+  //   title: '业务员',
+  //   dataIndex: '111111ywy',
+  //   align: 'center',
+  //   search: false,
+  //   width: 50,
+  // },
   // {
   //   title: '商品状态',
   //   dataIndex: 'status',
@@ -143,13 +162,20 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
   //   search: false,
   //   width: 50,
   // },
-  // {
-  //   title: '创建时间',
-  //   dataIndex: 'createTime',
-  //   align: 'center',
-  //   search: false,
-  //   width: 80,
-  // },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    align: 'center',
+    search: false,
+    width: 80,
+  },
+  {
+    title: '开售时间',
+    dataIndex: 'sellTime',
+    align: 'center',
+    search: false,
+    width: 80,
+  },
   // {
   //   title: '上架',
   //   dataIndex: '111111d',
@@ -169,9 +195,20 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
           编辑
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handlerSKU(record)}>
-          编辑sku
+        <a type="link" size="small" onClick={() => handleEdit('upload', [record?.id])}>
+          上架
         </a>
+        <Divider type="vertical" />
+        <a type="link" size="small" onClick={() => handleEdit('down', [record?.id])}>
+          下架
+        </a>
+        <Divider type="vertical" />
+        <a type="link" size="small" onClick={() => handleEdit('delete', [record?.id])}>
+          删除
+        </a>
+        {/* <a type="link" size="small" onClick={() => handlerSKU(record)}>
+          编辑sku
+        </a> */}
       </div>
     ),
   },
