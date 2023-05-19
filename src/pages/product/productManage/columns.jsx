@@ -29,6 +29,7 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
     title: '商品类目',
     key: 'categoryId',
     dataIndex: 'cascader',
+    align: 'center',
     width: 100,
     fieldProps: {
       expandTrigger: 'hover',
@@ -40,7 +41,11 @@ export const columns = ({ handleEdit, handlerSKU, options, categoryList }) => [
       },
     },
     valueType: 'cascader',
-    renderText: (txt) => categoryList.find((item) => item?.id === txt)?.categoryName,
+    render: (txt, record) => (
+      <div style={{ textAlign: 'center' }}>
+        {categoryList.find((item) => item?.id === record?.categoryId)?.categoryName}
+      </div>
+    ),
   },
   {
     title: '商品名称',

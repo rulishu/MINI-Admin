@@ -21,16 +21,13 @@ const SKUModal = () => {
       if (SKUtype === 'add') {
         dispatch({
           type: 'productManage/createSKU',
-          payload: {
+          payload: list.map((item) => ({
+            price: item?.price,
+            sales: item?.sales,
+            stock: item?.stock,
+            attributes: item?.attributes,
             itemId: queryInfo.id,
-            list: list.map((item) => ({
-              price: item?.price,
-              sales: item?.sales,
-              stock: item?.stock,
-              attributes: item?.attributes,
-              itemId: queryInfo.id,
-            })),
-          },
+          })),
         });
       }
       if (SKUtype === 'edit') {
