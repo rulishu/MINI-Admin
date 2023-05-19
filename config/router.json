@@ -45,6 +45,10 @@
           {
             "path": "/profitSharing/agent",
             "name": "代理分润配置"
+          },
+          {
+            "path": "/profitSharing/territory",
+            "name": "代理地盘配置"
           }
         ]
       },
