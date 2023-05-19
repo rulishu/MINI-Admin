@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from '@umijs/max';
+import { Tabs } from 'antd';
 import { useEffect } from 'react';
 import Forms from './Forms';
 import SKUModal from './SKUModal';
 import Tables from './Tables';
+import './index.less';
 
 const App = () => {
-  const { showForm, showSKU } = useSelector((state) => state.productManage);
+  const { showForm, showSKU, activeKey } = useSelector((state) => state.productManage);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,18 +23,28 @@ const App = () => {
     });
   }, []);
 
-  // const items = [
-  //   {
-  //     key: 2,
-  //     label: `标品商品`,
-  //     children: <Tables />,
-  //   },
-  //   {
-  //     key: 3,
-  //     label: `封坛商品`,
-  //     children: <Tables />,
-  //   },
-  // ];
+  const items = [
+    {
+      key: '4',
+      label: `全部`,
+      children: <Tables />,
+    },
+    {
+      key: '3',
+      label: `待开售`,
+      children: <Tables />,
+    },
+    {
+      key: '1',
+      label: `出售中`,
+      children: <Tables />,
+    },
+    {
+      key: '2',
+      label: `仓库中`,
+      children: <Tables />,
+    },
+  ];
   const render = () => {
     if (showSKU) {
       return <SKUModal />;
@@ -40,21 +52,20 @@ const App = () => {
     if (showForm) {
       return <Forms />;
     }
-    return <Tables />;
-    // return (
-    //   <Tabs
-    //     activeKey={tabs}
-    //     items={items}
-    //     onChange={(key) => {
-    //       dispatch({
-    //         type: 'productManage/update',
-    //         payload: {
-    //           tabs: key,
-    //         },
-    //       });
-    //     }}
-    //   />
-    // );
+    return (
+      <Tabs
+        activeKey={activeKey}
+        items={items}
+        onChange={(key) => {
+          dispatch({
+            type: 'productManage/update',
+            payload: {
+              activeKey: key,
+            },
+          });
+        }}
+      />
+    );
   };
   return <div>{render()}</div>;
 };
