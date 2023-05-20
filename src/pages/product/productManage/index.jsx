@@ -45,29 +45,27 @@ const App = () => {
       children: <Tables />,
     },
   ];
-  const render = () => {
-    if (showSKU) {
-      return <SKUModal />;
-    }
-    if (showForm) {
-      return <Forms />;
-    }
-    return (
-      <Tabs
-        activeKey={activeKey}
-        items={items}
-        onChange={(key) => {
-          dispatch({
-            type: 'productManage/update',
-            payload: {
-              activeKey: key,
-            },
-          });
-        }}
-      />
-    );
-  };
-  return <div>{render()}</div>;
+  if (showSKU) {
+    return <SKUModal />;
+  }
+  if (showForm) {
+    return <Forms />;
+  }
+  return (
+    <Tabs
+      activeKey={activeKey}
+      items={items}
+      size="small"
+      onChange={(key) => {
+        dispatch({
+          type: 'productManage/update',
+          payload: {
+            activeKey: key,
+          },
+        });
+      }}
+    />
+  );
 };
 
 export default App;

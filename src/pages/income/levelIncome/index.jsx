@@ -22,7 +22,7 @@ const Index = () => {
 
   return (
     <div>
-      <Tabs defaultActiveKey="1" onChange={onChange} type="card" items={items} />
+      <Tabs size="small" defaultActiveKey="1" onChange={onChange} type="card" items={items} />
     </div>
   );
 };

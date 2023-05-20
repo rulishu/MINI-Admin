@@ -28,7 +28,7 @@ const Index = () => {
 
   return (
     <div>
-      <Tabs defaultActiveKey="1" onChange={onChange} items={items} />
+      <Tabs size="small" defaultActiveKey="1" onChange={onChange} items={items} />
     </div>
   );
 };

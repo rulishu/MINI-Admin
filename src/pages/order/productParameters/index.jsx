@@ -74,5 +74,7 @@ export default function Page() {
     },
   ];
 
-  return <Tabs activeKey={tab} items={items} onChange={(key) => update({ tab: key })} />;
+  return (
+    <Tabs size="small" activeKey={tab} items={items} onChange={(key) => update({ tab: key })} />
+  );
 }

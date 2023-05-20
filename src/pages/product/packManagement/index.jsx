@@ -24,10 +24,6 @@ const giftPackManagement = () => {
       children: <BasicsTables />,
     },
   ];
-  return (
-    <div>
-      <Tabs defaultActiveKey="2" items={items} onChange={onChange} />
-    </div>
-  );
+  return <Tabs defaultActiveKey="2" items={items} onChange={onChange} />;
 };
 export default giftPackManagement;
