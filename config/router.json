@@ -42,7 +42,8 @@
           },
           {
             "path": "/profitSharing/distribution",
-            "name": "经销分润配置"
+            "name": "经销分润配置",
+            "component": "@/pages/profitSharing/distribution"
           },
           {
             "path": "/profitSharing/agent",
