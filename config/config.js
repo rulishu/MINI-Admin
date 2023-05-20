@@ -18,11 +18,6 @@ export default config(router, {
     /** 是否展示搜索菜单  */
     ANTD_MENU_SEARCH_IS_SHOW: true,
   },
-  locale: {
-    default: 'zh-CN', // default zh-CN
-    antd: true,
-    baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
-  },
   dva: {},
   model: {},
   request: {},
