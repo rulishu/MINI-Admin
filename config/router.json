@@ -82,14 +82,12 @@
           {
             "path": "/product/productParameters",
             "name": "商品参数",
-            "component": "@/pages/product/productParameters",
-            "hideInMenu": true
+            "component": "@/pages/product/productParameters"
           },
           {
             "path": "/product/productBasic",
             "name": "商品基础设置",
-            "component": "@/pages/product/productBasic",
-            "hideInMenu": true
+            "component": "@/pages/product/productBasic"
           },
           {
             "path": "/product/supplier",
@@ -132,8 +130,7 @@
           {
             "path": "/order/boutique",
             "name": "精品订单管理",
-            "component": "@/pages/order/boutique",
-            "hideInMenu": true
+            "component": "@/pages/order/boutique"
           },
           {
             "path": "/order/custom",
@@ -148,7 +145,6 @@
           {
             "path": "/order/afterSales",
             "name": "售后管理",
-            "hideInMenu": true,
             "routes": [
               {
                 "path": "/order/afterSales/afterSalesApplication",
@@ -175,14 +171,12 @@
           {
             "path": "/order/seal",
             "name": "封坛订单管理",
-            "component": "@/pages/order/sealMangment",
-            "hideInMenu": true
+            "component": "@/pages/order/sealMangment"
           },
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component": "@/pages/order/productParameters",
-            "hideInMenu": true
+            "component": "@/pages/order/productParameters"
           }
         ]
       },
@@ -190,7 +184,6 @@
         "path": "/sales",
         "name": "营销",
         "icon": "gift",
-        "hideInMenu": true,
         "routes": [
           {
             "path": "/sales/promotion",
@@ -267,7 +260,6 @@
         "path": "/income",
         "name": "收益",
         "icon": "pay-circle",
-        "hideInMenu": true,
         "routes": [
           {
             "path": "/income/levelIncome",
@@ -322,8 +314,7 @@
               {
                 "path": "/cust/custManage/tagsManage",
                 "name": "标签管理",
-                "component": "@/pages/cust/tagsManage",
-                "hideInMenu": true
+                "component": "@/pages/cust/tagsManage"
               }
             ]
           },
@@ -342,27 +333,6 @@
                 "component": "@/pages/cust/memberSettings/EquityRules"
               }
             ]
-          }
-        ]
-      },
-      {
-        "path": "/distribution",
-        "name": "分销",
-        "icon": "table",
-        "hideInMenu": true,
-        "routes": [
-          {
-            "path": "/distribution/provinceAgentManage",
-            "name": "省代管理"
-          },
-          {
-            "path": "/distribution/cityAgentManage",
-            "name": "市代管理"
-          },
-          {
-            "path": "/distribution/shareManage",
-            "name": "分润设置",
-            "component": "@/pages/distribution/shareManage"
           }
         ]
       }
