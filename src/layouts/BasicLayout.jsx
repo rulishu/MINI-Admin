@@ -1,14 +1,21 @@
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import Authorized from '@antdp/authorized';
 import BasicLayout from '@antdp/basic-layouts';
-import { history, useModel } from '@umijs/max';
+import { history, useDispatch, useSelector } from '@umijs/max';
 import 'antd/dist/reset.css';
 import logo from './fendouzhilu-logo.png';
 
 const Layout = () => {
-  const { setStore, store } = useModel('global', (model) => ({ ...model }));
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.global);
+  const update = (data) => {
+    dispatch({
+      type: 'global/update',
+      payload: data,
+    });
+  };
   return (
-    <Authorized authority={!!store.token} redirectPath="/login">
+    <Authorized authority={!!token} redirectPath="/login">
       <BasicLayout
         projectName="奋斗之露"
         logo={logo}
@@ -36,7 +43,9 @@ const Layout = () => {
             icon: <LogoutOutlined />,
             onClick: async () => {
               await sessionStorage.removeItem('token');
-              setStore({ ...store, token: '' });
+              await sessionStorage.removeItem('refresh_token');
+              await sessionStorage.removeItem('userDate');
+              update({ token: '' });
               history.push('/login');
             },
           },

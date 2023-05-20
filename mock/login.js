@@ -1,23 +1,19 @@
 export default {
   'POST /api/users/login': (req, res) => {
-    const { username, password, phone, code, type } = req.body;
-    if ((username === 'admin' && password === 'admin') || (code && phone)) {
+    const { userName, passWord, phone, code } = req.body;
+    if ((userName === 'admin' && passWord === '123456') || (code && phone)) {
       res.send({
-        code: 1,
+        code: 200,
         message: '登录成功！',
-        data: {
-          type,
+        result: {
+          access_token: '3096208b45df735aeebf072e90a4',
         },
-        token: '3096208b45df735aeebf072e90a4',
       });
       return;
     }
     res.send({
       code: -1,
       message: '登录失败！',
-      data: {
-        type,
-      },
       token: null,
     });
   },

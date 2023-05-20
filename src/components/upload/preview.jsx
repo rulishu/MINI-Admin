@@ -1,10 +1,23 @@
-import { CloseOutlined, DownloadOutlined, RedoOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  DownloadOutlined,
+  MinusOutlined,
+  PlusOutlined,
+  RedoOutlined,
+} from '@ant-design/icons';
 import { Space } from 'antd';
 import { useState } from 'react';
 
 export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }) => {
   const [rotateDegree, setRotateDegree] = useState(0);
   const [zoomFactor, setZoomFactor] = useState(1);
+  const handleZoomIn = () => {
+    setZoomFactor(zoomFactor + 0.1);
+  };
+
+  const handleZoomOut = () => {
+    setZoomFactor(zoomFactor - 0.1);
+  };
   return (
     <div
       style={{
@@ -13,7 +26,7 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
         left: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: 'rgba(0,0,0,.9)',
+        backgroundColor: 'rgba(0, 0, 0, 0.45)',
         display: previewUrl ? 'flex' : 'none',
         justifyContent: 'center',
         alignItems: 'center',
@@ -39,17 +52,25 @@ export default ({ previewUrl = '', handleDownload, handleClosePreview, isVideo }
             width: `${100 * zoomFactor}%`,
             height: `${100 * zoomFactor}%`,
           }}
-          onWheel={(e) => {
-            e.preventDefault();
-            const deltaY = e.nativeEvent.deltaY;
-            // 每次滚动增加 / 减少 0.1 的缩放比例
-            setZoomFactor(Math.max(0.1, Math.min(zoomFactor + deltaY / 1000, 10)));
-          }}
         />
       )}
       {previewUrl && (
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <Space size="large">
+            <PlusOutlined
+              onClick={(e) => {
+                e.stopPropagation();
+                handleZoomIn();
+              }}
+              style={{ color: '#fff', fontSize: 20 }}
+            />
+            <MinusOutlined
+              onClick={(e) => {
+                e.stopPropagation();
+                handleZoomOut();
+              }}
+              style={{ color: '#fff', fontSize: 20 }}
+            />
             <RedoOutlined
               onClick={(e) => {
                 e.stopPropagation();

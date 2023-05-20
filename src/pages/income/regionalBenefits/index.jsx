@@ -43,7 +43,7 @@ const giftPackManagement = () => {
   ];
   return (
     <div>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+      <Tabs size="small" defaultActiveKey="1" items={items} onChange={onChange} />
     </div>
   );
 };

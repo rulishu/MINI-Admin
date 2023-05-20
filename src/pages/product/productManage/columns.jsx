@@ -1,97 +1,167 @@
+import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
-// 商品id，商品（需要有图），商品类目，价格，销量，库存，商品状态，创建时间，上架（上架时间）
-export const columns = ({ handleEdit, handlerSKU }) => [
+
+export const columns = ({ handleEdit, options, categoryList }) => [
   {
-    title: '商品id',
+    title: '商品名称',
+    dataIndex: 'itemName',
+    align: 'center',
+    hideInTable: true,
+    width: 200,
+  },
+  {
+    title: '商品ID',
     dataIndex: 'id',
     align: 'center',
-    search: false,
+    hideInTable: true,
     width: 50,
   },
   {
     title: '商品',
-    dataIndex: 'itemName',
+    dataIndex: 'item',
     align: 'center',
     search: false,
     width: 200,
     render: (_, record) => {
       return (
-        <div style={{ height: 80, display: 'flex', flexDirection: 'row' }}>
+        <div style={{ height: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <Image width={80} height={80} src={record?.mainGraph} />
+          {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
           <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
-            【爆品酒】 奋斗之露 {record?.itemName} {record?.model}*{record?.specifications}
+            <p style={{ padding: 0, margin: 0 }}>
+              {record?.itemName} {record?.model} * {record?.specifications}
+            </p>
+            <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
           </div>
         </div>
       );
     },
   },
   {
-    title: '类目',
-    dataIndex: '111111',
+    title: '商品类目',
+    key: 'categoryId',
+    dataIndex: 'cascader',
     align: 'center',
-    search: false,
-    width: 50,
+    width: 100,
+    hideInTable: true,
+    fieldProps: {
+      expandTrigger: 'hover',
+      options: options(),
+      changeOnSelect: true,
+      fieldNames: {
+        children: 'children',
+        label: 'label',
+      },
+    },
+    valueType: 'cascader',
+    render: (txt, record) => (
+      <div style={{ textAlign: 'center' }}>
+        {categoryList.find((item) => item?.id === record?.categoryId)?.categoryName}
+      </div>
+    ),
   },
   {
-    title: '商品名称',
-    dataIndex: 'itemName',
+    title: '创建时间',
+    dataIndex: 'createTimeRange',
     align: 'center',
     hideInTable: true,
     width: 80,
+    valueType: 'dateRange',
   },
-  // {
-  //   title: '商品型号',
-  //   dataIndex: 'model',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   width: 80,
-  //   hideInSearch: true,
-  // },
-  // {
-  //   title: '规格',
-  //   dataIndex: 'specifications',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   hideInSearch: true,
-  //   width: 80,
-  // },
-  // {
-  //   title: '税率',
-  //   dataIndex: 'taxRate',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   hideInSearch: true,
-  //   width: 80,
-  // },
+  {
+    title: '开售时间',
+    dataIndex: 'sellTimeRange',
+    align: 'center',
+    hideInTable: true,
+    width: 80,
+    valueType: 'dateRange',
+  },
 
+  // {
+  //   title: '商品类型',
+  //   dataIndex: '',
+  //   align: 'center',
+  //   hideInTable: true,
+  //   width: 80,
+  //   valueType: 'select',
+  //   valueEnum: {
+  //     all: { text: '全部', status: 'Default' },
+  //     running: { text: '运行中', status: 'Processing' },
+  //     online: { text: '已上线', status: 'Success' },
+  //     error: { text: '异常', status: 'Error' },
+  //   },
+  // },
+  // {
+  //   title: '单选按钮状态',
+  //   dataIndex: 'status',
+  //   hideInTable: true,
+
+  //   valueType: 'radioButton',
+  //   initialValue: 'all',
+  //   width: 100,
+  //   valueEnum: {
+  //     all: { text: '全部', status: 'Default' },
+  //     running: { text: '运行中', status: 'Processing' },
+  //     online: { text: '已上线', status: 'Success' },
+  //     error: { text: '异常', status: 'Error' },
+  //   },
+  // },
   {
     title: '价格',
     dataIndex: 'price',
     align: 'center',
-    search: false,
     width: 80,
+    valueType: 'digit',
+    renderFormItem: () => <PriceRange />,
   },
   {
-    title: '销量',
-    dataIndex: '111111a',
-    align: 'center',
-    search: false,
-    width: 80,
-  },
-  {
-    title: '库存',
+    title: '总库存',
     dataIndex: 'stock',
     align: 'center',
     search: false,
     width: 50,
   },
   {
-    title: '商品状态',
-    dataIndex: 'status',
+    title: '总销量',
+    dataIndex: 'volume',
     align: 'center',
     search: false,
-    width: 50,
+    width: 80,
   },
+  {
+    title: '商品状态',
+    dataIndex: '11111111111ss',
+    align: 'center',
+    search: false,
+    width: 80,
+  },
+  {
+    title: '供应商',
+    dataIndex: '111111x',
+    align: 'center',
+    width: 80,
+    valueType: 'select',
+    valueEnum: {
+      // all: { text: '全部', status: 'Default' },
+      // running: { text: '运行中', status: 'Processing' },
+      // online: { text: '已上线', status: 'Success' },
+      // error: { text: '异常', status: 'Error' },
+    },
+  },
+  // {
+  //   title: '业务员',
+  //   dataIndex: '111111ywy',
+  //   align: 'center',
+  //   search: false,
+  //   width: 50,
+  // },
+  // {
+  //   title: '商品状态',
+  //   dataIndex: 'status',
+  //   align: 'center',
+  //   search: false,
+  //   width: 50,
+  // },
   {
     title: '创建时间',
     dataIndex: 'createTime',
@@ -100,34 +170,18 @@ export const columns = ({ handleEdit, handlerSKU }) => [
     width: 80,
   },
   {
-    title: '上架',
-    dataIndex: '111111d',
+    title: '开售时间',
+    dataIndex: 'sellTime',
     align: 'center',
     search: false,
-    width: 50,
+    width: 80,
   },
   // {
-  //   title: '排序',
-  //   dataIndex: 'order',
+  //   title: '上架',
+  //   dataIndex: '111111d',
   //   align: 'center',
-  //   ellipsis: true,
-  //   hideInSearch: true,
-  //   width: 80,
-  // },
-  // {
-  //   title: '商品分组',
-  //   dataIndex: 'sort',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   width: 80,
-  // },
-  // {
-  //   title: '销量商',
-  //   dataIndex: 'companyName',
-  //   align: 'center',
-  //   ellipsis: true,
-  //   width: 80,
-  //   hideInTable: true,
+  //   search: false,
+  //   width: 50,
   // },
   {
     title: '操作',
@@ -141,17 +195,20 @@ export const columns = ({ handleEdit, handlerSKU }) => [
           编辑
         </a>
         <Divider type="vertical" />
-        {/* <a type="link" size="small" onClick={() => handleEdit('view', record)}>
-          查看
-        </a> */}
-        {/* <Divider type="vertical" /> */}
-        <a type="link" size="small ">
-          复制
+        <a type="link" size="small" onClick={() => handleEdit('upload', [record?.id])}>
+          上架
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handlerSKU(record)}>
-          编辑sku
+        <a type="link" size="small" onClick={() => handleEdit('down', [record?.id])}>
+          下架
         </a>
+        <Divider type="vertical" />
+        <a type="link" size="small" onClick={() => handleEdit('delete', [record?.id])}>
+          删除
+        </a>
+        {/* <a type="link" size="small" onClick={() => handlerSKU(record)}>
+          编辑sku
+        </a> */}
       </div>
     ),
   },

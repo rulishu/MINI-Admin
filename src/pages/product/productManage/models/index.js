@@ -2,10 +2,8 @@ import { createSKU, selectAttr, selectSKU, updateSKU } from '@/service/goods/pro
 export default {
   namespace: 'productManage',
   state: {
-    /** tabbar activeKey  */
-    tabs: 2,
     /** table activeKey  */
-    activeKey: '1',
+    activeKey: '4',
     /** 是否打开form表单  */
     showForm: false,
     /** add新增 / edit编辑 / view查看  */
@@ -20,6 +18,7 @@ export default {
     /** 是否刷新分页  */
     reload: false,
 
+    skuList: [],
     showSKU: false,
     SKUtype: 'add',
     attrOptions: [],

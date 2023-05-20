@@ -20,5 +20,5 @@ export default function Page() {
       children: '已作废',
     },
   ];
-  return <Tabs activeKey={tab} items={items} onChange={(key) => setTab(key)} />;
+  return <Tabs activeKey={tab} size="small" items={items} onChange={(key) => setTab(key)} />;
 }

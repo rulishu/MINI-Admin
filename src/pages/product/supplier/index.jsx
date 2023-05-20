@@ -19,14 +19,18 @@ export default () => {
     });
   };
 
+  useEffect(() => {
+    dispatch({ type: 'supplier/getUserList' });
+    dispatch({ type: 'commonInterface/getTreeList' });
+  }, []);
+
   // 新增编辑刷新分页
   useEffect(() => {
-    if (reload) ref?.current?.reload();
+    if (reload) {
+      ref?.current?.reload();
+      dispatch({ type: 'supplier/getUserList' });
+    }
   }, [reload]);
-
-  useEffect(() => {
-    dispatch({ type: 'supplier/getTreeList' });
-  }, []);
 
   // 详情接口
   const { mutateAsync } = useReactMutation({
@@ -47,6 +51,10 @@ export default () => {
     onSuccess: ({ code }) => {
       if (code && code === 200) {
         ref?.current?.reload();
+        dispatch({
+          type: 'supplier/getUserList',
+          payload: {},
+        });
       }
     },
   });
@@ -62,7 +70,8 @@ export default () => {
     }
     if (type === 'delete') {
       Modal.confirm({
-        title: '确定是否删除',
+        title: '确定是否删除该供应商？',
+        maskClosable: true,
         onOk: () => mutateDeleteAsync({ id: record.supplierId }),
       });
     }
@@ -72,6 +81,9 @@ export default () => {
       <ProTable
         actionRef={ref}
         options={false}
+        form={{
+          defaultCollapsed: false,
+        }}
         search={{
           labelWidth: 120,
         }}
@@ -112,21 +124,9 @@ export default () => {
         columns={columns({
           handleEdit,
           productSelector: {
-            onFocus: () => {
-              dispatch({
-                type: 'supplier/getUserList',
-                payload: {},
-              });
-            },
-            onSearch: (value) => {
-              dispatch({
-                type: 'supplier/getUserList',
-                payload: { userName: value },
-              });
-            },
             options: userList.map((item) => ({
-              label: `${item.userName}-${item.mobile}`,
-              value: item.userId,
+              label: item.productSelector,
+              value: item.productId,
             })),
           },
         })}

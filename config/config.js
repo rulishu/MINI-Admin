@@ -4,6 +4,7 @@ import router from './router.json';
 export default config(router, {
   proxy,
   npmClient: 'npm',
+  favicons: ['favicon.ico'],
   define: {
     // 是否显示 左侧菜单
     // ANTD_MENU_IS_SHOW: false,
@@ -17,11 +18,6 @@ export default config(router, {
     ANTD_TITLE_TOP: true,
     /** 是否展示搜索菜单  */
     ANTD_MENU_SEARCH_IS_SHOW: true,
-  },
-  locale: {
-    default: 'zh-CN', // default zh-CN
-    antd: true,
-    baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
   },
   dva: {},
   model: {},

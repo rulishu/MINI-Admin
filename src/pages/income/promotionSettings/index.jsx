@@ -40,7 +40,7 @@ const Index = () => {
           <Alert message={text} type="info" closable />
         </Space>
       </Row>
-      <Tabs defaultActiveKey="1" type="card" onChange={onChange} items={items} />
+      <Tabs size="small" defaultActiveKey="1" type="card" onChange={onChange} items={items} />
     </div>
   );
 };

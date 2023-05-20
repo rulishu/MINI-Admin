@@ -11,6 +11,7 @@ const group = {
   namespace: 'groupManage',
   state: {
     categoryList: [],
+    categoryTree: [],
     page: 1,
     pageSize: 20,
     searchParams: {},
@@ -18,7 +19,7 @@ const group = {
     tableData: [],
     platformList: [],
     addOpen: false,
-    drawerType: 'edit',
+    drawerType: 'add',
     drawerParams: {},
     message: '',
   },
@@ -83,10 +84,7 @@ const group = {
 
     *addCategory({ payload }, { call, put }) {
       const { code } = yield call(addCategory, payload.searchParams);
-      console.log('code: ', code);
       if (code === 200) {
-        //
-
         yield put({
           type: 'updateState',
           payload: {
@@ -95,6 +93,12 @@ const group = {
           },
         });
         payload.actionRef.current?.reload();
+        yield put({
+          type: 'getCategoryTree',
+        });
+        yield put({
+          type: 'getAllCategory',
+        });
       }
     },
 
@@ -116,14 +120,28 @@ const group = {
           },
         });
         payload.actionRef.current?.reload();
+        yield put({
+          type: 'getCategoryTree',
+        });
+        yield put({
+          type: 'getAllCategory',
+        });
       }
     },
 
-    *deleteCategory({ payload }, { call }) {
+    *deleteCategory({ payload }, { call, put }) {
       const { code } = yield call(deleteCategory, payload);
       if (code === 200) {
         //
+        payload.modal.destroy();
+
         payload.actionRef.current?.reload();
+        yield put({
+          type: 'getCategoryTree',
+        });
+        yield put({
+          type: 'getAllCategory',
+        });
       }
     },
   },

@@ -1,8 +1,7 @@
 import { Button, Input, Table } from 'antd';
 import { useEffect, useState } from 'react';
 
-const SKUList = ({ value = [], data = [], onChange }) => {
-  console.log('SKUListvalue: ', value);
+const SKUList = ({ editData = [], data = [], onChange }) => {
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
@@ -43,8 +42,11 @@ const SKUList = ({ value = [], data = [], onChange }) => {
       // Generate SKU data
       const updatedDataSource = [];
       generateSKUs(data, 0, {}, updatedDataSource);
-      console.log('updatedDataSource: ', updatedDataSource);
-      setDataSource(updatedDataSource);
+      if (editData.length > 0) {
+        setDataSource(editData);
+      } else {
+        setDataSource(updatedDataSource);
+      }
     }
   }, [data]);
 
@@ -131,6 +133,7 @@ const SKUList = ({ value = [], data = [], onChange }) => {
         dataSource={dataSource}
         columns={columns}
         pagination={false}
+        // rowKey="itemId"
         bordered
         size="small"
         scroll={{ x: 'max-content' }}

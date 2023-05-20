@@ -41,16 +41,16 @@ export default (options) => ({
             showCount: true,
           },
         },
-        specifications: {
-          title: '规格',
-          type: 'string',
-          required: true,
-          placeholder: '请输入规格',
-          props: {
-            maxLength: 50,
-            showCount: true,
-          },
-        },
+        // specifications: {
+        //   title: '规格',
+        //   type: 'string',
+        //   required: true,
+        //   placeholder: '请输入规格',
+        //   props: {
+        //     maxLength: 50,
+        //     showCount: true,
+        //   },
+        // },
         mainGraph: {
           title: '图片上传',
           widget: 'picupload',
@@ -61,7 +61,7 @@ export default (options) => ({
             maxCount: 1,
           },
         },
-        parentId: {
+        categoryId: {
           title: '商品类目',
           type: 'object',
           widget: 'cascader',
@@ -90,19 +90,19 @@ export default (options) => ({
         //     options: [{ label: 'DRKANTER', value: '58' }],
         //   },
         // },
-        categoryId: {
-          type: 'string',
-          title: '商品类目',
-          required: true,
-          widget: 'select',
-          disabled: true,
-          props: {
-            options: [
-              { label: '标品商品', value: '2' },
-              { label: '封坛商品', value: '3' },
-            ],
-          },
-        },
+        // categoryId: {
+        //   type: 'string',
+        //   title: '商品分类',
+        //   required: true,
+        //   widget: 'select',
+        //   disabled: true,
+        //   props: {
+        //     options: [
+        //       { label: '标品商品', value: '2' },
+        //       { label: '封坛商品', value: '3' },
+        //     ],
+        //   },
+        // },
         details: {
           type: 'string',
           title: '商品介绍',

@@ -1,4 +1,4 @@
-import { getTreeList, getUserList } from '@/service/goods/supplier';
+import { getUserList } from '@/service/goods/supplier';
 
 export default {
   namespace: 'supplier',
@@ -8,7 +8,6 @@ export default {
     type: '',
     queryInfo: {},
     relaod: false,
-    treeList: [],
     userList: [],
   },
   reducers: {
@@ -19,24 +18,13 @@ export default {
   },
   effects: {
     // eslint-disable-next-line no-unused-vars
-    *getTreeList({ payload }, { call, put }) {
-      const { code, result } = yield call(getTreeList);
-      if (code && code === 200) {
-        yield put({
-          type: 'update',
-          payload: {
-            treeList: result,
-          },
-        });
-      }
-    },
     *getUserList({ payload }, { call, put }) {
-      const { code, result } = yield call(getUserList, payload);
+      const { code, result } = yield call(getUserList);
       if (code && code === 200) {
         yield put({
           type: 'update',
           payload: {
-            userList: result.records || [],
+            userList: result || [],
           },
         });
       }

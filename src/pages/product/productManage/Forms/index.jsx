@@ -9,7 +9,7 @@ import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import item from './item';
 
-const Index = () => {
+const TheForm = () => {
   const form = useForm();
   const { productManage, groupManage } = useSelector((state) => state);
   const { type, queryInfo, showForm } = productManage;
@@ -48,7 +48,7 @@ const Index = () => {
     mutateAsync({
       ...form1,
       id: queryInfo?.id, // 商品ID
-      parentId: form1?.parentId?.slice(-1)?.[0], // 类目ID
+      categoryId: form1?.categoryId?.slice(-1)?.[0], // 类目ID
       mainGraph: form1.mainGraph?.[0]?.url, // 图片url
     });
   };
@@ -64,7 +64,7 @@ const Index = () => {
   };
 
   const options = () => {
-    if (categoryTree.length > 0) {
+    if (categoryTree && categoryTree.length > 0) {
       return [...handler(categoryTree)];
     } else {
       return [];
@@ -108,4 +108,4 @@ const Index = () => {
     </div>
   );
 };
-export default Index;
+export default TheForm;

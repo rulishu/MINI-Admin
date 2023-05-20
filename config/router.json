@@ -11,12 +11,47 @@
         "path": "/",
         "redirectTo": "/welcome"
       },
-      { "path": "/*", "component": "@/pages/404" },
+      {
+        "path": "/*",
+        "component": "@/pages/404"
+      },
       {
         "path": "/welcome",
         "name": "首页",
         "icon": "home",
         "component": "@/pages/home"
+      },
+      {
+        "path": "/profitSharing",
+        "name": "分润配置",
+        "icon": "setting",
+        "routes": [
+          {
+            "path": "/profitSharing/referrer",
+            "name": "推荐人分润配置",
+            "component": "@/pages/profitSharing/referrer"
+          },
+          {
+            "path": "/profitSharing/members",
+            "name": "会员分润配置"
+          },
+          {
+            "path": "/profitSharing/headquarters",
+            "name": "总部分润配置"
+          },
+          {
+            "path": "/profitSharing/distribution",
+            "name": "经销分润配置"
+          },
+          {
+            "path": "/profitSharing/agent",
+            "name": "代理分润配置"
+          },
+          {
+            "path": "/profitSharing/territory",
+            "name": "代理地盘配置"
+          }
+        ]
       },
       {
         "path": "/product",
@@ -109,7 +144,6 @@
             "name": "拣货单管理",
             "hideInMenu": true
           },
-
           {
             "path": "/order/afterSales",
             "name": "售后管理",
