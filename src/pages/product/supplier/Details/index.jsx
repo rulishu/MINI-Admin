@@ -8,18 +8,6 @@ import { useEffect } from 'react';
 import SelectUser from '../components/selectUser';
 import { schema } from './schema';
 
-const convert = (data) => {
-  return data.map((item) => {
-    const { areaCode, areaName } = item;
-    const newChildren = item.children ? convert(item.children) : [];
-    return {
-      label: areaName,
-      value: areaCode,
-      children: newChildren,
-    };
-  });
-};
-
 export default () => {
   const form = useForm();
   const fn = {
@@ -31,7 +19,6 @@ export default () => {
     commonInterface: { treeList },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const update = (data) => {
     dispatch({
       type: 'supplier/update',
@@ -128,7 +115,7 @@ export default () => {
         form={form}
         schema={schema({
           province: {
-            options: convert(treeList),
+            options: treeList,
           },
         })}
         onFinish={onFinish}

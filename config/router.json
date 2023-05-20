@@ -53,7 +53,8 @@
           },
           {
             "path": "/profitSharing/territory",
-            "name": "代理地盘配置"
+            "name": "代理地盘配置",
+            "component": "@/pages/profitSharing/territory"
           }
         ]
       },
