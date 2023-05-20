@@ -62,7 +62,6 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.totalPercent,
         max: 100,
-        min: 0,
         props: {
           addonAfter: '%',
         },
@@ -74,7 +73,6 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.areaLevelPercent,
         max: 100,
-        min: 0,
         props: {
           addonAfter: '%',
         },
@@ -86,7 +84,6 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.cityLevelPercent,
         max: 100,
-        min: 0,
         props: {
           addonAfter: '%',
         },
@@ -98,7 +95,6 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.provinceLevelPercent,
         max: 100,
-        min: 0,
         props: {
           addonAfter: '%',
         },

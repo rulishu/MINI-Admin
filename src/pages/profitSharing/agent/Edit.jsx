@@ -43,7 +43,7 @@ export default function SearchTable({ tableRef }) {
     <Modal
       open={visible}
       onCancel={() => update({ visible: false })}
-      width={800}
+      width={500}
       footer={
         <ButtonGroupPro
           button={[

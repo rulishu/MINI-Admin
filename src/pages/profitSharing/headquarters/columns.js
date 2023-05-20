@@ -30,7 +30,6 @@ export const schema = ({ queryData }) => {
         title: '分润系数',
         type: 'number',
         max: 100,
-        min: 0,
         placeholder: '请输入会员分润系数',
         required: true,
         defaultValue: queryData.totalPercent,
