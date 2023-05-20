@@ -28,7 +28,8 @@
         "routes": [
           {
             "path": "/profitSharing/referrer",
-            "name": "推荐人分润配置"
+            "name": "推荐人分润配置",
+            "component": "@/pages/profitSharing/referrer"
           },
           {
             "path": "/profitSharing/members",
