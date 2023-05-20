@@ -1,16 +1,14 @@
 export const columns = (edit) => [
   {
-    title: '推荐人分润系数',
+    title: '总部分润系数',
     align: 'left',
-    dataIndex: 'percent',
-    width: 30,
+    dataIndex: 'totalPercent',
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
     title: '操作',
-    width: 30,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
@@ -28,14 +26,13 @@ export const schema = ({ queryData }) => {
   return {
     type: 'object',
     properties: {
-      input: {
-        title: '推荐人分润系数',
+      totalPercent: {
+        title: '分润系数',
         type: 'number',
-        placeholder: '请输入推荐人分润系数',
-        required: true,
-        defaultValue: queryData.percent,
         max: 100,
-        min: 0,
+        placeholder: '请输入会员分润系数',
+        required: true,
+        defaultValue: queryData.totalPercent,
         props: {
           addonAfter: '%',
         },

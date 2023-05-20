@@ -38,19 +38,23 @@
           },
           {
             "path": "/profitSharing/headquarters",
-            "name": "总部分润配置"
+            "name": "总部分润配置",
+            "component": "@/pages/profitSharing/headquarters"
           },
           {
             "path": "/profitSharing/distribution",
-            "name": "经销分润配置"
+            "name": "经销分润配置",
+            "component": "@/pages/profitSharing/distribution"
           },
           {
             "path": "/profitSharing/agent",
-            "name": "代理分润配置"
+            "name": "代理分润配置",
+            "component": "@/pages/profitSharing/agent"
           },
           {
             "path": "/profitSharing/territory",
-            "name": "代理地盘配置"
+            "name": "代理地盘配置",
+            "component": "@/pages/profitSharing/territory"
           }
         ]
       },

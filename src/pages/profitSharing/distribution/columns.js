@@ -1,43 +1,38 @@
 export const columns = (edit) => [
   {
-    title: '分润基数',
+    title: '经销商等级',
     align: 'left',
     dataIndex: 'totalPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
-    title: '县/区比例',
+    title: '自购比例',
     align: 'left',
     dataIndex: 'areaLevelPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
-    title: '市级会员',
+    title: '一级返佣',
     align: 'left',
     dataIndex: 'cityLevelPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
-    title: '省级会员',
+    title: '二级返佣',
     align: 'left',
     dataIndex: 'provinceLevelPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
     title: '操作',
-    width: 30,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
@@ -56,20 +51,16 @@ export const schema = ({ queryData }) => {
     type: 'object',
     properties: {
       totalPercent: {
-        title: '会员分润系数',
-        type: 'number',
+        title: '经销商等级',
+        type: 'string',
         placeholder: '请输入会员分润系数',
         required: true,
         defaultValue: queryData.totalPercent,
-        max: 100,
-        props: {
-          addonAfter: '%',
-        },
+        disabled: true,
       },
       areaLevelPercent: {
-        title: '县/区比例',
+        title: '自购比例',
         type: 'number',
-        placeholder: '请输入县/区比例系数',
         required: true,
         defaultValue: queryData.areaLevelPercent,
         max: 100,
@@ -78,9 +69,8 @@ export const schema = ({ queryData }) => {
         },
       },
       cityLevelPercent: {
-        title: '市比例',
+        title: '一级返佣',
         type: 'number',
-        placeholder: '请输入市比例系数',
         required: true,
         defaultValue: queryData.cityLevelPercent,
         max: 100,
@@ -89,9 +79,8 @@ export const schema = ({ queryData }) => {
         },
       },
       provinceLevelPercent: {
-        title: '省比例',
+        title: '二级返佣',
         type: 'number',
-        placeholder: '请输入省比例系数',
         required: true,
         defaultValue: queryData.provinceLevelPercent,
         max: 100,

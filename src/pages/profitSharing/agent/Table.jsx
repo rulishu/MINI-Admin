@@ -1,4 +1,4 @@
-import { queryOne } from '@/service/profitSharing/referrer';
+import { queryUserDsConfig } from '@/service/profitSharing/agent';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import { useRef } from 'react';
@@ -10,11 +10,11 @@ export default function SearchTable() {
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'referrer/update',
+      type: 'agent/update',
       payload: data,
     });
   };
-  const edit = (data) => {
+  const edit = (data = {}) => {
     update({
       queryData: { ...data },
       visible: true,
@@ -26,8 +26,8 @@ export default function SearchTable() {
         actionRef={ref}
         options={false}
         request={async () => {
-          const { code, result } = await queryOne({
-            configType: 7,
+          const { code, result } = await queryUserDsConfig({
+            configType: 6,
           });
           if (code && code === 200) {
             const source = [];
@@ -39,10 +39,9 @@ export default function SearchTable() {
           }
         }}
         search={false}
-        // pagination={false}
         cardBordered={true}
         columns={columns(edit)}
-        rowKey="id"
+        rowKey="totalPercent"
       />
       <Edit tableRef={ref} />
     </>

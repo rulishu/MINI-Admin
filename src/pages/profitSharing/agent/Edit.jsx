@@ -7,17 +7,18 @@ import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
   const form = useForm();
-  const { visible, queryData } = useSelector((state) => state.members);
+  const { visible, queryData } = useSelector((state) => state.agent);
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const update = (data) => {
     dispatch({
-      type: 'members/update',
+      type: 'agent/update',
       payload: data,
     });
   };
 
   const onFinish = async (data) => {
+    console.log(data);
     const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
     if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
       messageApi.open({
@@ -26,7 +27,7 @@ export default function SearchTable({ tableRef }) {
       });
     } else {
       dispatch({
-        type: 'members/edit',
+        type: 'agent/edit',
         payload: {
           areaLevelPercent,
           cityLevelPercent,
