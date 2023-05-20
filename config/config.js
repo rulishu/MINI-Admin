@@ -4,6 +4,7 @@ import router from './router.json';
 export default config(router, {
   proxy,
   npmClient: 'npm',
+  favicons: ['favicon.ico'],
   define: {
     // 是否显示 左侧菜单
     // ANTD_MENU_IS_SHOW: false,
