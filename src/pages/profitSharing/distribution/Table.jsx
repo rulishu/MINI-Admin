@@ -38,9 +38,6 @@ export default function SearchTable() {
             };
           }
         }}
-        toolbar={{
-          actions: <a onClick={edit}>新增</a>,
-        }}
         search={false}
         cardBordered={true}
         columns={columns(edit)}

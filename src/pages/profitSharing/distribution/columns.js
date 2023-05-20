@@ -3,7 +3,6 @@ export const columns = (edit) => [
     title: '经销商等级',
     align: 'left',
     dataIndex: 'totalPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -12,7 +11,6 @@ export const columns = (edit) => [
     title: '自购比例',
     align: 'left',
     dataIndex: 'areaLevelPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -21,7 +19,6 @@ export const columns = (edit) => [
     title: '一级返佣',
     align: 'left',
     dataIndex: 'cityLevelPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -30,14 +27,12 @@ export const columns = (edit) => [
     title: '二级返佣',
     align: 'left',
     dataIndex: 'provinceLevelPercent',
-    width: 30,
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
     title: '操作',
-    width: 30,
     fixed: 'right',
     align: 'center',
     hideInSearch: true,
@@ -69,8 +64,9 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.areaLevelPercent,
         max: 100,
+        min: 0,
         props: {
-          addonBefore: '%',
+          addonAfter: '%',
         },
       },
       cityLevelPercent: {
@@ -79,8 +75,9 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.cityLevelPercent,
         max: 100,
+        min: 0,
         props: {
-          addonBefore: '%',
+          addonAfter: '%',
         },
       },
       provinceLevelPercent: {
@@ -89,8 +86,9 @@ export const schema = ({ queryData }) => {
         required: true,
         defaultValue: queryData.provinceLevelPercent,
         max: 100,
+        min: 0,
         props: {
-          addonBefore: '%',
+          addonAfter: '%',
         },
       },
     },

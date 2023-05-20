@@ -39,7 +39,7 @@ export default function SearchTable() {
           }
         }}
         search={false}
-        pagination={false}
+        // pagination={false}
         cardBordered={true}
         columns={columns(edit)}
         rowKey="totalPercent"
