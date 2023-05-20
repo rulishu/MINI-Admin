@@ -17,7 +17,7 @@ export const columns = (edit) => [
     render: (record) => (
       <div>
         <a type="link" size="small" onClick={() => edit(record)}>
-          编辑
+          修改
         </a>
       </div>
     ),

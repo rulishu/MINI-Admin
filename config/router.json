@@ -33,7 +33,8 @@
           },
           {
             "path": "/profitSharing/members",
-            "name": "会员分润配置"
+            "name": "会员分润配置",
+            "component": "@/pages/profitSharing/members"
           },
           {
             "path": "/profitSharing/headquarters",
