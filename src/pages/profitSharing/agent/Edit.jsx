@@ -33,10 +33,12 @@ export default function SearchTable({ tableRef }) {
       onCancel={() => update({ visible: false })}
       width={500}
       footer={[
-        <Button type="primary" onClick={form.submit}>
+        <Button key="save" type="primary" onClick={form.submit}>
           保存
         </Button>,
-        <Button onClick={() => update({ visible: false })}>取消</Button>,
+        <Button key="cancel" onClick={() => update({ visible: false })}>
+          取消
+        </Button>,
       ]}
     >
       <ProCard title="修改" headerBordered>

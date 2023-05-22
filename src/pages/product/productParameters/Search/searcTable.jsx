@@ -36,10 +36,10 @@ export default function SearchTable() {
           searchText: '搜索',
         }}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => handle('add')}>
+          <Button key="save" type="primary" onClick={() => handle('add')}>
             新增参数
           </Button>,
-          <Button type="primary" onClick={() => handle('add')}>
+          <Button key="cancel" type="primary" onClick={() => handle('add')}>
             同步系统参数模版
           </Button>,
         ]}

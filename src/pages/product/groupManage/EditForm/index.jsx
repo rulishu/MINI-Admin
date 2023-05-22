@@ -29,6 +29,7 @@ const EditForm = (props) => {
       }
       form.setValues({ ...drawerParams, parr, level });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawerParams, drawerType]);
 
   const update = (data) => {

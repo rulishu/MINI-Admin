@@ -56,6 +56,7 @@ export default () => {
     form.setValues({
       reason: queryInfo.reason || '',
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, queryInfo]);
 
   const onFinish = (values) => {
@@ -79,10 +80,12 @@ export default () => {
       onCancel={() => update({ visible: false })}
       width={500}
       footer={[
-        <Button type="primary" loading={isLoading} onClick={form.submit}>
+        <Button key="save" type="primary" loading={isLoading} onClick={form.submit}>
           保存
         </Button>,
-        <Button onClick={() => update({ visible: false })}>取消</Button>,
+        <Button key="cancel" onClick={() => update({ visible: false })}>
+          取消
+        </Button>,
       ]}
     >
       <FormRender

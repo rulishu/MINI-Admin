@@ -56,7 +56,7 @@ export default function GiftTables() {
           }
         }}
         toolBarRender={() => [
-          <Button onClick={() => update({ giftVisible: true })} type="primary">
+          <Button key="save" onClick={() => update({ giftVisible: true })} type="primary">
             新建礼包
           </Button>,
         ]}

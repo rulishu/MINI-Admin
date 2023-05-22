@@ -21,6 +21,7 @@ const App = () => {
     dispatch({
       type: 'productManage/selectAttr',
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const items = [
