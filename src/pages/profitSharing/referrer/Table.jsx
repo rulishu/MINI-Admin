@@ -23,6 +23,7 @@ export default function SearchTable() {
   return (
     <>
       <ProTable
+        headerTitle="说明：推荐基数为实际毛利"
         actionRef={ref}
         options={false}
         request={async () => {
