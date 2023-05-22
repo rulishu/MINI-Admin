@@ -3,41 +3,41 @@ export const columns = ({ handleEdit }) => [
   {
     title: '会员编号',
     dataIndex: 'id',
-    align: 'center',
+
     width: 90,
     hideInSearch: true,
   },
   {
     title: '粉丝名称',
     dataIndex: 'userName',
-    align: 'center',
+
     width: 90,
   },
   {
     title: '手机号',
     dataIndex: 'phone',
-    align: 'center',
+
     width: 90,
     hideInSearch: true,
   },
   {
     title: '会员类型',
     dataIndex: 'memberType',
-    align: 'center',
+
     width: 120,
     hideInSearch: true,
   },
   {
     title: '到期时间',
     dataIndex: 'expirationTime',
-    align: 'center',
+
     width: 120,
     hideInSearch: true,
   },
   {
     title: '开通时间',
     dataIndex: 'openTime',
-    align: 'center',
+
     width: 120,
     hideInSearch: true,
   },
@@ -45,7 +45,7 @@ export const columns = ({ handleEdit }) => [
   //   title: '操作',
   //   width: 140,
   //   fixed: 'right',
-  //   align: 'center',
+  //
   //   hideInSearch: true,
   //   render: (record) => (
   //     <div>

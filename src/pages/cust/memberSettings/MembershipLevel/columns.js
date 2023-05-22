@@ -5,20 +5,20 @@ export const columns = (handle) => [
     title: '等级',
     dataIndex: 'createBy',
     hideInSearch: true,
-    align: 'center',
+
     width: 30,
   },
   {
     title: '称谓',
     dataIndex: 'type',
-    align: 'center',
+
     hideInSearch: true,
     width: 30,
   },
   {
     title: '背景',
     dataIndex: 'bj',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -26,7 +26,7 @@ export const columns = (handle) => [
   {
     title: '升级条件',
     dataIndex: 'it',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -34,7 +34,7 @@ export const columns = (handle) => [
   {
     title: '拥有权益',
     dataIndex: 'num',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -42,7 +42,7 @@ export const columns = (handle) => [
   {
     title: '有效期',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -50,7 +50,7 @@ export const columns = (handle) => [
   {
     title: '创建期',
     dataIndex: 'createTime',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -59,7 +59,7 @@ export const columns = (handle) => [
     title: '操作',
     width: 30,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>

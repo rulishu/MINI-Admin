@@ -17,12 +17,11 @@ export const columns = ({ activeKey }) => [
     dataIndex: 'id',
     fixed: 'left',
     width: 120,
-    align: 'center',
   },
   {
     title: '商品',
     dataIndex: 'type',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -30,7 +29,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '距启封天数',
     dataIndex: 'day',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -38,7 +37,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '已支付金额',
     dataIndex: 'moneny',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -46,7 +45,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '封坛数量',
     dataIndex: 'number',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -54,7 +53,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '封坛期限(月/坛)',
     dataIndex: 'month',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -62,7 +61,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '创建时间',
     dataIndex: 'createTime',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -70,7 +69,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '客户名称',
     dataIndex: 'custName',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -78,7 +77,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '手机号码',
     dataIndex: 'phone',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -86,7 +85,7 @@ export const columns = ({ activeKey }) => [
   {
     title: '收获地址',
     dataIndex: 'address',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -95,7 +94,7 @@ export const columns = ({ activeKey }) => [
     title: '操作',
     width: 150,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

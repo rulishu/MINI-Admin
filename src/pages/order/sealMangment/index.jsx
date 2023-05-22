@@ -27,68 +27,58 @@ const Goods = () => {
       fixed: 'left',
       width: 150,
       dataIndex: 'id',
-      align: 'center',
     },
     {
       title: '商品名称',
       width: 150,
       dataIndex: 'name',
-      align: 'center',
     },
     {
       title: '商品分组',
       width: 150,
       dataIndex: 'group',
-      align: 'center',
     },
     {
       title: '订单编号',
       width: 150,
       dataIndex: 'order_number',
-      align: 'center',
     },
     {
       title: '已支付金额',
       width: 150,
       dataIndex: 'paid_amount',
-      align: 'center',
     },
     {
       title: '封坛数量',
       width: 150,
       dataIndex: 'sealed_number',
-      align: 'center',
     },
     {
       title: '封坛期限(月/坛)',
       width: 200,
       dataIndex: 'sealed_term',
-      align: 'center',
     },
     {
       title: '创建时间',
       width: 150,
       dataIndex: 'created_time',
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
-      align: 'center',
     },
     {
       title: '客户名称',
       width: 150,
       dataIndex: 'customer_name',
-      align: 'center',
     },
     {
       title: '手机号码',
       width: 150,
       dataIndex: 'phone_number',
-      align: 'center',
     },
     {
       title: '操作',
       width: 150,
       fixed: 'right',
-      align: 'center',
+
       dataIndex: 'operation',
       render: (_, record) => (
         <React.Fragment>

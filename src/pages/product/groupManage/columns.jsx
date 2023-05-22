@@ -4,14 +4,12 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '类目ID',
     dataIndex: 'id',
-    align: 'center',
     search: false,
     render: (text, record, index) => index + 1,
   },
   {
     title: '一级类目',
     dataIndex: 'parentArray',
-    align: 'center',
     search: false,
     render: (txt, record) => {
       if (record?.level === 1) {
@@ -25,7 +23,6 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '二级类目',
     dataIndex: 'parentArray',
-    align: 'center',
     search: false,
     render: (txt, record) => {
       if (record?.level < 2) {
@@ -43,7 +40,6 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '三级类目',
     dataIndex: 'parentArray',
-    align: 'center',
     search: false,
     render: (txt, record) => {
       if (record?.level < 3) {
@@ -56,7 +52,6 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '类目名称',
     dataIndex: 'categoryName',
-    align: 'center',
     valueType: 'select',
     hideInTable: true,
     fieldProps: {
@@ -71,7 +66,6 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '类目等级',
     dataIndex: 'level',
-    align: 'center',
     valueType: 'select',
     fieldProps: {
       options: [
@@ -87,7 +81,6 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '是否叶子类目',
     dataIndex: 'leafOrder',
-    align: 'center',
     search: false,
     valueType: 'select',
     fieldProps: {
@@ -98,9 +91,14 @@ export const columns = ({ handleEdit, categoryList }) => [
     },
   },
   {
+    title: '商品数量',
+    dataIndex: '1111111',
+    search: false,
+  },
+  {
     title: '操作',
     fixed: 'right',
-    align: 'center',
+
     search: false,
     valueType: 'option',
     key: 'option',

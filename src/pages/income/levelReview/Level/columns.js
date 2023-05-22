@@ -4,7 +4,7 @@ export const columns = [
   {
     title: '用户信息',
     dataIndex: 'it1',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -12,7 +12,7 @@ export const columns = [
   {
     title: '变更前',
     dataIndex: 'it2',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -20,7 +20,7 @@ export const columns = [
   {
     title: '变更后',
     dataIndex: 'it3',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -28,7 +28,7 @@ export const columns = [
   {
     title: '上级信息',
     dataIndex: 'it4',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -36,7 +36,7 @@ export const columns = [
   {
     title: '附件图片',
     dataIndex: 'it5',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -44,7 +44,7 @@ export const columns = [
   {
     title: '协议',
     dataIndex: 'it6',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -52,7 +52,7 @@ export const columns = [
   {
     title: '审核状态',
     dataIndex: 'it7',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -60,7 +60,7 @@ export const columns = [
   {
     title: '审核人',
     dataIndex: 'it8',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -68,7 +68,7 @@ export const columns = [
   {
     title: '审核类型',
     dataIndex: 'type',
-    align: 'center',
+
     width: 30,
     ellipsis: true,
     valueType: 'select',
@@ -81,7 +81,7 @@ export const columns = [
   {
     title: '申请时间',
     dataIndex: 'it9',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     valueType: 'dateRange',
@@ -89,7 +89,7 @@ export const columns = [
   {
     title: '审核时间',
     dataIndex: 'it10',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     valueType: 'dateRange',
@@ -98,7 +98,7 @@ export const columns = [
   {
     title: '申请人信息',
     dataIndex: 'it11',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInTable: true,
@@ -106,7 +106,7 @@ export const columns = [
   {
     title: '审核人信息',
     dataIndex: 'it12',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInTable: true,
@@ -115,7 +115,7 @@ export const columns = [
     title: '操作',
     width: 60,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

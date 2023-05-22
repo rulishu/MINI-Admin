@@ -4,7 +4,7 @@ export const columns = (handle) => [
   {
     title: 'ID',
     dataIndex: 'id',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -13,7 +13,7 @@ export const columns = (handle) => [
   {
     title: '权益规则名称',
     dataIndex: 'platformName',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -21,7 +21,7 @@ export const columns = (handle) => [
   {
     title: '权益规则详情',
     dataIndex: 'content',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -30,7 +30,7 @@ export const columns = (handle) => [
     title: '操作',
     width: 100,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>

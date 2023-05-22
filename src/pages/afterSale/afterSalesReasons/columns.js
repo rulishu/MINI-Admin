@@ -4,7 +4,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: 'ID',
     dataIndex: 'id',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     render: (text, record, index) => index + 1,
@@ -12,13 +12,13 @@ export const columns = ({ handleEdit }) => [
   {
     title: '申请原因',
     dataIndex: 'reason',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
   },
   {
     title: '操作',
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>

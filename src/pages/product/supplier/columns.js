@@ -4,7 +4,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   {
     title: 'ID',
     dataIndex: 'id',
-    align: 'center',
+
     width: 80,
     ellipsis: true,
     hideInSearch: true,
@@ -14,7 +14,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '供应商名称',
     width: 120,
     dataIndex: 'supplierName',
-    align: 'center',
+
     ellipsis: true,
     hideInTable: true,
   },
@@ -22,7 +22,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '供应商信息',
     width: 120,
     dataIndex: 'supplier',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => (
@@ -36,7 +36,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '联系人名称',
     width: 120,
     dataIndex: 'contactName',
-    align: 'center',
+
     ellipsis: true,
     hideInTable: true,
   },
@@ -44,7 +44,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '联系人',
     width: 120,
     dataIndex: 'contact',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => (
@@ -58,7 +58,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   //   title: '联系方式',
   //   width: 120,
   //   dataIndex: 'contactPhone',
-  //   align: 'center',
+  //
   //   ellipsis: true,
   //   hideInSearch: true,
   // },
@@ -66,7 +66,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   //   title: '地址',
   //   width: 120,
   //   dataIndex: 'address',
-  //   align: 'center',
+  //
   //   ellipsis: true,
   //   hideInSearch: true,
   // },
@@ -74,7 +74,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '推荐人',
     width: 120,
     dataIndex: 'productId',
-    align: 'center',
+
     ellipsis: true,
     valueType: 'select',
     hideInSearch: true,
@@ -108,7 +108,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   //   title: '选品人',
   //   width: 120,
   //   dataIndex: 'productSelector',
-  //   align: 'center',
+  //
   //   ellipsis: true,
   //   hideInSearch: true,
   // },
@@ -116,7 +116,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '推荐人手机号',
     width: 120,
     dataIndex: 'productSelectorContact',
-    align: 'center',
+
     ellipsis: true,
     hideInTable: true,
   },
@@ -124,7 +124,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '创建时间',
     width: 120,
     dataIndex: 'createTime',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
   },
@@ -132,13 +132,13 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: '更新时间',
     width: 120,
     dataIndex: 'updateTime',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
   },
   {
     title: '操作',
-    align: 'center',
+
     width: 120,
     fixed: 'right',
     hideInSearch: true,

@@ -5,7 +5,6 @@ export const columns = () => [
     title: '小店名称',
     dataIndex: 'id',
     width: 120,
-    align: 'center',
   },
   {
     title: '主播会员编号',
@@ -20,7 +19,7 @@ export const columns = () => [
   {
     title: '视频号小店信息',
     dataIndex: 'type',
-    align: 'center',
+
     width: 150,
     ellipsis: true,
     hideInSearch: true,
@@ -28,7 +27,7 @@ export const columns = () => [
   {
     title: '主播信息',
     dataIndex: 'name',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -36,7 +35,7 @@ export const columns = () => [
   {
     title: '操作',
     width: 180,
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

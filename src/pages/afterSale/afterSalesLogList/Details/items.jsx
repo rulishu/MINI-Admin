@@ -89,7 +89,7 @@ export const columns = [
     title: '商品图片',
     dataIndex: 'mainGraph',
     key: 'mainGraph',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
     render: (value) => {
@@ -100,7 +100,7 @@ export const columns = [
     title: '商品名称',
     dataIndex: 'itemName',
     key: 'itemName',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -108,7 +108,7 @@ export const columns = [
     title: '规格',
     dataIndex: 'specifications',
     key: 'specifications',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -116,7 +116,7 @@ export const columns = [
     title: '型号',
     dataIndex: 'model',
     key: 'model',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -124,7 +124,7 @@ export const columns = [
     title: '数量',
     dataIndex: 'amount',
     key: 'amount',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -132,7 +132,7 @@ export const columns = [
     title: '商品价格',
     dataIndex: 'unitPrice',
     key: 'unitPrice',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -140,7 +140,7 @@ export const columns = [
     title: '运费',
     dataIndex: 'name',
     key: 'name',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },

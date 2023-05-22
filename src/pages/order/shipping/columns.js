@@ -19,54 +19,51 @@ export const columns = [
     dataIndex: 'goods',
     hideInSearch: true,
     width: 100,
-    align: 'center',
   },
   {
     title: '文件名称',
     dataIndex: 'goods',
     width: 100,
     hideInSearch: true,
-    align: 'center',
   },
   {
     title: '操作时间',
     dataIndex: 'goods',
     hideInSearch: true,
     width: 100,
-    align: 'center',
   },
   {
     title: '类型',
     hideInSearch: true,
     dataIndex: 'createName',
-    align: 'center',
+
     width: 50,
   },
   {
     title: '操作人',
     dataIndex: 'mes',
     hideInSearch: true,
-    align: 'center',
+
     width: 90,
   },
   {
     title: '记录总数',
     hideInSearch: true,
     dataIndex: 'createTime',
-    align: 'center',
+
     width: 90,
   },
   {
     title: '成功数',
     dataIndex: 'updateName',
     hideInSearch: true,
-    align: 'center',
+
     width: 50,
   },
   {
     title: '状态',
     dataIndex: 'answerContent',
-    align: 'center',
+
     width: 120,
     valueType: 'select',
     valueEnum: {
@@ -80,14 +77,14 @@ export const columns = [
   {
     title: '描述',
     dataIndex: 'updateTime',
-    align: 'center',
+
     hideInSearch: true,
     width: 90,
   },
   {
     title: '操作',
     width: 180,
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

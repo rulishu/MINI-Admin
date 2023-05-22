@@ -6,43 +6,41 @@ export const columns = (handle) => [
   {
     title: 'ID',
     dataIndex: 'id',
-    align: 'center',
+
     hideInSearch: true,
     render: (text, record, index) => index + 1,
   },
   {
     title: '订单编号',
     dataIndex: 'orderNumber',
-    align: 'center',
   },
   {
     title: '数量',
     dataIndex: 'itemCount',
-    align: 'center',
+
     hideInSearch: true,
   },
   {
     title: '订单金额',
     dataIndex: 'orderPrice',
-    align: 'center',
+
     hideInSearch: true,
   },
   {
     title: '收货人',
     dataIndex: 'consignee',
-    align: 'center',
   },
   {
     title: '订单状态',
     dataIndex: 'orderStatus',
-    align: 'center',
+
     valueType: 'select',
     valueEnum: orderStatusEnum,
   },
   {
     title: '开票状态',
     dataIndex: 'isOpenInvoice',
-    align: 'center',
+
     valueType: 'select',
     hideInSearch: true,
     valueEnum: isOpenInvoiceEnum,
@@ -51,7 +49,7 @@ export const columns = (handle) => [
     title: '操作',
     width: 150,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>
