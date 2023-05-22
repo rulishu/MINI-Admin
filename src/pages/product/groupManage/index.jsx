@@ -9,7 +9,7 @@ import { columns } from './columns';
 
 const SearchTable = (props) => {
   const { dispatch, groupManage, loading } = props;
-  const { pageSize, categoryList } = groupManage;
+  const { pageSize, categoryList, addOpen } = groupManage;
   const actionRef = useRef();
 
   useEffect(() => {
@@ -155,7 +155,7 @@ const SearchTable = (props) => {
           </Button>
         )}
       />
-      <EditForm actionRef={actionRef} />
+      {addOpen && <EditForm actionRef={actionRef} />}
     </>
   );
 };

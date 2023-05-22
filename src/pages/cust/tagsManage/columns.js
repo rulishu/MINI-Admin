@@ -10,13 +10,13 @@ export const columns = ({ handleEdit }) => [
     title: 'ID',
     dataIndex: 'id',
     width: 120,
-    align: 'center',
+
     hideInSearch: true,
   },
   {
     title: '标签类别',
     dataIndex: 'type',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -24,7 +24,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '标签名称',
     dataIndex: 'name',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -32,7 +32,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '客户数',
     dataIndex: 'number',
-    align: 'center',
+
     width: 120,
     ellipsis: true,
     hideInSearch: true,
@@ -40,7 +40,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '操作',
     width: 180,
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>

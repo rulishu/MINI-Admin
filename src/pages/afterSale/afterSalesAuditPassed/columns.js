@@ -6,7 +6,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: 'ID',
     dataIndex: 'id',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
     hideInSearch: true,
@@ -15,7 +15,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '公司名称',
     dataIndex: 'itemName',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
     hideInSearch: true,
@@ -23,14 +23,14 @@ export const columns = ({ handleEdit }) => [
   {
     title: '订单编号',
     dataIndex: 'orderNumber',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
   {
     title: '商品金额',
     dataIndex: 'orderPrice',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
     hideInSearch: true,
@@ -38,7 +38,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '商品数量',
     dataIndex: 'sum',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
     hideInSearch: true,
@@ -46,7 +46,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '售后申请时间',
     dataIndex: 'searchTime',
-    align: 'center',
+
     ellipsis: true,
     valueType: 'date',
     width: 150,
@@ -55,7 +55,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '申请时间',
     dataIndex: 'createTime',
-    align: 'center',
+
     ellipsis: true,
     valueType: 'date',
     width: 150,
@@ -64,7 +64,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '退款状态',
     dataIndex: 'refundStatus',
-    align: 'center',
+
     ellipsis: true,
     width: 150,
     valueType: 'select',
@@ -74,7 +74,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '操作',
     width: 120,
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => {
       const { refundStatus } = record;

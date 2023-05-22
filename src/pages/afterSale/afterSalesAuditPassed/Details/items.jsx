@@ -80,7 +80,7 @@ export const deatilsColumns = [
     title: '商品图片',
     dataIndex: 'mainGraph',
     key: 'mainGraph',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
     render: (value) => {
@@ -91,7 +91,7 @@ export const deatilsColumns = [
     title: '商品名称',
     dataIndex: 'itemName',
     key: 'itemName',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -99,7 +99,7 @@ export const deatilsColumns = [
     title: '规格',
     dataIndex: 'specifications',
     key: 'specifications',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -107,7 +107,7 @@ export const deatilsColumns = [
     title: '型号',
     dataIndex: 'model',
     key: 'model',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -115,7 +115,7 @@ export const deatilsColumns = [
     title: '数量',
     dataIndex: 'amount',
     key: 'amount',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -123,7 +123,7 @@ export const deatilsColumns = [
     title: '商品价格',
     dataIndex: 'unitPrice',
     key: 'unitPrice',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -131,7 +131,7 @@ export const deatilsColumns = [
     title: '运费',
     dataIndex: 'name',
     key: 'name',
-    align: 'center',
+
     ellipsis: true,
     width: 80,
   },
@@ -142,21 +142,21 @@ export const columns = [
     title: '保税区单号',
     dataIndex: 'outOrderNo',
     key: 'outOrderNo',
-    align: 'center',
+
     ellipsis: true,
   },
   {
     title: '退款金额',
     dataIndex: 'payAmount',
     key: 'payAmount',
-    align: 'center',
+
     ellipsis: true,
   },
   {
     title: '退款状态',
     dataIndex: 'status',
     key: 'status',
-    align: 'center',
+
     ellipsis: true,
     render: (record) => record && refundStatusEnum[record].text,
   },

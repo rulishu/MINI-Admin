@@ -21,7 +21,7 @@ export const deleteProduct = async (body) => {
 
 export const added = async (body) => {
   //商品上架
-  return request(`/jcgl-mall/admin/item/info/added`, {
+  return request(`/jcgl-mall/admin/item/info/newAdd`, {
     method: 'POST',
     data: body,
   });

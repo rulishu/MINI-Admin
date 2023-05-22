@@ -4,14 +4,14 @@ export const columns = [
   {
     title: '海报名称',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
   },
   {
     title: '创建时间',
     dataIndex: 'it',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     valueType: 'dateRange',
@@ -19,7 +19,7 @@ export const columns = [
   {
     title: '最近一次上(下)线时间',
     dataIndex: 'time',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -27,7 +27,7 @@ export const columns = [
   {
     title: '已使用次数',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -35,7 +35,7 @@ export const columns = [
   {
     title: '缩略图',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -43,7 +43,7 @@ export const columns = [
   {
     title: '排序',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -52,7 +52,7 @@ export const columns = [
     title: '操作',
     width: 60,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

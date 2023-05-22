@@ -50,7 +50,7 @@ export const columns = (edit) => [
   {
     title: '操作',
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>

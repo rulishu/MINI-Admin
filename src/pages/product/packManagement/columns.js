@@ -5,20 +5,20 @@ export const columns = ({ handleEdit }) => [
     title: '店长等级',
     dataIndex: 'level',
     hideInSearch: true,
-    align: 'center',
+
     width: 30,
   },
   {
     title: '一级收益比例',
     dataIndex: 'name',
-    align: 'center',
+
     hideInSearch: true,
     width: 30,
   },
   {
     title: '二级收益比例',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -26,7 +26,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '三级收益比例',
     dataIndex: 'it',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -36,7 +36,7 @@ export const columns = ({ handleEdit }) => [
     title: '操作',
     width: 30,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: (record) => (
       <div>
@@ -64,20 +64,20 @@ export const columnsGift = [
     title: '商品名称',
     dataIndex: 'level',
     hideInSearch: true,
-    align: 'center',
+
     width: 30,
   },
   {
     title: '组合明细',
     dataIndex: 'id',
-    align: 'center',
+
     hideInSearch: true,
     width: 30,
   },
   {
     title: '组合数',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -85,7 +85,7 @@ export const columnsGift = [
   {
     title: '可售库存',
     dataIndex: 'it',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 60,
@@ -93,7 +93,7 @@ export const columnsGift = [
   {
     title: '发货/入云仓',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -101,7 +101,7 @@ export const columnsGift = [
   {
     title: '创建时间',
     dataIndex: 'time',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 60,
@@ -110,7 +110,7 @@ export const columnsGift = [
     title: '操作',
     width: 40,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

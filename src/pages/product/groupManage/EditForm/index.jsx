@@ -11,25 +11,27 @@ const EditForm = (props) => {
   const form = useForm();
 
   useEffect(() => {
+    console.log('drawerParams, drawerType: ', drawerParams, drawerType);
     if (drawerType === 'edit' || drawerType === 'addChildren') {
       let parr = (drawerParams?.parentArray?.split(',') || []).concat([]);
       let level = drawerParams?.level;
-
+      let leafOrder = drawerParams?.leafOrder || 1;
       if (drawerType === 'addChildren') {
         if (level === 1) {
           parr = [drawerParams?.id];
         }
         if (level === 2) {
           parr.push(drawerParams?.id);
+          leafOrder = 1;
         }
         level = level + 1;
-        form.setValues({ ...drawerParams, parr, level, categoryName: '' });
+        form.setValues({ ...drawerParams, parr, level, categoryName: '', leafOrder });
 
         return;
       }
-      form.setValues({ ...drawerParams, parr, level });
+      form.setValues({ leafOrder: 1, ...drawerParams, parr, level });
     }
-  }, [drawerParams, drawerType]);
+  }, []);
 
   const update = (data) => {
     dispatch({
@@ -40,11 +42,13 @@ const EditForm = (props) => {
 
   const handler = (data) => {
     return data.map((item) => {
-      const obj = { label: item?.label || '', value: item?.id };
-      if (item?.children && item?.children.length > 0) {
-        obj.children = handler(item.children);
+      if (item?.leafOrder === 2) {
+        const obj = { label: item?.label || '', value: item?.id };
+        if (item?.children && item?.children.length > 0) {
+          obj.children = handler(item.children);
+        }
+        return obj;
       }
-      return obj;
     });
   };
 
@@ -70,12 +74,12 @@ const EditForm = (props) => {
         type: 'object',
         widget: 'cascader',
         required: true,
-        disabled: true,
+        disabled: drawerType === 'add' ? false : true,
         defaultValue: ['0'],
         props: {
-          // expandTrigger: 'hover',
+          expandTrigger: 'hover',
           options: options(),
-          // changeOnSelect: true,
+          changeOnSelect: true,
         },
       },
       level: {
@@ -112,9 +116,10 @@ const EditForm = (props) => {
       });
     }
     if (drawerType === 'add') {
+      const arr = parr.concat([]);
       searchParams.parentArray = parr.join();
-      searchParams.parentId = '0';
-      searchParams.status = 1;
+      searchParams.parentId = parr.join() === '0' ? '0' : arr?.splice(-1)?.[0];
+      // searchParams.status = 1;
       dispatch({
         type: 'groupManage/addCategory',
         payload: { searchParams, actionRef },
@@ -140,9 +145,19 @@ const EditForm = (props) => {
   };
 
   const watch = {
+    parr: (val) => {
+      console.log('val: ', val);
+      if (val) {
+        if (val.length === 1 && val[0] === '0') {
+          form.setFields([{ name: 'level', value: 1 }]);
+        } else if (val.length > 0) {
+          form.setFields([{ name: 'level', value: val.length + 1 }]);
+        }
+      }
+    },
     level: (val) => {
       if (val === 3) {
-        form.setFields([{ name: 'status', value: 'a' }]);
+        form.setFields([{ name: 'status', value: 1 }]);
       }
     },
   };
@@ -154,7 +169,7 @@ const EditForm = (props) => {
       destroyOnClose
       onCancel={() => {
         form.resetFields();
-        update({ addOpen: false });
+        update({ addOpen: false, drawerParams: {}, drawerType: '' });
       }}
       footer={
         <ButtonGroupPro

@@ -4,21 +4,21 @@ export const columns = [
   {
     title: '流水号	',
     dataIndex: 'id',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
   },
   {
     title: '用户名称',
     dataIndex: 'name',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
   },
   {
     title: '用户头像	',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -26,14 +26,14 @@ export const columns = [
   {
     title: '兑换商品',
     dataIndex: 'allPrice',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
   },
   {
     title: '商品类型',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -42,7 +42,7 @@ export const columns = [
   {
     title: '兑换积分',
     dataIndex: 'num',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -50,7 +50,7 @@ export const columns = [
   {
     title: '优惠码',
     dataIndex: 'rq',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -58,7 +58,7 @@ export const columns = [
   {
     title: '兑换时间',
     dataIndex: 'time',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInSearch: true,
@@ -68,7 +68,7 @@ export const columns = [
   {
     title: '状态',
     dataIndex: 'state',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,

@@ -4,7 +4,7 @@ export const columns = [
   {
     title: '等级',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -12,7 +12,7 @@ export const columns = [
   {
     title: '优先级',
     dataIndex: 'it',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -20,7 +20,7 @@ export const columns = [
   {
     title: '收益方式',
     dataIndex: 'time',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -28,7 +28,7 @@ export const columns = [
   {
     title: '一级',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -36,7 +36,7 @@ export const columns = [
   {
     title: '二级',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -44,7 +44,7 @@ export const columns = [
   {
     title: '三级',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -52,7 +52,7 @@ export const columns = [
   {
     title: '自己收益方式',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -60,7 +60,7 @@ export const columns = [
   {
     title: '自己',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -68,7 +68,7 @@ export const columns = [
   {
     title: '级差比例',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -76,7 +76,7 @@ export const columns = [
   {
     title: '有效期',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -84,7 +84,7 @@ export const columns = [
   {
     title: '个性海报',
     dataIndex: 'day',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -93,7 +93,7 @@ export const columns = [
     title: '操作',
     width: 60,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

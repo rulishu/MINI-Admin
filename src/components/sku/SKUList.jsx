@@ -110,6 +110,16 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     const newData = [...dataSource];
     newData[index][dataIndex] = value;
     setDataSource(newData);
+    // //
+    // const datas = newData.map((item) => {
+    //   const { attributes = [], ...rest } = item;
+    //   return {
+    //     ...rest,
+    //     attributes: Object.values(attributes),
+    //   };
+    // });
+
+    // onChange?.(datas);
   };
 
   const handleEntryDataSave = () => {

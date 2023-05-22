@@ -4,7 +4,7 @@ export const columns = [
   {
     title: '分组',
     dataIndex: 'num',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
     hideInTable: true,
@@ -27,7 +27,7 @@ export const columns = [
   {
     title: '图片',
     dataIndex: 'id',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -35,14 +35,14 @@ export const columns = [
   {
     title: '商品名称',
     dataIndex: 'level',
-    align: 'center',
+
     ellipsis: true,
     width: 30,
   },
   {
     title: '价格',
     dataIndex: 'type',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -50,7 +50,7 @@ export const columns = [
   {
     title: '创建时间',
     dataIndex: 'time',
-    align: 'center',
+
     ellipsis: true,
     hideInSearch: true,
     width: 30,
@@ -59,7 +59,7 @@ export const columns = [
     title: '操作',
     width: 50,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: () => (
       <div>

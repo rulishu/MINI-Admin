@@ -1,25 +1,25 @@
 import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
 
-export const columns = ({ handleEdit, options, categoryList }) => [
+export const columns = ({ handleEdit, options, categoryList, handlerSKU }) => [
   {
     title: '商品名称',
     dataIndex: 'itemName',
-    align: 'center',
+
     hideInTable: true,
     width: 200,
   },
   {
     title: '商品ID',
     dataIndex: 'id',
-    align: 'center',
+
     hideInTable: true,
     width: 50,
   },
   {
     title: '商品',
     dataIndex: 'item',
-    align: 'center',
+
     search: false,
     width: 200,
     render: (_, record) => {
@@ -41,7 +41,7 @@ export const columns = ({ handleEdit, options, categoryList }) => [
     title: '商品类目',
     key: 'categoryId',
     dataIndex: 'cascader',
-    align: 'center',
+
     width: 100,
     hideInTable: true,
     fieldProps: {
@@ -63,7 +63,7 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '创建时间',
     dataIndex: 'createTimeRange',
-    align: 'center',
+
     hideInTable: true,
     width: 80,
     valueType: 'dateRange',
@@ -71,7 +71,7 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '开售时间',
     dataIndex: 'sellTimeRange',
-    align: 'center',
+
     hideInTable: true,
     width: 80,
     valueType: 'dateRange',
@@ -80,7 +80,7 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   // {
   //   title: '商品类型',
   //   dataIndex: '',
-  //   align: 'center',
+  //
   //   hideInTable: true,
   //   width: 80,
   //   valueType: 'select',
@@ -109,7 +109,7 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '价格',
     dataIndex: 'price',
-    align: 'center',
+
     width: 80,
     valueType: 'digit',
     renderFormItem: () => <PriceRange />,
@@ -117,28 +117,28 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '总库存',
     dataIndex: 'stock',
-    align: 'center',
+
     search: false,
     width: 50,
   },
   {
     title: '总销量',
     dataIndex: 'volume',
-    align: 'center',
+
     search: false,
     width: 80,
   },
   {
     title: '商品状态',
     dataIndex: '11111111111ss',
-    align: 'center',
+
     search: false,
     width: 80,
   },
   {
     title: '供应商',
     dataIndex: '111111x',
-    align: 'center',
+
     width: 80,
     valueType: 'select',
     valueEnum: {
@@ -151,43 +151,43 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   // {
   //   title: '业务员',
   //   dataIndex: '111111ywy',
-  //   align: 'center',
+  //
   //   search: false,
   //   width: 50,
   // },
   // {
   //   title: '商品状态',
   //   dataIndex: 'status',
-  //   align: 'center',
+  //
   //   search: false,
   //   width: 50,
   // },
   {
     title: '创建时间',
     dataIndex: 'createTime',
-    align: 'center',
+
     search: false,
     width: 80,
   },
   {
     title: '开售时间',
     dataIndex: 'sellTime',
-    align: 'center',
+
     search: false,
     width: 80,
   },
   // {
   //   title: '上架',
   //   dataIndex: '111111d',
-  //   align: 'center',
+  //
   //   search: false,
   //   width: 50,
   // },
   {
     title: '操作',
-    width: 120,
+    width: 150,
     fixed: 'right',
-    align: 'center',
+
     hideInSearch: true,
     render: (_, record) => (
       <div>
@@ -206,9 +206,10 @@ export const columns = ({ handleEdit, options, categoryList }) => [
         <a type="link" size="small" onClick={() => handleEdit('delete', [record?.id])}>
           删除
         </a>
-        {/* <a type="link" size="small" onClick={() => handlerSKU(record)}>
+        <Divider type="vertical" />
+        <a type="link" size="small" onClick={() => handlerSKU(record)}>
           编辑sku
-        </a> */}
+        </a>
       </div>
     ),
   },
