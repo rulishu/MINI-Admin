@@ -1,4 +1,4 @@
-import { edit, queryDealerDsConfig } from '@/service/profitSharing/distribution';
+import { queryDealerDsConfig, updateDealerDsConfig } from '@/service/profitSharing/distribution';
 import { configType } from '../config';
 
 export default {
@@ -17,25 +17,19 @@ export default {
     }),
   },
   effects: {
-    async fetchDealerDsConfig(_, { call, put }) {
-      const { code } = await call(queryDealerDsConfig, { configType });
+    *fetchDealerDsConfig(_, { put }) {
+      const { code } = yield queryDealerDsConfig(configType);
       if (code && code === 200) {
-        await put({
+        yield put({
           type: 'update',
         });
       }
     },
-    async edit({ payload }, { call, put }) {
-      const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent, callback } =
-        payload;
-      const { code } = await call(edit, {
-        areaLevelPercent,
-        cityLevelPercent,
-        provinceLevelPercent,
-        totalPercent,
-      });
+    *edit({ payload }, { call, put }) {
+      const { callback, ...params } = payload;
+      const { code } = yield call(updateDealerDsConfig, params);
       if (code && code === 200) {
-        await put({
+        yield put({
           type: 'update',
           payload: {
             visible: false,

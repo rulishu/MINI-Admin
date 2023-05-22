@@ -7,7 +7,7 @@ export async function queryDealerDsConfig(body) {
   });
 }
 
-export async function edit(body) {
+export async function updateDealerDsConfig(body) {
   return request(`/jcgl-mall/admin/ds/config/batchUpdateDealerDsConfig`, {
     method: 'PUT',
     data: body,
