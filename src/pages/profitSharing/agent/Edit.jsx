@@ -1,37 +1,49 @@
 import { ProCard } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
   const form = useForm();
-  const { visible, queryData } = useSelector((state) => state.referrer);
+  const { visible, queryData } = useSelector((state) => state.agent);
   const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
   const update = (data) => {
     dispatch({
-      type: 'referrer/update',
+      type: 'agent/update',
       payload: data,
     });
   };
 
   const onFinish = async (data) => {
-    dispatch({
-      type: 'referrer/edit',
-      payload: {
-        percent: data?.input,
-        id: queryData?.id,
-        callback: tableRef?.current?.reload,
-      },
-    });
+    console.log(data);
+    const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
+    if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
+      messageApi.open({
+        type: 'error',
+        content: '会员分润系数大于100%',
+      });
+    } else {
+      dispatch({
+        type: 'agent/edit',
+        payload: {
+          areaLevelPercent,
+          cityLevelPercent,
+          provinceLevelPercent,
+          totalPercent,
+          callback: tableRef?.current?.reload,
+        },
+      });
+    }
   };
 
   return (
     <Modal
       open={visible}
       onCancel={() => update({ visible: false })}
-      width={800}
+      width={500}
       footer={
         <ButtonGroupPro
           button={[
@@ -48,6 +60,7 @@ export default function SearchTable({ tableRef }) {
         />
       }
     >
+      {contextHolder}
       <ProCard title="修改" headerBordered>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
       </ProCard>

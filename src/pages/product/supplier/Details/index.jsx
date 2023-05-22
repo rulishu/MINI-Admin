@@ -1,3 +1,4 @@
+import Upload from '@/components/upload';
 import { create, updateInfo } from '@/service/goods/supplier';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
@@ -5,20 +6,9 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { Cascader, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
+import { getUrl, getUrlToList } from '../../../../utils';
 import SelectUser from '../components/selectUser';
 import { schema } from './schema';
-
-const convert = (data) => {
-  return data.map((item) => {
-    const { areaCode, areaName } = item;
-    const newChildren = item.children ? convert(item.children) : [];
-    return {
-      label: areaName,
-      value: areaCode,
-      children: newChildren,
-    };
-  });
-};
 
 export default () => {
   const form = useForm();
@@ -31,7 +21,6 @@ export default () => {
     commonInterface: { treeList },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const update = (data) => {
     dispatch({
       type: 'supplier/update',
@@ -39,25 +28,41 @@ export default () => {
     });
   };
   useEffect(() => {
-    form.setValues({
-      form1: {
-        supplierName: queryInfo.supplierName || '',
-        contactName: queryInfo.contactName || '',
-        contactPhone: queryInfo.contactPhone || '',
-        address: queryInfo.address || '',
-        province: queryInfo.province && [queryInfo.province, queryInfo.city, queryInfo.district],
-      },
-      form2: {
-        productId: queryInfo.productSelector
-          ? {
-              label: queryInfo.productSelector,
-              value: queryInfo.productId,
-            }
-          : undefined,
-        productSelectorContact: queryInfo.productSelectorContact,
-      },
-    });
-  }, [visible, queryInfo]);
+    if (visible) {
+      form.setValues({
+        form1: {
+          supplierName: queryInfo.supplierName || '',
+          creditCode: queryInfo.creditCode || '',
+          regCapital: queryInfo.regCapital || '',
+          regTime: queryInfo.regTime || '',
+          regAddress: queryInfo.regAddress || '',
+          contactName: queryInfo.contactName || '',
+          contactPhone: queryInfo.contactPhone || '',
+          // address: queryInfo.address || '',
+          // province: queryInfo.province && [queryInfo.province, queryInfo.city, queryInfo.district],
+        },
+        form2: {
+          legalFrontUrl: queryInfo?.legalFrontUrl ? getUrlToList(queryInfo.legalFrontUrl) : [],
+          legalBackUrl: queryInfo?.legalBackUrl ? getUrlToList(queryInfo.legalBackUrl) : [],
+        },
+        form3: {
+          contractUrl: (queryInfo?.contractUrl && getUrlToList(queryInfo.contractUrl)) || [],
+          licenseUrl: (queryInfo?.licenseUrl && getUrlToList(queryInfo.licenseUrl)) || [],
+          otherUrl: (queryInfo?.otherUrl && getUrlToList(queryInfo.otherUrl)) || [],
+        },
+        form4: {
+          productId: queryInfo.productSelector
+            ? {
+                label: queryInfo.productSelector,
+                value: queryInfo.productId,
+                phone: queryInfo.productSelectorContact,
+                headUrl: queryInfo.productHeader,
+              }
+            : undefined,
+        },
+      });
+    }
+  }, [visible]);
 
   const { mutateAsync, isLoading } = useReactMutation({
     mutationFn: fn[type],
@@ -75,35 +80,36 @@ export default () => {
   });
 
   const onFinish = (values) => {
-    const { form1, form2 } = values;
+    const { form1, form2, form3, form4 } = values;
     const params = {
-      address: form1.address,
       contactName: form1.contactName,
+      creditCode: form1.creditCode,
+      regCapital: form1.regCapital,
+      regTime: form1.regTime,
+      regAddress: form1.regAddress,
       supplierName: form1.supplierName,
       contactPhone: form1.contactPhone,
-      province: form1.province && form1.province[0] && form1.province[0],
-      city: form1.province && form1.province[1] && form1.province[1],
-      district: form1.province && form1.province[2] && form1.province[2],
-      productId: form2.productId && form2.productId.value,
-      productSelector: form2.productId && form2.productId.label,
-      productSelectorContact: form2.productSelectorContact && form2.productSelectorContact,
+      // province: form1.province && form1.province[0] && form1.province[0],
+      // city: form1.province && form1.province[1] && form1.province[1],
+      // district: form1.province && form1.province[2] && form1.province[2],
+      // address: form1.address,
+      legalFrontUrl: form2.legalFrontUrl && getUrl(form2.legalFrontUrl),
+      legalBackUrl: form2.legalBackUrl && getUrl(form2.legalBackUrl),
+      contractUrl: form3.contractUrl && getUrl(form3.contractUrl),
+      licenseUrl: form3.licenseUrl && getUrl(form3.licenseUrl),
+      otherUrl: form3.otherUrl && getUrl(form3.otherUrl),
+      productId: form4.productId && form4.productId.value,
+      productSelector: form4.productId && form4.productId.label,
+      productSelectorContact: form4.productId && form4.productId.phone,
       supplierId: queryInfo.supplierId,
     };
     mutateAsync(params);
   };
 
-  const watch = {
-    'form2.productId': (value) => {
-      if (value) {
-        form.setValueByPath('form2.productSelectorContact', value.phone);
-      }
-    },
-  };
-
   return (
     <Modal
-      forceRender
-      title={type === 'add' ? '新增供应商' : '编辑供应商'}
+      destroyOnClose={true}
+      title={type === 'add' ? '新增' : '编辑'}
       open={visible}
       onCancel={() => update({ visible: false })}
       width={800}
@@ -128,12 +134,19 @@ export default () => {
         form={form}
         schema={schema({
           province: {
-            options: convert(treeList),
+            options: treeList,
+          },
+          queryInfo: {
+            ...queryInfo,
+            legalFrontUrl: queryInfo.legalFrontUrl ? getUrlToList(queryInfo.legalFrontUrl) : [],
           },
         })}
         onFinish={onFinish}
-        watch={watch}
-        widgets={{ selectUser: SelectUser, cascader: Cascader }}
+        widgets={{
+          selectUser: SelectUser,
+          cascader: Cascader,
+          upload: Upload,
+        }}
       />
     </Modal>
   );

@@ -33,23 +33,28 @@
           },
           {
             "path": "/profitSharing/members",
-            "name": "会员分润配置"
+            "name": "会员分润配置",
+            "component": "@/pages/profitSharing/members"
           },
           {
             "path": "/profitSharing/headquarters",
-            "name": "总部分润配置"
+            "name": "总部分润配置",
+            "component": "@/pages/profitSharing/headquarters"
           },
           {
             "path": "/profitSharing/distribution",
-            "name": "经销分润配置"
+            "name": "经销分润配置",
+            "component": "@/pages/profitSharing/distribution"
           },
           {
             "path": "/profitSharing/agent",
-            "name": "代理分润配置"
+            "name": "代理分润配置",
+            "component": "@/pages/profitSharing/agent"
           },
           {
             "path": "/profitSharing/territory",
-            "name": "代理地盘配置"
+            "name": "代理地盘配置",
+            "component": "@/pages/profitSharing/territory"
           }
         ]
       },
@@ -81,14 +86,12 @@
           {
             "path": "/product/productParameters",
             "name": "商品参数",
-            "component": "@/pages/product/productParameters",
-            "hideInMenu": true
+            "component": "@/pages/product/productParameters"
           },
           {
             "path": "/product/productBasic",
             "name": "商品基础设置",
-            "component": "@/pages/product/productBasic",
-            "hideInMenu": true
+            "component": "@/pages/product/productBasic"
           },
           {
             "path": "/product/supplier",
@@ -103,36 +106,29 @@
         "icon": "project",
         "routes": [
           {
-            "path": "/order/manage",
+            "path": "/order/list",
+            "name": "订单列表",
+            "component": "@/pages/order/manage/list"
+          },
+          {
+            "path": "/order/shipping",
+            "name": "发货管理",
+            "component": "@/pages/order/shipping"
+          },
+          {
+            "path": "/order/orderManage",
             "name": "订单管理",
-            "routes": [
-              {
-                "path": "/order/manage/list",
-                "name": "订单列表",
-                "component": "@/pages/order/manage/list"
-              },
-              {
-                "path": "/order/manage/shipping",
-                "name": "发货管理",
-                "component": "@/pages/order/shipping"
-              },
-              {
-                "path": "/order/manage/orderManage",
-                "name": "订单管理",
-                "component": "@/pages/order/manage/orderManage"
-              },
-              {
-                "path": "/order/manage/abnormal",
-                "name": "异常订单管理",
-                "component": "@/pages/order/manage/abnormal"
-              }
-            ]
+            "component": "@/pages/order/manage/orderManage"
+          },
+          {
+            "path": "/order/abnormal",
+            "name": "异常订单管理",
+            "component": "@/pages/order/manage/abnormal"
           },
           {
             "path": "/order/boutique",
             "name": "精品订单管理",
-            "component": "@/pages/order/boutique",
-            "hideInMenu": true
+            "component": "@/pages/order/boutique"
           },
           {
             "path": "/order/custom",
@@ -145,9 +141,18 @@
             "hideInMenu": true
           },
           {
+            "path": "/order/seal",
+            "name": "封坛订单管理",
+            "component": "@/pages/order/sealMangment"
+          },
+          {
+            "path": "/order/productParameters",
+            "name": "启封管理",
+            "component": "@/pages/order/productParameters"
+          },
+          {
             "path": "/order/afterSales",
             "name": "售后管理",
-            "hideInMenu": true,
             "routes": [
               {
                 "path": "/order/afterSales/afterSalesApplication",
@@ -170,18 +175,6 @@
                 "component": "@/pages/afterSale/afterSalesAuditPassed"
               }
             ]
-          },
-          {
-            "path": "/order/seal",
-            "name": "封坛订单管理",
-            "component": "@/pages/order/sealMangment",
-            "hideInMenu": true
-          },
-          {
-            "path": "/order/productParameters",
-            "name": "启封管理",
-            "component": "@/pages/order/productParameters",
-            "hideInMenu": true
           }
         ]
       },
@@ -189,7 +182,6 @@
         "path": "/sales",
         "name": "营销",
         "icon": "gift",
-        "hideInMenu": true,
         "routes": [
           {
             "path": "/sales/promotion",
@@ -266,7 +258,6 @@
         "path": "/income",
         "name": "收益",
         "icon": "pay-circle",
-        "hideInMenu": true,
         "routes": [
           {
             "path": "/income/levelIncome",
@@ -321,8 +312,7 @@
               {
                 "path": "/cust/custManage/tagsManage",
                 "name": "标签管理",
-                "component": "@/pages/cust/tagsManage",
-                "hideInMenu": true
+                "component": "@/pages/cust/tagsManage"
               }
             ]
           },
@@ -341,27 +331,6 @@
                 "component": "@/pages/cust/memberSettings/EquityRules"
               }
             ]
-          }
-        ]
-      },
-      {
-        "path": "/distribution",
-        "name": "分销",
-        "icon": "table",
-        "hideInMenu": true,
-        "routes": [
-          {
-            "path": "/distribution/provinceAgentManage",
-            "name": "省代管理"
-          },
-          {
-            "path": "/distribution/cityAgentManage",
-            "name": "市代管理"
-          },
-          {
-            "path": "/distribution/shareManage",
-            "name": "分润设置",
-            "component": "@/pages/distribution/shareManage"
           }
         ]
       }

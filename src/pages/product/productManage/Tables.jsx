@@ -9,12 +9,13 @@ import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal, message } from 'antd';
+import { Button, DatePicker, Form, Modal, Radio, Space, message } from 'antd';
 import { useEffect, useRef } from 'react';
 import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
+  const [form] = Form.useForm();
   const { productManage, groupManage, loading } = useSelector((state) => state);
   const { activeKey, select, reload } = productManage;
   const { categoryTree, categoryList } = groupManage;
@@ -107,35 +108,7 @@ export default function Tables() {
         srks = selectedRowKeys;
       }
       if (srks.length !== 0) {
-        if (type === 'upload') uploadAsync(srks);
-        if (type === 'down') downAsync({ ids: srks });
-        if (type === 'delete') {
-          const modal = Modal.confirm();
-
-          modal.update({
-            title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
-            content: (
-              <div>
-                <p>确定要删除这些商品吗？</p>
-                {/* <p style={{ color: 'RGB(25,158,215)' }}>是否依旧删除？</p> */}
-              </div>
-            ),
-            maskClosable: true,
-            closable: true,
-            cancelText: '取消',
-            // cancelButtonProps: {
-            //   ghost: true,
-            //   style: { backgroundColor: 'RGB(44,240,152)' },
-            // },
-            onCancel: () => {},
-            autoFocusButton: null,
-            okText: '确定删除',
-            // okType: 'default',
-            onOk: () => {
-              deleteAsync(srks);
-            },
-          });
-        }
+        updateModal(type, srks);
       } else {
         message.warning('请勾选商品');
       }
@@ -176,6 +149,153 @@ export default function Tables() {
       return [...handler(categoryTree)];
     } else {
       return [];
+    }
+  };
+
+  const updateModal = (type, srks) => {
+    const modal = Modal.info();
+    if (type === 'upload') {
+      modal.update({
+        title: (
+          <span style={{ color: 'RGB(26,158,215)' }}>
+            {srks.length > 1 ? `确定批量上架选中的${srks.length}个商品吗?` : `确定上架该商品吗?`}
+          </span>
+        ),
+        icon: null,
+        content: (
+          <div>
+            <Form
+              form={form}
+              labelAlign="left"
+              labelCol={{
+                span: 8,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              colon={false}
+              layout="horizontal"
+              style={{}}
+              initialValues={{
+                groundType: 1,
+              }}
+              onValuesChange={(changedValues, allValues) => {
+                if (allValues?.groundType === 2) {
+                  form.setFields([{ name: 'openTime', hidden: true }]);
+                } else {
+                  form.setFields([{ name: 'openTime', hidden: false }]);
+                }
+              }}
+            >
+              <Form.Item label="上架时间" name="groundType">
+                <Radio.Group>
+                  <Space direction="vertical">
+                    <Radio value={1}>立即上架</Radio>
+                    <Radio value={2}>定时上架</Radio>
+                  </Space>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item label=" " name="openTime">
+                <DatePicker
+                  showTime={{
+                    format: 'HH:mm',
+                  }}
+                  format="YYYY-MM-DD HH:mm"
+                />
+              </Form.Item>
+            </Form>
+          </div>
+        ),
+        maskClosable: true,
+        closable: true,
+        onCancel: () => {},
+        footer: (
+          <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <Button
+              style={{ margin: '0px 10px', color: 'RGB(170,170,170)' }}
+              onClick={() => {
+                modal.destroy();
+              }}
+            >
+              取消
+            </Button>
+            <Button
+              ghost
+              style={{ color: 'white', backgroundColor: 'RGB(44,240,152)' }}
+              onClick={() => {
+                uploadAsync(
+                  srks.map((item) => ({
+                    id: item,
+                    ...form.getFieldsValue(),
+                  })),
+                );
+              }}
+            >
+              上架
+            </Button>
+          </div>
+        ),
+      });
+    }
+    if (type === 'down') {
+      modal.update({
+        title: (
+          <span style={{ color: 'RGB(26,158,215)' }}>
+            {srks.length > 1 ? `确定批量下架选中的${srks.length}个商品吗?` : `确定下架该商品吗?`}
+          </span>
+        ),
+        icon: null,
+        content: '下架商品将迁移入[仓库]中',
+        maskClosable: true,
+        closable: true,
+        onCancel: () => {},
+        footer: (
+          <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <Button
+              style={{ margin: '0px 10px', color: 'RGB(170,170,170)' }}
+              onClick={() => {
+                modal.destroy();
+              }}
+            >
+              取消
+            </Button>
+            <Button
+              ghost
+              style={{ color: 'white', backgroundColor: 'RGB(44,240,152)' }}
+              onClick={() => {
+                downAsync({ ids: srks });
+              }}
+            >
+              下架
+            </Button>
+          </div>
+        ),
+      });
+    }
+    if (type === 'delete') {
+      modal.update({
+        title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
+        content: (
+          <div>
+            <p>确定要删除这些商品吗？</p>
+            {/* <p style={{ color: 'RGB(25,158,215)' }}>是否依旧删除？</p> */}
+          </div>
+        ),
+        maskClosable: true,
+        closable: true,
+        cancelText: '取消',
+        // cancelButtonProps: {
+        //   ghost: true,
+        //   style: { backgroundColor: 'RGB(44,240,152)' },
+        // },
+        onCancel: () => {},
+        autoFocusButton: null,
+        okText: '确定删除',
+        // okType: 'default',
+        onOk: () => {
+          deleteAsync(srks);
+        },
+      });
     }
   };
 

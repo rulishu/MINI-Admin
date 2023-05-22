@@ -1,5 +1,6 @@
-import { deleteItem, selectById, selectPage } from '@/service/goods/supplier';
+import { deleteItem, selectById, selectPage } from '@/service/afterSale/afterSalesReasons';
 import { ProTable } from '@ant-design/pro-components';
+import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Modal } from 'antd';
@@ -10,25 +11,21 @@ import { columns } from './columns';
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload, userList } = useSelector((state) => state.supplier);
+  const { reload } = useSelector((state) => state.territory);
   const update = (data) => {
     dispatch({
-      type: 'supplier/update',
+      type: 'territory/update',
       payload: data,
     });
   };
 
   useEffect(() => {
-    dispatch({ type: 'supplier/getUserList' });
     dispatch({ type: 'commonInterface/getTreeList' });
   }, []);
 
   // 新增编辑刷新分页
   useEffect(() => {
-    if (reload) {
-      ref?.current?.reload();
-      dispatch({ type: 'supplier/getUserList' });
-    }
+    if (reload) ref?.current?.reload();
   }, [reload]);
 
   // 详情接口
@@ -38,9 +35,7 @@ export default () => {
       if (code && code === 200) {
         update({
           visible: true,
-          queryInfo: {
-            ...result,
-          },
+          queryInfo: result,
         });
       }
     },
@@ -52,10 +47,6 @@ export default () => {
     onSuccess: ({ code }) => {
       if (code && code === 200) {
         ref?.current?.reload();
-        dispatch({
-          type: 'supplier/getUserList',
-          payload: {},
-        });
       }
     },
   });
@@ -67,13 +58,13 @@ export default () => {
       update({ visible: true, queryInfo: {} });
     }
     if (type === 'edit') {
-      mutateAsync({ id: record.supplierId });
+      mutateAsync({ id: record.id });
     }
     if (type === 'delete') {
       Modal.confirm({
-        title: '确定是否删除该供应商？',
-        maskClosable: true,
-        onOk: () => mutateDeleteAsync({ id: record.supplierId }),
+        title: '温馨提醒',
+        content: '删除代理，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
+        onOk: () => mutateDeleteAsync({ id: record.id }),
       });
     }
   };
@@ -82,18 +73,20 @@ export default () => {
       <ProTable
         actionRef={ref}
         options={false}
-        form={{
-          defaultCollapsed: false,
-        }}
         search={{
-          labelWidth: 'auto',
+          labelWidth: 120,
+          optionRender: () => (
+            <Button type="primary" onClick={() => ref?.current?.reload()}>
+              搜索
+            </Button>
+          ),
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           let body = {
-            ...formData,
             pageNum: current,
             pageSize,
+            ...formData,
           };
           const { code, result } = await selectPage(body);
           if (code && code === 200) {
@@ -105,25 +98,25 @@ export default () => {
             };
           }
         }}
-        toolBarRender={() => [
-          <Button key="add" type="primary" onClick={() => handleEdit('add')}>
-            新增供应商
-          </Button>,
-        ]}
+        toolbar={{
+          actions: (
+            <ButtonGroupPro
+              button={[
+                {
+                  label: '新增代理',
+                  type: 'primary',
+                  onClick: () => handleEdit('add'),
+                },
+              ]}
+            />
+          ),
+        }}
         pagination={{
           showSizeChanger: true,
         }}
         cardBordered={true}
-        columns={columns({
-          handleEdit,
-          productSelector: {
-            options: userList.map((item) => ({
-              label: item.productSelector,
-              value: item.productId,
-            })),
-          },
-        })}
-        rowKey="supplierId"
+        columns={columns({ handleEdit })}
+        rowKey="id"
         scroll={{ x: 1300 }}
       />
       <Details />
