@@ -23,9 +23,10 @@ export default function SearchTable() {
   return (
     <>
       <ProTable
+        headerTitle="说明：会员分润基数为实际毛利"
         actionRef={ref}
         options={false}
-        headerTitle="说明：会员分润基数为实际毛利"
+        defaultSize="small"
         request={async () => {
           const { code, result } = await queryUserDsConfig({
             configType: 6,
@@ -41,6 +42,13 @@ export default function SearchTable() {
         }}
         search={false}
         // pagination={false}
+        cardProps={{
+          headStyle: {},
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered={true}
         columns={columns(edit)}
         rowKey="totalPercent"

@@ -1,12 +1,7 @@
-import { ProCard } from '@ant-design/pro-components';
-import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal } from 'antd';
-import FormRender, { useForm } from 'form-render';
-import { schema } from './columns';
+import { ModalForm, ProFormDigit } from '@ant-design/pro-components';
+import { useDispatch } from '@umijs/max';
 
-export default function SearchTable({ tableRef }) {
-  const form = useForm();
-  const { visible, queryData } = useSelector((state) => state.referrer);
+export default function SearchTable({ tableRef, data }) {
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
@@ -15,32 +10,44 @@ export default function SearchTable({ tableRef }) {
     });
   };
 
-  const onFinish = async (data) => {
+  const onFinish = async (formData) => {
     dispatch({
       type: 'referrer/edit',
       payload: {
-        percent: data?.input,
-        id: queryData?.id,
-        callback: tableRef?.current?.reload,
+        percent: formData?.inputnumber,
+        id: data?.id,
+        callback: () => {
+          tableRef?.current?.reload();
+          Promise.resolve(true);
+          update({ visible: false });
+        },
       },
     });
   };
 
   return (
-    <Modal
-      open={visible}
-      onCancel={() => update({ visible: false })}
-      width={500}
-      footer={[
-        <Button type="primary" onClick={form.submit}>
-          保存
-        </Button>,
-        <Button onClick={() => update({ visible: false })}>取消</Button>,
-      ]}
+    <ModalForm
+      title="修改推荐人分润系数"
+      width={300}
+      autoFocusFirstInput
+      modalProps={{
+        destroyOnClose: true,
+        onCancel: () => update({ visible: false }),
+      }}
+      onFinish={async (formData) => {
+        await onFinish(formData);
+        return true;
+      }}
+      trigger={<span>修改</span>}
     >
-      <ProCard title="修改" headerBordered>
-        <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
-      </ProCard>
-    </Modal>
+      <ProFormDigit
+        name="inputnumber"
+        required
+        min={0}
+        max={100}
+        initialValue={data.percent}
+        fieldProps={{ precision: 0 }}
+      />
+    </ModalForm>
   );
 }

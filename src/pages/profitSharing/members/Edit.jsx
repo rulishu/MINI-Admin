@@ -2,6 +2,7 @@ import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Modal, message } from 'antd';
 import FormRender, { useForm } from 'form-render';
+import { cloneElement } from 'react';
 import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
@@ -36,21 +37,33 @@ export default function SearchTable({ tableRef }) {
       });
     }
   };
-
+  const modalRender = (comps) => {
+    return cloneElement(comps, {
+      ...comps.props,
+      style: {
+        padding: 0,
+      },
+    });
+  };
   return (
     <Modal
       open={visible}
+      width={480}
+      modalRender={modalRender}
       onCancel={() => update({ visible: false })}
-      width={500}
-      footer={[
-        <Button type="primary" onClick={form.submit}>
-          保存
-        </Button>,
-        <Button onClick={() => update({ visible: false })}>取消</Button>,
-      ]}
+      footer={
+        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
+          <Button key="save" type="primary" onClick={form.submit}>
+            保存
+          </Button>
+          <Button key="cancel" onClick={() => update({ visible: false })}>
+            取消
+          </Button>
+        </div>
+      }
     >
       {contextHolder}
-      <ProCard title="修改" headerBordered>
+      <ProCard title="修改" headerBordered bodyStyle={{ paddingBottom: 0 }}>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
       </ProCard>
     </Modal>
