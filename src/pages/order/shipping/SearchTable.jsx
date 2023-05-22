@@ -31,6 +31,9 @@ export default function SearchTable() {
       cardBordered
       columns={columns}
       rowKey="id"
+      search={{
+        labelWidth: 'auto',
+      }}
       toolbar={{
         actions: (
           <ButtonGroupPro

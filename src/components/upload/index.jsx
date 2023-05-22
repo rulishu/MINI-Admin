@@ -1,6 +1,6 @@
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
-import { Button, Upload, message } from 'antd';
+import { Button, Upload } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
 import { getDefaultValue } from './utils';
@@ -11,10 +11,14 @@ export default ({
   listType = 'picture-card',
   showUploadList,
   maxCount = 1,
+  message = '',
+  /** 上传文件限制大小  */
+  limitSize = 5,
   addons,
   ...others
 }) => {
-  const [fileList, setFileList] = useState(getDefaultValue(value));
+  let _value = getDefaultValue(value);
+  const [fileList, setFileList] = useState(_value);
   const [previewUrl, setPreviewUrl] = useState('');
   const [isVideo, setIsVideo] = useState(false);
 
@@ -25,6 +29,14 @@ export default ({
   useEffect(() => {
     onChange?.(fileList);
   }, [fileList]);
+
+  const beforeUpload = (file) => {
+    const isLt5M = file.size / 1024 / 1024 < limitSize;
+    if (!isLt5M) {
+      message.warning(`上传文件大小不能超过${limitSize}MB!`);
+    }
+    return isLt5M;
+  };
 
   const customRequest = async ({ file, onSuccess, onProgress }) => {
     const token = sessionStorage.getItem('token');
@@ -110,7 +122,10 @@ export default ({
       return (
         <div>
           <PlusOutlined />
-          <div style={{ marginTop: 8 }}>上传</div>
+          <div style={{ marginTop: 8 }}>
+            <div>上传</div>
+            {maxCount > 1 && <div> {`(${fileList.length}/${maxCount})`}</div>}
+          </div>
         </div>
       );
     }
@@ -120,6 +135,7 @@ export default ({
     fileList: fileList,
     customRequest: customRequest,
     onRemove: handleRemove,
+    beforeUpload: beforeUpload,
     listType: listType,
     maxCount: 1,
     showUploadList: {
@@ -141,7 +157,22 @@ export default ({
 
   return (
     <Fragment>
-      <Upload {...uplpodProps}>{renderButton()}</Upload>
+      <div>
+        <Upload {...uplpodProps}>{renderButton()}</Upload>
+        {message && (
+          <span
+            style={{
+              background: 'rgba(0, 0, 0, 0.02)',
+              padding: '5px 10px',
+              marginTop: '24px',
+              color: '#888',
+              fontSize: '12px',
+            }}
+          >
+            {message}
+          </span>
+        )}
+      </div>
       <Preview {...previewProps} />
     </Fragment>
   );

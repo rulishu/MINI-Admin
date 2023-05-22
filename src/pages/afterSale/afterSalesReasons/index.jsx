@@ -69,7 +69,7 @@ export default () => {
         actionRef={ref}
         options={false}
         search={{
-          labelWidth: 120,
+          labelWidth: 'auto',
           optionRender: () => (
             <Button type="primary" onClick={() => ref?.current?.reload()}>
               搜索
