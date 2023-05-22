@@ -1,7 +1,6 @@
 import { selectPage } from '@/service/cust/memberManage';
-import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { Button } from 'antd';
 import { columns } from './columns';
 
 export default function SearchTable() {
@@ -36,22 +35,14 @@ export default function SearchTable() {
           defaultCollapsed: false,
           searchText: '搜索',
         }}
-        toolBarRender={() => (
-          <ButtonGroupPro
-            button={[
-              {
-                label: '新增参数',
-                icon: <PlusOutlined />,
-                onClick: () => handle('add'),
-              },
-              {
-                label: '同步系统参数模版',
-                type: 'primary',
-                onClick: () => handle('add'),
-              },
-            ]}
-          />
-        )}
+        toolBarRender={() => [
+          <Button type="primary" onClick={() => handle('add')}>
+            新增参数
+          </Button>,
+          <Button type="primary" onClick={() => handle('add')}>
+            同步系统参数模版
+          </Button>,
+        ]}
       />
     </>
   );

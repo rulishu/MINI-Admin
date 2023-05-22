@@ -1,9 +1,7 @@
 import { del, selectPage } from '@/service/cust/memberShipLevel';
-import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch } from '@umijs/max';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { useRef, useState } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -60,20 +58,11 @@ export default function SearchTable() {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  type: 'primary',
-                  label: '新建会员等级',
-                  icon: <PlusOutlined />,
-                  onClick: () => handle('add', {}),
-                },
-              ]}
-            />
-          ),
-        }}
+        toolBarRender={() => [
+          <Button key="add" type="primary" onClick={() => handle('add', {})}>
+            新建会员等级
+          </Button>,
+        ]}
         search={false}
         pagination={{
           pageSize: pageSize,

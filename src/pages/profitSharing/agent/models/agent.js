@@ -3,8 +3,6 @@ import { edit } from '@/service/profitSharing/agent';
 export default {
   namespace: 'agent',
   state: {
-    tabs: '1',
-    activeKey: '1',
     type: '',
     visible: false,
     queryData: {},
@@ -16,16 +14,8 @@ export default {
     }),
   },
   effects: {
-    *edit({ payload }, { call, put }) {
-      const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent, callback } =
-        payload;
-      const { code } = yield call(edit, {
-        areaLevelPercent,
-        cityLevelPercent,
-        provinceLevelPercent,
-        totalPercent,
-        configType: 6,
-      });
+    *edit({ payload, callback }, { call, put }) {
+      const { code } = yield call(edit, payload);
       if (code && code === 200) {
         yield put({
           type: 'update',

@@ -68,7 +68,7 @@ export default () => {
         actionRef={ref}
         options={false}
         search={{
-          labelWidth: 120,
+          labelWidth: 'auto',
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;

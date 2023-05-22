@@ -1,4 +1,5 @@
-import { edit } from '@/service/profitSharing/distribution';
+import { queryDealerDsConfig, updateDealerDsConfig } from '@/service/profitSharing/distribution';
+import { configType } from '../config';
 
 export default {
   namespace: 'distribution',
@@ -16,16 +17,17 @@ export default {
     }),
   },
   effects: {
+    *fetchDealerDsConfig(_, { put }) {
+      const { code } = yield queryDealerDsConfig(configType);
+      if (code && code === 200) {
+        yield put({
+          type: 'update',
+        });
+      }
+    },
     *edit({ payload }, { call, put }) {
-      const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent, callback } =
-        payload;
-      const { code } = yield call(edit, {
-        areaLevelPercent,
-        cityLevelPercent,
-        provinceLevelPercent,
-        totalPercent,
-        configType: 6,
-      });
+      const { callback, ...params } = payload;
+      const { code } = yield call(updateDealerDsConfig, params);
       if (code && code === 200) {
         yield put({
           type: 'update',

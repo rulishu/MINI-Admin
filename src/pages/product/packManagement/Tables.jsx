@@ -1,8 +1,7 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch } from '@umijs/max';
-import { Col, Input, Modal, Row, Space, Switch } from 'antd';
+import { Button, Col, Input, Modal, Row, Space, Switch } from 'antd';
 import { useRef } from 'react';
 import Edit from './Edit/Edit';
 import { columns } from './columns';
@@ -78,21 +77,7 @@ export default function Tables() {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  type: 'primary',
-                  label: '添加',
-                  onClick: () => {
-                    update({ visible: true });
-                  },
-                },
-              ]}
-            />
-          ),
-        }}
+        toolBarRender={() => [<Button type="primary">添加</Button>]}
         search={false}
         pagination={{
           showSizeChanger: true,

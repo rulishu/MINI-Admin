@@ -1,6 +1,5 @@
 import { deleteItem, selectById, selectPage } from '@/service/afterSale/afterSalesReasons';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Modal } from 'antd';
@@ -74,7 +73,7 @@ export default () => {
         actionRef={ref}
         options={false}
         search={{
-          labelWidth: 120,
+          labelWidth: 'auto',
           optionRender: () => (
             <Button type="primary" onClick={() => ref?.current?.reload()}>
               搜索
@@ -98,19 +97,11 @@ export default () => {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  label: '新增代理',
-                  type: 'primary',
-                  onClick: () => handleEdit('add'),
-                },
-              ]}
-            />
-          ),
-        }}
+        toolBarRender={() => [
+          <Button key="add" type="primary" onClick={() => handleEdit('add')}>
+            新增代理
+          </Button>,
+        ]}
         pagination={{
           showSizeChanger: true,
         }}

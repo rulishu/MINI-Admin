@@ -1,6 +1,6 @@
 import { selectPage } from '@/service/pointsManagement';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { Button } from 'antd';
 import { useRef, useState } from 'react';
 import { columns } from './columns';
 
@@ -9,6 +9,10 @@ export default function Tables() {
   const [pageSize, setPageSize] = useState(10);
   return (
     <ProTable
+      search={{
+        defaultCollapsed: false,
+        labelWidth: 'auto',
+      }}
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
@@ -26,25 +30,11 @@ export default function Tables() {
           };
         }
       }}
-      toolbar={{
-        actions: (
-          <ButtonGroupPro
-            button={[
-              {
-                type: 'primary',
-                label: '导出',
-              },
-            ]}
-          />
-        ),
-      }}
+      toolBarRender={() => [<Button type="primary">导出</Button>]}
       pagination={{
         pageSize: pageSize,
         onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
-      }}
-      search={{
-        defaultCollapsed: false,
       }}
       cardBordered={true}
       columns={columns}

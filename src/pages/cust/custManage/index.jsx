@@ -1,10 +1,10 @@
 import Table from './Table';
 
-const members = () => {
+const Page = () => {
   return (
     <div>
       <Table />
     </div>
   );
 };
-export default members;
+export default Page;

@@ -1,9 +1,8 @@
 import { selectById, selectPage } from '@/service/cust/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import React, { useRef, useState } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -54,6 +53,9 @@ export default function Page() {
       <ProTable
         actionRef={ref}
         options={false}
+        search={{
+          labelWidth: 'auto',
+        }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           const { code, data } = await selectPage({
@@ -88,28 +90,25 @@ export default function Page() {
               ref?.current?.reload();
             },
           },
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  type: 'primary',
-                  label: activeKey === 'tab1' ? '添加手动标签' : '添加自动标签',
-                  onClick: () => {
-                    setVisible(true);
-                    update({
-                      queryInfo: {},
-                      type: 'add',
-                    });
-                  },
-                },
-                {
-                  type: 'primary',
-                  label: '导出标签',
-                },
-              ]}
-            />
-          ),
         }}
+        toolBarRender={() => [
+          <Button
+            key="add"
+            type="primary"
+            onClick={() => {
+              setVisible(true);
+              update({
+                queryInfo: {},
+                type: 'add',
+              });
+            }}
+          >
+            {activeKey === 'tab1' ? '添加手动标签' : '添加自动标签'}
+          </Button>,
+          <Button key="add" type="primary">
+            导出标签
+          </Button>,
+        ]}
         pagination={{
           showSizeChanger: true,
         }}

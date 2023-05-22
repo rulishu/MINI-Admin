@@ -1,11 +1,9 @@
 import { create, updateInfo } from '@/service/afterSale/afterSalesReasons';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Cascader, Modal } from 'antd';
+import { Button, Cascader, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
-import { status } from '../enum';
 
 function filterData(data) {
   return data
@@ -67,6 +65,12 @@ export default () => {
     });
   };
 
+  const watch = {
+    reason2: () => {
+      form.setValues({ reason3: [] });
+    },
+  };
+
   return (
     <Modal
       forceRender
@@ -74,25 +78,16 @@ export default () => {
       open={visible}
       onCancel={() => update({ visible: false })}
       width={500}
-      footer={
-        <ButtonGroupPro
-          button={[
-            {
-              label: '保存',
-              type: 'primary',
-              onClick: form.submit,
-              loading: isLoading,
-            },
-            {
-              label: '取消',
-              onClick: () => update({ visible: false }),
-            },
-          ]}
-        />
-      }
+      footer={[
+        <Button type="primary" loading={isLoading} onClick={form.submit}>
+          保存
+        </Button>,
+        <Button onClick={() => update({ visible: false })}>取消</Button>,
+      ]}
     >
       <FormRender
         form={form}
+        watch={watch}
         widgets={{ cascader: Cascader }}
         schema={{
           type: 'object',
@@ -106,6 +101,7 @@ export default () => {
               props: {
                 options: [],
               },
+              placeholder: '请选择代理商',
             },
             reason2: {
               title: '代理级别',
@@ -113,11 +109,14 @@ export default () => {
               widget: 'select',
               required: true,
               props: {
-                options: Object.keys(status).map((key) => ({
-                  label: status[key].text,
-                  value: parseInt(key),
-                })),
+                allowClear: true,
+                options: [
+                  { label: '省级', value: '0' },
+                  { label: '市级', value: '1' },
+                  { label: '区县级', value: '2' },
+                ],
               },
+              placeholder: '请选择代理级别',
             },
             reason3: {
               title: '代理地盘',
@@ -129,6 +128,8 @@ export default () => {
                 maxTagCount: 3,
                 multiple: true,
               },
+              disabled: '{{ !formData.reason2 }}',
+              placeholder: '请选择代代理地盘',
             },
           },
         }}

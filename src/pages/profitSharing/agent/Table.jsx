@@ -26,22 +26,19 @@ export default function SearchTable() {
         actionRef={ref}
         options={false}
         request={async () => {
-          const { code, result } = await queryUserDsConfig({
-            configType: 6,
-          });
+          const { code, result } = await queryUserDsConfig({});
           if (code && code === 200) {
-            const source = [];
-            source.push(result);
             return {
-              data: source || [],
+              data: result || [],
               success: true,
             };
           }
         }}
+        headerTitle={'说明：推荐基数为分润毛利'}
         search={false}
         cardBordered={true}
         columns={columns(edit)}
-        rowKey="totalPercent"
+        rowKey={(record) => record.level + record.putPercent + record.sendPercent}
       />
       <Edit tableRef={ref} />
     </>

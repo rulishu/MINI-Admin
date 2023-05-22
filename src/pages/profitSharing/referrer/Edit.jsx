@@ -1,7 +1,6 @@
 import { ProCard } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
@@ -31,22 +30,13 @@ export default function SearchTable({ tableRef }) {
     <Modal
       open={visible}
       onCancel={() => update({ visible: false })}
-      width={800}
-      footer={
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '确认',
-              onClick: form.submit,
-            },
-            {
-              label: '取消',
-              onClick: () => update({ visible: false }),
-            },
-          ]}
-        />
-      }
+      width={500}
+      footer={[
+        <Button type="primary" onClick={form.submit}>
+          保存
+        </Button>,
+        <Button onClick={() => update({ visible: false })}>取消</Button>,
+      ]}
     >
       <ProCard title="修改" headerBordered>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />

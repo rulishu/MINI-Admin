@@ -1,4 +1,4 @@
-import { selectById, selectPage } from '@/service/cust/memberManage';
+import { selectById, selectPage } from '@/service/cust/fansManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';
@@ -8,7 +8,7 @@ export default function SearchTable() {
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'memberManage/update',
+      type: 'custManage/update',
       payload: data,
     });
   };
@@ -31,11 +31,15 @@ export default function SearchTable() {
   return (
     <ProTable
       options={false}
+      search={{
+        labelWidth: 'auto',
+      }}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
         const { code, result } = await selectPage({
           pageNum: current,
           pageSize,
+          memberType: '粉丝',
           ...formData,
         });
         if (code && code === 200) {
@@ -50,33 +54,8 @@ export default function SearchTable() {
         showSizeChanger: true,
       }}
       cardBordered
-      columns={columns(handleEdit)}
+      columns={columns({ handleEdit })}
       rowKey="id"
-      search={{
-        labelWidth: 'auto',
-        defaultCollapsed: false,
-      }}
-      // toolBarRender={() => (
-      //   <ButtonGroupPro
-      //     button={[
-      //       {
-      //         type: 'primary',
-      //         label: '创建导出任务',
-      //         onClick: () => handle('add'),
-      //       },
-      //       {
-      //         type: 'primary',
-      //         label: '查看导出列表',
-      //         onClick: () => handle('view'),
-      //       },
-      //       {
-      //         type: 'primary',
-      //         label: '查看优惠卷发放记录',
-      //         onClick: () => handle('record'),
-      //       },
-      //     ]}
-      //   />
-      // )}
     />
   );
 }

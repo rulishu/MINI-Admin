@@ -1,7 +1,6 @@
 import { ProCard } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal, message } from 'antd';
+import { Button, Modal, message } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
@@ -18,21 +17,22 @@ export default function SearchTable({ tableRef }) {
   };
 
   const onFinish = async (data) => {
-    console.log(data);
-    const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
-    if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
+    const { percent, oneLevelPercent, twoLevelPercent, threeLevelPercent } = data;
+    if (percent + oneLevelPercent + twoLevelPercent + threeLevelPercent > 100) {
       messageApi.open({
         type: 'error',
-        content: '会员分润系数大于100%',
+        content: '经销商润系数大于100%',
       });
     } else {
       dispatch({
         type: 'distribution/edit',
         payload: {
-          areaLevelPercent,
-          cityLevelPercent,
-          provinceLevelPercent,
-          totalPercent,
+          configType: queryData.configType,
+          level: queryData.level,
+          percent,
+          oneLevelPercent,
+          twoLevelPercent,
+          threeLevelPercent,
           callback: tableRef?.current?.reload,
         },
       });
@@ -44,21 +44,12 @@ export default function SearchTable({ tableRef }) {
       open={visible}
       onCancel={() => update({ visible: false })}
       width={500}
-      footer={
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '确认',
-              onClick: form.submit,
-            },
-            {
-              label: '取消',
-              onClick: () => update({ visible: false }),
-            },
-          ]}
-        />
-      }
+      footer={[
+        <Button type="primary" onClick={form.submit}>
+          保存
+        </Button>,
+        <Button onClick={() => update({ visible: false })}>取消</Button>,
+      ]}
     >
       {contextHolder}
       <ProCard title="修改" headerBordered>

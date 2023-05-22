@@ -1,6 +1,6 @@
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
-import { Button, Upload } from 'antd';
+import { App, Button, Upload } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
 import { getDefaultValue } from './utils';
@@ -11,12 +11,13 @@ export default ({
   listType = 'picture-card',
   showUploadList,
   maxCount = 1,
-  message = '',
+  warn = '',
   /** 上传文件限制大小  */
   limitSize = 5,
   addons,
   ...others
 }) => {
+  const { message } = App.useApp();
   let _value = getDefaultValue(value);
   const [fileList, setFileList] = useState(_value);
   const [previewUrl, setPreviewUrl] = useState('');
@@ -159,7 +160,7 @@ export default ({
     <Fragment>
       <div>
         <Upload {...uplpodProps}>{renderButton()}</Upload>
-        {message && (
+        {warn && (
           <span
             style={{
               background: 'rgba(0, 0, 0, 0.02)',
@@ -169,7 +170,7 @@ export default ({
               fontSize: '12px',
             }}
           >
-            {message}
+            {warn}
           </span>
         )}
       </div>
