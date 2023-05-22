@@ -18,7 +18,6 @@ export default function SearchTable({ tableRef }) {
   };
 
   const onFinish = async (data) => {
-    console.log(data);
     const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
     if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
       messageApi.open({
