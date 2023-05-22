@@ -53,6 +53,7 @@ export default function SearchTable() {
       columns={columns(handleEdit)}
       rowKey="id"
       search={{
+        labelWidth: 'auto',
         defaultCollapsed: false,
       }}
       // toolBarRender={() => (

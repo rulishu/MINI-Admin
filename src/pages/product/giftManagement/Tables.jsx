@@ -1,6 +1,6 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
+import { Button } from 'antd';
 import { useRef, useState } from 'react';
 import { columns } from './columns';
 
@@ -26,34 +26,13 @@ export default function Tables() {
           };
         }
       }}
-      toolbar={{
-        actions: (
-          <ButtonGroupPro
-            button={[
-              {
-                type: 'primary',
-                label: '发布赠品',
-              },
-              {
-                type: 'primary',
-                label: '上架',
-              },
-              {
-                type: 'primary',
-                label: '下架',
-              },
-              {
-                type: 'primary',
-                label: '删除',
-              },
-              {
-                type: 'primary',
-                label: '改分组',
-              },
-            ]}
-          />
-        ),
-      }}
+      toolBarRender={() => [
+        <Button type="primary">发布赠品</Button>,
+        <Button type="primary">上架</Button>,
+        <Button type="primary">下架</Button>,
+        <Button type="primary">删除</Button>,
+        <Button type="primary">改分组</Button>,
+      ]}
       pagination={{
         pageSize: pageSize,
         onChange: (_, pageSize) => setPageSize(pageSize),

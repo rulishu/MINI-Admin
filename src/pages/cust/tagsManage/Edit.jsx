@@ -23,6 +23,7 @@ export default function Edit({ visible, setVisible, queryInfo, type, reload }) {
       formRef={ref}
       title={type === 'edit' ? '编辑标签' : '新增标签'}
       open={visible}
+      width={500}
       onOpenChange={setVisible}
       modalProps={{
         destroyOnClose: true,
