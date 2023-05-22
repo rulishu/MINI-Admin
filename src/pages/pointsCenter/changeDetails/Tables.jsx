@@ -26,7 +26,11 @@ export default function Tables() {
           };
         }
       }}
-      toolBarRender={() => [<Button type="primary">导出</Button>]}
+      toolBarRender={() => [
+        <Button key="export" type="primary">
+          导出
+        </Button>,
+      ]}
       pagination={{
         pageSize: pageSize,
         onChange: (_, pageSize) => setPageSize(pageSize),

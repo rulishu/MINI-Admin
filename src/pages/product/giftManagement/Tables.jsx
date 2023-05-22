@@ -27,11 +27,21 @@ export default function Tables() {
         }
       }}
       toolBarRender={() => [
-        <Button type="primary">发布赠品</Button>,
-        <Button type="primary">上架</Button>,
-        <Button type="primary">下架</Button>,
-        <Button type="primary">删除</Button>,
-        <Button type="primary">改分组</Button>,
+        <Button key="1" type="primary">
+          发布赠品
+        </Button>,
+        <Button key="2" type="primary">
+          上架
+        </Button>,
+        <Button key="3" type="primary">
+          下架
+        </Button>,
+        <Button key="4" type="primary">
+          删除
+        </Button>,
+        <Button key="5" type="primary">
+          改分组
+        </Button>,
       ]}
       pagination={{
         pageSize: pageSize,

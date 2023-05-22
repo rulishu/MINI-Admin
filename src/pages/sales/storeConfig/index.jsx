@@ -41,7 +41,7 @@ export default () => {
           }
         }}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => update({ visible: true })}>
+          <Button type="primary" key="exports" onClick={() => update({ visible: true })}>
             导出
           </Button>,
         ]}
