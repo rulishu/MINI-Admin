@@ -79,7 +79,7 @@ export const schema = ({ queryInfo, province }) => {
             required: true,
             props: {
               listType: 'picture-card',
-              message: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
+              warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
               accept: '.jpg,.png,.jpeg',
             },
           },
@@ -90,7 +90,7 @@ export const schema = ({ queryInfo, province }) => {
             required: true,
             props: {
               listType: 'picture-card',
-              message: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
+              warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
               accept: '.jpg,.png,.jpeg',
             },
           },
@@ -110,7 +110,7 @@ export const schema = ({ queryInfo, province }) => {
             props: {
               listType: 'picture-card',
               maxCount: 20,
-              message: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
+              warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
               accept: '.jpg,.png,.jpeg',
             },
           },
@@ -121,7 +121,7 @@ export const schema = ({ queryInfo, province }) => {
             required: true,
             props: {
               listType: 'picture-card',
-              message: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
+              warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
               accept: '.jpg,.png,.jpeg',
             },
           },
@@ -132,7 +132,7 @@ export const schema = ({ queryInfo, province }) => {
             props: {
               listType: 'picture-card',
               maxCount: 20,
-              message: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
+              warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
               accept: '.jpg,.png,.jpeg',
             },
           },

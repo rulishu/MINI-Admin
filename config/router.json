@@ -297,7 +297,8 @@
         "routes": [
           {
             "path": "/cust/userManage",
-            "name": "用户管理"
+            "name": "用户管理",
+            "component": "@/pages/cust/custManage"
           },
           {
             "path": "/cust/custManage",

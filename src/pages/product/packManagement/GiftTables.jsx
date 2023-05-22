@@ -1,8 +1,7 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch } from '@umijs/max';
-import { Alert, Row, Space } from 'antd';
+import { Alert, Button, Row, Space } from 'antd';
 import { useRef } from 'react';
 import GiftEdit from './GiftEdit/GiftEdit';
 import { columnsGift } from './columns';
@@ -56,19 +55,11 @@ export default function GiftTables() {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  type: 'primary',
-                  label: '新建礼包',
-                  onClick: () => update({ giftVisible: true }),
-                },
-              ]}
-            />
-          ),
-        }}
+        toolBarRender={() => [
+          <Button onClick={() => update({ giftVisible: true })} type="primary">
+            新建礼包
+          </Button>,
+        ]}
         search={false}
         pagination={{
           showSizeChanger: true,

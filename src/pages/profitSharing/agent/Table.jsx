@@ -34,6 +34,7 @@ export default function SearchTable() {
             };
           }
         }}
+        headerTitle={'说明：推荐基数为分润毛利'}
         search={false}
         cardBordered={true}
         columns={columns(edit)}

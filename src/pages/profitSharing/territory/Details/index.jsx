@@ -1,8 +1,7 @@
 import { create, updateInfo } from '@/service/afterSale/afterSalesReasons';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Cascader, Modal } from 'antd';
+import { Button, Cascader, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 
@@ -79,22 +78,12 @@ export default () => {
       open={visible}
       onCancel={() => update({ visible: false })}
       width={500}
-      footer={
-        <ButtonGroupPro
-          button={[
-            {
-              label: '保存',
-              type: 'primary',
-              onClick: form.submit,
-              loading: isLoading,
-            },
-            {
-              label: '取消',
-              onClick: () => update({ visible: false }),
-            },
-          ]}
-        />
-      }
+      footer={[
+        <Button type="primary" loading={isLoading} onClick={form.submit}>
+          保存
+        </Button>,
+        <Button onClick={() => update({ visible: false })}>取消</Button>,
+      ]}
     >
       <FormRender
         form={form}

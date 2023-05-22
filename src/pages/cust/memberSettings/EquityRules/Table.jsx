@@ -1,9 +1,7 @@
 import { del, selectPage } from '@/service/cust/equityRules';
-import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch } from '@umijs/max';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { useRef } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -61,20 +59,11 @@ export default function SearchTable() {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  type: 'primary',
-                  label: '新增会员权益',
-                  icon: <PlusOutlined />,
-                  onClick: () => handle('add', {}),
-                },
-              ]}
-            />
-          ),
-        }}
+        toolBarRender={() => [
+          <Button key="add" type="primary" onClick={() => handle('add', {})}>
+            新增会员权益
+          </Button>,
+        ]}
         search={false}
         pagination={{
           showSizeChanger: true,

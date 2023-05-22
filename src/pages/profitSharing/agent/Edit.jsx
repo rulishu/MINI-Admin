@@ -1,7 +1,6 @@
 import { ProCard } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal, message } from 'antd';
+import { Button, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
@@ -17,10 +16,6 @@ export default function SearchTable({ tableRef }) {
   };
 
   const onFinish = async (data) => {
-    if (data.sendPercent + data.putPercent > 100) {
-      message.warning('总分润系数大于1');
-      return;
-    }
     const params = {
       ...data,
       level: queryData.level,
@@ -37,21 +32,12 @@ export default function SearchTable({ tableRef }) {
       open={visible}
       onCancel={() => update({ visible: false })}
       width={500}
-      footer={
-        <ButtonGroupPro
-          button={[
-            {
-              type: 'primary',
-              label: '确认',
-              onClick: form.submit,
-            },
-            {
-              label: '取消',
-              onClick: () => update({ visible: false }),
-            },
-          ]}
-        />
-      }
+      footer={[
+        <Button type="primary" onClick={form.submit}>
+          保存
+        </Button>,
+        <Button onClick={() => update({ visible: false })}>取消</Button>,
+      ]}
     >
       <ProCard title="修改" headerBordered>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
