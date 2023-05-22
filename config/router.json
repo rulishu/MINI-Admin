@@ -296,6 +296,10 @@
         "icon": "user",
         "routes": [
           {
+            "path": "/cust/userManage",
+            "name": "用户管理"
+          },
+          {
             "path": "/cust/custManage",
             "name": "客户管理",
             "routes": [
