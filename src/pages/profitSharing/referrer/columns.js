@@ -1,4 +1,5 @@
-export const columns = (edit) => [
+import Edit from './Edit';
+export const columns = (edit, tableRef) => [
   {
     title: '推荐人分润系数',
     align: 'left',
@@ -15,31 +16,29 @@ export const columns = (edit) => [
     align: 'center',
     hideInSearch: true,
     render: (record) => (
-      <div>
-        <a type="link" size="small" onClick={() => edit(record)}>
-          修改
-        </a>
-      </div>
+      <a type="link" size="small" onClick={() => edit(record)}>
+        <Edit data={record} tableRef={tableRef} />
+      </a>
     ),
   },
 ];
 
-export const schema = ({ queryData }) => {
-  return {
-    type: 'object',
-    properties: {
-      input: {
-        title: '推荐人分润系数',
-        type: 'number',
-        placeholder: '请输入推荐人分润系数',
-        required: true,
-        defaultValue: queryData.percent,
-        max: 100,
-        min: 0,
-        props: {
-          addonAfter: '%',
-        },
-      },
-    },
-  };
-};
+// export const schema = ({ queryData }) => {
+//   return {
+//     type: 'object',
+//     properties: {
+//       input: {
+//         title: '推荐人分润系数',
+//         type: 'number',
+//         placeholder: '请输入推荐人分润系数',
+//         required: true,
+//         defaultValue: queryData.percent,
+//         max: 100,
+//         min: 0,
+//         props: {
+//           addonAfter: '%',
+//         },
+//       },
+//     },
+//   };
+// };

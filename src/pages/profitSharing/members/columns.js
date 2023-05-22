@@ -56,6 +56,7 @@ export const schema = ({ queryData }) => {
     type: 'object',
     properties: {
       totalPercent: {
+        span: 12,
         title: '会员分润系数',
         type: 'number',
         placeholder: '请输入会员分润系数',
@@ -67,6 +68,7 @@ export const schema = ({ queryData }) => {
         },
       },
       areaLevelPercent: {
+        span: 12,
         title: '县/区比例',
         type: 'number',
         placeholder: '请输入县/区比例系数',
@@ -78,6 +80,7 @@ export const schema = ({ queryData }) => {
         },
       },
       cityLevelPercent: {
+        span: 12,
         title: '市比例',
         type: 'number',
         placeholder: '请输入市比例系数',
@@ -89,6 +92,7 @@ export const schema = ({ queryData }) => {
         },
       },
       provinceLevelPercent: {
+        span: 12,
         title: '省比例',
         type: 'number',
         placeholder: '请输入省比例系数',
