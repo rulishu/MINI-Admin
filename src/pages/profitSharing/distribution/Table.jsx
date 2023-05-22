@@ -1,9 +1,10 @@
-import { queryUserDsConfig } from '@/service/profitSharing/distribution';
+import { queryDealerDsConfig } from '@/service/profitSharing/distribution';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import { useRef } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
+import { configType } from './config';
 
 export default function SearchTable() {
   const ref = useRef();
@@ -25,15 +26,14 @@ export default function SearchTable() {
       <ProTable
         actionRef={ref}
         options={false}
+        headerTitle={'说明：推荐基数为分润毛利'}
         request={async () => {
-          const { code, result } = await queryUserDsConfig({
-            configType: 6,
+          const { code, result = [] } = await queryDealerDsConfig({
+            configType,
           });
           if (code && code === 200) {
-            const source = [];
-            source.push(result);
             return {
-              data: source || [],
+              data: result,
               success: true,
             };
           }
@@ -41,7 +41,7 @@ export default function SearchTable() {
         search={false}
         cardBordered={true}
         columns={columns(edit)}
-        rowKey="totalPercent"
+        rowKey="id"
       />
       <Edit tableRef={ref} />
     </>
