@@ -296,7 +296,7 @@
         "icon": "user",
         "routes": [
           {
-            "path": "/cust/custManage",
+            "path": "/cust/userManage",
             "name": "用户管理",
             "component": "@/pages/cust/custManage"
           },
