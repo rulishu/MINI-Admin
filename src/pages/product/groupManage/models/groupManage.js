@@ -92,13 +92,13 @@ const group = {
             drawerParams: {},
           },
         });
-        payload.actionRef.current?.reload();
         yield put({
           type: 'getCategoryTree',
         });
         yield put({
           type: 'getAllCategory',
         });
+        payload.actionRef.current?.reload();
       }
     },
 
@@ -119,13 +119,13 @@ const group = {
             drawerParams: {},
           },
         });
-        payload.actionRef.current?.reload();
         yield put({
           type: 'getCategoryTree',
         });
         yield put({
           type: 'getAllCategory',
         });
+        payload.actionRef.current?.reload();
       }
     },
 
@@ -135,13 +135,13 @@ const group = {
         //
         payload.modal.destroy();
 
-        payload.actionRef.current?.reload();
         yield put({
           type: 'getCategoryTree',
         });
         yield put({
           type: 'getAllCategory',
         });
+        payload.actionRef.current?.reload();
       }
     },
   },

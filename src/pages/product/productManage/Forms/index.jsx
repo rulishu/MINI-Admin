@@ -78,6 +78,7 @@ const TheForm = () => {
         readOnly={type === 'view'}
         schema={item(options)}
         widgets={{ cascader: Cascader, picupload: TheUpload }}
+        labelWidth={120}
         footer={() => (
           <ButtonGroupPro
             button={[
@@ -104,7 +105,6 @@ const TheForm = () => {
         )}
         onFinish={onFinish}
       />
-      {/* <PriceName /> */}
     </div>
   );
 };

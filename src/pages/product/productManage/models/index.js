@@ -22,6 +22,9 @@ export default {
     showSKU: false,
     SKUtype: 'add',
     attrOptions: [],
+
+    modalData: { groundType: 1 },
+    isModalOpen: false,
   },
   reducers: {
     update: (state, { payload }) => ({

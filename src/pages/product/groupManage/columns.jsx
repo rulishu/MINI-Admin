@@ -92,7 +92,7 @@ export const columns = ({ handleEdit, categoryList }) => [
   },
   {
     title: '商品数量',
-    dataIndex: '1111111',
+    dataIndex: 'count',
     search: false,
   },
   {
