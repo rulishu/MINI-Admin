@@ -4,6 +4,7 @@ import { useDispatch } from '@umijs/max';
 import { useRef } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
+import { configType } from './config';
 
 export default function SearchTable() {
   const ref = useRef();
@@ -27,7 +28,7 @@ export default function SearchTable() {
         options={false}
         request={async () => {
           const { code, result } = await queryUserDsConfig({
-            configType: 6,
+            configType,
           });
           if (code && code === 200) {
             const source = [];
