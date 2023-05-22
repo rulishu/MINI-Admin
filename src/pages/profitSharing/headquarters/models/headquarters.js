@@ -1,4 +1,5 @@
 import { edit } from '@/service/profitSharing/headquarters';
+import { configType } from '../config';
 
 export default {
   namespace: 'headquarters',
@@ -24,7 +25,7 @@ export default {
         cityLevelPercent,
         provinceLevelPercent,
         totalPercent,
-        configType: 6,
+        configType,
       });
       if (code && code === 200) {
         yield put({

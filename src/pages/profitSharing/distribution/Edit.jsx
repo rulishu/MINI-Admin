@@ -18,21 +18,22 @@ export default function SearchTable({ tableRef }) {
   };
 
   const onFinish = async (data) => {
-    console.log(data);
-    const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
-    if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
+    const { percent, oneLevelPercent, twoLevelPercent, threeLevelPercent } = data;
+    if (percent + oneLevelPercent + twoLevelPercent + threeLevelPercent > 100) {
       messageApi.open({
         type: 'error',
-        content: '会员分润系数大于100%',
+        content: '经销商润系数大于100%',
       });
     } else {
       dispatch({
         type: 'distribution/edit',
         payload: {
-          areaLevelPercent,
-          cityLevelPercent,
-          provinceLevelPercent,
-          totalPercent,
+          configType: queryData.configType,
+          level: queryData.level,
+          percent,
+          oneLevelPercent,
+          twoLevelPercent,
+          threeLevelPercent,
           callback: tableRef?.current?.reload,
         },
       });

@@ -25,6 +25,7 @@ export default function SearchTable() {
       <ProTable
         actionRef={ref}
         options={false}
+        headerTitle="说明：会员分润基数为实际毛利"
         request={async () => {
           const { code, result } = await queryUserDsConfig({
             configType: 6,

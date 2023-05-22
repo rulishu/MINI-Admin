@@ -2,15 +2,12 @@ export const columns = (edit) => [
   {
     title: '代理商等级',
     align: 'left',
-    dataIndex: 'totalPercent',
-    render: (record) => {
-      return <div>{record}%</div>;
-    },
+    dataIndex: 'liveName',
   },
   {
     title: '发起方分润',
     align: 'left',
-    dataIndex: 'areaLevelPercent',
+    dataIndex: 'sendPercent',
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -18,15 +15,14 @@ export const columns = (edit) => [
   {
     title: '收件方分润',
     align: 'left',
-    dataIndex: 'cityLevelPercent',
+    dataIndex: 'putPercent',
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
     title: '操作',
-    fixed: 'right',
-
+    align: 'left',
     hideInSearch: true,
     render: (record) => (
       <div>
@@ -42,30 +38,30 @@ export const schema = ({ queryData }) => {
   return {
     type: 'object',
     properties: {
-      totalPercent: {
+      liveName: {
         title: '代理商等级',
         type: 'string',
-        placeholder: '请输入会员分润系数',
+        placeholder: '请输入代理商等级',
         required: true,
-        defaultValue: queryData.totalPercent,
+        defaultValue: queryData.liveName,
         disabled: true,
       },
-      areaLevelPercent: {
+      sendPercent: {
         title: '发起方分润',
+        placeholder: '请输发起方分润',
         type: 'number',
         required: true,
-        defaultValue: queryData.areaLevelPercent,
-        max: 100,
+        defaultValue: queryData.sendPercent,
         props: {
           addonAfter: '%',
         },
       },
-      cityLevelPercent: {
+      putPercent: {
         title: '收件方分润',
+        placeholder: '请输收件方分润',
         type: 'number',
         required: true,
-        defaultValue: queryData.cityLevelPercent,
-        max: 100,
+        defaultValue: queryData.putPercent,
         props: {
           addonAfter: '%',
         },

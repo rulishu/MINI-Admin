@@ -1,16 +1,24 @@
+import { level } from './config';
+
+// percent  自购比例
+// configType 分润类型
+// level 层级1一级2二级3奋斗者
+// oneLevelPercent 一级分销商返佣比
+// twoLevelPercent 二级分销商返佣比
+// threeLevelPercent 三级(奋斗者)分销商返佣比
 export const columns = (edit) => [
   {
     title: '经销商等级',
     align: 'left',
-    dataIndex: 'totalPercent',
+    dataIndex: 'level',
     render: (record) => {
-      return <div>{record}%</div>;
+      return <div>{level[record]?.toString()}</div>;
     },
   },
   {
     title: '自购比例',
     align: 'left',
-    dataIndex: 'areaLevelPercent',
+    dataIndex: 'percent',
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -18,7 +26,7 @@ export const columns = (edit) => [
   {
     title: '一级返佣',
     align: 'left',
-    dataIndex: 'cityLevelPercent',
+    dataIndex: 'oneLevelPercent',
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -26,7 +34,15 @@ export const columns = (edit) => [
   {
     title: '二级返佣',
     align: 'left',
-    dataIndex: 'provinceLevelPercent',
+    dataIndex: 'twoLevelPercent',
+    render: (record) => {
+      return <div>{record}%</div>;
+    },
+  },
+  {
+    title: '三级返佣',
+    align: 'left',
+    dataIndex: 'threeLevelPercent',
     render: (record) => {
       return <div>{record}%</div>;
     },
@@ -47,42 +63,62 @@ export const columns = (edit) => [
 ];
 
 export const schema = ({ queryData }) => {
+  console.log('【 queryData 】==>', queryData);
   return {
     type: 'object',
     properties: {
-      totalPercent: {
+      level: {
         title: '经销商等级',
         type: 'string',
         placeholder: '请输入会员分润系数',
         required: true,
-        defaultValue: queryData.totalPercent,
+        hidden: true,
+        defaultValue: queryData.level,
         disabled: true,
       },
-      areaLevelPercent: {
+      liveName: {
+        title: '经销商等级',
+        type: 'string',
+        placeholder: '请输入会员分润系数',
+        required: true,
+        defaultValue: queryData.liveName,
+        disabled: true,
+      },
+      percent: {
         title: '自购比例',
         type: 'number',
         required: true,
-        defaultValue: queryData.areaLevelPercent,
+        defaultValue: queryData.percent,
         max: 100,
         props: {
           addonAfter: '%',
         },
       },
-      cityLevelPercent: {
+      oneLevelPercent: {
         title: '一级返佣',
         type: 'number',
         required: true,
-        defaultValue: queryData.cityLevelPercent,
+        defaultValue: queryData.oneLevelPercent,
         max: 100,
         props: {
           addonAfter: '%',
         },
       },
-      provinceLevelPercent: {
+      twoLevelPercent: {
         title: '二级返佣',
         type: 'number',
         required: true,
-        defaultValue: queryData.provinceLevelPercent,
+        defaultValue: queryData.twoLevelPercent,
+        max: 100,
+        props: {
+          addonAfter: '%',
+        },
+      },
+      threeLevelPercent: {
+        title: '三级返佣',
+        type: 'number',
+        required: true,
+        defaultValue: queryData.threeLevelPercent,
         max: 100,
         props: {
           addonAfter: '%',
