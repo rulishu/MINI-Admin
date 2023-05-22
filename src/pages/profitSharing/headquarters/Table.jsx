@@ -26,6 +26,7 @@ export default function SearchTable() {
       <ProTable
         actionRef={ref}
         options={false}
+        headerTitle={'说明：推荐基数为分润毛利'}
         request={async () => {
           const { code, result } = await queryUserDsConfig({
             configType,
