@@ -300,6 +300,11 @@
             "name": "客户管理",
             "routes": [
               {
+                "path": "/cust/custManage/custManage",
+                "name": "用户管理",
+                "component": "@/pages/cust/custManage"
+              },
+              {
                 "path": "/cust/custManage/memberManage",
                 "name": "会员管理",
                 "component": "@/pages/cust/memberManage"
