@@ -1,9 +1,8 @@
 import { deleteItem, selectById, selectPage } from '@/service/goods/supplier';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
@@ -39,7 +38,9 @@ export default () => {
       if (code && code === 200) {
         update({
           visible: true,
-          queryInfo: result,
+          queryInfo: {
+            ...result,
+          },
         });
       }
     },
@@ -85,7 +86,7 @@ export default () => {
           defaultCollapsed: false,
         }}
         search={{
-          labelWidth: 120,
+          labelWidth: 'auto',
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
@@ -104,19 +105,11 @@ export default () => {
             };
           }
         }}
-        toolbar={{
-          actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  label: '新增供应商',
-                  type: 'primary',
-                  onClick: () => handleEdit('add'),
-                },
-              ]}
-            />
-          ),
-        }}
+        toolBarRender={() => [
+          <Button key="add" type="primary" onClick={() => handleEdit('add')}>
+            新增供应商
+          </Button>,
+        ]}
         pagination={{
           showSizeChanger: true,
         }}
