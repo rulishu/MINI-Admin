@@ -106,30 +106,24 @@
         "icon": "project",
         "routes": [
           {
-            "path": "/order/manage",
+            "path": "/order/list",
+            "name": "订单列表",
+            "component": "@/pages/order/manage/list"
+          },
+          {
+            "path": "/order/shipping",
+            "name": "发货管理",
+            "component": "@/pages/order/shipping"
+          },
+          {
+            "path": "/order/orderManage",
             "name": "订单管理",
-            "routes": [
-              {
-                "path": "/order/manage/list",
-                "name": "订单列表",
-                "component": "@/pages/order/manage/list"
-              },
-              {
-                "path": "/order/manage/shipping",
-                "name": "发货管理",
-                "component": "@/pages/order/shipping"
-              },
-              {
-                "path": "/order/manage/orderManage",
-                "name": "订单管理",
-                "component": "@/pages/order/manage/orderManage"
-              },
-              {
-                "path": "/order/manage/abnormal",
-                "name": "异常订单管理",
-                "component": "@/pages/order/manage/abnormal"
-              }
-            ]
+            "component": "@/pages/order/manage/orderManage"
+          },
+          {
+            "path": "/order/abnormal",
+            "name": "异常订单管理",
+            "component": "@/pages/order/manage/abnormal"
           },
           {
             "path": "/order/boutique",
@@ -145,6 +139,16 @@
             "path": "/order/pick",
             "name": "拣货单管理",
             "hideInMenu": true
+          },
+          {
+            "path": "/order/seal",
+            "name": "封坛订单管理",
+            "component": "@/pages/order/sealMangment"
+          },
+          {
+            "path": "/order/productParameters",
+            "name": "启封管理",
+            "component": "@/pages/order/productParameters"
           },
           {
             "path": "/order/afterSales",
@@ -171,16 +175,6 @@
                 "component": "@/pages/afterSale/afterSalesAuditPassed"
               }
             ]
-          },
-          {
-            "path": "/order/seal",
-            "name": "封坛订单管理",
-            "component": "@/pages/order/sealMangment"
-          },
-          {
-            "path": "/order/productParameters",
-            "name": "启封管理",
-            "component": "@/pages/order/productParameters"
           }
         ]
       },
