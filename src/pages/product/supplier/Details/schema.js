@@ -5,7 +5,7 @@ export const schema = ({ queryInfo, province }) => {
     properties: {
       form1: {
         type: 'object',
-        column: 1,
+        column: 2,
         widget: 'lineTitle',
         title: '基础信息',
         properties: {

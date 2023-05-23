@@ -24,7 +24,7 @@ export default function SearchTable({ tableRef }) {
     dispatch({
       type: 'agent/edit',
       payload: params,
-      callback: () => tableRef?.current?.reload,
+      callback: () => tableRef?.current?.reload(),
     });
   };
 

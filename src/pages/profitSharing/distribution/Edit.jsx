@@ -18,8 +18,8 @@ export default function SearchTable({ tableRef }) {
   };
 
   const onFinish = async (data) => {
-    const { percent, oneLevelPercent, twoLevelPercent, threeLevelPercent } = data;
-    if (percent + oneLevelPercent + twoLevelPercent + threeLevelPercent > 100) {
+    const { percent, onePercent, twoPercent } = data;
+    if (percent + onePercent + twoPercent > 100) {
       messageApi.open({
         type: 'error',
         content: '经销商润系数大于100%',
@@ -29,13 +29,12 @@ export default function SearchTable({ tableRef }) {
         type: 'distribution/edit',
         payload: {
           configType: queryData.configType,
-          level: queryData.level,
+          id: queryData.id,
           percent,
-          oneLevelPercent,
-          twoLevelPercent,
-          threeLevelPercent,
-          callback: tableRef?.current?.reload,
+          onePercent,
+          twoPercent,
         },
+        callback: () => tableRef?.current?.reload(),
       });
     }
   };

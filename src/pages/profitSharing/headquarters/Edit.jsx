@@ -33,8 +33,8 @@ export default function SearchTable({ tableRef }) {
           cityLevelPercent,
           provinceLevelPercent,
           totalPercent,
-          callback: tableRef?.current?.reload,
         },
+        callback: () => tableRef?.current?.reload(),
       });
     }
   };

@@ -25,9 +25,8 @@ export default {
         });
       }
     },
-    *edit({ payload }, { call, put }) {
-      const { callback, ...params } = payload;
-      const { code } = yield call(updateDealerDsConfig, params);
+    *edit({ payload, callback }, { call, put }) {
+      const { code } = yield call(updateDealerDsConfig, payload);
       if (code && code === 200) {
         yield put({
           type: 'update',
