@@ -6,7 +6,7 @@ import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import item from './item';
 
 const TheForm = () => {
@@ -14,6 +14,7 @@ const TheForm = () => {
   const { productManage, groupManage } = useSelector((state) => state);
   const { type, queryInfo, showForm } = productManage;
   const { categoryTree } = groupManage;
+  const [step, setStep] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -76,18 +77,26 @@ const TheForm = () => {
       <FormRender
         form={form}
         readOnly={type === 'view'}
-        schema={item(options)}
+        schema={item(options, step)}
         widgets={{ cascader: Cascader, picupload: TheUpload }}
         labelWidth={120}
         footer={() => (
           <ButtonGroupPro
             button={[
               {
+                label: '下一步',
+                type: 'primary',
+                onClick: () => {
+                  setStep(2);
+                },
+                show: step === 1,
+              },
+              {
                 label: '保存',
                 type: 'primary',
                 onClick: form.submit,
                 loading: isLoading,
-                show: type !== 'view',
+                show: type !== 'view' && step === 2,
               },
               {
                 label: '取消',
