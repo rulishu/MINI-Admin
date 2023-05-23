@@ -133,9 +133,9 @@ export default () => {
             </Row>
           }
         >
-          {item.children.map((value, i) => (
+          {item.children.map((value, index) => (
             <ProCard
-              key={i}
+              key={index.toString()}
               colSpan={{ xs: 6, sm: 6, md: 6, lg: 6, xl: 6 }}
               layout="start"
               bordered

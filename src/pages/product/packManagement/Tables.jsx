@@ -77,7 +77,11 @@ export default function Tables() {
             };
           }
         }}
-        toolBarRender={() => [<Button type="primary">添加</Button>]}
+        toolBarRender={() => [
+          <Button key="add" type="primary">
+            添加
+          </Button>,
+        ]}
         search={false}
         pagination={{
           showSizeChanger: true,

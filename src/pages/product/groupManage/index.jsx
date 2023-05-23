@@ -19,6 +19,7 @@ const SearchTable = (props) => {
     dispatch({
       type: 'groupManage/getAllCategory',
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const update = (data) => {
