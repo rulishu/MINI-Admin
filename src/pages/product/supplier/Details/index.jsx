@@ -1,12 +1,14 @@
+import AModal from '@/components/AModal';
+import SelectUser from '@/components/selectUser';
 import Upload from '@/components/upload';
 import { create, updateInfo } from '@/service/goods/supplier';
+import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Cascader, Modal } from 'antd';
+import { Button, Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { getUrl, getUrlToList } from '../../../../utils';
-import SelectUser from '../components/selectUser';
 import { schema } from './schema';
 
 export default () => {
@@ -107,39 +109,46 @@ export default () => {
   };
 
   return (
-    <Modal
+    <AModal
       destroyOnClose={true}
-      title={type === 'add' ? '新增' : '编辑'}
       open={visible}
       onCancel={() => update({ visible: false })}
       width={800}
-      footer={[
-        <Button key="save" loading={isLoading} type="primary" onClick={form.submit}>
-          保存
-        </Button>,
-        <Button key="cancel" onClick={() => update({ visible: false })}>
-          取消
-        </Button>,
-      ]}
+      footer={
+        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
+          <Button key="save" loading={isLoading} type="primary" onClick={form.submit}>
+            保存
+          </Button>
+          <Button key="cancel" onClick={() => update({ visible: false })}>
+            取消
+          </Button>
+        </div>
+      }
     >
-      <FormRender
-        form={form}
-        schema={schema({
-          province: {
-            options: treeList,
-          },
-          queryInfo: {
-            ...queryInfo,
-            legalFrontUrl: queryInfo.legalFrontUrl ? getUrlToList(queryInfo.legalFrontUrl) : [],
-          },
-        })}
-        onFinish={onFinish}
-        widgets={{
-          selectUser: SelectUser,
-          cascader: Cascader,
-          upload: Upload,
-        }}
-      />
-    </Modal>
+      <ProCard
+        title={type === 'add' ? '新增' : '编辑'}
+        headerBordered
+        bodyStyle={{ paddingBottom: 0 }}
+      >
+        <FormRender
+          form={form}
+          schema={schema({
+            province: {
+              options: treeList,
+            },
+            queryInfo: {
+              ...queryInfo,
+              legalFrontUrl: queryInfo.legalFrontUrl ? getUrlToList(queryInfo.legalFrontUrl) : [],
+            },
+          })}
+          onFinish={onFinish}
+          widgets={{
+            selectUser: SelectUser,
+            cascader: Cascader,
+            upload: Upload,
+          }}
+        />
+      </ProCard>
+    </AModal>
   );
 };

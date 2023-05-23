@@ -1,7 +1,7 @@
-import { edit } from '@/service/profitSharing/agent';
+import { edit } from '@/service/profitSharing/agentManage';
 
 export default {
-  namespace: 'agent',
+  namespace: 'agentManage',
   state: {
     type: '',
     visible: false,

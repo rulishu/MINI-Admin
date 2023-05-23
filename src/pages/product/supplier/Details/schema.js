@@ -5,7 +5,7 @@ export const schema = ({ queryInfo, province }) => {
     properties: {
       form1: {
         type: 'object',
-        column: 1,
+        column: 2,
         widget: 'lineTitle',
         title: '基础信息',
         properties: {
@@ -44,6 +44,11 @@ export const schema = ({ queryInfo, province }) => {
           //   props: {
           //     options: province.options,
           //     allowClear: true,
+          //     fieldNames: {
+          //       label: 'areaName',
+          //       value: 'areaId',
+          //       children: 'children',
+          //     },
           //   },
           // },
           // address: {
@@ -149,6 +154,9 @@ export const schema = ({ queryInfo, province }) => {
             type: 'object',
             widget: 'selectUser',
             required: true,
+            props: {
+              api: '/jcgl-user/admin/user/select/list',
+            },
           },
         },
       },

@@ -16,9 +16,8 @@ export default {
     }),
   },
   effects: {
-    *edit({ payload }, { call, put }) {
-      const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent, callback } =
-        payload;
+    *edit({ payload, callback }, { call, put }) {
+      const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = payload;
       const { code } = yield call(edit, {
         areaLevelPercent,
         cityLevelPercent,

@@ -37,6 +37,7 @@ export const columns = (edit) => [
 export const schema = ({ queryData }) => {
   return {
     type: 'object',
+    column: 2,
     properties: {
       liveName: {
         title: '代理商等级',

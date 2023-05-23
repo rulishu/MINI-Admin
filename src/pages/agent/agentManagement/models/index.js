@@ -1,5 +1,5 @@
 export default {
-  namespace: 'territory',
+  namespace: 'agentManagement',
   state: {
     visible: false,
     /** add新增 / edit编辑 / view查看  */

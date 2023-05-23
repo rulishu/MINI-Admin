@@ -1,4 +1,4 @@
-import { deleteItem, selectById, selectPage } from '@/service/afterSale/afterSalesReasons';
+import { deleteItem, selectPage } from '@/service/agent/territory';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
@@ -18,30 +18,12 @@ export default () => {
     });
   };
 
-  useEffect(() => {
-    dispatch({ type: 'commonInterface/getTreeList' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // 新增编辑刷新分页
   useEffect(() => {
+    dispatch({ type: 'territory/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
   }, [reload]);
 
-  // 详情接口
-  const { mutateAsync } = useReactMutation({
-    mutationFn: selectById,
-    onSuccess: ({ code, result }) => {
-      if (code && code === 200) {
-        update({
-          visible: true,
-          queryInfo: result,
-        });
-      }
-    },
-  });
-
-  // 删除接口
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
     mutationFn: deleteItem,
     onSuccess: ({ code }) => {
@@ -58,12 +40,22 @@ export default () => {
       update({ visible: true, queryInfo: {} });
     }
     if (type === 'edit') {
-      mutateAsync({ id: record.id });
+      dispatch({
+        type: 'territory/selectByAgentArea',
+        payload: {
+          level: record.level,
+        },
+        callback: () =>
+          update({
+            visible: true,
+            queryInfo: record,
+          }),
+      });
     }
     if (type === 'delete') {
       Modal.confirm({
         title: '温馨提醒',
-        content: '删除代理，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
+        content: '删除地盘，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
         onOk: () => mutateDeleteAsync({ id: record.id }),
       });
     }
@@ -75,11 +67,6 @@ export default () => {
         options={false}
         search={{
           labelWidth: 'auto',
-          optionRender: () => (
-            <Button type="primary" onClick={() => ref?.current?.reload()}>
-              搜索
-            </Button>
-          ),
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;

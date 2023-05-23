@@ -16,11 +16,8 @@ export default {
     }),
   },
   effects: {
-    *edit({ payload }, { call, put }) {
-      const { code } = yield call(edit, {
-        id: payload.id,
-        percent: payload.percent,
-      });
+    *edit({ payload, callback }, { call, put }) {
+      const { code } = yield call(edit, payload);
       if (code && code === 200) {
         yield put({
           type: 'update',
@@ -28,7 +25,7 @@ export default {
             visible: false,
           },
         });
-        payload.callback();
+        callback();
       }
     },
   },

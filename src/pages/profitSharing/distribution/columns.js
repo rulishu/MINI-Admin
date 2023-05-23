@@ -63,9 +63,9 @@ export const columns = (edit) => [
 ];
 
 export const schema = ({ queryData }) => {
-  console.log('【 queryData 】==>', queryData);
   return {
     type: 'object',
+    column: 2,
     properties: {
       level: {
         title: '经销商等级',
@@ -94,32 +94,24 @@ export const schema = ({ queryData }) => {
           addonAfter: '%',
         },
       },
-      oneLevelPercent: {
+      onePercent: {
         title: '一级返佣',
         type: 'number',
         required: true,
         defaultValue: queryData.oneLevelPercent,
         max: 100,
+        hidden: queryData.level === 1,
         props: {
           addonAfter: '%',
         },
       },
-      twoLevelPercent: {
+      twoPercent: {
         title: '二级返佣',
         type: 'number',
         required: true,
         defaultValue: queryData.twoLevelPercent,
         max: 100,
-        props: {
-          addonAfter: '%',
-        },
-      },
-      threeLevelPercent: {
-        title: '三级返佣',
-        type: 'number',
-        required: true,
-        defaultValue: queryData.threeLevelPercent,
-        max: 100,
+        hidden: queryData.level === 1 || queryData.level === 2,
         props: {
           addonAfter: '%',
         },
