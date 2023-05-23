@@ -1,25 +1,33 @@
 import { UserOutlined } from '@ant-design/icons';
 import { useReactMutation } from '@antdp/hooks';
 import { Avatar, Modal, Select, Space } from 'antd';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 const { Option } = Select;
 
-export default ({ value = undefined, onChange, ...others }) => {
+export default ({
+  value = undefined,
+  onChange,
+  api = '',
+  configCode = {
+    key: 'userId',
+    value: 'userId',
+    label: 'userName',
+    headUrl: 'headUrl',
+    phone: 'consumerPhone',
+  },
+  ...others
+}) => {
   const [visible, setVisible] = useState(false);
-  const [defaultValue, setDefaultValue] = useState(undefined);
+  const [defaultValue, setDefaultValue] = useState(value);
   const [options, setOptions] = useState([]);
   const { mutateAsync } = useReactMutation({
-    url: '/jcgl-user/admin/user/select/list',
+    url: api,
     onSuccess: ({ code, result }) => {
       if (code === 200) {
         setOptions(result);
       }
     },
   });
-
-  useEffect(() => {
-    setDefaultValue(value);
-  }, [value]);
 
   const selectProps = {
     value: defaultValue,
@@ -91,15 +99,15 @@ export default ({ value = undefined, onChange, ...others }) => {
         <Select {...selectProps} style={{ width: '100%' }}>
           {options.map((item) => (
             <Option
-              value={item.userId}
-              key={item.userId}
-              label={item.userName}
-              phone={item.consumerPhone}
-              headUrl={item.headUrl}
+              value={item[configCode['value']]}
+              key={item[configCode['key']]}
+              label={item[configCode['label']]}
+              phone={item[configCode['phone']]}
+              headUrl={item[configCode['headUrl']]}
             >
               <Space>
-                {item?.headUrl ? (
-                  <Avatar src={item?.headUrl} size="small" />
+                {item[configCode['headUrl']] ? (
+                  <Avatar src={item[configCode['headUrl']]} size="small" />
                 ) : (
                   <Avatar
                     size="small"
@@ -109,7 +117,7 @@ export default ({ value = undefined, onChange, ...others }) => {
                     icon={<UserOutlined />}
                   />
                 )}
-                {`${item.userName}-${item?.mobile}`}
+                {`${item[configCode['label']]}-${item[configCode['phone']]}`}
               </Space>
             </Option>
           ))}

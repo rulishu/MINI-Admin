@@ -11,3 +11,15 @@ export const getUrlToList = (urlList = '') => {
   }
   return result;
 };
+
+export const convertTreeList = (data, fieldNames = { label: 'areaName', value: 'areaCode' }) => {
+  return data.map((item) => {
+    const newChildren = item.children ? convertTreeList(item.children) : [];
+    return {
+      ...item,
+      label: item[fieldNames['label']],
+      value: item[fieldNames['value']],
+      children: newChildren,
+    };
+  });
+};

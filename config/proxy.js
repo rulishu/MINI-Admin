@@ -18,8 +18,8 @@ export default {
       },
     },
     '/jcgl-user/': {
-      //target: 'https://rh-api.nihaosi.com',
-      target: 'http://192.168.188.84:8888',
+      target: 'https://rh-api.nihaosi.com',
+      // target: 'http://192.168.188.84:8888',
       changeOrigin: true,
       pathRewrite: {
         '^': '',

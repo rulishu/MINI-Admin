@@ -1,16 +1,5 @@
 import { getTreeList } from '@/service/commonInterface';
-
-const convert = (data) => {
-  return data.map((item) => {
-    const { areaCode, areaName } = item;
-    const newChildren = item.children ? convert(item.children) : [];
-    return {
-      label: areaName,
-      value: areaCode,
-      children: newChildren,
-    };
-  });
-};
+import { convertTreeList } from '@/utils';
 
 export default {
   namespace: 'commonInterface',
@@ -31,7 +20,7 @@ export default {
         yield put({
           type: 'update',
           payload: {
-            treeList: convert(result),
+            treeList: convertTreeList(result),
           },
         });
       }

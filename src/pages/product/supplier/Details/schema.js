@@ -149,6 +149,9 @@ export const schema = ({ queryInfo, province }) => {
             type: 'object',
             widget: 'selectUser',
             required: true,
+            props: {
+              api: '/jcgl-user/admin/user/select/list',
+            },
           },
         },
       },
