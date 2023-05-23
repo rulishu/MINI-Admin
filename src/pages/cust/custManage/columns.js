@@ -1,7 +1,19 @@
-import { Divider } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Divider } from 'antd';
 
-// eslint-disable-next-line no-unused-vars
 export const columns = ({ handleEdit }) => [
+  {
+    title: '用户昵称',
+    dataIndex: 'details1',
+    align: 'left',
+    hideInTable: true,
+  },
+  {
+    title: '用户手机号',
+    dataIndex: 'details2',
+    align: 'left',
+    hideInTable: true,
+  },
   {
     title: '用户ID',
     dataIndex: 'id',
@@ -14,12 +26,24 @@ export const columns = ({ handleEdit }) => [
     title: '用户信息',
     dataIndex: 'details',
     align: 'left',
+    render: (text, record) => {
+      return (
+        <div style={{ height: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Avatar shape="square" size={80} src={record?.headUrl} icon={<UserOutlined />} />
+          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
+            <p style={{ padding: 0, margin: 0 }}>{record?.consumerName}</p>
+            <p style={{ padding: 0, margin: 0 }}>{record?.mobile}</p>
+          </div>
+        </div>
+      );
+    },
     hideInSearch: true,
   },
   {
     title: '经销等级',
     dataIndex: 'liveName',
     align: 'left',
+    hideInSearch: true,
   },
   {
     title: '代理等级',
@@ -40,24 +64,6 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
   },
   {
-    title: '注册时间',
-    dataIndex: 'createTime',
-    align: 'left',
-    valueType: 'date',
-  },
-  {
-    title: '用户昵称',
-    dataIndex: 'details1',
-    align: 'left',
-    hideInTable: true,
-  },
-  {
-    title: '用户手机号',
-    dataIndex: 'details2',
-    align: 'left',
-    hideInTable: true,
-  },
-  {
     title: '邀请人昵称',
     dataIndex: 'details3',
     align: 'left',
@@ -71,13 +77,12 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '注册时间',
-    dataIndex: 'openTime',
+    dataIndex: 'createTime',
     align: 'left',
     valueType: 'date',
-    hideInTable: true,
   },
   {
-    title: '经销商等级',
+    title: '经销等级',
     dataIndex: 'openTime2',
     align: 'left',
     valueType: 'select',
