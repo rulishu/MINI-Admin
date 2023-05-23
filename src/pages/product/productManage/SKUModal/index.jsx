@@ -101,6 +101,7 @@ const SKUModal = () => {
       }}
       onOk={() => {}}
       width={1000}
+      footer={null}
       onCancel={() => {
         dispatch({
           type: 'productManage/update',
@@ -108,7 +109,7 @@ const SKUModal = () => {
         });
       }}
     >
-      <ProCard title="商品规格" headerBordered bodyStyle={{ paddingBottom: 0 }}>
+      <ProCard title="商品规格" headerBordered bodyStyle={{}}>
         <GoodsSKU
           attrValue={attrParams(skuList, attrOptions)}
           onChange={getSKU}
