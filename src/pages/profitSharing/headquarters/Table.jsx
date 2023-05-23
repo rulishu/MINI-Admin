@@ -32,10 +32,8 @@ export default function SearchTable() {
             configType,
           });
           if (code && code === 200) {
-            const source = [];
-            source.push(result);
             return {
-              data: source || [],
+              data: (result && [result]) || [],
               success: true,
             };
           }

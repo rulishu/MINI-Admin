@@ -1,16 +1,13 @@
 export const columns = (edit) => [
   {
     title: '总部分润系数',
-    align: 'left',
-    dataIndex: 'provinceLevelPercent',
+    dataIndex: 'percent',
     render: (record) => {
       return <div>{record}%</div>;
     },
   },
   {
     title: '操作',
-    fixed: 'right',
-
     hideInSearch: true,
     render: (record) => (
       <div>
@@ -26,13 +23,13 @@ export const schema = ({ queryData }) => {
   return {
     type: 'object',
     properties: {
-      provinceLevelPercent: {
+      percent: {
         title: '分润系数',
         type: 'number',
         max: 100,
         placeholder: '请输入会员分润系数',
         required: true,
-        defaultValue: queryData.provinceLevelPercent,
+        defaultValue: queryData.percent,
         props: {
           addonAfter: '%',
         },

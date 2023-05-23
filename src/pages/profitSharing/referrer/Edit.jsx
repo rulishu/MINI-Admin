@@ -16,11 +16,11 @@ export default function SearchTable({ tableRef, data }) {
       payload: {
         percent: formData?.inputnumber,
         id: data?.id,
-        callback: () => {
-          tableRef?.current?.reload();
-          Promise.resolve(true);
-          update({ visible: false });
-        },
+      },
+      callback: () => {
+        tableRef?.current?.reload();
+        Promise.resolve(true);
+        update({ visible: false });
       },
     });
   };

@@ -1,5 +1,4 @@
 import { edit } from '@/service/profitSharing/headquarters';
-import { configType } from '../config';
 
 export default {
   namespace: 'headquarters',
@@ -18,14 +17,7 @@ export default {
   },
   effects: {
     *edit({ payload, callback }, { call, put }) {
-      const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = payload;
-      const { code } = yield call(edit, {
-        areaLevelPercent,
-        cityLevelPercent,
-        provinceLevelPercent,
-        totalPercent,
-        configType,
-      });
+      const { code } = yield call(edit, payload);
       if (code && code === 200) {
         yield put({
           type: 'update',
