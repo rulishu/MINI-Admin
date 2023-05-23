@@ -47,9 +47,9 @@
             "component": "@/pages/profitSharing/distribution"
           },
           {
-            "path": "/profitSharing/agent",
+            "path": "/profitSharing/agentManage",
             "name": "代理分润配置",
-            "component": "@/pages/profitSharing/agent"
+            "component": "@/pages/profitSharing/agentManage"
           }
         ]
       },
@@ -297,7 +297,7 @@
           {
             "path": "/agent/territory",
             "name": "地盘配置",
-            "component": "@/pages/profitSharing/territory"
+            "component": "@/pages/agent/territory"
           }
         ]
       },

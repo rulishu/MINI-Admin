@@ -1,4 +1,4 @@
-import { queryUserDsConfig } from '@/service/profitSharing/agent';
+import { queryUserDsConfig } from '@/service/profitSharing/agentManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import { useRef } from 'react';
@@ -10,7 +10,7 @@ export default function SearchTable() {
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'agent/update',
+      type: 'agentManage/update',
       payload: data,
     });
   };

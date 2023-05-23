@@ -7,11 +7,11 @@ import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
   const form = useForm();
-  const { visible, queryData } = useSelector((state) => state.agent);
+  const { visible, queryData } = useSelector((state) => state.agentManage);
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'agent/update',
+      type: 'agentManage/update',
       payload: data,
     });
   };
@@ -22,7 +22,7 @@ export default function SearchTable({ tableRef }) {
       level: queryData.level,
     };
     dispatch({
-      type: 'agent/edit',
+      type: 'agentManage/edit',
       payload: params,
       callback: () => tableRef?.current?.reload(),
     });
