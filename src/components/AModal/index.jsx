@@ -11,7 +11,14 @@ export default function AModal({ visible, onCancel, children, ...others }) {
     });
   };
   return (
-    <Modal open={visible} width={480} modalRender={modalRender} onCancel={onCancel} {...others}>
+    <Modal
+      destroyOnClose
+      open={visible}
+      width={480}
+      modalRender={modalRender}
+      onCancel={onCancel}
+      {...others}
+    >
       {children}
     </Modal>
   );
