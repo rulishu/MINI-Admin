@@ -12,6 +12,7 @@ const SKU = ({ attrValue = [], onChange, options = [] }) => {
       setData(attrValue);
       handlerOption(attrValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlerOption = (data) => {
@@ -98,7 +99,7 @@ const SKU = ({ attrValue = [], onChange, options = [] }) => {
         <Form.Item label="规格值">
           <Space>
             {(item.valueList || []).map((input, valueIndex) => (
-              <Form.Item key={valueIndex} noStyle>
+              <Form.Item key={valueIndex.toString()} noStyle>
                 <Input
                   value={input}
                   style={{ width: 160 }}

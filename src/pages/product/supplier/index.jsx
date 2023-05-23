@@ -21,6 +21,7 @@ export default () => {
   useEffect(() => {
     dispatch({ type: 'supplier/getUserList' });
     dispatch({ type: 'commonInterface/getTreeList' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 新增编辑刷新分页
@@ -29,6 +30,7 @@ export default () => {
       ref?.current?.reload();
       dispatch({ type: 'supplier/getUserList' });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   // 详情接口

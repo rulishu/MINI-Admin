@@ -61,6 +61,7 @@ export default () => {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const { mutateAsync, isLoading } = useReactMutation({
@@ -113,10 +114,12 @@ export default () => {
       onCancel={() => update({ visible: false })}
       width={800}
       footer={[
-        <Button loading={isLoading} type="primary" onClick={form.submit}>
+        <Button key="save" loading={isLoading} type="primary" onClick={form.submit}>
           保存
         </Button>,
-        <Button onClick={() => update({ visible: false })}>取消</Button>,
+        <Button key="cancel" onClick={() => update({ visible: false })}>
+          取消
+        </Button>,
       ]}
     >
       <FormRender

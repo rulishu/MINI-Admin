@@ -29,6 +29,7 @@ export default ({
 
   useEffect(() => {
     onChange?.(fileList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileList]);
 
   const beforeUpload = (file) => {

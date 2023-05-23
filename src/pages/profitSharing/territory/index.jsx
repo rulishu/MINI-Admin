@@ -20,6 +20,7 @@ export default () => {
 
   useEffect(() => {
     dispatch({ type: 'commonInterface/getTreeList' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 新增编辑刷新分页

@@ -50,11 +50,6 @@
             "path": "/profitSharing/agent",
             "name": "代理分润配置",
             "component": "@/pages/profitSharing/agent"
-          },
-          {
-            "path": "/profitSharing/territory",
-            "name": "代理地盘配置",
-            "component": "@/pages/profitSharing/territory"
           }
         ]
       },
@@ -287,6 +282,22 @@
             "path": "/income/regionalBenefits",
             "name": "区域收益",
             "component": "@/pages/income/regionalBenefits"
+          }
+        ]
+      },
+      {
+        "path": "/agent",
+        "name": "代理商",
+        "icon": "user",
+        "routes": [
+          {
+            "path": "/agent/agentManagement",
+            "name": "代理商管理"
+          },
+          {
+            "path": "/agent/territory",
+            "name": "地盘配置",
+            "component": "@/pages/profitSharing/territory"
           }
         ]
       },

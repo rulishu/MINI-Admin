@@ -30,8 +30,12 @@ export default function Tables() {
         }
       }}
       toolBarRender={() => [
-        <Button type="primary">新增</Button>,
-        <Button type="primary">删除</Button>,
+        <Button key="new" type="primary">
+          新增
+        </Button>,
+        <Button key="del" type="primary">
+          删除
+        </Button>,
       ]}
       pagination={{
         pageSize: pageSize,

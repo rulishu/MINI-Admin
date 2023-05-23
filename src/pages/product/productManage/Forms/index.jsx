@@ -42,6 +42,7 @@ const TheForm = () => {
         mainGraph: queryInfo?.mainGraph ? [{ url: queryInfo?.mainGraph, name: 'goods' }] : [],
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showForm, queryInfo]);
 
   const onFinish = (values) => {

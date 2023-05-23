@@ -14,6 +14,7 @@ const SKUModal = () => {
   useEffect(() => {
     setTableSource(skuArrInTable());
     setToSku(attrParams(skuList, attrOptions));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skuList]);
 
   const onChange = (list = []) => {
