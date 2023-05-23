@@ -1,11 +1,14 @@
 import GoodsSKU from '@/components/sku';
 import SKUList from '@/components/sku/SKUList';
+import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Card, message } from 'antd';
-import { useEffect, useState } from 'react';
+import { Modal, message } from 'antd';
+import { cloneElement, useEffect, useState } from 'react';
 
 const SKUModal = () => {
-  const { SKUtype, queryInfo, skuList, attrOptions } = useSelector((state) => state.productManage);
+  const { SKUtype, queryInfo, skuList, attrOptions, showSKU } = useSelector(
+    (state) => state.productManage,
+  );
   const dispatch = useDispatch();
 
   const [toSku, setToSku] = useState([]);
@@ -85,27 +88,37 @@ const SKUModal = () => {
   };
 
   return (
-    <Card>
-      <GoodsSKU
-        attrValue={attrParams(skuList, attrOptions)}
-        onChange={getSKU}
-        options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
-      />
-      <Card style={{ marginTop: 20 }}>
-        <SKUList data={toSku} onChange={onChange} editData={tableSource} />
-      </Card>
-      <Button
-        style={{ margin: 24 }}
-        onClick={() => {
-          dispatch({
-            type: 'productManage/update',
-            payload: { showSKU: false },
-          });
-        }}
-      >
-        取消
-      </Button>
-    </Card>
+    <Modal
+      open={showSKU}
+      destroyOnClose
+      modalRender={(comps) => {
+        return cloneElement(comps, {
+          ...comps.props,
+          style: {
+            padding: 0,
+          },
+        });
+      }}
+      onOk={() => {}}
+      width={1000}
+      onCancel={() => {
+        dispatch({
+          type: 'productManage/update',
+          payload: { showSKU: false },
+        });
+      }}
+    >
+      <ProCard title="商品规格" headerBordered bodyStyle={{ paddingBottom: 0 }}>
+        <GoodsSKU
+          attrValue={attrParams(skuList, attrOptions)}
+          onChange={getSKU}
+          options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
+        />
+        <div style={{ marginTop: 20 }}>
+          <SKUList data={toSku} onChange={onChange} editData={tableSource} />
+        </div>
+      </ProCard>
+    </Modal>
   );
 };
 export default SKUModal;

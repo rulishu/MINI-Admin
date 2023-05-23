@@ -1,4 +1,10 @@
-import { createSKU, selectAttr, selectSKU, updateSKU } from '@/service/goods/productManage';
+import {
+  createSKU,
+  getAllTemplateId,
+  selectAttr,
+  selectSKU,
+  updateSKU,
+} from '@/service/goods/productManage';
 export default {
   namespace: 'productManage',
   state: {
@@ -25,6 +31,8 @@ export default {
 
     modalData: { groundType: 1 },
     isModalOpen: false,
+
+    templateIdList: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -90,6 +98,18 @@ export default {
           type: 'update',
           payload: {
             attrOptions: result,
+          },
+        });
+      }
+    },
+
+    *getAllTemplateId(_, { call, put }) {
+      const { code, result } = yield call(getAllTemplateId);
+      if (code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            templateIdList: result || [],
           },
         });
       }

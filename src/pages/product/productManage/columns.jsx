@@ -41,7 +41,6 @@ export const columns = ({ handleEdit, options, categoryList, handlerSKU }) => [
     title: '商品类目',
     key: 'categoryId',
     dataIndex: 'cascader',
-
     width: 100,
     hideInTable: true,
     fieldProps: {

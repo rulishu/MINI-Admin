@@ -1,4 +1,5 @@
-export default (options) => ({
+import { message } from 'antd';
+export default (options, suppliersList, templateIdList) => ({
   type: 'object',
   widget: 'lineTitle',
   displayType: 'row',
@@ -28,6 +29,7 @@ export default (options) => ({
       column: 1,
       title: '基础信息',
       widget: 'lineTitle',
+      // hidden: step === 1,
       properties: {
         itemName: {
           title: '商品标题',
@@ -54,6 +56,7 @@ export default (options) => ({
           title: '商品类型',
           required: true,
           widget: 'radio',
+          default: 1,
           props: {
             options: [
               { label: '标准商品', value: 1 },
@@ -67,17 +70,17 @@ export default (options) => ({
           required: true,
           widget: 'select',
           props: {
-            options: [
-              { label: '早', value: 'a' },
-              { label: '中', value: 'b' },
-              { label: '晚', value: 'c' },
-            ],
+            options: suppliersList.map((item) => ({
+              label: `${item?.supplierName}(推荐人：${item?.productSelector})`,
+              value: item?.supplierId,
+            })),
           },
         },
         goodsOrigin1111: {
           title: '商品原产地',
           type: 'string',
           widget: 'select',
+          tooltip: '原产地作为商品溯源的标签，请精确到三级地址',
           required: true,
           props: {
             options: [
@@ -94,6 +97,7 @@ export default (options) => ({
       column: 1,
       title: '图文信息',
       widget: 'lineTitle',
+      // hidden: step === 1,
       properties: {
         mainGraph: {
           title: '主图',
@@ -103,6 +107,8 @@ export default (options) => ({
             listType: 'picture-card',
             maxCount: 20,
             warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB，宽高比例为1:1',
+            limitSize: 5,
+            multiple: true,
           },
         },
         video11111: {
@@ -113,6 +119,21 @@ export default (options) => ({
             listType: 'picture-card',
             maxCount: 1,
             warn: '1.仅支持mp4格式上传，大小100M内，建议30秒内短视频最佳',
+            limitSize: 100,
+            beforeUpload: (file) => {
+              console.log('file: ', file);
+              const isMP4 = file.type === 'video/mp4';
+              if (!isMP4) {
+                message.error(`请上传mp4类型的视频文件!`);
+                return false;
+              }
+              const isLt5M = file.size / 1024 / 1024 < 100;
+              if (!isLt5M) {
+                message.warning(`上传文件大小不能超过100MB!`);
+                return false;
+              }
+              return isMP4 && isLt5M;
+            },
           },
         },
         picdetail11111: {
@@ -123,6 +144,8 @@ export default (options) => ({
             listType: 'picture-card',
             maxCount: 20,
             warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
+            limitSize: 5,
+            multiple: true,
           },
         },
       },
@@ -132,16 +155,18 @@ export default (options) => ({
       column: 1,
       title: '销售信息',
       widget: 'lineTitle',
+      // hidden: step === 1,
       properties: {
         specifications: {
           title: '商品规格',
           type: 'string',
           required: true,
+          widget: 'skubutton',
           placeholder: '请输入规格',
-          props: {
-            maxLength: 50,
-            showCount: true,
-          },
+          // props: {
+          //   maxLength: 50,
+          //   showCount: true,
+          // },
         },
         stock: {
           title: '总库存',
@@ -156,6 +181,8 @@ export default (options) => ({
           title: '售卖价格',
           type: 'number',
           required: true,
+          disabled: true,
+          tooltip: '该价格等于sku最低价，作为前端显示的基准价，暂不支持修改',
           props: {
             min: 0,
           },
@@ -164,6 +191,7 @@ export default (options) => ({
         //   title: '参考价格',
         //   type: 'number',
         //   required: true,
+        // tooltip: '参考价大于等于售卖价，最多保留2位小数',
         //   placeholder: '请输入参考价格',
         //   props: {
         //     min: 0,
@@ -185,6 +213,7 @@ export default (options) => ({
       column: 1,
       title: '服务与其他',
       widget: 'lineTitle',
+      // hidden: step === 1,
       properties: {
         templateId: {
           type: 'string',
@@ -192,7 +221,8 @@ export default (options) => ({
           required: true,
           widget: 'select',
           props: {
-            options: [{ label: '测试包邮', value: '21' }],
+            labelInValue: true,
+            options: templateIdList.map((item) => ({ label: item?.name, value: item?.id })),
           },
         },
         groundType: {
@@ -200,6 +230,7 @@ export default (options) => ({
           type: 'number',
           required: true,
           widget: 'radio',
+          default: 1,
           props: {
             options: [
               { label: '立即上架', value: 1 },

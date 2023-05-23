@@ -2,12 +2,11 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { Tabs } from 'antd';
 import { useEffect } from 'react';
 import Forms from './Forms';
-import SKUModal from './SKUModal';
 import Tables from './Tables';
 import './index.less';
 
 const App = () => {
-  const { showForm, showSKU, activeKey } = useSelector((state) => state.productManage);
+  const { showForm, activeKey } = useSelector((state) => state.productManage);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +19,13 @@ const App = () => {
     });
     dispatch({
       type: 'productManage/selectAttr',
+    });
+    dispatch({
+      type: 'productManage/getAllTemplateId',
+    });
+
+    dispatch({
+      type: 'supplier/getAllSuppliers',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -46,9 +52,6 @@ const App = () => {
       children: <Tables />,
     },
   ];
-  if (showSKU) {
-    return <SKUModal />;
-  }
   if (showForm) {
     return <Forms />;
   }

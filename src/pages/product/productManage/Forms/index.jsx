@@ -1,4 +1,6 @@
 // import PriceName from '@/components/sku';
+// import TheBigCascader from '@/components/CategoryType';
+import SKUButton from '@/components/SKUButton';
 import TheUpload from '@/components/upload';
 import { addItem, updateItem } from '@/service/goods/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
@@ -6,15 +8,16 @@ import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import item from './item';
 
 const TheForm = () => {
   const form = useForm();
-  const { productManage, groupManage } = useSelector((state) => state);
-  const { type, queryInfo, showForm } = productManage;
+  const { productManage, groupManage, supplier } = useSelector((state) => state);
+  const { type, queryInfo, showForm, templateIdList } = productManage;
   const { categoryTree } = groupManage;
-  const [step, setStep] = useState(1);
+  const { suppliersList } = supplier;
+  // const [step, setStep] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -46,9 +49,15 @@ const TheForm = () => {
   }, [showForm, queryInfo]);
 
   const onFinish = (values) => {
-    const { form1 } = values;
+    console.log('values: ', values);
+    const { form1, form2, form3, form4, form5 } = values;
+
     mutateAsync({
       ...form1,
+      ...form2,
+      ...form3,
+      ...form4,
+      ...form5,
       id: queryInfo?.id, // 商品ID
       categoryId: form1?.categoryId?.slice(-1)?.[0], // 类目ID
       mainGraph: form1.mainGraph?.[0]?.url, // 图片url
@@ -56,13 +65,19 @@ const TheForm = () => {
   };
 
   const handler = (data) => {
-    return data.map((item) => {
-      const obj = { label: item?.label || '', value: item?.id };
-      if (item?.children && item?.children.length > 0) {
-        obj.children = handler(item.children);
+    const arr = [];
+
+    data.forEach((item) => {
+      if (item?.id !== '0') {
+        const obj = { label: item?.label || '', value: item?.id };
+        if (item?.children && item?.children.length > 0) {
+          obj.children = handler(item.children);
+        }
+        arr.push(obj);
       }
-      return obj;
     });
+
+    return arr;
   };
 
   const options = () => {
@@ -75,32 +90,37 @@ const TheForm = () => {
 
   return (
     <div style={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
+      {/* <TheBigCascader categoryTree={categoryTree} /> */}
       <FormRender
         form={form}
         readOnly={type === 'view'}
-        schema={item(options, step)}
-        widgets={{ cascader: Cascader, picupload: TheUpload }}
+        schema={item(options, suppliersList, templateIdList)}
+        widgets={{ cascader: Cascader, picupload: TheUpload, skubutton: SKUButton }}
         labelWidth={120}
         footer={() => (
           <ButtonGroupPro
             button={[
-              {
-                label: '下一步',
-                type: 'primary',
-                onClick: () => {
-                  setStep(2);
-                },
-                show: step === 1,
-              },
+              // {
+              //   label: '下一步',
+              //   type: 'primary',
+              // key:"next",
+              //   onClick: () => {
+              //     setStep(2);
+              //   },
+              //   show: step === 1,
+              // },
               {
                 label: '保存',
                 type: 'primary',
+                key: 'save',
                 onClick: form.submit,
                 loading: isLoading,
-                show: type !== 'view' && step === 2,
+                show: (type !== 'view').toString(),
+                // && step === 2,
               },
               {
                 label: '取消',
+                key: 'cancel',
                 onClick: () => {
                   dispatch({
                     type: 'productManage/update',

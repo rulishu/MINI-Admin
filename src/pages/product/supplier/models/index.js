@@ -1,4 +1,4 @@
-import { getUserList } from '@/service/goods/supplier';
+import { getAllSuppliers, getUserList } from '@/service/goods/supplier';
 
 export default {
   namespace: 'supplier',
@@ -9,6 +9,7 @@ export default {
     queryInfo: {},
     relaod: false,
     userList: [],
+    suppliersList: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -25,6 +26,17 @@ export default {
           type: 'update',
           payload: {
             userList: result || [],
+          },
+        });
+      }
+    },
+    *getAllSuppliers(_, { call, put }) {
+      const { code, result } = yield call(getAllSuppliers);
+      if (code && code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            suppliersList: result || [],
           },
         });
       }

@@ -49,3 +49,9 @@ export const getUserList = async () => {
     method: 'POST',
   });
 };
+
+export const getAllSuppliers = async () => {
+  return request(`/jcgl-user/admin/user/suppliers/select/all`, {
+    method: 'POST',
+  });
+};
