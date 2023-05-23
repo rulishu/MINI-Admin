@@ -1,31 +1,33 @@
 import AModal from '@/components/AModal';
-import { create, updateInfo } from '@/service/afterSale/afterSalesReasons';
+import { create, updateInfo } from '@/service/agent/territory';
 import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
+import { levelEnum } from '../enum';
 
-function filterData(data) {
-  return data
-    .map((item) => {
-      if (item.children) {
-        item.children = filterData(item.children);
-        if (item.children.length === 0) {
-          delete item.children;
-        }
+function findPath(arr, value) {
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.areaId === value) {
+      return [value];
+    }
+    if (item.children) {
+      const path = findPath(item.children, value);
+      if (path) {
+        return [item.areaId, ...path];
       }
-      return { label: item.label, value: item.value, children: item.children };
-    })
-    .filter((item) => item.children || item.value.endsWith('0000') || item.value.endsWith('00'));
+    }
+  }
+  return null;
 }
 
 export default () => {
   const form = useForm();
   const {
-    territory: { visible, queryInfo, type },
-    commonInterface: { treeList },
+    territory: { visible, queryInfo, type, companyList, areaList },
   } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -35,10 +37,13 @@ export default () => {
       payload: data,
     });
   };
+
   const fn = {
     add: create,
     edit: updateInfo,
   };
+
+  // eslint-disable-next-line no-unused-vars
   const { mutateAsync, isLoading } = useReactMutation({
     mutationFn: fn[type],
     onSuccess: ({ code }) => {
@@ -55,28 +60,47 @@ export default () => {
   });
 
   useEffect(() => {
-    form.setValues({
-      reason: queryInfo.reason || '',
-    });
+    if (visible) {
+      // 获取areaId和他父级集合
+      let areaIds = findPath(areaList, queryInfo.areaId) || [];
+      form.setValues({
+        level: queryInfo.level,
+        agentCompanyId: queryInfo.id
+          ? { label: queryInfo.companyName, value: queryInfo.id }
+          : undefined,
+        areaId: areaIds,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, queryInfo]);
 
   const onFinish = (values) => {
-    mutateAsync({
-      ...values,
+    const params = {
+      agentCompanyId: values.agentCompanyId && values.agentCompanyId.value,
+      areaId: values.areaId && values.areaId.length > 0 && values.areaId[values.areaId.length - 1],
+      // parentAreaId:
+      //   (values.areaId && values.areaId.length > 1 && values.areaId[values.areaId.length - 2]) ||
+      //   null,
+      level: queryInfo.level,
       id: queryInfo.id,
-    });
+    };
+    mutateAsync(params);
   };
 
   const watch = {
-    reason2: () => {
-      form.setValues({ reason3: [] });
+    level: (value) => {
+      form.setValues({ areaId: '' });
+      dispatch({
+        type: 'territory/selectByAgentArea',
+        payload: {
+          level: value,
+        },
+      });
     },
   };
 
   return (
     <AModal
-      forceRender
       open={visible}
       onCancel={() => update({ visible: false })}
       footer={
@@ -103,42 +127,49 @@ export default () => {
             type: 'object',
             column: 2,
             properties: {
-              reason1: {
+              agentCompanyId: {
                 title: '代理商',
-                type: 'string',
+                type: 'object',
                 widget: 'select',
                 required: true,
+                disabled: type === 'edit',
                 props: {
-                  options: [],
+                  labelInValue: true,
+                  options: companyList,
+                  filterOption: (input, option) => (option?.label ?? '').includes(input),
+                  showSearch: true,
+                  allowClear: true,
                 },
                 placeholder: '请选择代理商',
               },
-              reason2: {
+              level: {
                 title: '代理级别',
-                type: 'string',
+                type: 'number',
                 widget: 'select',
                 required: true,
                 props: {
                   allowClear: true,
-                  options: [
-                    { label: '省级', value: '0' },
-                    { label: '市级', value: '1' },
-                    { label: '区县级', value: '2' },
-                  ],
+                  options: Object.keys(levelEnum).map((key) => ({
+                    label: levelEnum[key].text,
+                    value: parseInt(key),
+                  })),
                 },
                 placeholder: '请选择代理级别',
               },
-              reason3: {
+              areaId: {
                 title: '代理地盘',
-                type: 'array',
+                type: 'sring',
                 widget: 'cascader',
                 required: true,
                 props: {
-                  options: filterData(treeList),
-                  maxTagCount: 3,
-                  multiple: true,
+                  options: areaList,
+                  fieldNames: {
+                    label: 'areaName',
+                    value: 'areaId',
+                    children: 'children',
+                  },
                 },
-                disabled: '{{ !formData.reason2 }}',
+                disabled: '{{ !formData.level }}',
                 placeholder: '请选择代代理地盘',
               },
             },

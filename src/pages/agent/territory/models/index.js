@@ -1,3 +1,6 @@
+import { selectByAgentArea, selectByAgentCompany } from '@/service/agent/territory';
+import { getTreeList } from '@/service/commonInterface';
+
 export default {
   namespace: 'territory',
   state: {
@@ -6,6 +9,8 @@ export default {
     type: '',
     queryInfo: {},
     relaod: false,
+    companyList: [],
+    areaList: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -13,5 +18,45 @@ export default {
       ...payload,
     }),
   },
-  effects: {},
+  effects: {
+    *selectByAgentCompany({ payload }, { call, put }) {
+      const { code, result } = yield call(selectByAgentCompany, payload);
+      if (code && code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            companyList: (result || []).map((item) => ({
+              label: item.companyName,
+              value: item.id,
+            })),
+          },
+        });
+      }
+    },
+    *selectByAgentArea({ payload, callback }, { call, put }) {
+      const { code, result } = yield call(selectByAgentArea, payload);
+      if (code && code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            areaList: result || [],
+          },
+        });
+        callback?.();
+      }
+    },
+    // eslint-disable-next-line no-empty-pattern
+    *getTreeList({ callback }, { call, put }) {
+      const { code, result = [] } = yield call(getTreeList);
+      if (code && code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            areaList: result,
+          },
+        });
+        callback?.();
+      }
+    },
+  },
 };

@@ -44,6 +44,11 @@ export const schema = ({ queryInfo, province }) => {
           //   props: {
           //     options: province.options,
           //     allowClear: true,
+          //     fieldNames: {
+          //       label: 'areaName',
+          //       value: 'areaId',
+          //       children: 'children',
+          //     },
           //   },
           // },
           // address: {
@@ -149,6 +154,9 @@ export const schema = ({ queryInfo, province }) => {
             type: 'object',
             widget: 'selectUser',
             required: true,
+            props: {
+              api: '/jcgl-user/admin/user/select/list',
+            },
           },
         },
       },

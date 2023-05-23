@@ -1,4 +1,5 @@
 import AModal from '@/components/AModal';
+import SelectUser from '@/components/selectUser';
 import Upload from '@/components/upload';
 import { create, updateInfo } from '@/service/goods/supplier';
 import { ProCard } from '@ant-design/pro-components';
@@ -8,7 +9,6 @@ import { Button, Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { getUrl, getUrlToList } from '../../../../utils';
-import SelectUser from '../components/selectUser';
 import { schema } from './schema';
 
 export default () => {

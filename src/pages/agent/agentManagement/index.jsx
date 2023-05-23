@@ -4,23 +4,22 @@ import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Modal } from 'antd';
 import { useEffect, useRef } from 'react';
-import Details from './Details';
 import { columns } from './columns';
 
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload } = useSelector((state) => state.territory);
+  const { reload } = useSelector((state) => state.agentManagement);
   const update = (data) => {
     dispatch({
-      type: 'territory/update',
+      type: 'agentManagement/update',
       payload: data,
     });
   };
 
   // 新增编辑刷新分页
   useEffect(() => {
-    dispatch({ type: 'territory/selectByAgentCompany' });
+    dispatch({ type: 'agentManagement/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
   }, [reload]);
 
@@ -40,16 +39,9 @@ export default () => {
       update({ visible: true, queryInfo: {} });
     }
     if (type === 'edit') {
-      dispatch({
-        type: 'territory/selectByAgentArea',
-        payload: {
-          level: record.level,
-        },
-        callback: () =>
-          update({
-            visible: true,
-            queryInfo: record,
-          }),
+      update({
+        visible: true,
+        queryInfo: record,
       });
     }
     if (type === 'delete') {
@@ -60,6 +52,7 @@ export default () => {
       });
     }
   };
+
   return (
     <div>
       <ProTable
@@ -87,7 +80,7 @@ export default () => {
         }}
         toolBarRender={() => [
           <Button key="add" type="primary" onClick={() => handleEdit('add')}>
-            新增代理
+            新增
           </Button>,
         ]}
         pagination={{
@@ -98,7 +91,6 @@ export default () => {
         rowKey="id"
         scroll={{ x: 1300 }}
       />
-      <Details />
     </div>
   );
 };

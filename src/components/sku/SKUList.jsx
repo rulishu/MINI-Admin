@@ -21,7 +21,8 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         const attribute = attributes[index];
         const { attribute_name = '', attribute_value = '', valueList = [] } = attribute;
         for (let i = 0; i < valueList.length; i++) {
-          const value = valueList[i];
+          const obj = valueList[i];
+          const value = obj?.value;
           const attributes_teemp = { ...prefix.attributes };
           attributes_teemp[attribute_name] = {
             value,
@@ -31,9 +32,11 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
           const newPrefix = {
             ...prefix,
-            itemId: skuList.length,
+            // itemId: skuList.length,
             [attribute_name]: value,
             attributes: attributes_teemp,
+            id: obj?.id,
+            imageUrl: [obj?.imageUrl],
           };
           generateSKUs(attributes, index + 1, newPrefix, skuList);
         }
@@ -57,6 +60,18 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       dataIndex: attribute.attribute_name,
       key: attribute.attribute_name,
     })),
+    {
+      title: '成本价',
+      dataIndex: 'sales',
+      key: 'sales',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'sales', e.target.value)}
+        />
+      ),
+    },
     // {
     //   title: 'SKU名称',
     //   dataIndex: 'skuName',
@@ -70,7 +85,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     //   ),
     // },
     {
-      title: '销量',
+      title: '销售价',
       dataIndex: 'sales',
       key: 'sales',
       render: (text, record, index) => (
@@ -82,7 +97,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       ),
     },
     {
-      title: '价格',
+      title: '会员价',
       dataIndex: 'price',
       key: 'price',
       render: (text, record, index) => (
@@ -94,7 +109,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       ),
     },
     {
-      title: '库存',
+      title: '销售库存',
       dataIndex: 'stock',
       key: 'stock',
       render: (text, record, index) => (
@@ -102,6 +117,18 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           value={text}
           style={{ width: 160 }}
           onChange={(e) => handleEntryDataChange(index, 'stock', e.target.value)}
+        />
+      ),
+    },
+    {
+      title: 'sku编码',
+      dataIndex: 'skucode',
+      key: 'skucode',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'skucode', e.target.value)}
         />
       ),
     },

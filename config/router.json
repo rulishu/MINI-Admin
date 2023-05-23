@@ -292,7 +292,8 @@
         "routes": [
           {
             "path": "/agent/agentManagement",
-            "name": "代理商管理"
+            "name": "代理商管理",
+            "component": "@/pages/agent/agentManagement"
           },
           {
             "path": "/agent/territory",

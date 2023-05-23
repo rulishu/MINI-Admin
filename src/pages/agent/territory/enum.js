@@ -1,11 +1,14 @@
-export const status = {
-  ['0']: {
+export const levelEnum = {
+  ['1']: {
     text: '省级',
   },
-  ['1']: {
+  ['2']: {
     text: '市级',
   },
-  ['2']: {
+  ['3']: {
     text: '区县级',
   },
+  // ['4']: {
+  //   text: '街道级',
+  // },
 };
