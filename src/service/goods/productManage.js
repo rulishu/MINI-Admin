@@ -86,3 +86,10 @@ export const selectAttr = async (body) => {
     data: body,
   });
 };
+
+export const getAllTemplateId = async () => {
+  return request(`/jcgl-mall/admin/create/item/freight/template/select/all`, {
+    method: 'GET',
+    // data: body,
+  });
+};

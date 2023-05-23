@@ -1,7 +1,7 @@
 import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
 
-export const columns = ({ handleEdit, options, categoryList, handlerSKU }) => [
+export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '商品名称',
     dataIndex: 'itemName',
@@ -41,7 +41,6 @@ export const columns = ({ handleEdit, options, categoryList, handlerSKU }) => [
     title: '商品类目',
     key: 'categoryId',
     dataIndex: 'cascader',
-
     width: 100,
     hideInTable: true,
     fieldProps: {
@@ -205,10 +204,6 @@ export const columns = ({ handleEdit, options, categoryList, handlerSKU }) => [
         <Divider type="vertical" />
         <a type="link" size="small" onClick={() => handleEdit('delete', [record?.id])}>
           删除
-        </a>
-        <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handlerSKU(record)}>
-          编辑sku
         </a>
       </div>
     ),
