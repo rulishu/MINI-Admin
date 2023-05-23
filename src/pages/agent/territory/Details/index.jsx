@@ -8,22 +8,19 @@ import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { levelEnum } from '../enum';
 
-function findParentValuesById(data, label) {
-  for (let element of data) {
-    if (element.label === label) {
-      // 找到对应id的元素
-      return [element.value];
+function findPath(arr, value) {
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.areaId === value) {
+      return [value];
     }
-    if (element.children && element.children.length > 0) {
-      let childResult = findParentValuesById(element.children, label);
-      if (childResult !== null) {
-        // 在子数组中找到对应id的元素的父级
-        childResult.unshift(element.parentId);
-        return childResult;
+    if (item.children) {
+      const path = findPath(item.children, value);
+      if (path) {
+        return [item.areaId, ...path];
       }
     }
   }
-  // 没有找到对应id的元素
   return null;
 }
 
@@ -64,7 +61,8 @@ export default () => {
 
   useEffect(() => {
     if (visible) {
-      let areaIds = findParentValuesById(areaList, queryInfo.areaName) || [];
+      // 获取areaId和他父级集合
+      let areaIds = findPath(areaList, queryInfo.areaId) || [];
       form.setValues({
         level: queryInfo.level,
         agentCompanyId: queryInfo.id
@@ -80,13 +78,13 @@ export default () => {
     const params = {
       agentCompanyId: values.agentCompanyId && values.agentCompanyId.value,
       areaId: values.areaId && values.areaId.length > 0 && values.areaId[values.areaId.length - 1],
-      parentAreaId:
-        values.areaId && values.areaId.length > 1 && values.areaId[values.areaId.length - 2],
+      // parentAreaId:
+      //   (values.areaId && values.areaId.length > 1 && values.areaId[values.areaId.length - 2]) ||
+      //   null,
       level: queryInfo.level,
       id: queryInfo.id,
     };
-    console.log('params', params);
-    // mutateAsync(params);
+    mutateAsync(params);
   };
 
   const watch = {
@@ -133,7 +131,7 @@ export default () => {
                 title: '代理商',
                 type: 'object',
                 widget: 'select',
-                // required: true,
+                required: true,
                 disabled: type === 'edit',
                 props: {
                   labelInValue: true,
@@ -165,6 +163,11 @@ export default () => {
                 required: true,
                 props: {
                   options: areaList,
+                  fieldNames: {
+                    label: 'areaName',
+                    value: 'areaId',
+                    children: 'children',
+                  },
                 },
                 disabled: '{{ !formData.level }}',
                 placeholder: '请选择代代理地盘',

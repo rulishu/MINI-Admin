@@ -1,5 +1,5 @@
 import { selectByAgentArea, selectByAgentCompany } from '@/service/agent/territory';
-import { convertTreeList } from '@/utils';
+import { getTreeList } from '@/service/commonInterface';
 
 export default {
   namespace: 'territory',
@@ -39,8 +39,20 @@ export default {
         yield put({
           type: 'update',
           payload: {
-            areaList:
-              (result && convertTreeList(result, { label: 'areaName', value: 'areaId' })) || [],
+            areaList: result || [],
+          },
+        });
+        callback?.();
+      }
+    },
+    // eslint-disable-next-line no-empty-pattern
+    *getTreeList({ callback }, { call, put }) {
+      const { code, result = [] } = yield call(getTreeList);
+      if (code && code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            areaList: result,
           },
         });
         callback?.();

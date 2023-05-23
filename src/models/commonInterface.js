@@ -1,5 +1,4 @@
 import { getTreeList } from '@/service/commonInterface';
-import { convertTreeList } from '@/utils';
 
 export default {
   namespace: 'commonInterface',
@@ -20,7 +19,7 @@ export default {
         yield put({
           type: 'update',
           payload: {
-            treeList: convertTreeList(result),
+            treeList: result,
           },
         });
       }

@@ -44,6 +44,11 @@ export const schema = ({ queryInfo, province }) => {
           //   props: {
           //     options: province.options,
           //     allowClear: true,
+          //     fieldNames: {
+          //       label: 'areaName',
+          //       value: 'areaId',
+          //       children: 'children',
+          //     },
           //   },
           // },
           // address: {
