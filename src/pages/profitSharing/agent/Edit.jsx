@@ -1,6 +1,7 @@
+import AModal from '@/components/AModal';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
@@ -28,22 +29,24 @@ export default function SearchTable({ tableRef }) {
   };
 
   return (
-    <Modal
+    <AModal
       open={visible}
       onCancel={() => update({ visible: false })}
       width={500}
-      footer={[
-        <Button key="save" type="primary" onClick={form.submit}>
-          保存
-        </Button>,
-        <Button key="cancel" onClick={() => update({ visible: false })}>
-          取消
-        </Button>,
-      ]}
+      footer={
+        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
+          <Button key="save" type="primary" onClick={form.submit}>
+            保存
+          </Button>
+          <Button key="cancel" onClick={() => update({ visible: false })}>
+            取消
+          </Button>
+        </div>
+      }
     >
-      <ProCard title="修改" headerBordered>
+      <ProCard title="修改" headerBordered bodyStyle={{ paddingBottom: 0 }}>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
       </ProCard>
-    </Modal>
+    </AModal>
   );
 }

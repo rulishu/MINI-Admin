@@ -1,7 +1,9 @@
+import AModal from '@/components/AModal';
 import { create, updateInfo } from '@/service/afterSale/afterSalesReasons';
+import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Cascader, Modal } from 'antd';
+import { Button, Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 
@@ -73,71 +75,77 @@ export default () => {
   };
 
   return (
-    <Modal
+    <AModal
       forceRender
-      title={type === 'add' ? '新增' : '编辑'}
       open={visible}
       onCancel={() => update({ visible: false })}
-      width={500}
-      footer={[
-        <Button key="save" type="primary" loading={isLoading} onClick={form.submit}>
-          保存
-        </Button>,
-        <Button key="cancel" onClick={() => update({ visible: false })}>
-          取消
-        </Button>,
-      ]}
+      footer={
+        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
+          <Button key="save" type="primary" loading={isLoading} onClick={form.submit}>
+            保存
+          </Button>
+          <Button key="cancel" onClick={() => update({ visible: false })}>
+            取消
+          </Button>
+        </div>
+      }
     >
-      <FormRender
-        form={form}
-        watch={watch}
-        widgets={{ cascader: Cascader }}
-        schema={{
-          type: 'object',
-          column: 1,
-          properties: {
-            reason1: {
-              title: '代理商',
-              type: 'string',
-              widget: 'select',
-              required: true,
-              props: {
-                options: [],
+      <ProCard
+        title={type === 'add' ? '新增' : '修改'}
+        headerBordered
+        bodyStyle={{ paddingBottom: 0 }}
+      >
+        <FormRender
+          form={form}
+          watch={watch}
+          widgets={{ cascader: Cascader }}
+          schema={{
+            type: 'object',
+            column: 2,
+            properties: {
+              reason1: {
+                title: '代理商',
+                type: 'string',
+                widget: 'select',
+                required: true,
+                props: {
+                  options: [],
+                },
+                placeholder: '请选择代理商',
               },
-              placeholder: '请选择代理商',
-            },
-            reason2: {
-              title: '代理级别',
-              type: 'string',
-              widget: 'select',
-              required: true,
-              props: {
-                allowClear: true,
-                options: [
-                  { label: '省级', value: '0' },
-                  { label: '市级', value: '1' },
-                  { label: '区县级', value: '2' },
-                ],
+              reason2: {
+                title: '代理级别',
+                type: 'string',
+                widget: 'select',
+                required: true,
+                props: {
+                  allowClear: true,
+                  options: [
+                    { label: '省级', value: '0' },
+                    { label: '市级', value: '1' },
+                    { label: '区县级', value: '2' },
+                  ],
+                },
+                placeholder: '请选择代理级别',
               },
-              placeholder: '请选择代理级别',
-            },
-            reason3: {
-              title: '代理地盘',
-              type: 'array',
-              widget: 'cascader',
-              required: true,
-              props: {
-                options: filterData(treeList),
-                maxTagCount: 3,
-                multiple: true,
+              reason3: {
+                title: '代理地盘',
+                type: 'array',
+                widget: 'cascader',
+                required: true,
+                props: {
+                  options: filterData(treeList),
+                  maxTagCount: 3,
+                  multiple: true,
+                },
+                disabled: '{{ !formData.reason2 }}',
+                placeholder: '请选择代代理地盘',
               },
-              disabled: '{{ !formData.reason2 }}',
-              placeholder: '请选择代代理地盘',
             },
-          },
-        }}
-        onFinish={onFinish}
-      />
-    </Modal>
+          }}
+          onFinish={onFinish}
+        />
+      </ProCard>
+    </AModal>
   );
 };

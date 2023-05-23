@@ -63,9 +63,9 @@ export const columns = (edit) => [
 ];
 
 export const schema = ({ queryData }) => {
-  console.log('【 queryData 】==>', queryData);
   return {
     type: 'object',
+    column: 2,
     properties: {
       level: {
         title: '经销商等级',
