@@ -46,7 +46,21 @@ export default () => {
   useEffect(() => {
     if (visible) {
       form.setValues({
-        level: queryInfo.level,
+        form1: {
+          companyName: queryInfo.companyName,
+          shopName: queryInfo.shopName,
+          desc: queryInfo.desc,
+        },
+        form2: {
+          legalPersonId: queryInfo.consumerName
+            ? {
+                label: queryInfo.consumerName,
+                value: queryInfo.conId,
+                phone: queryInfo.consumerPhone,
+                headUrl: queryInfo.headUrl,
+              }
+            : undefined,
+        },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +68,12 @@ export default () => {
 
   // eslint-disable-next-line
   const onFinish = (values) => {
+    const { form1, form2 } = values;
     const params = {
+      companyName: form1.companyName,
+      shopName: form1.shopName,
+      desc: form1.desc,
+      legalPersonId: form2.legalPersonId && form2.legalPersonId.value,
       id: queryInfo.id,
     };
     mutateAsync(params);
@@ -104,7 +123,7 @@ export default () => {
                     },
                     placeholder: '请输入代理商',
                   },
-                  companyName2: {
+                  shopName: {
                     title: '镖局名称',
                     type: 'string',
                     required: true,
@@ -114,7 +133,7 @@ export default () => {
                     },
                     placeholder: '请输入代理商',
                   },
-                  remark: {
+                  desc: {
                     title: '备注',
                     type: 'string',
                     widget: 'textArea',
@@ -132,7 +151,7 @@ export default () => {
                 widget: 'lineTitle',
                 title: '代理人账号',
                 properties: {
-                  productId: {
+                  legalPersonId: {
                     title: '代理人账号',
                     tooltip: '代理人账号可以查看代理公司归属地盘的地盘分润',
                     type: 'object',
