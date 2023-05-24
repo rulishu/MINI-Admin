@@ -52,7 +52,8 @@ const SKU = ({ attrValue = [], onChange, options = [] }) => {
     newData[attrIndex].attribute_value = att.value;
     setData(newData);
     handlerOption(newData);
-    onChange(newData);
+    // console.log('newData: ', newData);
+    // onChange(newData);
   };
 
   // 规格值变化

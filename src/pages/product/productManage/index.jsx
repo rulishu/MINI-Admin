@@ -27,6 +27,8 @@ const App = () => {
     dispatch({
       type: 'supplier/getAllSuppliers',
     });
+    dispatch({ type: 'commonInterface/getTreeList' });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
