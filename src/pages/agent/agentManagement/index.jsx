@@ -2,7 +2,7 @@ import { deleteItem, selectPage } from '@/service/agent/agentManagement';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
@@ -11,7 +11,6 @@ export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
   const { reload } = useSelector((state) => state.agentManagement);
-  const { modal } = App.useApp();
   const update = (data) => {
     dispatch({
       type: 'agentManagement/update',
@@ -47,7 +46,7 @@ export default () => {
       });
     }
     if (type === 'delete') {
-      modal.confirm({
+      Modal.confirm({
         title: '温馨提醒',
         content: '删除地盘，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
         onOk: () => mutateDeleteAsync({ id: record.id }),
