@@ -1,5 +1,5 @@
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Divider } from 'antd';
+import UserContent from '@/components/UserContent';
+import { Divider } from 'antd';
 import moment from 'moment';
 export const columns = ({ handleEdit, productSelector }) => [
   {
@@ -87,22 +87,11 @@ export const columns = ({ handleEdit, productSelector }) => [
       options: productSelector.options,
     },
     render: (_, record) => (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {record?.productHeader ? (
-          <Avatar src={record?.productHeader} />
-        ) : (
-          <Avatar
-            style={{
-              backgroundColor: '#87d068',
-            }}
-            icon={<UserOutlined />}
-          />
-        )}
-        <div style={{ textAlign: 'left', marginLeft: 8 }}>
-          <div>{record?.productSelector}</div>
-          <div>{record?.productSelectorContact}</div>
-        </div>
-      </div>
+      <UserContent
+        headUrl={record.productHeader}
+        name={record.productSelector}
+        phone={record.productSelectorContact}
+      />
     ),
   },
   // {

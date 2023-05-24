@@ -1,5 +1,4 @@
 import { request } from '@umijs/max';
-import { message } from 'antd';
 
 export const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -19,19 +18,19 @@ export const codeMessage = {
   504: '网关超时。',
 };
 
-export const checkedCode = (code, msg) => {
+const checkedCode = (code, msg) => {
   if (code === 1) {
-    message.success(msg);
+    alert(msg);
   } else if (code === -1) {
-    message.error(msg);
+    alert(msg);
   } else if (code === 200) {
-    message.success(msg);
+    alert(msg);
   } else if (code === 400) {
-    message.error(msg);
+    alert(msg);
   } else if (code === 500) {
-    message.error(msg);
+    alert(msg);
   } else {
-    message.warning(msg);
+    alert(msg);
   }
 };
 

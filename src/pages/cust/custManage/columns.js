@@ -1,5 +1,5 @@
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Divider } from 'antd';
+import UserContent from '@/components/UserContent';
+import { Divider } from 'antd';
 import moment from 'moment';
 import { agentStatus, status, vipStatus } from './enum';
 
@@ -30,13 +30,7 @@ export const columns = ({ handleEdit }) => [
     align: 'left',
     render: (text, record) => {
       return (
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Avatar size="small" src={record?.headUrl} icon={<UserOutlined />} />
-          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
-            <p style={{ padding: 0, margin: 0 }}>{record?.consumerName}</p>
-            <p style={{ padding: 0, margin: 0 }}>{record?.mobile}</p>
-          </div>
-        </div>
+        <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
       );
     },
     hideInSearch: true,
