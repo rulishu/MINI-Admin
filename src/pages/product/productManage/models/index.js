@@ -24,15 +24,15 @@ export default {
     /** 是否刷新分页  */
     reload: false,
 
-    skuList: [],
     showSKU: false,
-    SKUtype: 'add',
+    editType: 'add',
     attrOptions: [],
 
     modalData: { groundType: 1 },
     isModalOpen: false,
 
     templateIdList: [],
+    itemSkuVos: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -43,21 +43,13 @@ export default {
   effects: {
     *selectSKU({ payload }, { call, put }) {
       const { code, result } = yield call(selectSKU, { id: payload });
+      console.log('result: ', result);
       if (code === 200) {
-        let SKUtype = 'add';
-        if (result && result.length > 0) {
-          //
-          SKUtype = 'edit';
-        } else {
-          //
-          SKUtype = 'add';
-        }
         yield put({
           type: 'update',
           payload: {
             showSKU: true,
-            SKUtype,
-            skuList: result,
+            // itemSkuVos: result,
           },
         });
       }
@@ -72,7 +64,7 @@ export default {
           payload: {
             showSKU: false,
             queryInfo: {},
-            skuList: [],
+            itemSkuVos: [],
           },
         });
       }
@@ -86,7 +78,7 @@ export default {
           payload: {
             showSKU: false,
             queryInfo: {},
-            skuList: [],
+            itemSkuVos: [],
           },
         });
       }

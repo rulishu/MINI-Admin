@@ -1,5 +1,7 @@
 import { message } from 'antd';
-export default (options, suppliersList, templateIdList) => ({
+import dayjs from 'dayjs';
+
+export default (options, suppliersList, templateIdList, cityTreeList, allstocks, minSale) => ({
   type: 'object',
   widget: 'lineTitle',
   displayType: 'row',
@@ -64,30 +66,28 @@ export default (options, suppliersList, templateIdList) => ({
             ],
           },
         },
-        supplierName1111: {
+        suppliersId: {
           title: '供应商',
-          type: 'string',
+          type: 'number',
           required: true,
           widget: 'select',
           props: {
+            labelInValue: true,
             options: suppliersList.map((item) => ({
               label: `${item?.supplierName}(推荐人：${item?.productSelector})`,
               value: item?.supplierId,
             })),
           },
         },
-        goodsOrigin1111: {
+        provenance: {
           title: '商品原产地',
-          type: 'string',
-          widget: 'select',
+          type: 'object',
+          widget: 'cascader',
           tooltip: '原产地作为商品溯源的标签，请精确到三级地址',
           required: true,
           props: {
-            options: [
-              { label: '早', value: 'a' },
-              { label: '中', value: 'b' },
-              { label: '晚', value: 'c' },
-            ],
+            expandTrigger: 'hover',
+            options: cityTreeList(),
           },
         },
       },
@@ -99,7 +99,7 @@ export default (options, suppliersList, templateIdList) => ({
       widget: 'lineTitle',
       // hidden: step === 1,
       properties: {
-        mainGraph: {
+        mainGraphs: {
           title: '主图',
           widget: 'picupload',
           required: true,
@@ -111,7 +111,7 @@ export default (options, suppliersList, templateIdList) => ({
             multiple: true,
           },
         },
-        video11111: {
+        itemVideo: {
           title: '视频',
           widget: 'picupload',
           required: true,
@@ -136,8 +136,8 @@ export default (options, suppliersList, templateIdList) => ({
             },
           },
         },
-        picdetail11111: {
-          title: '详情',
+        itemImageVoList: {
+          title: '详情图',
           widget: 'picupload',
           required: true,
           props: {
@@ -157,9 +157,9 @@ export default (options, suppliersList, templateIdList) => ({
       widget: 'lineTitle',
       // hidden: step === 1,
       properties: {
-        specifications: {
+        itemSkuVos: {
           title: '商品规格',
-          type: 'string',
+          type: 'object',
           required: true,
           widget: 'skubutton',
           placeholder: '请输入规格',
@@ -172,32 +172,36 @@ export default (options, suppliersList, templateIdList) => ({
           title: '总库存',
           required: true,
           type: 'number',
+          // widget: 'Number',
           disabled: true,
+          default: allstocks,
           props: {
             min: 0,
           },
         },
-        price1111: {
+        minPrice: {
           title: '售卖价格',
-          type: 'number',
+          type: 'string',
+          // widget: 'Number',
           required: true,
           disabled: true,
+          default: minSale,
           tooltip: '该价格等于sku最低价，作为前端显示的基准价，暂不支持修改',
           props: {
             min: 0,
           },
         },
-        // thinkprice1111: {
-        //   title: '参考价格',
-        //   type: 'number',
-        //   required: true,
-        // tooltip: '参考价大于等于售卖价，最多保留2位小数',
-        //   placeholder: '请输入参考价格',
-        //   props: {
-        //     min: 0,
-        //   },
-        // },
-        model111111: {
+        price: {
+          title: '参考价格',
+          type: 'string',
+          // widget: 'Number',
+          tooltip: '参考价大于等于售卖价，最多保留2位小数',
+          placeholder: '请输入参考价格',
+          props: {
+            min: 0,
+          },
+        },
+        spuCode: {
           title: 'SPU编码',
           type: 'string',
           placeholder: '请输入SPU编码',
@@ -216,7 +220,7 @@ export default (options, suppliersList, templateIdList) => ({
       // hidden: step === 1,
       properties: {
         templateId: {
-          type: 'string',
+          type: 'number',
           title: '运费模版',
           required: true,
           widget: 'select',
@@ -243,6 +247,7 @@ export default (options, suppliersList, templateIdList) => ({
           title: '日期选择',
           type: 'string',
           widget: 'datePicker',
+          default: dayjs(),
           props: {
             placeholder: '请选择上架时间',
             showTime: {

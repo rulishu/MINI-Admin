@@ -17,14 +17,14 @@ import { columns } from './columns';
 export default function Tables() {
   const ref = useRef();
   const [form] = Form.useForm();
-  const { productManage, groupManage, loading } = useSelector((state) => state);
+  const { productManage, groupManage, loading, supplier } = useSelector((state) => state);
   const { activeKey, select, reload, modalData, type, isModalOpen } = productManage;
+  const { suppliersList } = supplier;
   const { categoryTree, categoryList } = groupManage;
 
   const dispatch = useDispatch();
 
   const [srks, setSrks] = useState([]);
-  console.log('dayjs: ', dayjs().format('YYYY-MM-DD HH:mm'), form.getFieldsValue());
 
   useEffect(() => {
     if (reload) {
@@ -103,12 +103,20 @@ export default function Tables() {
         type: 'productManage/update',
         payload: {
           showForm: true,
+          editType: 'add',
           // queryInfo: { categoryId: String(tabs) },
         },
       });
     }
     // 编辑
-    if (type === 'edit' || type == 'view') {
+    if (type === 'edit') {
+      dispatch({
+        type: 'productManage/update',
+        payload: {
+          editType: 'edit',
+        },
+      });
+      handlerSKU(record);
       selectById({ id: record.id });
     }
     // 上架/下架/删除
@@ -132,13 +140,6 @@ export default function Tables() {
   };
 
   const handlerSKU = (record) => {
-    dispatch({
-      type: 'productManage/update',
-      payload: {
-        queryInfo: record,
-      },
-    });
-
     dispatch({
       type: 'productManage/selectSKU',
       payload: record?.id,
@@ -211,6 +212,14 @@ export default function Tables() {
     }
     return arr;
   };
+  // 供应商枚举
+  const suppliersEnum = () => {
+    const obj = {};
+    suppliersList.forEach((item) => {
+      obj[item?.supplierId] = { text: item?.supplierName };
+    });
+    return obj;
+  };
   return (
     <>
       <ProTable
@@ -272,23 +281,9 @@ export default function Tables() {
             type: 'inline',
             activeKey: '__',
             items: handlerItem(),
-            // onChange: (key) => {
-            //   dispatch({
-            //     type: 'productManage/update',
-            //     payload: {
-            //       activeKey: key,
-            //     },
-            //   });
-            //   ref?.current?.reload();
-            // },
           },
-          // toolBarRender: handlerItem(),
           actions: (
-            <Button
-              type="primary"
-              //  loading={loading.global}
-              onClick={() => handleEdit('add')}
-            >
+            <Button type="primary" loading={loading.global} onClick={() => handleEdit('add')}>
               新建商品
             </Button>
           ),
@@ -297,7 +292,7 @@ export default function Tables() {
           showSizeChanger: true,
         }}
         cardBordered={true}
-        columns={columns({ handleEdit, options, categoryList, handlerSKU })}
+        columns={columns({ handleEdit, options, categoryList, suppliersEnum })}
         rowKey="id"
         rowSelection={{
           selectedRowKeys: select.selectedRowKeys,
@@ -352,7 +347,7 @@ export default function Tables() {
                 if (type === 'upload') {
                   uploadAsync(
                     srks.map((item) => ({
-                      id: item,
+                      id: item && Number(item),
                       ...form.getFieldsValue(),
                       openTime: form.getFieldsValue()?.openTime
                         ? dayjs(form.getFieldsValue()?.openTime).format('YYYY-MM-DD HH:mm:ss')
@@ -362,10 +357,10 @@ export default function Tables() {
                 }
 
                 if (type === 'down') {
-                  downAsync({ ids: srks });
+                  downAsync({ ids: srks.map((item) => Number(item)) });
                 }
                 if (type === 'delete') {
-                  deleteAsync({ ids: srks });
+                  deleteAsync(srks.map((item) => Number(item)));
                 }
               }}
             >
