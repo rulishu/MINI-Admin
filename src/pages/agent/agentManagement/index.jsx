@@ -1,9 +1,10 @@
-import { deleteItem, selectPage } from '@/service/agent/territory';
+import { deleteItem, selectPage } from '@/service/agent/agentManagement';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Modal } from 'antd';
 import { useEffect, useRef } from 'react';
+import Details from './Details';
 import { columns } from './columns';
 
 export default () => {
@@ -91,6 +92,7 @@ export default () => {
         rowKey="id"
         scroll={{ x: 1300 }}
       />
+      <Details />
     </div>
   );
 };

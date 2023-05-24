@@ -18,9 +18,12 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '代理商',
-    dataIndex: 'companyName1',
+    dataIndex: 'companyDetails',
     align: 'left',
     hideInSearch: true,
+    render: (_, record) => {
+      return <span>{record.companyName}</span>;
+    },
   },
   {
     title: '代理账号',

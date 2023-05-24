@@ -44,6 +44,7 @@ export default () => {
         type: 'territory/selectByAgentArea',
         payload: {
           level: record.level,
+          agentCompanyId: record.id,
         },
         callback: () =>
           update({
