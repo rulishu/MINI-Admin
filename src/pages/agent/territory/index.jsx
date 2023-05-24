@@ -20,7 +20,6 @@ export default () => {
 
   // 新增编辑刷新分页
   useEffect(() => {
-    dispatch({ type: 'territory/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
   }, [reload]);
 

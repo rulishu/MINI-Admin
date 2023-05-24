@@ -76,13 +76,16 @@ export default () => {
 
   const onFinish = (values) => {
     const params = {
+      vo: [
+        {
+          agentCompanyId: values.agentCompanyId && values.agentCompanyId.value,
+          areaId:
+            values.areaId && values.areaId.length > 0 && values.areaId[values.areaId.length - 1],
+          level: values.level,
+          id: queryInfo.id,
+        },
+      ],
       agentCompanyId: values.agentCompanyId && values.agentCompanyId.value,
-      areaId: values.areaId && values.areaId.length > 0 && values.areaId[values.areaId.length - 1],
-      // parentAreaId:
-      //   (values.areaId && values.areaId.length > 1 && values.areaId[values.areaId.length - 2]) ||
-      //   null,
-      level: queryInfo.level,
-      id: queryInfo.id,
     };
     mutateAsync(params);
   };
@@ -134,6 +137,7 @@ export default () => {
                 required: true,
                 disabled: type === 'edit',
                 props: {
+                  onFocus: () => dispatch({ type: 'territory/selectByAgentCompany' }),
                   labelInValue: true,
                   options: companyList,
                   filterOption: (input, option) => (option?.label ?? '').includes(input),

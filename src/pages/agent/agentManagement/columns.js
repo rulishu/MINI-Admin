@@ -22,7 +22,12 @@ export const columns = ({ handleEdit }) => [
     align: 'left',
     hideInSearch: true,
     render: (_, record) => {
-      return <span>{record.companyName}</span>;
+      return (
+        <div>
+          <div>{record.companyName}</div>
+          <div>{record.shopName}</div>
+        </div>
+      );
     },
   },
   {
@@ -51,7 +56,7 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '备注',
-    dataIndex: 'remark',
+    dataIndex: 'desc',
     align: 'left',
     hideInSearch: true,
   },
