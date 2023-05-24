@@ -1,3 +1,4 @@
+import SKUModal from '@/pages/product/productManage/SKUModal';
 import {
   added,
   deleteProduct,
@@ -283,7 +284,11 @@ export default function Tables() {
           },
           // toolBarRender: handlerItem(),
           actions: (
-            <Button type="primary" loading={loading.global} onClick={() => handleEdit('add')}>
+            <Button
+              type="primary"
+              //  loading={loading.global}
+              onClick={() => handleEdit('add')}
+            >
               新建商品
             </Button>
           ),
@@ -423,6 +428,7 @@ export default function Tables() {
           {type === 'delete' && <p>商品删除后不可见，请谨慎操作</p>}
         </>
       </Modal>
+      <SKUModal />
     </>
   );
 }

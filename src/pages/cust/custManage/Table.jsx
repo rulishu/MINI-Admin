@@ -1,4 +1,4 @@
-import { selectById, selectPage } from '@/service/cust/fansManage';
+import { selectById, selectPage } from '@/service/cust/custManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';
@@ -39,7 +39,6 @@ export default function SearchTable() {
         const { code, result } = await selectPage({
           pageNum: current,
           pageSize,
-          memberType: '粉丝',
           ...formData,
         });
         if (code && code === 200) {

@@ -42,17 +42,20 @@ const EditForm = (props) => {
   };
 
   const handler = (data) => {
-    return data.map((item) => {
-      if (item?.leafOrder === 2) {
+    const arr = [];
+    data.forEach((item) => {
+      if (item?.leafOrder !== 1) {
         const obj = { label: item?.label || '', value: item?.id };
         if (item?.children && item?.children.length > 0) {
           obj.children = handler(item.children);
         }
-        return obj;
+        arr.push(obj);
       }
     });
+    return arr;
   };
 
+  console.log('handler(categoryTree): ', handler(categoryTree));
   const options = () => {
     if (categoryTree.length > 0) {
       return [...handler(categoryTree)];
@@ -120,7 +123,7 @@ const EditForm = (props) => {
       const arr = parr.concat([]);
       searchParams.parentArray = parr.join();
       searchParams.parentId = parr.join() === '0' ? '0' : arr?.splice(-1)?.[0];
-      // searchParams.status = 1;
+      searchParams.status = 1;
       dispatch({
         type: 'groupManage/addCategory',
         payload: { searchParams, actionRef },
