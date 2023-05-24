@@ -1,5 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Divider } from 'antd';
+import moment from 'moment';
+import { agentStatus, status, vipStatus } from './enum';
 
 export const columns = ({ handleEdit }) => [
   {
@@ -40,30 +42,6 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
   },
   {
-    title: '经销等级',
-    dataIndex: 'liveName',
-    align: 'left',
-    hideInSearch: true,
-  },
-  {
-    title: '代理等级',
-    dataIndex: 'proxylevel',
-    align: 'left',
-    hideInSearch: true,
-  },
-  {
-    title: '会员等级',
-    dataIndex: 'memberType',
-    align: 'left',
-    hideInSearch: true,
-  },
-  {
-    title: '邀请人',
-    dataIndex: 'expirationTime',
-    align: 'left',
-    hideInSearch: true,
-  },
-  {
     title: '邀请人昵称',
     dataIndex: 'details3',
     align: 'left',
@@ -80,36 +58,44 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'createTime',
     align: 'left',
     valueType: 'date',
+    hideInTable: true,
   },
   {
     title: '经销等级',
     dataIndex: 'openTime2',
     align: 'left',
     valueType: 'select',
-    fieldProps: {
-      options: [],
-    },
-    hideInTable: true,
+    valueEnum: status,
   },
   {
     title: '代理等级',
     dataIndex: 'openTime3',
     align: 'left',
     valueType: 'select',
-    fieldProps: {
-      options: [],
-    },
-    hideInTable: true,
+    valueEnum: agentStatus,
   },
   {
     title: '会员等级',
     dataIndex: 'openTime4',
     align: 'left',
     valueType: 'select',
-    fieldProps: {
-      options: [],
-    },
-    hideInTable: true,
+    valueEnum: vipStatus,
+  },
+  {
+    title: '邀请人',
+    dataIndex: 'details5',
+    align: 'left',
+    hideInSearch: true,
+    render: () => {},
+  },
+  {
+    title: '注册时间',
+    dataIndex: 'createTimeDetails',
+    align: 'left',
+    valueType: 'date',
+    hideInSearch: true,
+    render: (_, record) =>
+      record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss'),
   },
   {
     title: '操作',

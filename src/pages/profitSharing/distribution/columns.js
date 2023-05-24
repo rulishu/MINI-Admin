@@ -40,14 +40,6 @@ export const columns = (edit) => [
     },
   },
   {
-    title: '三级返佣',
-    align: 'left',
-    dataIndex: 'threeLevelPercent',
-    render: (record) => {
-      return <div>{record}%</div>;
-    },
-  },
-  {
     title: '操作',
     fixed: 'right',
 
