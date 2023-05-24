@@ -1,4 +1,4 @@
-import request from '@antdp/request';
+import request from '@/utils/request';
 
 export async function queryDealerDsConfig(body) {
   return request(`/jcgl-mall/admin/ds/config/queryDealerDsConfig`, {

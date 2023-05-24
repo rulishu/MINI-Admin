@@ -20,12 +20,11 @@
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.4.14",
-    "@antdp/antdp-ui": "2.0.9",
-    "@antdp/authorized": "2.0.9",
-    "@antdp/basic-layouts": "2.0.9",
-    "@antdp/hooks": "2.0.9",
-    "@antdp/request": "2.0.9",
-    "@antdp/user-login": "2.0.9",
+    "@antdp/antdp-ui": "2.0.11",
+    "@antdp/authorized": "2.0.11",
+    "@antdp/basic-layouts": "2.0.11",
+    "@antdp/hooks": "2.0.11",
+    "@antdp/user-login": "2.0.11",
     "antd": "5.4.7",
     "form-render": "^2.1.19",
     "moment": "^2.29.4",
@@ -41,8 +40,8 @@
     "antd": "5.4.7"
   },
   "devDependencies": {
-    "@antdp/config": "2.0.9",
-    "@antdp/dependencies": "2.0.9",
+    "@antdp/config": "2.0.11",
+    "@antdp/dependencies": "2.0.11",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/fabric": "~2.14.1",

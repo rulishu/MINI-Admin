@@ -1,4 +1,4 @@
-import request from '@antdp/request';
+import request from '@/utils/request';
 
 export const selectPage = async ({ pageNum, pageSize, ...body }) => {
   return request(`/jcgl-user/admin/agent/area/select?pageSize=${pageSize}&pageNum=${pageNum}`, {

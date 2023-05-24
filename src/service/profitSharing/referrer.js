@@ -1,4 +1,4 @@
-import request from '@antdp/request';
+import request from '@/utils/request';
 
 export const queryOne = async (body) => {
   return request(`/jcgl-mall/admin/ds/config/queryOne`, {

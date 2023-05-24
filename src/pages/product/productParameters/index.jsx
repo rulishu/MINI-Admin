@@ -1,4 +1,4 @@
-import SearchTable from '../productParameters/Search/searcTable';
+import SearchTable from './Search/searchTable';
 
 const Index = () => {
   return <SearchTable />;

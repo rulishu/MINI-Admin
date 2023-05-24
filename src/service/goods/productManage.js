@@ -1,4 +1,4 @@
-import request from '@antdp/request';
+import request from '@/utils/request';
 
 export const selectSellPage = async ({ pageNum, pageSize, ...body }) => {
   //商品列表

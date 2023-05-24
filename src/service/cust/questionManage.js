@@ -1,4 +1,4 @@
-import request from '@antdp/request';
+import request from '@/utils/request';
 export const selectPage = async (params) => {
   return request('/api/cust/questionManage', {
     method: 'POST',
