@@ -2,12 +2,11 @@ import Authorized from '@antdp/authorized';
 import { useReactMutation } from '@antdp/hooks';
 import UserLogin from '@antdp/user-login';
 import { history, useDispatch, useSelector } from '@umijs/max';
-import { Form, message } from 'antd';
+import { message } from 'antd';
 import 'antd/dist/reset.css';
 import logo from './logo.png';
 
 const UserLayout = () => {
-  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.global);
   const update = (data) => {
@@ -21,7 +20,6 @@ const UserLayout = () => {
     <Authorized authority={!token} redirectPath="/">
       <UserLogin
         logo={logo}
-        form={form}
         projectName=""
         loading={mutation.isLoading}
         onFinish={async (values) => {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-export const schema = ({ queryInfo, province }) => {
+export const schema = ({ getProductUserList, province }) => {
   return {
     type: 'object',
     properties: {
@@ -155,7 +155,7 @@ export const schema = ({ queryInfo, province }) => {
             widget: 'selectUser',
             required: true,
             props: {
-              api: '/jcgl-user/admin/user/select/list',
+              fetch: getProductUserList,
             },
           },
         },

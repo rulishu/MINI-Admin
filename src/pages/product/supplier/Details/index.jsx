@@ -1,7 +1,7 @@
 import AModal from '@/components/AModal';
 import SelectUser from '@/components/selectUser';
 import Upload from '@/components/upload';
-import { create, updateInfo } from '@/service/goods/supplier';
+import { create, getProductUserList, updateInfo } from '@/service/goods/supplier';
 import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
@@ -136,10 +136,7 @@ export default () => {
             province: {
               options: treeList,
             },
-            queryInfo: {
-              ...queryInfo,
-              legalFrontUrl: queryInfo.legalFrontUrl ? getUrlToList(queryInfo.legalFrontUrl) : [],
-            },
+            getProductUserList,
           })}
           onFinish={onFinish}
           widgets={{

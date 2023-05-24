@@ -1,6 +1,6 @@
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
-import { App, Button, Upload } from 'antd';
+import { Button, Upload, message } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
 import { getDefaultValue } from './utils';
@@ -17,7 +17,6 @@ export default ({
   addons,
   ...others
 }) => {
-  const { message } = App.useApp();
   let _value = getDefaultValue(value);
   const [fileList, setFileList] = useState(_value);
   const [previewUrl, setPreviewUrl] = useState('');

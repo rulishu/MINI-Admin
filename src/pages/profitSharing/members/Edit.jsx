@@ -9,7 +9,6 @@ export default function SearchTable({ tableRef }) {
   const form = useForm();
   const { visible, queryData } = useSelector((state) => state.members);
   const dispatch = useDispatch();
-  const [messageApi, contextHolder] = message.useMessage();
   const update = (data) => {
     dispatch({
       type: 'members/update',
@@ -20,10 +19,7 @@ export default function SearchTable({ tableRef }) {
   const onFinish = async (data) => {
     const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
     if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
-      messageApi.open({
-        type: 'error',
-        content: '会员分润系数大于100%',
-      });
+      message.warning('会员分润系数大于100%');
     } else {
       dispatch({
         type: 'members/edit',
@@ -62,7 +58,6 @@ export default function SearchTable({ tableRef }) {
         </div>
       }
     >
-      {contextHolder}
       <ProCard title="修改" headerBordered bodyStyle={{ paddingBottom: 0 }}>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
       </ProCard>

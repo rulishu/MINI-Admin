@@ -4,13 +4,13 @@ import { Avatar, Divider } from 'antd';
 export const columns = ({ handleEdit }) => [
   {
     title: '用户昵称',
-    dataIndex: 'details1',
+    dataIndex: 'consumerName',
     align: 'left',
     hideInTable: true,
   },
   {
     title: '用户手机号',
-    dataIndex: 'details2',
+    dataIndex: 'mobile',
     align: 'left',
     hideInTable: true,
   },
@@ -28,8 +28,8 @@ export const columns = ({ handleEdit }) => [
     align: 'left',
     render: (text, record) => {
       return (
-        <div style={{ height: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Avatar shape="square" size={80} src={record?.headUrl} icon={<UserOutlined />} />
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Avatar size="small" src={record?.headUrl} icon={<UserOutlined />} />
           <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
             <p style={{ padding: 0, margin: 0 }}>{record?.consumerName}</p>
             <p style={{ padding: 0, margin: 0 }}>{record?.mobile}</p>

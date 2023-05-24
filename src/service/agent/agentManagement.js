@@ -26,3 +26,9 @@ export const deleteItem = async ({ id }) => {
     method: 'DELETE',
   });
 };
+
+export const getUserList = async ({ phone }) => {
+  return request(`/jcgl-user/admin/user/select/user/phone?phone=${phone}`, {
+    method: 'POST',
+  });
+};

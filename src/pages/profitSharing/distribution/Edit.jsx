@@ -9,7 +9,6 @@ export default function SearchTable({ tableRef }) {
   const form = useForm();
   const { visible, queryData } = useSelector((state) => state.distribution);
   const dispatch = useDispatch();
-  const [messageApi, contextHolder] = message.useMessage();
   const update = (data) => {
     dispatch({
       type: 'distribution/update',
@@ -20,10 +19,7 @@ export default function SearchTable({ tableRef }) {
   const onFinish = async (data) => {
     const { percent, onePercent, twoPercent } = data;
     if (percent + onePercent + twoPercent > 100) {
-      messageApi.open({
-        type: 'error',
-        content: '经销商润系数大于100%',
-      });
+      message.warning('经销商润系数大于100%');
     } else {
       dispatch({
         type: 'distribution/edit',
@@ -55,7 +51,6 @@ export default function SearchTable({ tableRef }) {
         </div>
       }
     >
-      {contextHolder}
       <ProCard title="修改" headerBordered bodyStyle={{ paddingBottom: 0 }}>
         <FormRender form={form} schema={schema({ queryData })} onFinish={onFinish} />
       </ProCard>

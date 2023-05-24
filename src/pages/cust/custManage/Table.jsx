@@ -13,6 +13,7 @@ export default function SearchTable() {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const { mutateAsync } = useReactMutation({
     mutationFn: selectById,
     onSuccess: ({ code, result }) => {
@@ -22,9 +23,10 @@ export default function SearchTable() {
     },
   });
 
+  // eslint-disable-next-line no-unused-vars
   const handleEdit = (type, data) => {
     if (type === 'view') {
-      mutateAsync({ id: data.id });
+      //  mutateAsync({ id: data.id });
     }
   };
 

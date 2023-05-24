@@ -6,8 +6,6 @@ const Search = () => {
       <span style={{ color: '#31708F', fontWeight: 'bold' }}>
         提示：推广海报中,灵活遵循《广告法》,《微信公众平台运营规范》,谨慎使用“提成”,“分佣”等敏感词,勿使用极限用语“最高级”,“国家级”等，违反广告法条例的广告行为。
       </span>
-      {/* <span style={{ color: '#FF0000' }}> */}
-      {/* </span> */}
     </div>
   );
   const onChange = () => {};

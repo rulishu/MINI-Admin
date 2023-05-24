@@ -55,3 +55,10 @@ export const getAllSuppliers = async () => {
     method: 'POST',
   });
 };
+
+export const getProductUserList = async (body) => {
+  return request(`/jcgl-user/admin/user/select/list`, {
+    method: 'POST',
+    data: body,
+  });
+};

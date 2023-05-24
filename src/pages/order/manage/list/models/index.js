@@ -1,6 +1,4 @@
 // import { details } from '@/service/list';
-// import { useDispatch, useSelector } from '@umijs/max';
-// import { message } from "antd";
 
 export default {
   namespace: 'list',

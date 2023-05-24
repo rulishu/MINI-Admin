@@ -1,6 +1,6 @@
 import AModal from '@/components/AModal';
 import SelectUser from '@/components/selectUser';
-import { create, updateInfo } from '@/service/agent/agentManagement';
+import { create, getUserList, updateInfo } from '@/service/agent/agentManagement';
 import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
@@ -158,7 +158,15 @@ export default () => {
                     widget: 'selectUser',
                     required: true,
                     props: {
-                      api: '/jcgl-user/admin/user/select/list',
+                      fetch: getUserList,
+                      configCode: {
+                        key: 'id',
+                        value: 'id',
+                        label: 'consumerName',
+                        headUrl: 'headUrl',
+                        phone: 'consumerPhone',
+                        searchCode: 'phone',
+                      },
                     },
                   },
                 },
