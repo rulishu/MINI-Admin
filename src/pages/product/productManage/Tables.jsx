@@ -82,7 +82,51 @@ export default function Tables() {
           type: 'productManage/update',
           payload: {
             showForm: true,
-            queryInfo: result,
+            queryInfo: {
+              form1: {
+                categoryId: categoryList
+                  .find((item) => item?.id === result?.categoryId)
+                  ?.parentArray?.split(','),
+              },
+              form2: {
+                itemName: result?.itemName,
+                details: result?.details,
+                itemType: result?.itemType,
+                suppliersId: result?.suppliersId,
+                provenance: result?.provenance?.split(','),
+              },
+              form3: {
+                mainGraphs: result?.mainGraphs.map((item) => ({
+                  name: item?.itemName,
+                  uid: item?.id,
+                  url: item?.path,
+                })),
+                itemVideo: [
+                  {
+                    name: 'video',
+                    uid: 1,
+                    url: result?.itemVideo,
+                  },
+                ],
+                itemImageVoList: result?.itemImageDtoList.map((item) => ({
+                  name: item?.itemName,
+                  uid: item?.id,
+                  url: item?.path,
+                })),
+              },
+              form4: {
+                stock: result?.stock,
+                minPrice: result?.minPrice,
+                price: result?.price,
+                spuCode: result?.spuCode,
+                itemSkuVos: [],
+              },
+              form5: {
+                templateId: result?.templateId,
+                groundType: result?.groundType,
+                openTime: result?.openTime,
+              },
+            },
           },
         });
       }
@@ -117,7 +161,7 @@ export default function Tables() {
         },
       });
       handlerSKU(record);
-      selectById({ id: record.id });
+      selectById({ id: record?.id && Number(record.id) });
     }
     // 上架/下架/删除
     if (type === 'upload' || type === 'down' || type == 'delete') {
