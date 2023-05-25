@@ -48,10 +48,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => (
-      <div style={{ textAlign: 'left' }}>
-        <div>{record?.contactName}</div>
-        <div>联系方式：{record?.contactPhone}</div>
-      </div>
+      <UserContent headUrl="" name={record.contactName} phone={record.contactPhone} />
     ),
   },
   // {
