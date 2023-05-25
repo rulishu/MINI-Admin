@@ -1,12 +1,13 @@
 import AModal from '@/components/AModal';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, message } from 'antd';
+import { App, Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
   const form = useForm();
+  const { message } = App.useApp();
   const { visible, queryData } = useSelector((state) => state.distribution);
   const dispatch = useDispatch();
   const update = (data) => {

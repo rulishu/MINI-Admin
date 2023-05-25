@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal, Upload, message } from 'antd';
+import { App, Button, Form, Input, Modal, Upload } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -9,6 +9,7 @@ const OriderAdd = ({ onAdd }) => {
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
+  const { message } = App.useApp();
 
   const onFinish = async (values) => {
     setConfirmLoading(true);

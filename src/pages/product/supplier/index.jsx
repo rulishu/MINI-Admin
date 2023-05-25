@@ -2,7 +2,7 @@ import { deleteItem, selectById, selectPage } from '@/service/goods/supplier';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
@@ -10,6 +10,7 @@ import { columns } from './columns';
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
   const { reload, userList } = useSelector((state) => state.supplier);
   const update = (data) => {
     dispatch({
@@ -72,7 +73,7 @@ export default () => {
       mutateAsync({ id: record.supplierId });
     }
     if (type === 'delete') {
-      Modal.confirm({
+      modal.confirm({
         content: '确定是否删除该供应商？',
         maskClosable: true,
         onOk: () => mutateDeleteAsync({ id: record.supplierId }),

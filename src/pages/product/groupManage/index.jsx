@@ -1,7 +1,7 @@
 import { getCategory } from '@/service/goods/groupManage';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Modal } from 'antd';
+import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import EditForm from './EditForm';
@@ -11,7 +11,7 @@ const SearchTable = (props) => {
   const { dispatch, groupManage, loading } = props;
   const { pageSize, categoryList, addOpen } = groupManage;
   const actionRef = useRef();
-
+  const { modal } = App.useApp();
   useEffect(() => {
     dispatch({
       type: 'groupManage/getCategoryTree',
@@ -53,9 +53,8 @@ const SearchTable = (props) => {
       });
     }
     if (type === 'delete') {
-      const modal = Modal.confirm();
-
-      modal.update({
+      const newModal = modal.confirm();
+      newModal.update({
         title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
         content: (
           <div>

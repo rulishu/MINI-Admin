@@ -3,7 +3,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
@@ -12,6 +12,7 @@ export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
   const { reload } = useSelector((state) => state.afterSalesReasons);
+  const { modal } = App.useApp;
   const update = (data) => {
     dispatch({
       type: 'afterSalesReasons/update',
@@ -57,7 +58,7 @@ export default () => {
       mutateAsync({ id: record.id });
     }
     if (type === 'delete') {
-      Modal.confirm({
+      modal.confirm({
         title: '确定是否删除',
         onOk: () => mutateDeleteAsync({ id: record.id }),
       });

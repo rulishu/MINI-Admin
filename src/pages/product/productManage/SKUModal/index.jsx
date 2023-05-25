@@ -2,10 +2,11 @@ import GoodsSKU from '@/components/sku';
 import SKUList from '@/components/sku/SKUList';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Modal, message } from 'antd';
+import { App, Modal } from 'antd';
 import { cloneElement, useEffect, useState } from 'react';
 
 const SKUModal = () => {
+  const { message } = App.useApp();
   const { SKUtype, queryInfo, skuList, attrOptions, showSKU } = useSelector(
     (state) => state.productManage,
   );

@@ -1,7 +1,7 @@
 import { selectPage } from '@/service/memberSettings';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
-import { Button, Col, Input, Modal, Row, Space, Switch } from 'antd';
+import { App, Button, Col, Input, Row, Space, Switch } from 'antd';
 import { useRef } from 'react';
 import Edit from './Edit/Edit';
 import { columns } from './columns';
@@ -9,6 +9,7 @@ import { columns } from './columns';
 export default function Tables() {
   const ref = useRef();
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
   const update = (data) => {
     dispatch({
       type: 'packManagement/update',
@@ -23,7 +24,7 @@ export default function Tables() {
         visible: true,
       });
     } else {
-      Modal.confirm({
+      modal.confirm({
         title: '确定是否删除',
         onOk: () => {
           ref.current.reload();
