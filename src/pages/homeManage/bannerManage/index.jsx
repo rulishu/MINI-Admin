@@ -86,7 +86,10 @@ export default () => {
           ]}
           cardBordered={true}
           columns={columns({ handleEdit })}
-          rowKey={(record) => record.id + Date.now()}
+          rowKey="id"
+          pagination={{
+            showSizeChanger: true,
+          }}
         />
       )}
     </Fragment>

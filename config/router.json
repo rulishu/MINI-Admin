@@ -55,15 +55,9 @@
       },
       {
         "path": "/homeManage",
-        "name": "首页配置",
+        "name": "页面配置",
         "icon": "setting",
-        "routes": [
-          {
-            "path": "/homeManage/bannerMange",
-            "name": "首页配置",
-            "component": "@/pages/homeManage/bannerManage"
-          }
-        ]
+        "component": "@/pages/homeManage/bannerManage"
       },
       {
         "path": "/product",
