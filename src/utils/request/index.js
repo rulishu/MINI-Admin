@@ -25,10 +25,12 @@ const checkedCode = (code, msg) => {
     alert(msg);
   } else if (code === 200) {
     alert(msg);
-  } else if (code === 400) {
+  } else if (code === codeMessage[400]) {
     alert(msg);
-  } else if (code === 500) {
+  } else if (code === codeMessage[500]) {
     alert(msg);
+  } else if (code === codeMessage[503]) {
+    alert('请求错误');
   } else {
     alert(msg);
   }

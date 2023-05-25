@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
+import ImageXY from '../components/imageXY';
 
 export default () => {
   const form = useForm();
@@ -139,10 +140,17 @@ export default () => {
                 },
                 required: true,
               },
+              imageXY: {
+                span: 24,
+                title: '获取图片坐标',
+                type: 'string',
+                widget: 'imageXY',
+              },
             },
           }}
           widgets={{
             upload: Upload,
+            imageXY: ImageXY,
           }}
           onFinish={onFinish}
         />

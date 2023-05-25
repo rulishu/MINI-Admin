@@ -1,4 +1,4 @@
-import { Divider, Image } from 'antd';
+import { Divider } from 'antd';
 import moment from 'moment';
 
 export const columns = ({ handleEdit }) => [
@@ -11,19 +11,10 @@ export const columns = ({ handleEdit }) => [
     render: (text, record, index) => index + 1,
   },
   {
-    title: '图片',
-    dataIndex: 'path',
+    title: '页面名称',
+    dataIndex: 'name',
     width: 90,
     align: 'left',
-    hideInSearch: true,
-    render: (_, record) => <Image width={80} height={80} src={record?.path} />,
-  },
-  {
-    title: '排序',
-    width: 90,
-    dataIndex: 'sort',
-    align: 'left',
-    hideInSearch: true,
   },
   {
     title: '创建时间',
