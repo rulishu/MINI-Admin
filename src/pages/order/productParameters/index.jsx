@@ -3,7 +3,6 @@ import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Tabs } from 'antd';
 import { columns } from './columns';
-import styles from './index.less';
 
 export default function Page() {
   const { tab } = useSelector((state) => state.afterSalesAudit);
@@ -17,7 +16,6 @@ export default function Page() {
 
   const Table = (
     <ProTable
-      className={styles.card_pro}
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
@@ -35,7 +33,16 @@ export default function Page() {
         }
       }}
       pagination={{
+        style: { margin: 12 },
         showSizeChanger: true,
+      }}
+      cardProps={{
+        headStyle: {},
+        bodyStyle: { padding: 0 },
+        size: 'small',
+        style: {
+          padding: 0,
+        },
       }}
       cardBordered={true}
       columns={columns({
