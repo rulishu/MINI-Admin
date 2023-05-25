@@ -29,6 +29,12 @@ export default function SearchTable() {
         showSizeChanger: true,
       }}
       cardBordered
+      cardProps={{
+        size: 'small',
+        style: {
+          padding: 0,
+        },
+      }}
       columns={columns}
       rowKey="id"
       search={{
