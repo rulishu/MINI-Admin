@@ -2,7 +2,7 @@ export default {
   namespace: 'bannerManage',
   state: {
     tabsActive: '1',
-    visible: false,
+    visible: true,
     /** add新增 / edit编辑 / view查看  */
     type: '',
     queryInfo: {},
