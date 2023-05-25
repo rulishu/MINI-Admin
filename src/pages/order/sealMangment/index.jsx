@@ -20,6 +20,7 @@ export default () => {
   return (
     <div>
       <ProTable
+        headerTitle="封坛订单"
         actionRef={ref}
         options={false}
         search={{

@@ -39,8 +39,7 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '操作',
-    width: 180,
-
+    width: 90,
     hideInSearch: true,
     render: (record) => (
       <div>

@@ -32,6 +32,7 @@ export default function SearchTable() {
 
   return (
     <ProTable
+      headerTitle="用户列表"
       options={false}
       search={{
         labelWidth: 'auto',

@@ -17,6 +17,6 @@ const giftManagement = () => {
       children: <Tables />,
     },
   ];
-  return <Tabs size="small" defaultActiveKey="2" items={items} onChange={onChange} />;
+  return <Tabs size="small" defaultActiveKey="1" items={items} onChange={onChange} />;
 };
 export default giftManagement;

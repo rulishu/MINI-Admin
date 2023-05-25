@@ -9,6 +9,7 @@ export default function SearchTable() {
   const dispatch = useDispatch();
   return (
     <ProTable
+      headerTitle="发货列表"
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;

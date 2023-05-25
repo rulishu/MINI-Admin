@@ -27,6 +27,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '用户信息',
     dataIndex: 'details',
+    width: 180,
     align: 'left',
     render: (text, record) => {
       return (
@@ -78,6 +79,7 @@ export const columns = ({ handleEdit }) => [
   {
     title: '邀请人',
     dataIndex: 'details5',
+    width: 180,
     align: 'left',
     hideInSearch: true,
     render: () => {},
@@ -86,6 +88,7 @@ export const columns = ({ handleEdit }) => [
     title: '注册时间',
     dataIndex: 'createTimeDetails',
     align: 'left',
+    width: 180,
     valueType: 'date',
     hideInSearch: true,
     render: (_, record) =>
@@ -93,8 +96,8 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '操作',
-    fixed: 'right',
     align: 'left',
+    width: 90,
     hideInSearch: true,
     render: (record) => (
       <div>

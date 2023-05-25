@@ -64,6 +64,7 @@ export default () => {
   return (
     <div>
       <ProTable
+        headerTitle="地盘列表"
         actionRef={ref}
         options={false}
         search={{

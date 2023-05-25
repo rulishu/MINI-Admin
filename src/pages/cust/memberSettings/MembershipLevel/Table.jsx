@@ -42,6 +42,7 @@ export default function SearchTable() {
   return (
     <>
       <ProTable
+        headerTitle="会员等级"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

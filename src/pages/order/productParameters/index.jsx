@@ -17,6 +17,7 @@ export default function Page() {
 
   const Table = (
     <ProTable
+      headerTitle="启封订单"
       className={styles.card_pro}
       options={false}
       request={async (params = {}) => {
@@ -34,6 +35,7 @@ export default function Page() {
           };
         }
       }}
+      search={{ labelWidth: 'auto' }}
       pagination={{
         showSizeChanger: true,
       }}
