@@ -347,6 +347,12 @@ export default function Tables() {
         pagination={{
           showSizeChanger: true,
         }}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered={true}
         columns={columns({ handleEdit, options, categoryList, suppliersEnum })}
         rowKey="id"
