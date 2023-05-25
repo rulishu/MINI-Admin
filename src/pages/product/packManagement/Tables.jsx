@@ -84,6 +84,12 @@ export default function Tables() {
           </Button>,
         ]}
         search={false}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         pagination={{
           showSizeChanger: true,
         }}

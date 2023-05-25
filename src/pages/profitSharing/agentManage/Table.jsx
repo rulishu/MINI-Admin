@@ -36,6 +36,12 @@ export default function SearchTable() {
         }}
         headerTitle={'说明：推荐基数为分润毛利'}
         search={false}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered={true}
         columns={columns(edit)}
         rowKey={(record) => record.level + record.putPercent + record.sendPercent}

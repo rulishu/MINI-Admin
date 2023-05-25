@@ -28,6 +28,12 @@ export default function SearchTable() {
         pagination={{
           showSizeChanger: true,
         }}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered
         columns={columns}
         rowKey="id"
