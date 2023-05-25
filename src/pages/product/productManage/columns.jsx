@@ -1,25 +1,22 @@
 import PriceRange from '@/components/PriceRange';
 import { Divider, Image } from 'antd';
 
-export const columns = ({ handleEdit, options, categoryList }) => [
+export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) => [
   {
     title: '商品名称',
     dataIndex: 'itemName',
-
     hideInTable: true,
     width: 200,
   },
   {
     title: '商品ID',
     dataIndex: 'id',
-
     hideInTable: true,
     width: 50,
   },
   {
     title: '商品',
     dataIndex: 'item',
-
     search: false,
     width: 200,
     render: (_, record) => {
@@ -62,7 +59,6 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '创建时间',
     dataIndex: 'createTimeRange',
-
     hideInTable: true,
     width: 80,
     valueType: 'dateRange',
@@ -70,45 +66,13 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '开售时间',
     dataIndex: 'sellTimeRange',
-
     hideInTable: true,
     width: 80,
     valueType: 'dateRange',
   },
-
-  // {
-  //   title: '商品类型',
-  //   dataIndex: '',
-  //
-  //   hideInTable: true,
-  //   width: 80,
-  //   valueType: 'select',
-  //   valueEnum: {
-  //     all: { text: '全部', status: 'Default' },
-  //     running: { text: '运行中', status: 'Processing' },
-  //     online: { text: '已上线', status: 'Success' },
-  //     error: { text: '异常', status: 'Error' },
-  //   },
-  // },
-  // {
-  //   title: '单选按钮状态',
-  //   dataIndex: 'status',
-  //   hideInTable: true,
-
-  //   valueType: 'radioButton',
-  //   initialValue: 'all',
-  //   width: 100,
-  //   valueEnum: {
-  //     all: { text: '全部', status: 'Default' },
-  //     running: { text: '运行中', status: 'Processing' },
-  //     online: { text: '已上线', status: 'Success' },
-  //     error: { text: '异常', status: 'Error' },
-  //   },
-  // },
   {
     title: '价格',
     dataIndex: 'price',
-
     width: 80,
     valueType: 'digit',
     renderFormItem: () => <PriceRange />,
@@ -116,77 +80,55 @@ export const columns = ({ handleEdit, options, categoryList }) => [
   {
     title: '总库存',
     dataIndex: 'stock',
-
     search: false,
     width: 50,
   },
   {
     title: '总销量',
     dataIndex: 'volume',
-
     search: false,
     width: 80,
   },
   {
     title: '商品状态',
-    dataIndex: '11111111111ss',
-
+    dataIndex: 'onShelf',
     search: false,
     width: 80,
+    render: (_, record) => {
+      if (record?.groupType === 3) {
+        return <span>仓库中</span>;
+      }
+      if (record?.onShelf === 2 && record?.groupType === 1) {
+        return <span>待开售</span>;
+      }
+      if (record?.onShelf === 2 && record?.groupType === 2) {
+        return <span>出售中</span>;
+      }
+    },
   },
   {
     title: '供应商',
-    dataIndex: '111111x',
-
+    dataIndex: 'suppliersId',
     width: 80,
     valueType: 'select',
-    valueEnum: {
-      // all: { text: '全部', status: 'Default' },
-      // running: { text: '运行中', status: 'Processing' },
-      // online: { text: '已上线', status: 'Success' },
-      // error: { text: '异常', status: 'Error' },
-    },
+    valueEnum: suppliersEnum(),
   },
-  // {
-  //   title: '业务员',
-  //   dataIndex: '111111ywy',
-  //
-  //   search: false,
-  //   width: 50,
-  // },
-  // {
-  //   title: '商品状态',
-  //   dataIndex: 'status',
-  //
-  //   search: false,
-  //   width: 50,
-  // },
   {
     title: '创建时间',
     dataIndex: 'createTime',
-
     search: false,
     width: 80,
   },
   {
     title: '开售时间',
-    dataIndex: 'sellTime',
-
+    dataIndex: 'openTime',
     search: false,
     width: 80,
   },
-  // {
-  //   title: '上架',
-  //   dataIndex: '111111d',
-  //
-  //   search: false,
-  //   width: 50,
-  // },
   {
     title: '操作',
     width: 150,
     fixed: 'right',
-
     hideInSearch: true,
     render: (_, record) => (
       <div>

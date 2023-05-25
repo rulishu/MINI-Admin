@@ -1,8 +1,11 @@
-import { Button, Input, Table } from 'antd';
+import { Button, Card, Col, Input, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
+  console.log('data: ', data);
   const [dataSource, setDataSource] = useState([]);
+  console.log('dataSource: ', dataSource);
+  const [bulk, setBulk] = useState({});
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -10,9 +13,10 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         if (index === attributes.length) {
           skuList.push({
             ...prefix,
-            // skuName: '',
-            sales: 0,
+            goodsCost: 0,
             price: 0,
+            membershipPrice: 0,
+            skuCode: 0,
             stock: 0,
           });
           return;
@@ -22,6 +26,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         const { attribute_name = '', attribute_value = '', valueList = [] } = attribute;
         for (let i = 0; i < valueList.length; i++) {
           const obj = valueList[i];
+          console.log('obj: ', obj);
           const value = obj?.value;
           const attributes_teemp = { ...prefix.attributes };
           attributes_teemp[attribute_name] = {
@@ -35,8 +40,8 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             // itemId: skuList.length,
             [attribute_name]: value,
             attributes: attributes_teemp,
-            id: obj?.id,
-            imageUrl: [obj?.imageUrl],
+            id: skuList.length,
+            // imageUrl: obj?.imageUrl ? [obj?.imageUrl] : undefined,
           };
           generateSKUs(attributes, index + 1, newPrefix, skuList);
         }
@@ -58,48 +63,29 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     ...data.map((attribute) => ({
       title: attribute.attribute_name,
       dataIndex: attribute.attribute_name,
-      key: attribute.attribute_name,
+      render: (text, record, index) => {
+        return mergeCells(
+          text,
+          index,
+          dataSource,
+          (row) => record[attribute.attribute_name] === row[attribute.attribute_name],
+        );
+      },
     })),
     {
       title: '成本价',
-      dataIndex: 'sales',
-      key: 'sales',
+      dataIndex: 'goodsCost',
       render: (text, record, index) => (
         <Input
           value={text}
           style={{ width: 160 }}
-          onChange={(e) => handleEntryDataChange(index, 'sales', e.target.value)}
+          onChange={(e) => handleEntryDataChange(index, 'goodsCost', e.target.value)}
         />
       ),
     },
-    // {
-    //   title: 'SKU名称',
-    //   dataIndex: 'skuName',
-    //   key: 'skuName',
-    //   render: (text, record, index) => (
-    //     <Input
-    //       value={text}
-    //       style={{ width: 160 }}
-    //       onChange={(e) => handleEntryDataChange(index, 'skuName', e.target.value)}
-    //     />
-    //   ),
-    // },
     {
       title: '销售价',
-      dataIndex: 'sales',
-      key: 'sales',
-      render: (text, record, index) => (
-        <Input
-          value={text}
-          style={{ width: 160 }}
-          onChange={(e) => handleEntryDataChange(index, 'sales', e.target.value)}
-        />
-      ),
-    },
-    {
-      title: '会员价',
       dataIndex: 'price',
-      key: 'price',
       render: (text, record, index) => (
         <Input
           value={text}
@@ -109,9 +95,19 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       ),
     },
     {
+      title: '会员价',
+      dataIndex: 'membershipPrice',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
+        />
+      ),
+    },
+    {
       title: '销售库存',
       dataIndex: 'stock',
-      key: 'stock',
       render: (text, record, index) => (
         <Input
           value={text}
@@ -122,13 +118,12 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     },
     {
       title: 'sku编码',
-      dataIndex: 'skucode',
-      key: 'skucode',
+      dataIndex: 'skuCode',
       render: (text, record, index) => (
         <Input
           value={text}
           style={{ width: 160 }}
-          onChange={(e) => handleEntryDataChange(index, 'skucode', e.target.value)}
+          onChange={(e) => handleEntryDataChange(index, 'skuCode', e.target.value)}
         />
       ),
     },
@@ -146,15 +141,29 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     //     attributes: Object.values(attributes),
     //   };
     // });
-
     // onChange?.(datas);
   };
 
   const handleEntryDataSave = () => {
     const datas = dataSource.map((item) => {
       const { attributes = [], ...rest } = item;
+      const obj = data?.[0];
+      let imageUrl = undefined;
+      if (obj && obj?.valueList) {
+        obj?.valueList.forEach((ie) => {
+          console.log('ie: ', ie, rest?.[obj?.attribute_name]);
+          console.log(
+            'ie?.value === rest?.[attribute_name]: ',
+            ie?.value === rest?.[obj?.attribute_name],
+          );
+          if (ie?.value === rest?.[obj?.attribute_name]) {
+            imageUrl = ie?.imageUrl;
+          }
+        });
+      }
       return {
         ...rest,
+        imageUrl,
         attributes: Object.values(attributes),
       };
     });
@@ -164,20 +173,113 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
   return (
     <div>
-      <Button type="primary" style={{ marginBlock: 16, width: 120 }} onClick={handleEntryDataSave}>
-        保存规格列表
-      </Button>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        // rowKey="itemId"
-        bordered
-        size="small"
-        scroll={{ x: 'max-content' }}
-      />
+      {dataSource && dataSource.length > 0 && (
+        <Card>
+          <Space
+            direction="vertical"
+            size="middle"
+            style={{
+              display: 'flex',
+            }}
+          >
+            <Row justify="space-between" align="middle">
+              <Col span={1.5}>批量设置</Col>
+              <Col span={4}>
+                <Tooltip trigger={['focus']} title="成本价" placement="topLeft">
+                  <Input
+                    onChange={(e) => {
+                      setBulk({ ...bulk, goodsCost: e.target.value });
+                    }}
+                    placeholder="成本价"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4}>
+                <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
+                  <Input
+                    onChange={(e) => {
+                      setBulk({ ...bulk, price: e.target.value });
+                    }}
+                    placeholder="销售价"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4}>
+                <Tooltip trigger={['focus']} title="会员价" placement="topLeft">
+                  <Input
+                    onChange={(e) => {
+                      setBulk({ ...bulk, membershipPrice: e.target.value });
+                    }}
+                    placeholder="会员价"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4}>
+                <Tooltip trigger={['focus']} title="销售库存" placement="topLeft">
+                  <Input
+                    onChange={(e) => {
+                      setBulk({ ...bulk, stock: e.target.value });
+                    }}
+                    placeholder="销售库存"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={4}>
+                <Tooltip trigger={['focus']} title="sku编码" placement="topLeft">
+                  <Input
+                    onChange={(e) => {
+                      setBulk({ ...bulk, skuCode: e.target.value });
+                    }}
+                    placeholder="sku编码"
+                  />
+                </Tooltip>
+              </Col>
+              <Col span={1.5}>
+                <Button
+                  onClick={() => {
+                    setDataSource(dataSource.map((item) => ({ ...item, ...bulk })));
+                  }}
+                >
+                  设置
+                </Button>
+              </Col>
+            </Row>
+            <Table
+              bordered
+              dataSource={dataSource}
+              columns={columns}
+              pagination={false}
+              rowKey="id"
+              size="small"
+            />
+            <Row justify="end">
+              <Col>
+                <Button type="primary" onClick={handleEntryDataSave}>
+                  保存规格
+                </Button>
+              </Col>
+            </Row>
+          </Space>
+        </Card>
+      )}
     </div>
   );
 };
 
 export default SKUList;
+
+export function mergeCells(value, index, dataList, predicate = () => true) {
+  const obj = {
+    children: value,
+    props: {},
+  };
+  let i = index - 1;
+  if (dataList[i] && predicate(dataList[i])) {
+    obj.props.rowSpan = 0;
+  } else {
+    i = index + 1;
+    while (dataList[i] && predicate(dataList[i])) i++;
+    obj.props.rowSpan = i - index;
+  }
+  return obj;
+}

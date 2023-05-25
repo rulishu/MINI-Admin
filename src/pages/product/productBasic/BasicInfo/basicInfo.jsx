@@ -1,5 +1,5 @@
 import { ButtonGroupPro } from '@antdp/antdp-ui';
-import { Card, Checkbox, Form, InputNumber, Radio, Row, Select, Switch } from 'antd';
+import { Card, Checkbox, Form, InputNumber, Radio, Row, Select, Space, Switch } from 'antd';
 import '../less.css';
 const { Option } = Select;
 
@@ -9,10 +9,10 @@ const BasicInfo = () => {
   };
 
   return (
-    <>
+    <Space direction="vertical" style={{ width: '100%' }}>
       {/* 展示设置 */}
-      <Card style={{ width: '100%' }} title="展示设置" bordered={false}>
-        <Form name="validate_other" onFinish={onFinish} style={{ marginLeft: 50 }}>
+      <Card title="展示设置" size="small">
+        <Form name="validate_other" onFinish={onFinish}>
           <Form.Item name="switch" label="等级价格" valuePropName="checked">
             <Switch />
           </Form.Item>
@@ -73,8 +73,8 @@ const BasicInfo = () => {
         </Form>
       </Card>
       {/* 分享设置 */}
-      <Card style={{ width: '100%' }} title="分享设置" bordered={false}>
-        <Form name="validate_other" onFinish={onFinish} style={{ marginLeft: 50 }}>
+      <Card title="分享设置" size="small">
+        <Form name="validate_other" onFinish={onFinish}>
           <Form.Item name="switch" label="等级价格" valuePropName="checked">
             未启用 <Switch /> 已启用
           </Form.Item>
@@ -87,8 +87,8 @@ const BasicInfo = () => {
         </Form>
       </Card>
       {/* 其他设置 */}
-      <Card style={{ width: '100%' }} title="其他设置" bordered={false}>
-        <Form name="validate_other" onFinish={onFinish} style={{ marginLeft: 50 }}>
+      <Card title="其他设置" size="small">
+        <Form name="validate_other" onFinish={onFinish}>
           <Form.Item name="radio-group" label="购买跳转">
             <Radio.Group>
               <Radio value="a">开启</Radio>
@@ -140,7 +140,7 @@ const BasicInfo = () => {
           },
         ]}
       />
-    </>
+    </Space>
   );
 };
 export default BasicInfo;

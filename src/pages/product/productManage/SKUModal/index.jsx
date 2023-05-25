@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { App, Modal } from 'antd';
 import { cloneElement, useEffect, useState } from 'react';
 
-const SKUModal = () => {
+const SKUModal = (props) => {
   const { message } = App.useApp();
-  const { SKUtype, queryInfo, skuList, attrOptions, showSKU } = useSelector(
+  const { value, onChange } = props;
+  const { editType, queryInfo, itemSkuVos, attrOptions, showSKU } = useSelector(
     (state) => state.productManage,
   );
   const dispatch = useDispatch();
@@ -17,25 +18,14 @@ const SKUModal = () => {
 
   useEffect(() => {
     setTableSource(skuArrInTable());
-    setToSku(attrParams(skuList, attrOptions));
+    setToSku(attrParams(itemSkuVos, attrOptions));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skuList]);
+  }, [itemSkuVos]);
 
-  const onChange = (list = []) => {
+  const onFinish = (list = []) => {
+    console.log('list: ', list, value);
     if (list?.length > 0) {
-      if (SKUtype === 'add') {
-        dispatch({
-          type: 'productManage/createSKU',
-          payload: list.map((item) => ({
-            price: item?.price,
-            sales: item?.sales,
-            stock: item?.stock,
-            attributes: item?.attributes,
-            itemId: queryInfo.id,
-          })),
-        });
-      }
-      if (SKUtype === 'edit') {
+      if (editType === 'edit') {
         dispatch({
           type: 'productManage/updateSKU',
           payload: {
@@ -51,11 +41,20 @@ const SKUModal = () => {
           },
         });
       }
+
+      dispatch({
+        type: 'productManage/update',
+        payload: {
+          itemSkuVos: list,
+          showSKU: false,
+        },
+      });
+      onChange(list);
     } else {
       message.warning('请先添加规格');
     }
   };
-  // const list = skuList.map((item) => ({ ...item, attributes: { ...item?.attributes } }));
+  // const list = itemSkuVos.map((item) => ({ ...item, attributes: { ...item?.attributes } }));
 
   const getSKU = (val) => {
     //
@@ -68,7 +67,7 @@ const SKUModal = () => {
   };
 
   const skuArrInTable = () => {
-    return skuList.map((theSKU) => {
+    return itemSkuVos.map((theSKU) => {
       if (theSKU?.attributes) {
         let obj = {};
         let attributesObj = {};
@@ -91,7 +90,7 @@ const SKUModal = () => {
   return (
     <Modal
       open={showSKU}
-      destroyOnClose
+      // destroyOnClose
       modalRender={(comps) => {
         return cloneElement(comps, {
           ...comps.props,
@@ -101,7 +100,7 @@ const SKUModal = () => {
         });
       }}
       onOk={() => {}}
-      width={1000}
+      width={1200}
       footer={null}
       onCancel={() => {
         dispatch({
@@ -112,12 +111,19 @@ const SKUModal = () => {
     >
       <ProCard title="商品规格" headerBordered bodyStyle={{}}>
         <GoodsSKU
-          attrValue={attrParams(skuList, attrOptions)}
+          attrValue={attrParams(itemSkuVos, attrOptions)}
           onChange={getSKU}
-          options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
+          options={
+            [
+              { label: '酒精度', value: 1 },
+              { label: '容量', value: 2 },
+              { label: '甜度', value: 3 },
+            ]
+            // attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))
+          }
         />
         <div style={{ marginTop: 20 }}>
-          <SKUList data={toSku} onChange={onChange} editData={tableSource} />
+          <SKUList data={toSku} onChange={onFinish} editData={tableSource} />
         </div>
       </ProCard>
     </Modal>
@@ -125,9 +131,9 @@ const SKUModal = () => {
 };
 export default SKUModal;
 
-const attrParams = (skuList, attrOptions) => {
+const attrParams = (itemSkuVos, attrOptions) => {
   let attrLists = [];
-  skuList.forEach((item) => {
+  itemSkuVos.forEach((item) => {
     if (item?.attributes) {
       attrLists = attrLists.concat(item?.attributes);
     }

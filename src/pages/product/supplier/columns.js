@@ -6,7 +6,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     title: 'ID',
     dataIndex: 'id',
     align: 'left',
-    width: 80,
+    width: 40,
     ellipsis: true,
     hideInSearch: true,
     render: (text, record, index) => index + 1,
@@ -21,7 +21,6 @@ export const columns = ({ handleEdit, productSelector }) => [
   },
   {
     title: '供应商信息',
-    width: 120,
     dataIndex: 'supplier',
     align: 'left',
     ellipsis: true,
@@ -43,7 +42,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   },
   {
     title: '联系人',
-    width: 120,
+    width: 180,
     dataIndex: 'contact',
     align: 'left',
     ellipsis: true,
@@ -73,7 +72,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   // },
   {
     title: '推荐人',
-    width: 120,
+    width: 220,
     dataIndex: 'productId',
     align: 'left',
     ellipsis: true,
@@ -112,7 +111,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   },
   {
     title: '创建时间',
-    width: 120,
+    width: 180,
     dataIndex: 'createTime',
     align: 'left',
     ellipsis: true,
@@ -122,7 +121,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   },
   {
     title: '更新时间',
-    width: 120,
+    width: 180,
     dataIndex: 'updateTime',
     align: 'left',
     ellipsis: true,
@@ -133,7 +132,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   {
     title: '操作',
     align: 'left',
-    // width: 120,
+    width: 120,
     fixed: 'right',
     hideInSearch: true,
     render: (record) => (

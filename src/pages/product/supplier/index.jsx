@@ -3,7 +3,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button } from 'antd';
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
 
@@ -81,10 +81,11 @@ export default () => {
     }
   };
   return (
-    <div>
+    <Fragment>
       <ProTable
         actionRef={ref}
         options={false}
+        defaultSize="small"
         form={{
           defaultCollapsed: false,
         }}
@@ -116,6 +117,12 @@ export default () => {
         pagination={{
           showSizeChanger: true,
         }}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered={true}
         columns={columns({
           handleEdit,
@@ -130,6 +137,6 @@ export default () => {
         scroll={{ x: 1300 }}
       />
       <Details />
-    </div>
+    </Fragment>
   );
 };

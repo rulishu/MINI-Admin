@@ -13,10 +13,11 @@ import item from './item';
 
 const TheForm = () => {
   const form = useForm();
-  const { productManage, groupManage, supplier } = useSelector((state) => state);
-  const { type, queryInfo, showForm, templateIdList } = productManage;
+  const { productManage, groupManage, supplier, commonInterface } = useSelector((state) => state);
+  const { type, queryInfo, showForm, templateIdList, itemSkuVos } = productManage;
   const { categoryTree } = groupManage;
   const { suppliersList } = supplier;
+  const { treeList } = commonInterface;
   // const [step, setStep] = useState(1);
 
   const dispatch = useDispatch();
@@ -49,18 +50,35 @@ const TheForm = () => {
   }, [showForm, queryInfo]);
 
   const onFinish = (values) => {
-    console.log('values: ', values);
+    console.log('values: ', { ...values, itemSkuVos });
     const { form1, form2, form3, form4, form5 } = values;
-
     mutateAsync({
-      ...form1,
+      categoryId: form1?.categoryId?.slice(-1)?.[0] && Number(form1?.categoryId?.slice(-1)?.[0]), // 类目ID
       ...form2,
-      ...form3,
+      suppliersId: form2?.suppliersId?.value,
+      suppliersName: form2?.suppliersId?.label.split('(')?.[0],
+      provenance: form2?.provenance.join(),
+      itemImageVoList: form3?.itemImageVoList.map((item) => ({
+        itemName: form2?.itemName,
+        path: item?.url,
+        version: 1,
+      })),
+      itemVideo: form3?.itemVideo?.[0]?.url,
+      mainGraph: form3?.mainGraphs?.[0]?.url,
+      mainGraphs: form3?.mainGraphs.map((item) => ({
+        itemName: form2?.itemName,
+        path: item?.url,
+        version: 0,
+      })),
       ...form4,
+      price: form4?.price && Number(form4?.price),
       ...form5,
-      id: queryInfo?.id, // 商品ID
-      categoryId: form1?.categoryId?.slice(-1)?.[0], // 类目ID
-      mainGraph: form1.mainGraph?.[0]?.url, // 图片url
+      openTime: form5?.groundType === 3 ? null : form5?.openTime,
+      templateId: form5?.templateId?.value,
+      templateName: form5?.templateId?.label,
+      itemSkuVos,
+      //   id: queryInfo?.id, // 商品ID
+      //   mainGraph: form1.mainGraph?.[0]?.url, // 图片url
     });
   };
 
@@ -88,15 +106,66 @@ const TheForm = () => {
     }
   };
 
+  const handlerCity = (data) => {
+    const arr = [];
+    data.forEach((item) => {
+      const obj = { label: item?.areaName, value: item?.areaId };
+      if (item?.children && item?.children.length > 0) {
+        obj.children = handlerCity(item.children);
+      }
+      arr.push(obj);
+    });
+
+    return arr;
+  };
+  const cityTreeList = () => {
+    if (treeList && treeList.length > 0) {
+      return [...handlerCity(treeList)];
+    } else {
+      return [];
+    }
+  };
+
+  const getMinSale = () => {
+    itemSkuVos.sort((a, b) => {
+      if (a.price < b.price) {
+        return -1;
+      }
+      if (a.price > b.price) {
+        return 1;
+      }
+      // a 一定等于 b
+      return 0;
+    });
+    return itemSkuVos?.[0]?.price || 0;
+  };
+  console.log('getMinSale', getMinSale());
+
   return (
     <div style={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
       {/* <TheBigCascader categoryTree={categoryTree} /> */}
       <FormRender
         form={form}
-        readOnly={type === 'view'}
-        schema={item(options, suppliersList, templateIdList)}
-        widgets={{ cascader: Cascader, picupload: TheUpload, skubutton: SKUButton }}
+        schema={item(
+          options,
+          suppliersList,
+          templateIdList,
+          cityTreeList,
+          allStocks(itemSkuVos),
+          getMinSale(),
+        )}
+        widgets={{
+          cascader: Cascader,
+          picupload: TheUpload,
+          skubutton: SKUButton,
+        }}
         labelWidth={120}
+        // watch={{
+        //   specifications: (value) => {
+        //     console.log('value: ', value);
+        //     form.setValues({ stock: allStocks(itemSkuVos) });
+        //   },
+        // }}
         footer={() => (
           <ButtonGroupPro
             button={[
@@ -139,3 +208,14 @@ const TheForm = () => {
   );
 };
 export default TheForm;
+
+const allStocks = (itemSkuVos) => {
+  let stock = 0;
+  itemSkuVos.forEach((item) => {
+    if (item?.stock) {
+      stock = stock + Number(item?.stock);
+    }
+  });
+  console.log('stock: ', stock);
+  return stock;
+};

@@ -15,7 +15,7 @@ export default ({ headUrl, name, phone }) => {
         />
       )}
       <div style={{ textAlign: 'left', marginLeft: 8 }}>
-        <div style={{ fontSize: '16px' }}>{name || '-'}</div>
+        <b style={{ fontSize: '16px' }}>{name || '-'}</b>
         <div style={{ fontSize: '14px' }}>{phone || '-'}</div>
       </div>
     </div>
