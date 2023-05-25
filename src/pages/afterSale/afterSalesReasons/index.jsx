@@ -12,7 +12,7 @@ export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
   const { reload } = useSelector((state) => state.afterSalesReasons);
-  const { modal } = App.useApp;
+  const { modal } = App.useApp();
   const update = (data) => {
     dispatch({
       type: 'afterSalesReasons/update',
