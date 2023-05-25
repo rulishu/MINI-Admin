@@ -49,6 +49,12 @@ export default function Tables() {
         onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
       }}
+      cardProps={{
+        size: 'small',
+        style: {
+          padding: 0,
+        },
+      }}
       cardBordered={true}
       columns={columns}
       rowKey="id"

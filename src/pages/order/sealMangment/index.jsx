@@ -43,7 +43,16 @@ export default () => {
           }
         }}
         pagination={{
+          style: { margin: 12 },
           showSizeChanger: true,
+        }}
+        cardProps={{
+          headStyle: {},
+          bodyStyle: { padding: 0 },
+          size: 'small',
+          style: {
+            padding: 0,
+          },
         }}
         cardBordered={true}
         columns={columns({ handleEdit })}

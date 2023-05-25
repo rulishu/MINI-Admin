@@ -39,6 +39,12 @@ export default function SearchTable() {
           }
         }}
         search={false}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered={true}
         columns={columns(edit)}
         rowKey="id"

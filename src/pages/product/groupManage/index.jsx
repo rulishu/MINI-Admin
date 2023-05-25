@@ -112,6 +112,12 @@ const SearchTable = (props) => {
         columns={columns({ handleEdit, categoryList })}
         actionRef={actionRef}
         cardBordered
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         options={false}
         request={async (params = {}) => {
           const { current, pageSize } = params;

@@ -1,6 +1,5 @@
 import { selectById, selectPage } from '@/service/afterSale/afterSalesAudit';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';
 import { useRef } from 'react';
@@ -61,11 +60,17 @@ export default () => {
             };
           }
         }}
-        toolbar={{
-          actions: <ButtonGroupPro button={[]} />,
-        }}
         pagination={{
+          style: { margin: 12 },
           showSizeChanger: true,
+        }}
+        cardProps={{
+          headStyle: {},
+          bodyStyle: { padding: 0 },
+          size: 'small',
+          style: {
+            padding: 0,
+          },
         }}
         cardBordered={true}
         columns={columns({ handleEdit })}

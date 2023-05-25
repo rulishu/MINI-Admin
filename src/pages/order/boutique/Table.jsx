@@ -1,8 +1,8 @@
 import { selectPage } from '@/service/boutique';
 import { ProCard, ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useDispatch, useSelector } from '@umijs/max';
-import { useRef, useState } from 'react';
+import { Button } from 'antd';
+import { Fragment, useRef, useState } from 'react';
 import Search from './Search';
 import { columns } from './columns';
 
@@ -37,27 +37,14 @@ export default function Tables() {
           }
         }}
         toolbar={{
+          title: '精品列表',
           actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  type: 'primary',
-                  label: '订单批量留言',
-                },
-                {
-                  type: 'primary',
-                  label: '订单批量备注',
-                },
-                {
-                  type: 'primary',
-                  label: '订单批量标签',
-                },
-                {
-                  type: 'primary',
-                  label: '子订单批量标签',
-                },
-              ]}
-            />
+            <Fragment>
+              <Button type="primary">订单批量留言</Button>
+              <Button type="primary">订单批量备注</Button>
+              <Button type="primary">订单批量标签</Button>
+              <Button type="primary">子订单批量标签</Button>
+            </Fragment>
           ),
         }}
         search={false}
@@ -75,6 +62,13 @@ export default function Tables() {
                 select: { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows },
               },
             });
+          },
+        }}
+        cardProps={{
+          // bodyStyle: { padding: 0 },
+          size: 'small',
+          style: {
+            padding: 0,
           },
         }}
         cardBordered={true}

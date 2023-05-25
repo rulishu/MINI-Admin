@@ -1,10 +1,9 @@
 import { deleteItem, selectById, selectPage } from '@/service/afterSale/afterSalesReasons';
 import { ProTable } from '@ant-design/pro-components';
-import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button } from 'antd';
-import { useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
 
@@ -97,19 +96,24 @@ export default () => {
         }}
         toolbar={{
           actions: (
-            <ButtonGroupPro
-              button={[
-                {
-                  label: '新增申请原因',
-                  type: 'primary',
-                  onClick: () => handleEdit('add'),
-                },
-              ]}
-            />
+            <Fragment>
+              <Button type="primary" onClick={() => handleEdit('add')}>
+                新增申请原因
+              </Button>
+            </Fragment>
           ),
         }}
         pagination={{
+          style: { margin: 12 },
           showSizeChanger: true,
+        }}
+        cardProps={{
+          headStyle: {},
+          // bodyStyle: { padding: 0 },
+          size: 'small',
+          style: {
+            padding: 0,
+          },
         }}
         cardBordered={true}
         columns={columns({ handleEdit })}

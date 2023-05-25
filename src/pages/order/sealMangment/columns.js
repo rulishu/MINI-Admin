@@ -56,6 +56,8 @@ export const columns = ({ handleEdit }) => [
   {
     title: '操作',
     hideInSearch: true,
+    fixed: 'right',
+    width: 100,
     render: (record) => (
       <div>
         <a onClick={() => handleEdit('edit', record)}>编辑</a>
