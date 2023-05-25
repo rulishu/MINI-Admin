@@ -1,7 +1,7 @@
 import { del, selectPage } from '@/service/cust/memberShipLevel';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { App, Button } from 'antd';
 import { useRef, useState } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
@@ -11,6 +11,7 @@ export default function SearchTable() {
   const [pageSize, setPageSize] = useState(10);
   const reload = ref?.current?.reload;
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
   const update = (data) => {
     dispatch({
       type: 'membershipLevel/update',
@@ -26,7 +27,7 @@ export default function SearchTable() {
       update({ visible: true, queryData: { ...data }, type: type });
     }
     if (type === 'del') {
-      Modal.confirm({
+      modal.confirm({
         title: '确定是否删除',
         onOk: async () => {
           const { code } = await del(data?.id);

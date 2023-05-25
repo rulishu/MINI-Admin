@@ -1,6 +1,6 @@
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
-import { Button, Upload, message } from 'antd';
+import { App, Button, Upload } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
 import { getDefaultValue } from './utils';
@@ -21,7 +21,7 @@ export default ({
   const [fileList, setFileList] = useState(_value);
   const [previewUrl, setPreviewUrl] = useState('');
   const [isVideo, setIsVideo] = useState(false);
-
+  const { message } = App.useApp();
   useEffect(() => {
     addons && addons.removeErrorField(addons.dataPath);
   }, [addons, value]);

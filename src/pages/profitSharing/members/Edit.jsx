@@ -1,12 +1,13 @@
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal, message } from 'antd';
+import { App, Button, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { cloneElement } from 'react';
 import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
   const form = useForm();
+  const { message } = App.useApp();
   const { visible, queryData } = useSelector((state) => state.members);
   const dispatch = useDispatch();
   const update = (data) => {

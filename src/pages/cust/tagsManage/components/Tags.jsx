@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Input, message, Space, Tag, Tooltip } from 'antd';
+import { App, Input, Space, Tag, Tooltip } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Tags({ value = [], onChange }) {
@@ -17,6 +17,7 @@ export default function Tags({ value = [], onChange }) {
   const [editInputValue, setEditInputValue] = useState('');
   const inputRef = useRef(null);
   const editInputRef = useRef(null);
+  const { message } = App.useApp();
 
   useEffect(() => {
     if (inputVisible) {

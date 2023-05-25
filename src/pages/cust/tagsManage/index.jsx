@@ -2,13 +2,14 @@ import { selectById, selectPage } from '@/service/cust/tagsManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { App, Button } from 'antd';
 import React, { useRef, useState } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
 
 export default function Page() {
   const ref = useRef();
+  const { modal } = App.useApp();
   const [visible, setVisible] = useState(false);
   const { activeKey, queryInfo, type } = useSelector((state) => state.tagsManage);
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export default function Page() {
       update({ type });
       await mutateAsync({ id: 1 });
     } else {
-      Modal.confirm({
+      modal.confirm({
         title: '确定是否删除',
         onOk: () => {
           ref.current.reload();

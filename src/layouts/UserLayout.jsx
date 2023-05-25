@@ -2,7 +2,7 @@ import Authorized from '@antdp/authorized';
 import { useReactMutation } from '@antdp/hooks';
 import UserLogin from '@antdp/user-login';
 import { history, useDispatch, useSelector } from '@umijs/max';
-import { message } from 'antd';
+import { App } from 'antd';
 import 'antd/dist/reset.css';
 import logo from './logo.png';
 
@@ -15,6 +15,7 @@ const UserLayout = () => {
       payload: data,
     });
   };
+  const { message } = App.useApp();
   const mutation = useReactMutation({ url: '/jcgl-mall/mall/login/toLogin' });
   return (
     <Authorized authority={!token} redirectPath="/">

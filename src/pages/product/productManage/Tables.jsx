@@ -9,7 +9,7 @@ import {
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, DatePicker, Form, Modal, Radio, Space, message } from 'antd';
+import { App, Button, DatePicker, Form, Modal, Radio, Space } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 import { columns } from './columns';
@@ -21,7 +21,7 @@ export default function Tables() {
   const { activeKey, select, reload, modalData, type, isModalOpen } = productManage;
   const { suppliersList } = supplier;
   const { categoryTree, categoryList } = groupManage;
-
+  const { message } = App.useApp();
   const dispatch = useDispatch();
 
   const [srks, setSrks] = useState([]);

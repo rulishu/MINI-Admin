@@ -1,14 +1,14 @@
 import { del, selectPage } from '@/service/cust/equityRules';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
-import { Button, Modal } from 'antd';
+import { App, Button } from 'antd';
 import { useRef } from 'react';
 import Edit from './Edit';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
-
+  const { modal } = App.useApp;
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
@@ -27,7 +27,7 @@ export default function SearchTable() {
       update({ visible: true, queryData: { ...data }, type: type });
     }
     if (type === 'del') {
-      Modal.confirm({
+      modal.confirm({
         title: '确定是否删除',
         onOk: async () => {
           const { code } = await del(data?.id);
