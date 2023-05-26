@@ -25,6 +25,7 @@ export default {
     reload: false,
 
     showSKU: false,
+    srks: [],
     attrOptions: [],
 
     modalData: { groundType: 1 },

@@ -36,22 +36,22 @@ const App = () => {
     {
       key: '4',
       label: `全部`,
-      children: <Tables />,
+      children: <Tables key="4" />,
     },
     {
       key: '3',
       label: `待开售`,
-      children: <Tables />,
+      children: <Tables key="3" />,
     },
     {
       key: '1',
       label: `出售中`,
-      children: <Tables />,
+      children: <Tables key="1" />,
     },
     {
       key: '2',
       label: `仓库中`,
-      children: <Tables />,
+      children: <Tables key="2" />,
     },
   ];
   if (showForm) {

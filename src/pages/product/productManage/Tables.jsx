@@ -11,20 +11,18 @@ import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button, DatePicker, Form, Modal, Radio, Space } from 'antd';
 import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { columns } from './columns';
 
 export default function Tables() {
   const ref = useRef();
   const [form] = Form.useForm();
   const { productManage, groupManage, loading, supplier } = useSelector((state) => state);
-  const { activeKey, select, modalData, type, isModalOpen, itemSkuVos } = productManage;
+  const { activeKey, select, modalData, type, isModalOpen, itemSkuVos, srks } = productManage;
   const { suppliersList } = supplier;
   const { categoryTree, categoryList } = groupManage;
   const { message } = App.useApp();
   const dispatch = useDispatch();
-
-  const [srks, setSrks] = useState([]);
 
   useEffect(() => {
     if (activeKey) {
@@ -34,12 +32,12 @@ export default function Tables() {
 
   const onSuccess = ({ code }) => {
     if (code && code === 200) {
-      setSrks([]);
       dispatch({
         type: 'productManage/update',
         payload: {
           isModalOpen: false,
           modalData: { groundType: 1 },
+          srks: [],
         },
       });
       ref?.current?.reload();
@@ -173,10 +171,10 @@ export default function Tables() {
         newsrks = selectedRowKeys;
       }
       if (newsrks?.length !== 0) {
-        setSrks(newsrks);
         dispatch({
           type: 'productManage/update',
           payload: {
+            srks: newsrks,
             isModalOpen: true,
           },
         });
