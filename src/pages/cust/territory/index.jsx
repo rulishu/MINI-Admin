@@ -56,6 +56,7 @@ export default () => {
     if (type === 'delete') {
       modal.confirm({
         title: '温馨提醒',
+        maskClosable: true,
         content: '删除地盘，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
         onOk: () => mutateDeleteAsync({ id: record.id }),
       });

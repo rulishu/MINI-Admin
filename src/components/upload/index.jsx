@@ -1,4 +1,4 @@
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
 import { App, Button, Upload } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
@@ -15,9 +15,11 @@ export default ({
   /** 上传文件限制大小  */
   limitSize = 5,
   addons,
+  disabled = false,
   ...others
 }) => {
   let _value = getDefaultValue(value);
+  const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState(_value);
   const [previewUrl, setPreviewUrl] = useState('');
   const [isVideo, setIsVideo] = useState(false);
@@ -40,6 +42,7 @@ export default ({
   };
 
   const customRequest = async ({ file, onError, onSuccess, onProgress }) => {
+    setLoading(true);
     const token = sessionStorage.getItem('token');
     const data = new FormData();
     // 将文件添加到 FormData 中
@@ -54,6 +57,7 @@ export default ({
         },
       });
       if (response.code === 200) {
+        setLoading(false);
         file.status = 'success';
         onProgress({ percent: 100 });
         onSuccess(response, file);
@@ -66,10 +70,12 @@ export default ({
         setFileList((prevList) => [...prevList, newFile]);
         // 失败情况处理
       } else {
+        setLoading(false);
         onError('上传失败');
         message.warning('上传失败');
       }
     } catch (error) {
+      setLoading(false);
       onError('上传失败');
       message.warning('上传失败');
     }
@@ -115,7 +121,11 @@ export default ({
 
   const renderButton = () => {
     if (listType === 'text' && fileList.length < maxCount) {
-      return <Button icon={<UploadOutlined />}>上传</Button>;
+      return (
+        <Button loading={loading} icon={<UploadOutlined />}>
+          上传
+        </Button>
+      );
     }
     if (
       (listType === 'picture-card' || listType === 'picture-circle') &&
@@ -123,7 +133,7 @@ export default ({
     ) {
       return (
         <div>
-          <PlusOutlined />
+          {loading ? <LoadingOutlined /> : <PlusOutlined />}
           <div style={{ marginTop: 8 }}>
             <div>上传</div>
             {maxCount > 1 && <div> {`(${fileList.length}/${maxCount})`}</div>}
@@ -147,6 +157,7 @@ export default ({
       ...showUploadList,
     },
     onPreview: handlePreview,
+    disabled: loading || disabled,
     ...others,
   };
 

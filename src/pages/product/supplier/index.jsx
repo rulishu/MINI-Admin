@@ -73,6 +73,14 @@ export default () => {
       mutateAsync({ id: record.supplierId });
     }
     if (type === 'delete') {
+      if (record.flag) {
+        modal.error({
+          title: '无法删除',
+          content: '该供应商存在未下架商品，请优先处理商品',
+          maskClosable: true,
+        });
+        return;
+      }
       modal.confirm({
         title: '温馨提示',
         content: '确定是否删除该供应商？',

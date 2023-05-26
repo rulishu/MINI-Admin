@@ -25,7 +25,9 @@ export default function Tables() {
       });
     } else {
       modal.confirm({
-        title: '确定是否删除',
+        title: '温馨提示',
+        content: '确定是否删除',
+        maskClosable: true,
         onOk: () => {
           ref.current.reload();
         },

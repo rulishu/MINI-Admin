@@ -65,7 +65,6 @@ export default (url, options) =>
     ],
     responseInterceptors: [
       async (response) => {
-        console.log('response', response);
         if (response && response?.status) {
           checkedCode(response.status);
         }
