@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/exchangeDetails';
+import { selectPage } from '@/service/sales/pointsManagement';
 import { ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import { useRef, useState } from 'react';
@@ -9,7 +9,17 @@ export default function Tables() {
   const [pageSize, setPageSize] = useState(10);
   return (
     <ProTable
-      headerTitle="兑换明细"
+      headerTitle="会员积分"
+      search={{
+        defaultCollapsed: false,
+        labelWidth: 'auto',
+      }}
+      cardProps={{
+        size: 'small',
+        style: {
+          padding: 0,
+        },
+      }}
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
@@ -36,10 +46,6 @@ export default function Tables() {
         pageSize: pageSize,
         onChange: (_, pageSize) => setPageSize(pageSize),
         showSizeChanger: true,
-      }}
-      search={{
-        defaultCollapsed: false,
-        labelWidth: 'auto',
       }}
       cardBordered={true}
       columns={columns}
