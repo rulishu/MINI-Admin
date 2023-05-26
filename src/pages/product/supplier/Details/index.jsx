@@ -2,13 +2,13 @@ import AModal from '@/components/AModal';
 import SelectUser from '@/components/SelectUser';
 import Upload from '@/components/Upload';
 import { create, getProductUserList, updateInfo } from '@/service/goods/supplier';
+import { getUrl, getUrlToList } from '@/utils';
 import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Cascader } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
-import { getUrl, getUrlToList } from '../../../../utils';
 import { schema } from './schema';
 
 export default () => {

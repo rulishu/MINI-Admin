@@ -39,7 +39,7 @@ export default ({
     return isLt5M;
   };
 
-  const customRequest = async ({ file, onSuccess, onProgress }) => {
+  const customRequest = async ({ file, onError, onSuccess, onProgress }) => {
     const token = sessionStorage.getItem('token');
     const data = new FormData();
     // 将文件添加到 FormData 中
@@ -52,11 +52,11 @@ export default ({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        onUploadProgress: ({ loaded, total }) => {
-          onProgress({ percent: Math.round((loaded / total) * 100).toFixed(2) }, file);
-        },
       });
       if (response.code === 200) {
+        file.status = 'success';
+        onProgress({ percent: 100 });
+        onSuccess(response, file);
         const newFile = {
           url: `http://${response.result}`,
           name: file.name,
@@ -64,12 +64,13 @@ export default ({
           status: 'success',
         };
         setFileList((prevList) => [...prevList, newFile]);
-        onSuccess(response, file);
         // 失败情况处理
       } else {
+        onError('上传失败');
         message.warning('上传失败');
       }
     } catch (error) {
+      onError('上传失败');
       message.warning('上传失败');
     }
   };

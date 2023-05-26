@@ -1,4 +1,5 @@
 import { request } from '@umijs/max';
+import { message } from 'antd';
 
 export const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -18,21 +19,29 @@ export const codeMessage = {
   504: '网关超时。',
 };
 
-const checkedCode = (code, msg) => {
-  if (code === 1) {
-    alert(msg);
-  } else if (code === -1) {
-    alert(msg);
-  } else if (code === 200) {
-    alert(msg);
-  } else if (code === codeMessage[400]) {
-    alert(msg);
-  } else if (code === codeMessage[500]) {
-    alert(msg);
-  } else if (code === codeMessage[503]) {
-    alert('请求错误');
-  } else {
-    alert(msg);
+const checkedCode = (status) => {
+  if (status === 400) {
+    message.error(codeMessage[400]);
+  } else if (status === 401) {
+    message.error(codeMessage[401]);
+  } else if (status === 403) {
+    message.error(codeMessage[403]);
+  } else if (status === 404) {
+    message.error(codeMessage[404]);
+  } else if (status === 406) {
+    message.error(codeMessage[406]);
+  } else if (status === 410) {
+    message.error(codeMessage[410]);
+  } else if (status === 422) {
+    message.error(codeMessage[422]);
+  } else if (status === 500) {
+    message.error(codeMessage[500]);
+  } else if (status === 502) {
+    message.error(codeMessage[502]);
+  } else if (status === 503) {
+    message.error(codeMessage[503]);
+  } else if (status === 504) {
+    message.error(codeMessage[504]);
   }
 };
 
@@ -56,8 +65,9 @@ export default (url, options) =>
     ],
     responseInterceptors: [
       async (response) => {
-        if (response && response?.code) {
-          checkedCode(response.code, response?.message);
+        console.log('response', response);
+        if (response && response?.status) {
+          checkedCode(response.status);
         }
         return response;
       },
