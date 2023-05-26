@@ -5,7 +5,6 @@ export const columns = ({ handleEdit, categoryList }) => [
     title: '类目ID',
     dataIndex: 'id',
     search: false,
-    render: (text, record, index) => index + 1,
   },
   {
     title: '一级类目',
