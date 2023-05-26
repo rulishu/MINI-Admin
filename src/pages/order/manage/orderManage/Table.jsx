@@ -42,6 +42,7 @@ export default function SearchTable() {
   return (
     <>
       <ProTable
+        headerTitle="订单列表"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

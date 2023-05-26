@@ -54,6 +54,18 @@
         ]
       },
       {
+        "path": "/homeManage",
+        "name": "首页配置",
+        "icon": "setting",
+        "routes": [
+          {
+            "path": "/homeManage/bannerMange",
+            "name": "首页配置",
+            "component": "@/pages/homeManage/bannerManage"
+          }
+        ]
+      },
+      {
         "path": "/product",
         "name": "商品",
         "icon": "dashboard",

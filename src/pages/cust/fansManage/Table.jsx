@@ -30,6 +30,7 @@ export default function SearchTable() {
 
   return (
     <ProTable
+      headerTitle="粉丝列表"
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;

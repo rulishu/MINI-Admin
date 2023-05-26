@@ -43,10 +43,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => (
-      <div style={{ textAlign: 'left' }}>
-        <b style={{ fontSize: '16px' }}>{record?.contactName || '-'}</b>
-        <div style={{ fontSize: '14px' }}>联系方式：{record?.contactPhone || '-'}</div>
-      </div>
+      <UserContent headUrl="" name={record.contactName} phone={record.contactPhone} />
     ),
   },
   // {

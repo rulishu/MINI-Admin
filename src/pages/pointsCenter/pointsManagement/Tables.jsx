@@ -9,6 +9,7 @@ export default function Tables() {
   const [pageSize, setPageSize] = useState(10);
   return (
     <ProTable
+      headerTitle="会员积分"
       search={{
         defaultCollapsed: false,
         labelWidth: 'auto',

@@ -29,6 +29,7 @@ export default function SearchTable() {
   return (
     <Fragment>
       <ProTable
+        headerTitle="异常订单"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

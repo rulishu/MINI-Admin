@@ -38,6 +38,7 @@ export default () => {
   return (
     <div>
       <ProTable
+        headerTitle="售后记录"
         actionRef={ref}
         options={false}
         search={{

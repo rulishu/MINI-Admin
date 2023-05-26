@@ -61,6 +61,7 @@ export default function Tables() {
         </Col>
       </Row>
       <ProTable
+        headerTitle="店长收益列表"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

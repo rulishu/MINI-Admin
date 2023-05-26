@@ -83,6 +83,7 @@ export default () => {
   return (
     <Fragment>
       <ProTable
+        headerTitle="供应商列表"
         actionRef={ref}
         options={false}
         defaultSize="small"

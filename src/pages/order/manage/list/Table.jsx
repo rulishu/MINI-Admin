@@ -29,6 +29,7 @@ export default function SearchTable() {
   return (
     <React.Fragment>
       <ProTable
+        headerTitle="订单列表"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

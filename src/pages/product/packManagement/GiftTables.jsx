@@ -38,6 +38,7 @@ export default function GiftTables() {
         </Space>
       </Row>
       <ProTable
+        headerTitle="店长礼包列表"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

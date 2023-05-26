@@ -53,8 +53,7 @@ const SearchTable = (props) => {
       });
     }
     if (type === 'delete') {
-      const newModal = modal.confirm();
-      newModal.update({
+      modal.confirm({
         title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
         content: (
           <div>
@@ -64,45 +63,41 @@ const SearchTable = (props) => {
         ),
         maskClosable: true,
         closable: true,
-        // cancelText: '取消',
-        // cancelButtonProps: {
-        //   ghost: true,
-        //   style: { backgroundColor: 'RGB(44,240,152)' },
-        // },
-        // onCancel: () => {},
-        // autoFocusButton: null,
-        // okText: '确定删除',
-        // okType: 'default',
-        // onOk: () => {
-        //   // dispatch({
-        //   //   type: 'groupManage/deleteCategory',
-        //   //   payload: { id: data?.id, actionRef },
-        //   // });
-        // },
-        footer: (
-          <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button
-              ghost
-              style={{ margin: '0px 10px', color: 'white', backgroundColor: 'RGB(44,240,152)' }}
-              onClick={() => {
-                modal.destroy();
-              }}
-            >
-              取消
-            </Button>
-            <Button
-              style={{ color: 'RGB(170,170,170)' }}
-              onClick={() => {
-                dispatch({
-                  type: 'groupManage/deleteCategory',
-                  payload: { id: data?.id, actionRef, modal },
-                });
-              }}
-            >
-              确定删除
-            </Button>
-          </div>
-        ),
+        cancelText: '取消',
+        onCancel: () => {},
+        autoFocusButton: null,
+        okText: '确定删除',
+        okType: 'default',
+        onOk: () => {
+          dispatch({
+            type: 'groupManage/deleteCategory',
+            payload: { id: data?.id, actionRef },
+          });
+        },
+        // footer: (
+        //   <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        //     <Button
+        //       ghost
+        //       style={{ margin: '0px 10px', color: 'white', backgroundColor: 'RGB(44,240,152)' }}
+        //       onClick={() => {
+        //         modal.destroy();
+        //       }}
+        //     >
+        //       取消
+        //     </Button>
+        //     <Button
+        //       style={{ color: 'RGB(170,170,170)' }}
+        //       onClick={() => {
+        //         dispatch({
+        //           type: 'groupManage/deleteCategory',
+        //           payload: { id: data?.id, actionRef, modal },
+        //         });
+        //       }}
+        //     >
+        //       确定删除
+        //     </Button>
+        //   </div>
+        // ),
       });
     }
   };

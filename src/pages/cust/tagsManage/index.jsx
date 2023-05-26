@@ -52,6 +52,7 @@ export default function Page() {
   return (
     <React.Fragment>
       <ProTable
+        headerTitle="标签列表"
         actionRef={ref}
         options={false}
         search={{

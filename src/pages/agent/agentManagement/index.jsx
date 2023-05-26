@@ -47,6 +47,13 @@ export default () => {
       });
     }
     if (type === 'delete') {
+      if (record.areaId) {
+        modal.error({
+          title: '无法删除',
+          content: '该代理商已绑定地盘，无法删除',
+        });
+        return;
+      }
       modal.confirm({
         title: '温馨提醒',
         content: '删除地盘，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
@@ -58,6 +65,7 @@ export default () => {
   return (
     <div>
       <ProTable
+        headerTitle="代理商列表"
         actionRef={ref}
         options={false}
         search={{

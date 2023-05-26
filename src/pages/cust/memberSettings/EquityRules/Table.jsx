@@ -42,6 +42,7 @@ export default function SearchTable() {
   return (
     <>
       <ProTable
+        headerTitle="权益规则"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

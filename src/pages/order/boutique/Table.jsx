@@ -18,6 +18,7 @@ export default function Tables() {
         <Search />
       </ProCard>
       <ProTable
+        headerTitle="精品订单"
         actionRef={ref}
         options={false}
         request={async (params = {}) => {

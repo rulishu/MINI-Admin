@@ -16,6 +16,7 @@ export default function Page() {
 
   const Table = (
     <ProTable
+      headerTitle="启封订单"
       options={false}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
@@ -32,6 +33,7 @@ export default function Page() {
           };
         }
       }}
+      search={{ labelWidth: 'auto' }}
       pagination={{
         style: { margin: 12 },
         showSizeChanger: true,

@@ -9,6 +9,7 @@ export default function Tables() {
   const [pageSize, setPageSize] = useState(10);
   return (
     <ProTable
+      headerTitle="兑换明细"
       actionRef={ref}
       options={false}
       request={async (params = {}) => {
