@@ -16,6 +16,7 @@ export default ({
     phone: 'consumerPhone',
     searchCode: 'userName',
   },
+  title,
   ...others
 }) => {
   const [visible, setVisible] = useState(false);
@@ -89,7 +90,7 @@ export default ({
       </div>
       <Modal
         forceRender
-        title="绑定推荐人"
+        title={title}
         open={visible}
         onCancel={() => setVisible(false)}
         onOk={() => {
