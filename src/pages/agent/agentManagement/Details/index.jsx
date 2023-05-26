@@ -167,6 +167,7 @@ export default () => {
                         phone: 'consumerPhone',
                         searchCode: 'phone',
                       },
+                      title: '代理人',
                     },
                   },
                 },

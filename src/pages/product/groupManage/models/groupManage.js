@@ -132,9 +132,6 @@ const group = {
     *deleteCategory({ payload }, { call, put }) {
       const { code } = yield call(deleteCategory, payload);
       if (code === 200) {
-        //
-        payload.modal.destroy();
-
         yield put({
           type: 'getCategoryTree',
         });

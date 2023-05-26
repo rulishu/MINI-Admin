@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import dayjs from 'dayjs';
 
 export default (options, suppliersList, templateIdList, cityTreeList, allstocks, minSale) => ({
@@ -72,6 +71,10 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
           required: true,
           widget: 'select',
           props: {
+            showSearch: true,
+            optionFilterProp: 'label',
+            filterOption: (input, option) =>
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase()),
             labelInValue: true,
             options: suppliersList.map((item) => ({
               label: `${item?.supplierName}(推荐人：${item?.productSelector})`,
@@ -109,6 +112,7 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
             warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB，宽高比例为1:1',
             limitSize: 5,
             multiple: true,
+            accept: '.png, .jpg, .jpeg',
           },
         },
         itemVideo: {
@@ -120,20 +124,7 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
             maxCount: 1,
             warn: '1.仅支持mp4格式上传，大小100M内，建议30秒内短视频最佳',
             limitSize: 100,
-            beforeUpload: (file) => {
-              console.log('file: ', file);
-              const isMP4 = file.type === 'video/mp4';
-              if (!isMP4) {
-                message.error(`请上传mp4类型的视频文件!`);
-                return false;
-              }
-              const isLt5M = file.size / 1024 / 1024 < 100;
-              if (!isLt5M) {
-                message.warning(`上传文件大小不能超过100MB!`);
-                return false;
-              }
-              return isMP4 && isLt5M;
-            },
+            accept: '.mp4',
           },
         },
         itemImageVoList: {
@@ -146,6 +137,7 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
             warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
             limitSize: 5,
             multiple: true,
+            accept: '.png, .jpg, .jpeg',
           },
         },
       },
@@ -179,9 +171,9 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
             min: 0,
           },
         },
-        minPrice: {
+        costPrice: {
           title: '售卖价格',
-          type: 'string',
+          type: 'number',
           // widget: 'Number',
           required: true,
           disabled: true,
@@ -246,13 +238,14 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
         openTime: {
           title: '日期选择',
           type: 'string',
-          widget: 'datePicker',
+          widget: 'antddate',
           default: dayjs(),
           props: {
             placeholder: '请选择上架时间',
             showTime: {
               format: 'HH:mm',
             },
+            // format: 'YYYY-MM-DD HH:mm',
           },
           hidden: '{{ formData.form5.groundType === 1 || formData.form5.groundType === 3 }}',
         },

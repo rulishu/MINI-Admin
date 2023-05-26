@@ -52,7 +52,6 @@ const SKU = ({ attrValue = [], onChange, options = [] }) => {
     newData[attrIndex].attribute_value = att.value;
     setData(newData);
     handlerOption(newData);
-    // console.log('newData: ', newData);
     // onChange(newData);
   };
 
@@ -79,7 +78,6 @@ const SKU = ({ attrValue = [], onChange, options = [] }) => {
 
   // 添加规格
   const renderProps = (item, attrIndex) => {
-    console.log('item, attrIndex: ', item, attrIndex);
     return (
       <Card key={attrIndex}>
         <Form.Item label="规格名">
@@ -135,8 +133,17 @@ const SKU = ({ attrValue = [], onChange, options = [] }) => {
                   />
                   {attrIndex === 0 && (
                     <TheUpload
+                      value={
+                        input?.imageUrl
+                          ? [
+                              {
+                                name: input?.value,
+                                url: input?.imageUrl,
+                              },
+                            ]
+                          : []
+                      }
                       onChange={(fileList) => {
-                        console.log('fileList: ', fileList?.[0]?.url);
                         const newData = [...formData];
                         newData[attrIndex].valueList[valueIndex]['imageUrl'] = fileList?.[0]?.url;
                         setData(newData);

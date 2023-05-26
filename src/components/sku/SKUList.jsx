@@ -2,13 +2,12 @@ import { Button, Card, Col, Input, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
-  console.log('data: ', data);
   const [dataSource, setDataSource] = useState([]);
-  console.log('dataSource: ', dataSource);
   const [bulk, setBulk] = useState({});
 
   useEffect(() => {
     if (data && data.length > 0) {
+      const filterData = data.filter((item) => item.valueList?.length);
       const generateSKUs = (attributes, index, prefix, skuList) => {
         if (index === attributes.length) {
           skuList.push({
@@ -21,12 +20,10 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           });
           return;
         }
-
         const attribute = attributes[index];
-        const { attribute_name = '', attribute_value = '', valueList = [] } = attribute;
-        for (let i = 0; i < valueList.length; i++) {
+        const { attribute_name = '', attribute_value = '', valueList } = attribute;
+        for (let i = 0; i < valueList?.length; i++) {
           const obj = valueList[i];
-          console.log('obj: ', obj);
           const value = obj?.value;
           const attributes_teemp = { ...prefix.attributes };
           attributes_teemp[attribute_name] = {
@@ -49,7 +46,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
       // Generate SKU data
       const updatedDataSource = [];
-      generateSKUs(data, 0, {}, updatedDataSource);
+      generateSKUs(filterData, 0, {}, updatedDataSource);
       if (editData.length > 0) {
         setDataSource(editData);
       } else {
@@ -151,11 +148,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       let imageUrl = undefined;
       if (obj && obj?.valueList) {
         obj?.valueList.forEach((ie) => {
-          console.log('ie: ', ie, rest?.[obj?.attribute_name]);
-          console.log(
-            'ie?.value === rest?.[attribute_name]: ',
-            ie?.value === rest?.[obj?.attribute_name],
-          );
           if (ie?.value === rest?.[obj?.attribute_name]) {
             imageUrl = ie?.imageUrl;
           }
