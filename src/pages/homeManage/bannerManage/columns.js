@@ -12,9 +12,26 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '页面名称',
-    dataIndex: 'name',
+    dataIndex: 'title',
     width: 90,
     align: 'left',
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    ellipsis: true,
+    width: 90,
+    valueType: 'select',
+    valueEnum: {
+      1: {
+        text: '启用',
+        status: 'Success',
+      },
+      0: {
+        text: '停用',
+        status: 'Error',
+      },
+    },
   },
   {
     title: '创建时间',
