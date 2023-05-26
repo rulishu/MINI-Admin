@@ -18,7 +18,7 @@ export default function Tables() {
   const ref = useRef();
   const [form] = Form.useForm();
   const { productManage, groupManage, loading, supplier } = useSelector((state) => state);
-  const { activeKey, select, reload, modalData, type, isModalOpen } = productManage;
+  const { activeKey, select, modalData, type, isModalOpen, itemSkuVos } = productManage;
   const { suppliersList } = supplier;
   const { categoryTree, categoryList } = groupManage;
   const { message } = App.useApp();
@@ -27,10 +27,10 @@ export default function Tables() {
   const [srks, setSrks] = useState([]);
 
   useEffect(() => {
-    if (reload) {
+    if (activeKey) {
       ref?.current?.reload();
     }
-  }, [reload]);
+  }, [activeKey]);
 
   const onSuccess = ({ code }) => {
     if (code && code === 200) {
@@ -39,6 +39,7 @@ export default function Tables() {
         type: 'productManage/update',
         payload: {
           isModalOpen: false,
+          modalData: { groundType: 1 },
         },
       });
       ref?.current?.reload();
@@ -78,11 +79,64 @@ export default function Tables() {
     method: 'GET',
     onSuccess: ({ code, result }) => {
       if (code && code === 200) {
+        const suppliersObj = suppliersList.find((item) => item?.supplierId === result?.suppliersId);
+        const suppliersId = {
+          label:
+            suppliersObj?.supplierName &&
+            `${suppliersObj?.supplierName}(推荐人：${suppliersObj?.productSelector})`,
+          value: result?.suppliersId,
+        };
         dispatch({
           type: 'productManage/update',
           payload: {
+            queryInfo: {
+              id: result?.id,
+              form1: {
+                categoryId: categoryList
+                  .find((item) => item?.id === result?.categoryId)
+                  ?.parentArray?.split(',')
+                  ?.concat([result?.categoryId]),
+              },
+              form2: {
+                itemName: result?.itemName,
+                details: result?.details,
+                itemType: result?.itemType,
+                suppliersId,
+                provenance: result?.provenance?.split(','),
+              },
+              form3: {
+                mainGraphs: result?.mainGraphs.map((item) => ({
+                  name: item?.itemName,
+                  uid: item?.id,
+                  url: item?.path,
+                })),
+                itemVideo: [
+                  {
+                    name: 'video',
+                    uid: 1,
+                    url: result?.itemVideo,
+                  },
+                ],
+                itemImageVoList: result?.itemImageDtoList.map((item) => ({
+                  name: item?.itemName,
+                  uid: item?.id,
+                  url: item?.path,
+                })),
+              },
+              form4: {
+                stock: result?.stock,
+                costPrice: result?.costPrice,
+                price: result?.price,
+                spuCode: result?.spuCode,
+                itemSkuVos,
+              },
+              form5: {
+                templateId: { label: result?.templateName, value: result?.templateId },
+                groundType: result?.groundType,
+                openTime: dayjs(result?.openTime),
+              },
+            },
             showForm: true,
-            queryInfo: result,
           },
         });
       }
@@ -103,29 +157,22 @@ export default function Tables() {
         type: 'productManage/update',
         payload: {
           showForm: true,
-          editType: 'add',
           // queryInfo: { categoryId: String(tabs) },
         },
       });
     }
     // 编辑
     if (type === 'edit') {
-      dispatch({
-        type: 'productManage/update',
-        payload: {
-          editType: 'edit',
-        },
-      });
       handlerSKU(record);
-      selectById({ id: record.id });
+      selectById({ id: record?.id && Number(record.id) });
     }
     // 上架/下架/删除
     if (type === 'upload' || type === 'down' || type == 'delete') {
       let newsrks = record;
-      if (!newsrks && newsrks.length !== 1) {
+      if (!newsrks) {
         newsrks = selectedRowKeys;
       }
-      if (newsrks.length !== 0) {
+      if (newsrks?.length !== 0) {
         setSrks(newsrks);
         dispatch({
           type: 'productManage/update',
@@ -227,8 +274,15 @@ export default function Tables() {
         actionRef={ref}
         options={false}
         request={async (params = {}) => {
-          console.log('params: ', params);
-          const { current, pageSize, price, timerange, ...formData } = params;
+          const {
+            current,
+            pageSize,
+            price,
+            createTimeRange,
+            sellTimeRange,
+            suppliersId,
+            ...formData
+          } = params;
           let status = {};
           // 出售中=== 已上架&&开售时间>=当前时间
           if (activeKey === '1') {
@@ -251,15 +305,17 @@ export default function Tables() {
             pageSize,
             ...status,
             ...formData,
+            suppliersId: suppliersId && Number(suppliersId),
             minPrice: price?.[0],
             maxPrice: price?.[1],
-            startTime: timerange ? `${timerange?.[0]} 00:00:00` : undefined,
-            endTime: timerange ? `${timerange?.[1]} 23:59:59` : undefined,
+            startTime: createTimeRange?.[0] ? `${createTimeRange[0]} 00:00:00` : undefined,
+            endTime: createTimeRange?.[1] ? `${createTimeRange[1]} 23:59:59` : undefined,
+            minOpenTime: sellTimeRange?.[0] ? `${sellTimeRange[0]} 00:00:00` : undefined,
+            maxOpenTime: sellTimeRange?.[1] ? `${sellTimeRange[1]} 23:59:59` : undefined,
           };
           if (formData?.categoryId && formData?.categoryId.length > 0) {
             body.categoryId = formData?.categoryId[formData?.categoryId.length - 1];
           }
-          console.log('body: ', body);
           const { code, result } = await selectSellPage(body);
           if (code && code === 200) {
             dispatch({
@@ -314,6 +370,7 @@ export default function Tables() {
         scroll={{ x: 1300 }}
       />
       <Modal
+        destroyOnClose
         open={isModalOpen}
         onCancel={() => {
           onSuccess({ code: 200 });
@@ -330,52 +387,33 @@ export default function Tables() {
               (srks.length > 1 ? `确定批量删除选中的${srks.length}个商品吗?` : `确定删除商品?`)}
           </span>
         }
-        footer={
-          <div style={{ marginTop: 10, display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button
-              style={{ margin: '0px 10px', color: 'RGB(170,170,170)' }}
-              onClick={() => {
-                dispatch({
-                  type: 'productManage/update',
-                  payload: {
-                    isModalOpen: false,
-                    modalData: { groundType: 1 },
-                  },
-                });
-              }}
-            >
-              取消
-            </Button>
-            <Button
-              ghost
-              style={{ color: 'white', backgroundColor: 'RGB(44,240,152)' }}
-              onClick={() => {
-                if (type === 'upload') {
-                  uploadAsync(
-                    srks.map((item) => ({
-                      id: item && Number(item),
-                      ...form.getFieldsValue(),
-                      openTime: form.getFieldsValue()?.openTime
-                        ? dayjs(form.getFieldsValue()?.openTime).format('YYYY-MM-DD HH:mm:ss')
-                        : null,
-                    })),
-                  );
-                }
-
-                if (type === 'down') {
-                  downAsync({ ids: srks.map((item) => Number(item)) });
-                }
-                if (type === 'delete') {
-                  deleteAsync(srks.map((item) => Number(item)));
-                }
-              }}
-            >
-              {type === 'upload' && '上架'}
-              {type === 'down' && '下架'}
-              {type === 'delete' && '删除'}
-            </Button>
-          </div>
+        okText={
+          <span>
+            {type === 'upload' && '上架'}
+            {type === 'down' && '下架'}
+            {type === 'delete' && '删除'}
+          </span>
         }
+        onOk={() => {
+          if (type === 'upload') {
+            uploadAsync(
+              srks.map((item) => ({
+                id: item && Number(item),
+                ...form.getFieldsValue(),
+                openTime: form.getFieldsValue()?.openTime
+                  ? dayjs(form.getFieldsValue()?.openTime).format('YYYY-MM-DD HH:mm:ss')
+                  : null,
+              })),
+            );
+          }
+
+          if (type === 'down') {
+            downAsync({ ids: srks.map((item) => Number(item)) });
+          }
+          if (type === 'delete') {
+            deleteAsync(srks.map((item) => Number(item)));
+          }
+        }}
       >
         <>
           {type === 'upload' && (

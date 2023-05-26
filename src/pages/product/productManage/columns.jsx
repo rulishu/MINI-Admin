@@ -21,12 +21,20 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
     width: 200,
     render: (_, record) => {
       return (
-        <div style={{ height: 80, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <Image width={80} height={80} src={record?.mainGraph} />
+        <div style={{ height: 88, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Image width={80} height={84} src={record?.mainGraph} />
           {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
-          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left' }}>
-            <p style={{ padding: 0, margin: 0 }}>
-              {record?.itemName} {record?.model} * {record?.specifications}
+          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left', height: 88 }}>
+            <p
+              style={{
+                padding: 0,
+                margin: 0,
+                height: 66,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {record?.itemName} {record?.model} {record?.specifications}
             </p>
             <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
           </div>
@@ -127,7 +135,7 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
   },
   {
     title: '操作',
-    width: 150,
+    width: 95,
     fixed: 'right',
     hideInSearch: true,
     render: (_, record) => (
@@ -136,13 +144,16 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
           编辑
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handleEdit('upload', [record?.id])}>
-          上架
-        </a>
-        <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handleEdit('down', [record?.id])}>
-          下架
-        </a>
+        {record?.groupType === 3 && (
+          <a type="link" size="small" onClick={() => handleEdit('upload', [record?.id])}>
+            上架
+          </a>
+        )}
+        {record?.onShelf === 2 && (
+          <a type="link" size="small" onClick={() => handleEdit('down', [record?.id])}>
+            下架
+          </a>
+        )}
         <Divider type="vertical" />
         <a type="link" size="small" onClick={() => handleEdit('delete', [record?.id])}>
           删除

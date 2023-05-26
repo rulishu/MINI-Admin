@@ -6,7 +6,8 @@ import { addItem, updateItem } from '@/service/goods/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Cascader } from 'antd';
+import { Cascader, DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import item from './item';
@@ -33,6 +34,9 @@ const TheForm = () => {
             reload: true,
             type: '',
             queryInfo: {},
+            itemSkuVos: [],
+            attributeVos: [],
+            showSKU: false,
           },
         });
       }
@@ -41,16 +45,13 @@ const TheForm = () => {
 
   useEffect(() => {
     form.setValues({
-      form1: {
-        ...queryInfo,
-        mainGraph: queryInfo?.mainGraph ? [{ url: queryInfo?.mainGraph, name: 'goods' }] : [],
-      },
+      ...queryInfo,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showForm, queryInfo]);
 
   const onFinish = (values) => {
-    console.log('values: ', { ...values, itemSkuVos });
+    console.log('保存: ', { ...values, itemSkuVos });
     const { form1, form2, form3, form4, form5 } = values;
     mutateAsync({
       categoryId: form1?.categoryId?.slice(-1)?.[0] && Number(form1?.categoryId?.slice(-1)?.[0]), // 类目ID
@@ -62,22 +63,26 @@ const TheForm = () => {
         itemName: form2?.itemName,
         path: item?.url,
         version: 1,
+        itemId: queryInfo?.id,
       })),
       itemVideo: form3?.itemVideo?.[0]?.url,
       mainGraph: form3?.mainGraphs?.[0]?.url,
       mainGraphs: form3?.mainGraphs.map((item) => ({
         itemName: form2?.itemName,
+        itemId: queryInfo?.id,
         path: item?.url,
         version: 0,
       })),
       ...form4,
       price: form4?.price && Number(form4?.price),
       ...form5,
-      openTime: form5?.groundType === 3 ? null : form5?.openTime,
+      openTime:
+        form5?.groundType === 3 ? null : dayjs(form5?.openTime).format('YYYY-MM-DD HH:mm:00'),
       templateId: form5?.templateId?.value,
       templateName: form5?.templateId?.label,
       itemSkuVos,
-      //   id: queryInfo?.id, // 商品ID
+      id: queryInfo?.id, // 商品ID
+      onShelf: form5?.groundType === 3 ? 0 : 2,
       //   mainGraph: form1.mainGraph?.[0]?.url, // 图片url
     });
   };
@@ -139,7 +144,6 @@ const TheForm = () => {
     });
     return itemSkuVos?.[0]?.price || 0;
   };
-  console.log('getMinSale', getMinSale());
 
   return (
     <div style={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -158,11 +162,11 @@ const TheForm = () => {
           cascader: Cascader,
           picupload: TheUpload,
           skubutton: SKUButton,
+          antddate: DatePicker,
         }}
         labelWidth={120}
         // watch={{
         //   specifications: (value) => {
-        //     console.log('value: ', value);
         //     form.setValues({ stock: allStocks(itemSkuVos) });
         //   },
         // }}
@@ -195,6 +199,11 @@ const TheForm = () => {
                     type: 'productManage/update',
                     payload: {
                       showForm: false,
+                      type: '',
+                      queryInfo: {},
+                      itemSkuVos: [],
+                      attributeVos: [],
+                      showSKU: false,
                     },
                   });
                 },
@@ -216,6 +225,5 @@ const allStocks = (itemSkuVos) => {
       stock = stock + Number(item?.stock);
     }
   });
-  console.log('stock: ', stock);
   return stock;
 };
