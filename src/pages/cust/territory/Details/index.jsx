@@ -1,5 +1,5 @@
 import AModal from '@/components/AModal';
-import { create, updateInfo } from '@/service/agent/territory';
+import { create, updateInfo } from '@/service/cust/territory';
 import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';

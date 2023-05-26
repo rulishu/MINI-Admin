@@ -1,5 +1,5 @@
-import { selectByAgentArea, selectByAgentCompany } from '@/service/agent/territory';
 import { getTreeList } from '@/service/commonInterface';
+import { selectByAgentArea, selectByAgentCompany } from '@/service/cust/territory';
 
 export default {
   namespace: 'territory',

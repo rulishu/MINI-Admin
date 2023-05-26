@@ -1,6 +1,6 @@
 import AModal from '@/components/AModal';
 import SelectUser from '@/components/selectUser';
-import { create, getUserList, updateInfo } from '@/service/agent/agentManagement';
+import { create, getUserList, updateInfo } from '@/service/cust/agentManagement';
 import { ProCard } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';

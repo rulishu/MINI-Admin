@@ -1,4 +1,4 @@
-import { deleteItem, selectPage } from '@/service/agent/territory';
+import { deleteItem, selectPage } from '@/service/cust/agentManagement';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
@@ -8,19 +8,20 @@ import Details from './Details';
 import { columns } from './columns';
 
 export default () => {
+  const { modal } = App.useApp();
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload } = useSelector((state) => state.territory);
-  const { modal } = App.useApp();
+  const { reload } = useSelector((state) => state.agentManagement);
   const update = (data) => {
     dispatch({
-      type: 'territory/update',
+      type: 'agentManagement/update',
       payload: data,
     });
   };
 
   // 新增编辑刷新分页
   useEffect(() => {
+    dispatch({ type: 'agentManagement/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
   }, [reload]);
 
@@ -40,20 +41,19 @@ export default () => {
       update({ visible: true, queryInfo: {} });
     }
     if (type === 'edit') {
-      dispatch({
-        type: 'territory/selectByAgentArea',
-        payload: {
-          level: record.level,
-          agentCompanyId: record.id,
-        },
-        callback: () =>
-          update({
-            visible: true,
-            queryInfo: record,
-          }),
+      update({
+        visible: true,
+        queryInfo: record,
       });
     }
     if (type === 'delete') {
+      if (record.areaId) {
+        modal.error({
+          title: '无法删除',
+          content: '该代理商已绑定地盘，无法删除',
+        });
+        return;
+      }
       modal.confirm({
         title: '温馨提醒',
         content: '删除地盘，该地盘的分润会向上级地盘追溯，请悉知！确认删除？',
@@ -61,10 +61,11 @@ export default () => {
       });
     }
   };
+
   return (
     <div>
       <ProTable
-        headerTitle="地盘列表"
+        headerTitle="代理商列表"
         actionRef={ref}
         options={false}
         search={{
@@ -89,7 +90,7 @@ export default () => {
         }}
         toolBarRender={() => [
           <Button key="add" type="primary" onClick={() => handleEdit('add')}>
-            新增代理
+            新增
           </Button>,
         ]}
         pagination={{

@@ -54,12 +54,6 @@
         ]
       },
       {
-        "path": "/homeManage",
-        "name": "页面配置",
-        "icon": "setting",
-        "component": "@/pages/homeManage/bannerManage"
-      },
-      {
         "path": "/product",
         "name": "商品",
         "icon": "dashboard",
@@ -70,36 +64,51 @@
             "component": "@/pages/product/productManage"
           },
           {
-            "path": "/product/packManagement",
-            "name": "礼包管理",
-            "component": "@/pages/product/packManagement"
-          },
-          {
-            "path": "/product/giftManagement",
-            "name": "赠品管理",
-            "component": "@/pages/product/giftManagement"
-          },
-          {
             "path": "/product/groupManage",
-            "name": "类目管理",
+            "name": "商品类目",
             "component": "@/pages/product/groupManage"
           },
           {
-            "path": "/product/productParameters",
-            "name": "商品参数",
-            "component": "@/pages/product/productParameters"
-          },
-          {
-            "path": "/product/productBasic",
-            "name": "商品基础设置",
-            "component": "@/pages/product/productBasic"
+            "path": "/product/marketingCategory",
+            "name": "营销类目"
           },
           {
             "path": "/product/supplier",
             "name": "供应商管理",
             "component": "@/pages/product/supplier"
+          },
+          {
+            "path": "/product/packManagement",
+            "name": "礼包管理",
+            "component": "@/pages/product/packManagement",
+            "hideInMenu": true
+          },
+          {
+            "path": "/product/giftManagement",
+            "name": "赠品管理",
+            "component": "@/pages/product/giftManagement",
+            "hideInMenu": true
+          },
+          {
+            "path": "/product/productParameters",
+            "name": "商品参数",
+            "component": "@/pages/product/productParameters",
+            "hideInMenu": true
+          },
+          {
+            "path": "/product/productBasic",
+            "name": "商品基础设置",
+            "component": "@/pages/product/productBasic",
+            "hideInMenu": true
           }
         ]
+      },
+      {
+        "path": "/homeManage",
+        "name": "页面配置",
+        "icon": "setting",
+        "hideInMenu": true,
+        "component": "@/pages/homeManage/bannerManage"
       },
       {
         "path": "/order",
@@ -107,9 +116,9 @@
         "icon": "project",
         "routes": [
           {
-            "path": "/order/list",
-            "name": "订单列表",
-            "component": "@/pages/order/manage/list"
+            "path": "/order/orderManage",
+            "name": "订单管理",
+            "component": "@/pages/order/manage/orderManage"
           },
           {
             "path": "/order/shipping",
@@ -117,19 +126,34 @@
             "component": "@/pages/order/shipping"
           },
           {
-            "path": "/order/orderManage",
-            "name": "订单管理",
-            "component": "@/pages/order/manage/orderManage"
+            "path": "/order/manuaOrders",
+            "name": "手工订单"
+          },
+          {
+            "path": "/order/priceTemplate",
+            "name": "运费模版"
+          },
+          {
+            "path": "/order/returnGoodsAddress",
+            "name": "退货地址"
+          },
+          {
+            "path": "/order/list",
+            "name": "订单列表",
+            "component": "@/pages/order/manage/list",
+            "hideInMenu": true
           },
           {
             "path": "/order/abnormal",
             "name": "异常订单管理",
-            "component": "@/pages/order/manage/abnormal"
+            "component": "@/pages/order/manage/abnormal",
+            "hideInMenu": true
           },
           {
             "path": "/order/boutique",
             "name": "精品订单管理",
-            "component": "@/pages/order/boutique"
+            "component": "@/pages/order/boutique",
+            "hideInMenu": true
           },
           {
             "path": "/order/custom",
@@ -144,16 +168,19 @@
           {
             "path": "/order/seal",
             "name": "封坛订单管理",
-            "component": "@/pages/order/sealMangment"
+            "component": "@/pages/order/sealMangment",
+            "hideInMenu": true
           },
           {
             "path": "/order/productParameters",
             "name": "启封管理",
-            "component": "@/pages/order/productParameters"
+            "component": "@/pages/order/productParameters",
+            "hideInMenu": true
           },
           {
             "path": "/order/afterSales",
             "name": "售后管理",
+            "hideInMenu": true,
             "routes": [
               {
                 "path": "/order/afterSales/afterSalesApplication",
@@ -180,34 +207,98 @@
         ]
       },
       {
+        "path": "/cust",
+        "name": "用户",
+        "icon": "user",
+        "routes": [
+          {
+            "path": "/cust/userManage",
+            "name": "用户管理",
+            "component": "@/pages/cust/custManage"
+          },
+          {
+            "path": "/cust/dealerManage",
+            "name": "经销商管理"
+          },
+          {
+            "path": "/cust/agentManagement",
+            "name": "代理商管理",
+            "component": "@/pages/cust/agentManagement"
+          },
+          {
+            "path": "/cust/territory",
+            "name": "代理商地盘配置",
+            "component": "@/pages/cust/territory"
+          },
+          {
+            "path": "/cust/memberManage",
+            "name": "会员管理",
+            "component": "@/pages/cust/memberManage"
+          },
+          {
+            "path": "/cust/custManage",
+            "name": "客户管理",
+            "hideInMenu": true,
+            "routes": [
+              {
+                "path": "/cust/custManage/fansManage",
+                "name": "粉丝管理",
+                "component": "@/pages/cust/fansManage"
+              },
+              {
+                "path": "/cust/custManage/tagsManage",
+                "name": "标签管理",
+                "component": "@/pages/cust/tagsManage"
+              }
+            ]
+          },
+          {
+            "path": "/cust/memberSettings",
+            "name": "会员设置",
+            "hideInMenu": true,
+            "routes": [
+              {
+                "path": "/cust/memberSettings/membershipLevel",
+                "name": "会员等级",
+                "component": "@/pages/cust/memberSettings/MembershipLevel"
+              },
+              {
+                "path": "/cust/memberSettings/equityRules",
+                "name": "权益规则",
+                "component": "@/pages/cust/memberSettings/EquityRules"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "path": "/sales",
         "name": "营销",
         "icon": "gift",
         "routes": [
           {
-            "path": "/sales/promotion",
-            "name": "促销",
-            "routes": [
-              {
-                "path": "/sales/promotion/salesActivities",
-                "name": "营销活动",
-                "component": "@/pages/sales/salesActivities"
-              }
-            ]
+            "path": "/sales/salesActivities",
+            "name": "优惠卷",
+            "component": "@/pages/sales/salesActivities"
+          },
+          {
+            "path": "/sales/pointsManagement",
+            "name": "会员积分",
+            "component": "@/pages/pointsCenter/pointsManagement"
+          },
+          {
+            "path": "/sales/flashKill",
+            "name": "限时秒杀"
           },
           {
             "path": "/sales/pointsCenter",
             "name": "积分中心",
+            "hideInMenu": true,
             "routes": [
               {
                 "path": "/sales/pointsCenter/merchandiseManagement",
                 "name": "积分商品管理",
                 "component": "@/pages/pointsCenter/merchandiseManagement"
-              },
-              {
-                "path": "/sales/pointsCenter/pointsManagement",
-                "name": "会员积分管理",
-                "component": "@/pages/pointsCenter/pointsManagement"
               },
               {
                 "path": "/sales/pointsCenter/changeDetails",
@@ -237,6 +328,7 @@
           {
             "path": "/sales/store",
             "name": "视频号小店",
+            "hideInMenu": true,
             "routes": [
               {
                 "path": "/sales/store/config",
@@ -256,9 +348,56 @@
         ]
       },
       {
+        "path": "/data",
+        "name": "数据",
+        "icon": "bar-chart",
+        "routes": [
+          {
+            "path": "/data/userData",
+            "name": "用户数据统计"
+          },
+          {
+            "path": "/data/activationData",
+            "name": "活跃统计"
+          },
+          {
+            "path": "/data/retainedData",
+            "name": "留存统计"
+          },
+          {
+            "path": "/data/territoryData",
+            "name": "地盘收益"
+          },
+          {
+            "path": "/data/sellData",
+            "name": "经销收益"
+          }
+        ]
+      },
+      {
+        "path": "/log",
+        "name": "日志",
+        "icon": "snippets",
+        "routes": [
+          {
+            "path": "/log/menuManage",
+            "name": "菜单权限管理"
+          },
+          {
+            "path": "/log/operateLog",
+            "name": "操作日志"
+          },
+          {
+            "path": "/log/loginLog",
+            "name": "登陆日志"
+          }
+        ]
+      },
+      {
         "path": "/income",
         "name": "收益",
         "icon": "pay-circle",
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/income/levelIncome",
@@ -288,72 +427,6 @@
             "path": "/income/regionalBenefits",
             "name": "区域收益",
             "component": "@/pages/income/regionalBenefits"
-          }
-        ]
-      },
-      {
-        "path": "/agent",
-        "name": "代理商",
-        "icon": "user",
-        "routes": [
-          {
-            "path": "/agent/agentManagement",
-            "name": "代理商管理",
-            "component": "@/pages/agent/agentManagement"
-          },
-          {
-            "path": "/agent/territory",
-            "name": "地盘配置",
-            "component": "@/pages/agent/territory"
-          }
-        ]
-      },
-      {
-        "path": "/cust",
-        "name": "客户",
-        "icon": "user",
-        "routes": [
-          {
-            "path": "/cust/userManage",
-            "name": "用户管理",
-            "component": "@/pages/cust/custManage"
-          },
-          {
-            "path": "/cust/custManage",
-            "name": "客户管理",
-            "routes": [
-              {
-                "path": "/cust/custManage/memberManage",
-                "name": "会员管理",
-                "component": "@/pages/cust/memberManage"
-              },
-              {
-                "path": "/cust/custManage/fansManage",
-                "name": "粉丝管理",
-                "component": "@/pages/cust/fansManage"
-              },
-              {
-                "path": "/cust/custManage/tagsManage",
-                "name": "标签管理",
-                "component": "@/pages/cust/tagsManage"
-              }
-            ]
-          },
-          {
-            "path": "/cust/memberSettings",
-            "name": "会员设置",
-            "routes": [
-              {
-                "path": "/cust/memberSettings/membershipLevel",
-                "name": "会员等级",
-                "component": "@/pages/cust/memberSettings/MembershipLevel"
-              },
-              {
-                "path": "/cust/memberSettings/equityRules",
-                "name": "权益规则",
-                "component": "@/pages/cust/memberSettings/EquityRules"
-              }
-            ]
           }
         ]
       }
