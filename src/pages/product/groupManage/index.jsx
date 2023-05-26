@@ -10,8 +10,8 @@ import { columns } from './columns';
 const SearchTable = (props) => {
   const { dispatch, groupManage, loading } = props;
   const { pageSize, categoryList, addOpen } = groupManage;
-  const actionRef = useRef();
   const { modal } = App.useApp();
+  const actionRef = useRef();
   useEffect(() => {
     dispatch({
       type: 'groupManage/getCategoryTree',
@@ -67,37 +67,13 @@ const SearchTable = (props) => {
         onCancel: () => {},
         autoFocusButton: null,
         okText: '确定删除',
-        okType: 'default',
+        okType: 'primary',
         onOk: () => {
           dispatch({
             type: 'groupManage/deleteCategory',
             payload: { id: data?.id, actionRef },
           });
         },
-        // footer: (
-        //   <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-        //     <Button
-        //       ghost
-        //       style={{ margin: '0px 10px', color: 'white', backgroundColor: 'RGB(44,240,152)' }}
-        //       onClick={() => {
-        //         modal.destroy();
-        //       }}
-        //     >
-        //       取消
-        //     </Button>
-        //     <Button
-        //       style={{ color: 'RGB(170,170,170)' }}
-        //       onClick={() => {
-        //         dispatch({
-        //           type: 'groupManage/deleteCategory',
-        //           payload: { id: data?.id, actionRef, modal },
-        //         });
-        //       }}
-        //     >
-        //       确定删除
-        //     </Button>
-        //   </div>
-        // ),
       });
     }
   };
