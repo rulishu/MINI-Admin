@@ -57,14 +57,6 @@ export default function SearchTable() {
                 label: '批量取消发货',
                 type: 'primary',
               },
-              {
-                label: '下载批量发货模板',
-                type: 'link',
-              },
-              {
-                label: '下载批量修改物流模板',
-                type: 'link',
-              },
             ]}
           />
         ),

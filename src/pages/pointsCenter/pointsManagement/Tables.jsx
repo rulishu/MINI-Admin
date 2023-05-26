@@ -14,6 +14,12 @@ export default function Tables() {
         defaultCollapsed: false,
         labelWidth: 'auto',
       }}
+      cardProps={{
+        size: 'small',
+        style: {
+          padding: 0,
+        },
+      }}
       actionRef={ref}
       options={false}
       request={async (params = {}) => {

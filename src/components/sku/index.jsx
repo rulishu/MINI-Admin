@@ -1,4 +1,4 @@
-import TheUpload from '@/components/upload';
+import TheUpload from '@/components/Upload';
 import { Button, Card, Form, Input, Row, Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 

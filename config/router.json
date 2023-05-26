@@ -118,7 +118,7 @@
           {
             "path": "/order/orderManage",
             "name": "订单管理",
-            "component": "@/pages/order/manage/orderManage"
+            "component": "@/pages/order/orderManage"
           },
           {
             "path": "/order/shipping",
@@ -140,13 +140,13 @@
           {
             "path": "/order/list",
             "name": "订单列表",
-            "component": "@/pages/order/manage/list",
+            "component": "@/pages/order/list",
             "hideInMenu": true
           },
           {
             "path": "/order/abnormal",
             "name": "异常订单管理",
-            "component": "@/pages/order/manage/abnormal",
+            "component": "@/pages/order/abnormal",
             "hideInMenu": true
           },
           {

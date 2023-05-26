@@ -1,7 +1,7 @@
 // import PriceName from '@/components/sku';
 // import TheBigCascader from '@/components/CategoryType';
 import SKUButton from '@/components/SKUButton';
-import TheUpload from '@/components/upload';
+import TheUpload from '@/components/Upload';
 import { addItem, updateItem } from '@/service/goods/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';

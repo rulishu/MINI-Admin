@@ -1,5 +1,5 @@
 import AModal from '@/components/AModal';
-import Upload from '@/components/upload';
+import Upload from '@/components/Upload';
 import { create, updateInfo } from '@/service/homeManage/bannerManage';
 import { getUrl, getUrlToList } from '@/utils';
 import { ImportOutlined } from '@ant-design/icons';

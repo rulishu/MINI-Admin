@@ -74,6 +74,7 @@ export default () => {
     }
     if (type === 'delete') {
       modal.confirm({
+        title: '温馨提示',
         content: '确定是否删除该供应商？',
         maskClosable: true,
         onOk: () => mutateDeleteAsync({ id: record.supplierId }),
