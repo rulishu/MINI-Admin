@@ -22,7 +22,11 @@ export const schema = ({ getProductUserList, province }) => {
           },
           regCapital: {
             title: '注册资本',
-            type: 'string',
+            type: 'number',
+            props: {
+              min: 0,
+              step: 0.01,
+            },
             placeholder: '请输入注册资本',
           },
           regTime: {
