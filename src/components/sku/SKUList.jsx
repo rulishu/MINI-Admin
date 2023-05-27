@@ -34,10 +34,9 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
           const newPrefix = {
             ...prefix,
-            // itemId: skuList.length,
             [attribute_name]: value,
             attributes: attributes_teemp,
-            id: skuList.length,
+            skuId: skuList.length,
             // imageUrl: obj?.imageUrl ? [obj?.imageUrl] : undefined,
           };
           generateSKUs(attributes, index + 1, newPrefix, skuList);
@@ -60,7 +59,16 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     ...data.map((attribute) => ({
       title: attribute.attribute_name,
       dataIndex: attribute.attribute_name,
-      render: (text, record, index) => {
+      // render: (text, record, index) => {
+      //   return mergeCells(
+      //     text,
+      //     index,
+      //     dataSource,
+      //     (row) => record[attribute.attribute_name] === row[attribute.attribute_name],
+      //   );
+      // },
+      onCell: (record, index) => {
+        const text = record[attribute.attribute_name];
         return mergeCells(
           text,
           index,
@@ -164,114 +172,111 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
   };
 
   return (
-    <div>
-      {dataSource && dataSource.length > 0 && (
-        <Card>
-          <Space
-            direction="vertical"
-            size="middle"
-            style={{
-              display: 'flex',
-            }}
-          >
-            <Row justify="space-between" align="middle">
-              <Col span={1.5}>批量设置</Col>
-              <Col span={4}>
-                <Tooltip trigger={['focus']} title="成本价" placement="topLeft">
-                  <Input
-                    onChange={(e) => {
-                      setBulk({ ...bulk, goodsCost: e.target.value });
-                    }}
-                    placeholder="成本价"
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={4}>
-                <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
-                  <Input
-                    onChange={(e) => {
-                      setBulk({ ...bulk, price: e.target.value });
-                    }}
-                    placeholder="销售价"
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={4}>
-                <Tooltip trigger={['focus']} title="会员价" placement="topLeft">
-                  <Input
-                    onChange={(e) => {
-                      setBulk({ ...bulk, membershipPrice: e.target.value });
-                    }}
-                    placeholder="会员价"
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={4}>
-                <Tooltip trigger={['focus']} title="销售库存" placement="topLeft">
-                  <Input
-                    onChange={(e) => {
-                      setBulk({ ...bulk, stock: e.target.value });
-                    }}
-                    placeholder="销售库存"
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={4}>
-                <Tooltip trigger={['focus']} title="sku编码" placement="topLeft">
-                  <Input
-                    onChange={(e) => {
-                      setBulk({ ...bulk, skuCode: e.target.value });
-                    }}
-                    placeholder="sku编码"
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={1.5}>
-                <Button
-                  onClick={() => {
-                    setDataSource(dataSource.map((item) => ({ ...item, ...bulk })));
+    <Card>
+      <Space
+        direction="vertical"
+        size="middle"
+        style={{
+          display: 'flex',
+        }}
+      >
+        {dataSource && dataSource.length > 0 && (
+          <Row justify="space-between" align="middle">
+            <Col span={1.5}>批量设置</Col>
+            <Col span={4}>
+              <Tooltip trigger={['focus']} title="成本价" placement="topLeft">
+                <Input
+                  onChange={(e) => {
+                    setBulk({ ...bulk, goodsCost: e.target.value });
                   }}
-                >
-                  设置
-                </Button>
-              </Col>
-            </Row>
-            <Table
-              bordered
-              dataSource={dataSource}
-              columns={columns}
-              pagination={false}
-              rowKey="id"
-              size="small"
-            />
-            <Row justify="end">
-              <Col>
-                <Button type="primary" onClick={handleEntryDataSave}>
-                  保存规格
-                </Button>
-              </Col>
-            </Row>
-          </Space>
-        </Card>
-      )}
-    </div>
+                  placeholder="成本价"
+                />
+              </Tooltip>
+            </Col>
+            <Col span={4}>
+              <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
+                <Input
+                  onChange={(e) => {
+                    setBulk({ ...bulk, price: e.target.value });
+                  }}
+                  placeholder="销售价"
+                />
+              </Tooltip>
+            </Col>
+            <Col span={4}>
+              <Tooltip trigger={['focus']} title="会员价" placement="topLeft">
+                <Input
+                  onChange={(e) => {
+                    setBulk({ ...bulk, membershipPrice: e.target.value });
+                  }}
+                  placeholder="会员价"
+                />
+              </Tooltip>
+            </Col>
+            <Col span={4}>
+              <Tooltip trigger={['focus']} title="销售库存" placement="topLeft">
+                <Input
+                  onChange={(e) => {
+                    setBulk({ ...bulk, stock: e.target.value });
+                  }}
+                  placeholder="销售库存"
+                />
+              </Tooltip>
+            </Col>
+            <Col span={4}>
+              <Tooltip trigger={['focus']} title="sku编码" placement="topLeft">
+                <Input
+                  onChange={(e) => {
+                    setBulk({ ...bulk, skuCode: e.target.value });
+                  }}
+                  placeholder="sku编码"
+                />
+              </Tooltip>
+            </Col>
+            <Col span={1.5}>
+              <Button
+                onClick={() => {
+                  setDataSource(dataSource.map((item) => ({ ...item, ...bulk })));
+                }}
+              >
+                设置
+              </Button>
+            </Col>
+          </Row>
+        )}
+        <Table
+          bordered
+          dataSource={dataSource}
+          columns={columns}
+          pagination={false}
+          rowKey="skuId"
+          size="small"
+        />
+        <Row justify="end">
+          {dataSource && dataSource.length > 0 && (
+            <Col>
+              <Button type="primary" onClick={handleEntryDataSave}>
+                保存规格
+              </Button>
+            </Col>
+          )}
+        </Row>
+      </Space>
+    </Card>
   );
 };
 
 export default SKUList;
 
 export function mergeCells(value, index, dataList, predicate = () => true) {
-  const obj = {
-    children: value,
-    props: {},
-  };
+  const obj = {};
   let i = index - 1;
   if (dataList[i] && predicate(dataList[i])) {
-    obj.props.rowSpan = 0;
+    obj.rowSpan = 0;
   } else {
     i = index + 1;
     while (dataList[i] && predicate(dataList[i])) i++;
-    obj.props.rowSpan = i - index;
+    obj.rowSpan = i - index;
   }
   return obj;
 }
