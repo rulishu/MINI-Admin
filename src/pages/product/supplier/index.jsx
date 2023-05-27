@@ -10,7 +10,7 @@ import { columns } from './columns';
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { modal } = App.useApp();
+  const { modal, message } = App.useApp();
   const { reload, userList } = useSelector((state) => state.supplier);
   const update = (data) => {
     dispatch({
@@ -52,13 +52,15 @@ export default () => {
   // 删除接口
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
     mutationFn: deleteItem,
-    onSuccess: ({ code }) => {
-      if (code && code === 200) {
+    onSuccess: (data) => {
+      if (data?.code && data?.code === 200) {
         ref?.current?.reload();
         dispatch({
           type: 'supplier/getUserList',
           payload: {},
         });
+      } else {
+        message.warning(data?.message);
       }
     },
   });
@@ -85,6 +87,7 @@ export default () => {
         title: '温馨提示',
         content: '确定是否删除该供应商？',
         maskClosable: true,
+        autoFocusButton: null,
         onOk: () => mutateDeleteAsync({ id: record.supplierId }),
       });
     }
