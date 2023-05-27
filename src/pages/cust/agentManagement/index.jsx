@@ -23,13 +23,21 @@ export default () => {
   useEffect(() => {
     dispatch({ type: 'agentManagement/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
     mutationFn: deleteItem,
-    onSuccess: ({ code }) => {
+    onSuccess: ({ code, message }) => {
       if (code && code === 200) {
         ref?.current?.reload();
+      } else {
+        modal.confirm({
+          title: '无法删除',
+          content: message,
+          maskClosable: true,
+          autoFocusButton: null,
+        });
       }
     },
   });
