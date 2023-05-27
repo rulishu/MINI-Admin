@@ -189,6 +189,7 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
           // widget: 'Number',
           tooltip: '参考价大于等于售卖价，最多保留2位小数',
           placeholder: '请输入参考价格',
+          required: true,
           props: {
             min: 0,
           },
