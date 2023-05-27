@@ -10,7 +10,7 @@ import { columns } from './columns';
 export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { modal, message } = App.useApp();
+  const { modal } = App.useApp();
   const { reload, userList } = useSelector((state) => state.supplier);
   const update = (data) => {
     dispatch({
@@ -60,7 +60,12 @@ export default () => {
           payload: {},
         });
       } else {
-        message.warning(data?.message);
+        modal.confirm({
+          title: '无法删除',
+          content: data?.message,
+          maskClosable: true,
+          autoFocusButton: null,
+        });
       }
     },
   });
