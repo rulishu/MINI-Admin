@@ -11,17 +11,17 @@ export default () => {
   const { modal } = App.useApp();
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload } = useSelector((state) => state.agentManagement);
+  const { reload } = useSelector((state) => state.dealerManage);
   const update = (data) => {
     dispatch({
-      type: 'agentManagement/update',
+      type: 'dealerManage/update',
       payload: data,
     });
   };
 
   // 新增编辑刷新分页
   useEffect(() => {
-    dispatch({ type: 'agentManagement/selectByAgentCompany' });
+    dispatch({ type: 'dealerManage/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
   }, [reload]);
 
@@ -67,7 +67,7 @@ export default () => {
   return (
     <div>
       <ProTable
-        headerTitle="代理商列表"
+        headerTitle="经销商列表"
         actionRef={ref}
         options={false}
         search={{
