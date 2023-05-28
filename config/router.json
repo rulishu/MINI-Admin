@@ -168,7 +168,7 @@
         "routes": [
           {
             "path": "/banner/bannerManage",
-            "name": "banner管理",
+            "name": "广告位管理",
             "component": "@/pages/homeManage/bannerManage"
           },
           {
