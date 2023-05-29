@@ -54,6 +54,7 @@ export default () => {
             queryInfo.showStartTime,
             queryInfo.showEndTime,
           ],
+          sort: queryInfo.sort,
           category: queryInfo.category,
         },
       });
@@ -70,6 +71,7 @@ export default () => {
       showStartTime: form1.showStartTime && form1.showStartTime[0] && form1.showStartTime[0],
       showEndTime: form1.showStartTime && form1.showStartTime[1] && form1.showStartTime[1],
       category: form1.category,
+      sort: form1.sort,
       id: queryInfo.id,
       type: queryInfo.type,
     };

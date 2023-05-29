@@ -39,6 +39,13 @@ export const columns = ({ handleEdit }) => [
     render: (_, record) => record.jumpPath || record.linkMenuTag || '-',
   },
   {
+    title: '排序',
+    dataIndex: 'sort',
+    width: 120,
+    align: 'left',
+    hideInSearch: true,
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     ellipsis: true,
