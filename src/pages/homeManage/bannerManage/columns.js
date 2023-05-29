@@ -1,4 +1,4 @@
-import { Divider } from 'antd';
+import { Divider, Image } from 'antd';
 import moment from 'moment';
 
 export const columns = ({ handleEdit }) => [
@@ -12,17 +12,22 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '活动名称',
-    dataIndex: 'title',
+    dataIndex: 'name',
     width: 90,
     align: 'left',
     hideInSearch: true,
   },
   {
     title: '图片',
-    dataIndex: 'image',
+    dataIndex: 'path',
     width: 120,
     align: 'left',
     hideInSearch: true,
+    render: (text) => (
+      <div>
+        <Image src={text} width={80} height={80} />
+      </div>
+    ),
   },
   {
     title: 'Tag/url',
@@ -54,8 +59,18 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'createTime',
     align: 'left',
     hideInSearch: true,
-    render: (_, record) =>
-      (record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
+    render: (_, record) => (
+      <div>
+        <div>
+          开始时间：
+          {(record.startTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-'}
+        </div>
+        <div>
+          结束时间：
+          {(record.endTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-'}
+        </div>
+      </div>
+    ),
   },
   {
     title: '操作',
