@@ -59,13 +59,6 @@ export default () => {
           type: 'supplier/getUserList',
           payload: {},
         });
-      } else {
-        modal.confirm({
-          title: '无法删除',
-          content: data?.message,
-          maskClosable: true,
-          autoFocusButton: null,
-        });
       }
     },
   });
@@ -80,7 +73,7 @@ export default () => {
       mutateAsync({ id: record.supplierId });
     }
     if (type === 'delete') {
-      if (record.flag) {
+      if (record?.flag) {
         modal.error({
           title: '无法删除',
           content: '该供应商存在未下架商品，请优先处理商品',

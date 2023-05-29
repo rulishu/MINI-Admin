@@ -147,9 +147,9 @@ const TheForm = () => {
 
   return (
     <div style={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
-      {/* <TheBigCascader categoryTree={categoryTree} /> */}
       <FormRender
         form={form}
+        colon={false}
         schema={item(
           options,
           suppliersList,
