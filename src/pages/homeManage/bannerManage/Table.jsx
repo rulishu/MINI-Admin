@@ -71,6 +71,7 @@ export default () => {
   return (
     <Fragment>
       <ProTable
+        options={false}
         headerTitle={activeKey === 1 ? 'Banner列表' : '活动列表'}
         actionRef={ref}
         search={{
