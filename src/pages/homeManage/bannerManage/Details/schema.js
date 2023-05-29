@@ -31,6 +31,15 @@ export const basicSchema = ({ queryInfo, options }) => {
             required: true,
             defaultValue: 1,
           },
+          sort: {
+            title: '排序',
+            type: 'number',
+            required: true,
+            props: {
+              min: 0,
+              step: 1,
+            },
+          },
           linkMenuTag: {
             title: 'TAG',
             type: 'string',
