@@ -28,16 +28,9 @@ export default () => {
 
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
     mutationFn: deleteItem,
-    onSuccess: ({ code, message }) => {
+    onSuccess: ({ code }) => {
       if (code && code === 200) {
         ref?.current?.reload();
-      } else {
-        modal.confirm({
-          title: '无法删除',
-          content: message,
-          maskClosable: true,
-          autoFocusButton: null,
-        });
       }
     },
   });
@@ -55,7 +48,7 @@ export default () => {
       });
     }
     if (type === 'delete') {
-      if (record.areaId) {
+      if (record?.areaId) {
         modal.error({
           title: '无法删除',
           content: '该代理商已绑定地盘，无法删除',
