@@ -191,7 +191,7 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
           placeholder: '请输入参考价格',
           required: true,
           props: {
-            min: 0,
+            // min: 0,
           },
         },
         spuCode: {

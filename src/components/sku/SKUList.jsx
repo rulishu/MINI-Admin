@@ -251,6 +251,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           pagination={false}
           rowKey="skuId"
           size="small"
+          scroll={{ x: 990 }}
         />
         <Row justify="end">
           {dataSource && dataSource.length > 0 && (
