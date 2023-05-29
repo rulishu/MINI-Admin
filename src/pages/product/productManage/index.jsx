@@ -59,6 +59,7 @@ const App = () => {
   }
   return (
     <Tabs
+      destroyInactiveTabPane={true}
       activeKey={activeKey}
       items={items}
       size="small"
