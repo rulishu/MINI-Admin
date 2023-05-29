@@ -6,6 +6,7 @@ import Table from './Table';
 const App = () => {
   const { activeKey } = useSelector((state) => state.bannerManage);
   const dispatch = useDispatch();
+
   const items = [
     {
       key: 1,
@@ -26,6 +27,7 @@ const App = () => {
   return (
     <Card>
       <Tabs
+        destroyInactiveTabPane={true}
         activeKey={activeKey}
         items={items}
         size="small"

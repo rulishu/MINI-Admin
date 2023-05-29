@@ -10,7 +10,7 @@ import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { basicSchema } from './schema';
 
-export default ({ reload }) => {
+export default () => {
   const dispatch = useDispatch();
   const {
     bannerManage: { queryInfo, type, visible },
@@ -36,8 +36,8 @@ export default ({ reload }) => {
           visible: false,
           type: '',
           queryInfo: {},
+          reload: true,
         });
-        reload?.();
       }
     },
   });

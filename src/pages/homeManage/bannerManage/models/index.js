@@ -6,6 +6,7 @@ export default {
     /** add新增 / edit编辑  */
     type: '',
     queryInfo: {},
+    reload: false,
   },
   reducers: {
     update: (state, { payload }) => ({

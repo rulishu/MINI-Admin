@@ -3,7 +3,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button } from 'antd';
-import { Fragment, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import Config from './Details/Config';
 import { columns } from './columns';
 
@@ -11,7 +11,14 @@ export default () => {
   const ref = useRef();
   const dispatch = useDispatch();
   const { modal } = App.useApp();
-  const { activeKey } = useSelector((state) => state.bannerManage);
+  const { activeKey, reload } = useSelector((state) => state.bannerManage);
+
+  useEffect(() => {
+    if (reload) {
+      ref?.current?.reload();
+    }
+  }, [reload]);
+
   const update = (data) => {
     dispatch({
       type: 'bannerManage/update',
@@ -19,7 +26,7 @@ export default () => {
     });
   };
 
-  // 删除接口
+  // 上架/下架接口
   const { mutateAsync: mutateUpdate } = useReactMutation({
     mutationFn: updateInfo,
     onSuccess: ({ code }) => {
@@ -66,21 +73,25 @@ export default () => {
       <ProTable
         headerTitle={activeKey === 1 ? 'Banner列表' : '活动列表'}
         actionRef={ref}
-        options={false}
         search={{
           labelWidth: 'auto',
           style: {},
+        }}
+        params={{
+          type: activeKey,
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           let body = {
             pageNum: current,
             pageSize,
-            type: activeKey,
             ...formData,
           };
           const { code, result } = await selectPage(body);
           if (code && code === 200) {
+            update({
+              reload: false,
+            });
             return {
               data: result.records || [],
               total: result.total,
@@ -95,7 +106,7 @@ export default () => {
         ]}
         cardBordered={false}
         columns={columns({ handleEdit })}
-        rowKey="id"
+        rowKey={(record) => record.id + new Date().toUTCString()}
         pagination={{
           showSizeChanger: true,
         }}
@@ -106,7 +117,7 @@ export default () => {
           },
         }}
       />
-      <Config reload={ref?.current?.reload} />
+      <Config />
     </Fragment>
   );
 };
