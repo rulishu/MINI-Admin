@@ -10,9 +10,12 @@ import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { basicSchema } from './schema';
 
-export default () => {
+export default ({ reload }) => {
   const dispatch = useDispatch();
-  const { queryInfo, type, visible } = useSelector((state) => state.bannerManage);
+  const {
+    bannerManage: { queryInfo, type, visible },
+    commonInterface: { enums = {} },
+  } = useSelector((state) => state);
   const form = useForm();
   const update = (data) => {
     dispatch({
@@ -31,11 +34,10 @@ export default () => {
       if (code && code === 200) {
         update({
           visible: false,
-          reload: true,
           type: '',
           queryInfo: {},
-          relaod: true,
         });
+        reload?.();
       }
     },
   });
@@ -47,33 +49,45 @@ export default () => {
           name: queryInfo.name,
           jumpPath: queryInfo.jumpPath,
           path: (queryInfo.path && getUrlToList(queryInfo.path)) || [],
+          linkMenuTag: queryInfo.linkMenuTag,
+          showStartTime: queryInfo.showStartTime && [
+            queryInfo.showStartTime,
+            queryInfo.showEndTime,
+          ],
+          category: queryInfo.category,
         },
       });
     }
   }, [visible]);
 
   const onFinish = (values) => {
+    const { form1 } = values;
     const params = {
-      name: values.name,
-      jumpPath: values.jumpPath,
-      path: (values.path && getUrl(values.path)) || '',
+      name: form1.name,
+      jumpPath: form1.jumpPath,
+      path: (form1.path && getUrl(form1.path)) || '',
+      linkMenuTag: form1.linkMenuTag,
+      showStartTime: form1.showStartTime && form1.showStartTime[0] && form1.showStartTime[0],
+      showEndTime: form1.showStartTime && form1.showStartTime[1] && form1.showStartTime[1],
+      category: form1.category,
       id: queryInfo.id,
+      type: queryInfo.type,
     };
-    console.log('params', params, 'mutateAsync', mutateAsync);
+    mutateAsync(params);
   };
 
   const watch = {
-    'form1.TAG': () => {
-      form.setFieldsValue({
+    'form1.linkMenuTag': () => {
+      form.setValues({
         form1: {
           jumpPath: '',
         },
       });
     },
-    'form1.URL': () => {
-      form.setFieldsValue({
+    'form1.jumpPath': () => {
+      form.setValues({
         form1: {
-          TAG: '',
+          linkMenuTag: '',
         },
       });
     },
@@ -99,7 +113,16 @@ export default () => {
         <FormRender
           watch={watch}
           form={form}
-          schema={basicSchema({ queryInfo })}
+          schema={basicSchema({
+            queryInfo,
+            options:
+              (enums.banner_tager_type &&
+                enums.banner_tager_type.map((item) => ({
+                  label: item.dictLabel,
+                  value: item.dictValue,
+                }))) ||
+              [],
+          })}
           widgets={{
             upload: Upload,
           }}

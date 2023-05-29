@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from '@umijs/max';
 import { Card, Tabs } from 'antd';
+import { useEffect } from 'react';
 import Table from './Table';
 
 const App = () => {
@@ -7,16 +8,21 @@ const App = () => {
   const dispatch = useDispatch();
   const items = [
     {
-      key: '1',
+      key: 1,
       label: `首页Banner`,
       children: <Table />,
     },
     {
-      key: '2',
+      key: 2,
       label: `首页活动`,
       children: <Table />,
     },
   ];
+  useEffect(() => {
+    dispatch({ type: 'commonInterface/getDictType', payload: { dictType: 'banner_tager_type' } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Card>
       <Tabs

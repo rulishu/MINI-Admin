@@ -1,4 +1,4 @@
-export const basicSchema = ({ queryInfo }) => {
+export const basicSchema = ({ queryInfo, options }) => {
   return {
     type: 'object',
     column: 2,
@@ -7,7 +7,7 @@ export const basicSchema = ({ queryInfo }) => {
         type: 'object',
         column: 2,
         widget: 'lineTitle',
-        title: queryInfo.type === '1' ? '首页Banner' : '首页活动',
+        title: queryInfo.type === 1 ? '首页Banner' : '首页活动',
         properties: {
           name: {
             title: '活动名称',
@@ -17,19 +17,33 @@ export const basicSchema = ({ queryInfo }) => {
             },
             required: true,
           },
-          TAG: {
+          category: {
+            title: '类型',
+            type: 'number',
+            widget: 'select',
+            disabled: true,
+            props: {
+              options: [
+                { label: '小程序', value: 1 },
+                { label: 'app', value: 2 },
+              ],
+            },
+            required: true,
+            defaultValue: 1,
+          },
+          linkMenuTag: {
             title: 'TAG',
             type: 'string',
             widget: 'select',
             props: {
-              options: [],
+              options: options,
             },
           },
           jumpPath: {
             title: 'URL',
             type: 'string',
           },
-          createTime: {
+          showStartTime: {
             title: '上架时间',
             type: 'range',
             widget: 'dateRange',

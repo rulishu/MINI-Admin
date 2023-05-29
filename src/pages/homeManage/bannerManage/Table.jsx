@@ -1,4 +1,4 @@
-import { deleteItem, selectPage } from '@/service/homeManage/bannerManage';
+import { selectPage, updateInfo } from '@/service/homeManage/bannerManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
@@ -20,8 +20,8 @@ export default () => {
   };
 
   // 删除接口
-  const { mutateAsync: mutateDeleteAsync } = useReactMutation({
-    mutationFn: deleteItem,
+  const { mutateAsync: mutateUpdate } = useReactMutation({
+    mutationFn: updateInfo,
     onSuccess: ({ code }) => {
       if (code && code === 200) {
         ref?.current?.reload();
@@ -43,12 +43,20 @@ export default () => {
     if (type === 'edit') {
       update({ visible: true, queryInfo: { ...record } });
     }
-    if (type === 'delete') {
+    if (type === 'offShelf') {
       modal.confirm({
         title: '温馨提示',
         maskClosable: true,
-        content: '确定是否删除',
-        onOk: () => mutateDeleteAsync({ id: record.id }),
+        content: '确定是否要下架？',
+        onOk: () => mutateUpdate({ id: record.id, status: 0 }),
+      });
+    }
+    if (type === 'grounding') {
+      modal.confirm({
+        title: '温馨提示',
+        maskClosable: true,
+        content: '确定是否要上架？',
+        onOk: () => mutateUpdate({ id: record.id, status: 1 }),
       });
     }
   };
@@ -56,7 +64,7 @@ export default () => {
   return (
     <Fragment>
       <ProTable
-        headerTitle={activeKey === '1' ? 'Banner列表' : '活动列表'}
+        headerTitle={activeKey === 1 ? 'Banner列表' : '活动列表'}
         actionRef={ref}
         options={false}
         search={{
@@ -68,7 +76,6 @@ export default () => {
           let body = {
             pageNum: current,
             pageSize,
-            category: 1,
             type: activeKey,
             ...formData,
           };
@@ -99,7 +106,7 @@ export default () => {
           },
         }}
       />
-      <Config />
+      <Config reload={ref?.current?.reload} />
     </Fragment>
   );
 };

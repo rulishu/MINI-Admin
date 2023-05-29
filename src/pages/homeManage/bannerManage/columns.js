@@ -1,5 +1,6 @@
 import { Divider, Image } from 'antd';
 import moment from 'moment';
+import { Fragment } from 'react';
 
 export const columns = ({ handleEdit }) => [
   {
@@ -35,6 +36,7 @@ export const columns = ({ handleEdit }) => [
     width: 120,
     align: 'left',
     hideInSearch: true,
+    render: (_, record) => record.jumpPath || record.linkMenuTag || '-',
   },
   {
     title: '状态',
@@ -56,18 +58,20 @@ export const columns = ({ handleEdit }) => [
   {
     title: '活动时间',
     width: 120,
-    dataIndex: 'createTime',
+    dataIndex: 'showStartTime',
     align: 'left',
     hideInSearch: true,
     render: (_, record) => (
       <div>
         <div>
           开始时间：
-          {(record.startTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-'}
+          {(record.showStartTime && moment(record.showStartTime).format('YYYY-MM-DD HH:mm:ss')) ||
+            '-'}
         </div>
         <div>
           结束时间：
-          {(record.endTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-'}
+          {(record.showStartTime && moment(record.showStartTime).format('YYYY-MM-DD HH:mm:ss')) ||
+            '-'}
         </div>
       </div>
     ),
@@ -80,8 +84,18 @@ export const columns = ({ handleEdit }) => [
     render: (record) => (
       <div>
         <a onClick={() => handleEdit('edit', record)}>编辑</a>
-        <Divider type="vertical" />
-        <a onClick={() => handleEdit('delete', record)}>下架</a>
+        {record.status === 1 && (
+          <Fragment>
+            <Divider type="vertical" />
+            <a onClick={() => handleEdit('offShelf', record)}>下架</a>
+          </Fragment>
+        )}
+        {record.status === 0 && (
+          <Fragment>
+            <Divider type="vertical" />
+            <a onClick={() => handleEdit('grounding', record)}>上架</a>
+          </Fragment>
+        )}
       </div>
     ),
   },
