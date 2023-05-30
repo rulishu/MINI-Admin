@@ -28,6 +28,9 @@ const SearchTable = () => {
     dispatch({
       type: 'groupManage/getCategoryTree',
     });
+    dispatch({
+      type: 'marketManage/getMarketTree',
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
