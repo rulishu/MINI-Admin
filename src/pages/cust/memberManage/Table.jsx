@@ -57,6 +57,12 @@ export default function SearchTable() {
         labelWidth: 'auto',
         defaultCollapsed: false,
       }}
+      cardProps={{
+        size: 'small',
+        style: {
+          padding: 0,
+        },
+      }}
       // toolBarRender={() => (
       //   <ButtonGroupPro
       //     button={[

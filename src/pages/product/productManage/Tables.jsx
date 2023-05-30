@@ -271,6 +271,10 @@ export default function Tables() {
         className="the-pro-table"
         actionRef={ref}
         options={false}
+        search={{
+          labelWidth: 'auto',
+          labelAlign: 'left',
+        }}
         request={async (params = {}) => {
           const {
             current,

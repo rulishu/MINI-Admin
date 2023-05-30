@@ -1,18 +1,15 @@
-import { details, selectPage } from '@/service/order/orderManage';
+import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { useEffect, useRef, useState } from 'react';
-import Details from './Details/Details';
-import UpOrder from './Details/UpOrder';
-import { columns } from './columns';
+import { Table } from 'antd';
+import { Fragment, useEffect, useRef } from 'react';
+import Push from './Details/Push';
+import { columns, expandColumn } from './columns';
 
 export default function SearchTable() {
   const ref = useRef();
   const dispatch = useDispatch();
   const { reload } = useSelector((state) => state.orderManage);
-
-  const [pageSize, setPageSize] = useState(10);
-  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     if (reload) {
@@ -29,18 +26,34 @@ export default function SearchTable() {
   const handle = async (type, data) => {
     updateFn({ type: type });
     if (type === 'view') {
-      const { code, result } = await details(data?.id);
-      if (code === 200) {
-        updateFn({ queryData: result, visible: true });
-      }
+      // const { code, result } = await details(data?.id);
+      // if (code === 200) {
+      //   updateFn({ queryData: result, visible: true });
+      // }
+      updateFn({ queryData: data, visible: true });
     }
-    if (type === 'upOrder') {
-      updateFn({ upVisible: true, queryData: { id: data?.id } });
+    if (type === 'push') {
+      updateFn({
+        pushVisible: true,
+        pushData: { ...data, list: [{ id: 1, status: 'open', number: 10 }] },
+      });
     }
   };
 
+  const expandedRowRender = (record) => {
+    const { itemList = [] } = record;
+    return (
+      <Table
+        columns={expandColumn({ handle })}
+        dataSource={itemList}
+        pagination={false}
+        rowKey="id"
+      />
+    );
+  };
+
   return (
-    <>
+    <Fragment>
       <ProTable
         headerTitle="订单列表"
         actionRef={ref}
@@ -62,14 +75,10 @@ export default function SearchTable() {
           }
         }}
         search={{
-          collapsed,
-          onCollapse: setCollapsed,
+          labelWidth: 'auto',
         }}
         pagination={{
-          style: { margin: 12 },
           showSizeChanger: true,
-          pageSize: pageSize,
-          onChange: (_, pageSize) => setPageSize(pageSize),
         }}
         cardProps={{
           headStyle: {},
@@ -79,11 +88,13 @@ export default function SearchTable() {
           },
         }}
         cardBordered={true}
-        columns={columns(handle)}
+        columns={columns()}
         rowKey="id"
+        expandable={{
+          expandedRowRender,
+        }}
       />
-      <Details />
-      <UpOrder />
-    </>
+      <Push />
+    </Fragment>
   );
 }

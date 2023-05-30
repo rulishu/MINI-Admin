@@ -19,29 +19,29 @@ export const codeMessage = {
   504: '网关超时。',
 };
 
-const checkedCode = (status) => {
+const checkedCode = (status, msg) => {
   if (status === 400) {
-    message.error(codeMessage[400]);
+    message.error(msg);
   } else if (status === 401) {
-    message.error(codeMessage[401]);
+    message.error(msg);
   } else if (status === 403) {
-    message.error(codeMessage[403]);
+    message.error(msg);
   } else if (status === 404) {
-    message.error(codeMessage[404]);
+    message.error(msg);
   } else if (status === 406) {
-    message.error(codeMessage[406]);
+    message.error(msg);
   } else if (status === 410) {
-    message.error(codeMessage[410]);
+    message.error(msg);
   } else if (status === 422) {
-    message.error(codeMessage[422]);
+    message.error(msg);
   } else if (status === 500) {
-    message.error(codeMessage[500]);
+    message.error(msg);
   } else if (status === 502) {
-    message.error(codeMessage[502]);
+    message.error(msg);
   } else if (status === 503) {
-    message.error(codeMessage[503]);
+    message.error(msg);
   } else if (status === 504) {
-    message.error(codeMessage[504]);
+    message.error(msg);
   }
 };
 
@@ -65,8 +65,9 @@ export default (url, options) =>
     ],
     responseInterceptors: [
       async (response) => {
-        if (response && response?.status) {
-          checkedCode(response.status);
+        if (response && response.data && typeof response.data === 'object') {
+          const { code, message } = response.data;
+          checkedCode(code || '', message || '');
         }
         return response;
       },
