@@ -52,8 +52,8 @@ export default () => {
   // 删除接口
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
     mutationFn: deleteItem,
-    onSuccess: ({ code }) => {
-      if (code && code === 200) {
+    onSuccess: (data) => {
+      if (data?.code && data?.code === 200) {
         ref?.current?.reload();
         dispatch({
           type: 'supplier/getUserList',
@@ -73,7 +73,7 @@ export default () => {
       mutateAsync({ id: record.supplierId });
     }
     if (type === 'delete') {
-      if (record.flag) {
+      if (record?.flag) {
         modal.error({
           title: '无法删除',
           content: '该供应商存在未下架商品，请优先处理商品',
@@ -85,6 +85,7 @@ export default () => {
         title: '温馨提示',
         content: '确定是否删除该供应商？',
         maskClosable: true,
+        autoFocusButton: null,
         onOk: () => mutateDeleteAsync({ id: record.supplierId }),
       });
     }

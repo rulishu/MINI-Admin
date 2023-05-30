@@ -150,6 +150,7 @@ const TheForm = () => {
       {/* <TheBigCascader categoryTree={categoryTree} /> */}
       <FormRender
         form={form}
+        colon={false}
         schema={item(
           options,
           suppliersList,

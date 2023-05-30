@@ -23,6 +23,7 @@ export default () => {
   useEffect(() => {
     dispatch({ type: 'agentManagement/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
@@ -47,7 +48,7 @@ export default () => {
       });
     }
     if (type === 'delete') {
-      if (record.areaId) {
+      if (record?.areaId) {
         modal.error({
           title: '无法删除',
           content: '该代理商已绑定地盘，无法删除',

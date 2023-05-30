@@ -69,10 +69,6 @@
             "component": "@/pages/product/groupManage"
           },
           {
-            "path": "/product/marketingCategory",
-            "name": "营销类目"
-          },
-          {
             "path": "/product/supplier",
             "name": "供应商管理",
             "component": "@/pages/product/supplier"
@@ -145,6 +141,11 @@
         "name": "营销",
         "icon": "gift",
         "routes": [
+          {
+            "path": "/sales/marketingCategory",
+            "name": "营销类目",
+            "component": "@/pages/sales/MarketManage"
+          },
           {
             "path": "/sales/salesActivities",
             "name": "优惠卷",
