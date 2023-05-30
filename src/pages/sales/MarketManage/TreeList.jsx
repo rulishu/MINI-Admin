@@ -1,38 +1,146 @@
-import { Tree } from 'antd';
-import { useState } from 'react';
-const x = 3;
-const y = 2;
-const z = 1;
-const defaultData = [];
-const generateData = (_level, _preKey, _tns) => {
-  const preKey = _preKey || '0';
-  const tns = _tns || defaultData;
-  const children = [];
-  for (let i = 0; i < x; i++) {
-    const key = `${preKey}-${i}`;
-    tns.push({
-      title: key,
-      key,
-    });
-    if (i < y) {
-      children.push(key);
-    }
-  }
-  if (_level < 0) {
-    return tns;
-  }
-  const level = _level - 1;
-  children.forEach((key, index) => {
-    tns[index].children = [];
-    return generateData(level, key, tns[index].children);
-  });
-};
-generateData(z);
+import { CarryOutOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { useDispatch, useSelector } from '@umijs/max';
+import { Button, Form, Tree } from 'antd';
+import { useEffect, useState } from 'react';
 
 const TreeList = () => {
-  const [gData, setGData] = useState(defaultData);
-  console.log('defaultData: ', defaultData);
-  const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
+  const dispatch = useDispatch();
+  const { marketManage } = useSelector((state) => state);
+  const { marketTree } = marketManage;
+  const [modalVisit, setModalVisit] = useState(false);
+  const [modalData, setModalData] = useState({});
+
+  const markets = (arr) => {
+    return arr.map((item) => {
+      const obj = {
+        title: (
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexWrap: 'nowrap',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>{item?.marketingName}</span>
+            <div>
+              {item?.parentId === '0' && (
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setModalData({ parentId: item?.id });
+                    setModalVisit(true);
+                  }}
+                >
+                  新增子类
+                </Button>
+              )}
+              <Button type="link">删除</Button>
+            </div>
+          </div>
+        ),
+        key: item?.id,
+        icon: <CarryOutOutlined />,
+      };
+      if (item?.child && item.child.length > 0) {
+        obj.children = item.child.map((i) => ({
+          title: (
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexWrap: 'nowrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span>{i?.marketingName}</span>
+              <div>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    dispatch({
+                      type: 'marketManage/deleteMarket',
+                      payload: {},
+                    });
+                  }}
+                >
+                  删除
+                </Button>
+              </div>
+            </div>
+          ),
+          key: i?.id,
+          switcherIcon: <FormOutlined />,
+          isLeaf: true,
+        }));
+      }
+      return obj;
+    });
+  };
+
+  const [gData, setGData] = useState(markets(marketTree));
+
+  useEffect(() => {
+    if (marketTree && marketTree.length > 0) {
+      setGData(markets(marketTree));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [marketTree]);
+
+  const [form] = Form.useForm();
+
+  const findItem = (data, node, parentItem) => {
+    let findResult;
+    data.find((item) => {
+      if (item?.key === node?.key) {
+        if (parentItem) {
+          item.parent = parentItem;
+          return (findResult = item);
+        } else return (findResult = item);
+      } else if (item?.children?.length) {
+        return (findResult = findItem(item.children, node, item));
+      }
+    });
+    return findResult;
+  };
+  // dropPosition -1是移动到和他平级在他上面    1是移动到和他平级在他下面  0是移动到他下面作为他子集
+  const dealDrap = (dragNode, node, treeData, dropPosition) => {
+    let dragNodeResult, nodeResult;
+    dragNodeResult = findItem(treeData, dragNode);
+    nodeResult = findItem(treeData, node);
+    // 0是移动到他下面作为他子集
+    if (dropPosition === 0) {
+      if (dragNodeResult?.parent?.key === nodeResult?.key) return true;
+      return false;
+    }
+    // -1是移动到和他平级在他上面    1是移动到和他平级在他下面
+    if (dropPosition === 1 || dropPosition === -1) {
+      // 都有父
+      if (dragNodeResult?.parent && nodeResult?.parent) {
+        // 父相等
+        if (dragNodeResult?.parent?.key == nodeResult?.parent?.key) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      //有父无父
+      if (dragNodeResult?.parent && !nodeResult?.parent) {
+        return false;
+      }
+      // 无父有父
+      if (!dragNodeResult?.parent && nodeResult?.parent) {
+        return false;
+      }
+      if (!dragNodeResult?.parent && !nodeResult?.parent) {
+        return true;
+      }
+    }
+  };
+
   const onDragEnter = (info) => {
     console.log(info);
     // expandedKeys 需要受控时设置
@@ -40,11 +148,18 @@ const TreeList = () => {
   };
 
   const onDrop = (info) => {
-    console.log('info: ', info);
+    console.log(info);
     const dropKey = info.node.key;
     const dragKey = info.dragNode.key;
     const dropPos = info.node.pos.split('-');
     const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+    console.log('dropPosition: ', dropPosition);
+    //
+    const dealData = JSON.parse(JSON.stringify(gData));
+    const result = dealDrap(info.dragNode, info.node, [...dealData], dropPosition);
+    if (!result) return;
+    //
+
     const loop = (data, key, callback) => {
       for (let i = 0; i < data.length; i++) {
         if (data[i].key === key) {
@@ -55,7 +170,7 @@ const TreeList = () => {
         }
       }
     };
-    const data = [...gData];
+    const data = [...gData].concat([]);
 
     // Find dragObject
     let dragObj;
@@ -99,16 +214,62 @@ const TreeList = () => {
     }
     setGData(data);
   };
+  console.log('gData: ', gData);
+
   return (
-    <Tree
-      className="draggable-tree"
-      defaultExpandedKeys={expandedKeys}
-      draggable
-      blockNode
-      onDragEnter={onDragEnter}
-      onDrop={onDrop}
-      treeData={gData}
-    />
+    <>
+      <Button
+        type="primary"
+        onClick={() => {
+          setModalData({ parentId: 0 });
+          setModalVisit(true);
+        }}
+      >
+        <PlusOutlined />
+        新建一级类目
+      </Button>
+      <Tree
+        style={{ marginTop: 10 }}
+        // showLine
+        className="draggable-tree"
+        draggable={{ icon: false }}
+        blockNode
+        onDragEnter={onDragEnter}
+        onDrop={onDrop}
+        treeData={gData}
+      />
+      <ModalForm
+        open={modalVisit}
+        title={modalData?.parentId === 0 ? '新建一级类目' : '添加子类目'}
+        layout="inline"
+        form={form}
+        autoFocusFirstInput
+        modalProps={{
+          destroyOnClose: true,
+          onCancel: () => console.log('run'),
+        }}
+        submitTimeout={2000}
+        onFinish={async (values) => {
+          dispatch({
+            type: 'marketManage/addMarket',
+            payload: {
+              ...values,
+              ...modalData,
+            },
+          });
+          setModalVisit(false);
+        }}
+      >
+        <ProFormText
+          required
+          placeholder="请输入类目名称"
+          rules={[{ required: true, message: '这是必填项' }]}
+          width="md"
+          name="marketingName"
+          label="类目名称"
+        />
+      </ModalForm>
+    </>
   );
 };
 export default TreeList;

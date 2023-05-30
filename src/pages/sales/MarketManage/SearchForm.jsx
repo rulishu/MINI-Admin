@@ -52,7 +52,10 @@ export default ({ cascaderList, setCascaderList }) => {
             onChange: (val) => {
               console.log('val: ', val);
               setCascaderList(val);
-              dispatch({});
+              dispatch({
+                type: 'marketManage/updateState',
+                payload: {},
+              });
             },
             options: options(),
           }}
