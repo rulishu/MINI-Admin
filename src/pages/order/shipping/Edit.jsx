@@ -3,7 +3,7 @@ import { Drawer } from 'antd';
 
 export default function Edit() {
   const dispatch = useDispatch();
-  const { visible } = useSelector((state) => state.orderManage);
+  const { visible } = useSelector((state) => state.shipping);
 
   const update = (data) => {
     dispatch({

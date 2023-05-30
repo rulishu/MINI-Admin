@@ -1,174 +1,195 @@
-import { Image } from 'antd';
-import { isOpenInvoiceEnum, orderStatusEnum } from '../enum';
+import { Card, Image, Space, Tag } from 'antd';
 
 export const basicItem = [
   {
-    title: '订单编号',
+    title: '订单状态',
+    dataIndex: 'status',
+    key: 'status',
+    span: 4,
+    editable: () => false,
+    labelStyle: {
+      fontWeight: 'bold',
+      color: '#000',
+      fontSize: 15,
+    },
+    contentStyle: {
+      fontWeight: 'bold',
+      color: '#000',
+      fontSize: 15,
+    },
+  },
+  {
+    title: '订单号',
     key: 'orderNumber',
+    editable: () => false,
     dataIndex: 'orderNumber',
-    ellipsis: true,
   },
   {
-    title: '卖家信息',
+    title: '下单时间',
     key: 'userName',
+    editable: () => false,
     dataIndex: 'userName',
-    ellipsis: true,
   },
   {
-    title: '手机号',
+    title: '付款时间',
     key: 'phone',
+    editable: () => false,
     dataIndex: 'phone',
-    ellipsis: true,
   },
   {
-    title: '买家信息',
+    title: '支付方式',
     key: 'consignee',
+    editable: () => false,
     dataIndex: 'consignee',
-    ellipsis: true,
+  },
+  {
+    title: '支付单号',
+    key: 'consignee',
+    editable: () => false,
+    dataIndex: 'consignee',
+  },
+  {
+    title: '发货时间',
+    key: 'consignee1',
+    editable: () => false,
+    dataIndex: 'consignee',
+  },
+  {
+    title: '完成时间',
+    key: 'consignee2',
+    editable: () => false,
+    dataIndex: 'consignee',
+    span: 2,
+  },
+  {
+    title: '订单备注',
+    key: 'remark',
+    dataIndex: 'remark',
   },
 ];
 
-export const manageItem = [
+export const buyerItem = [
   {
-    title: '下单时间',
+    title: '用户昵称',
     key: 'createTime',
     dataIndex: 'createTime',
-    ellipsis: true,
   },
   {
-    title: '订单状态',
+    title: '买家留言',
     key: 'orderStatus',
     dataIndex: 'orderStatus',
-    valueType: 'select',
-    valueEnum: orderStatusEnum,
+  },
+];
+
+export const receiveItem = [
+  {
+    title: '收件人',
+    key: 'createTime',
+    dataIndex: 'createTime',
   },
   {
-    title: '收货人',
-    key: 'consignee',
-    dataIndex: 'consignee',
-    ellipsis: true,
-  },
-  {
-    title: '手机号',
-    key: 'phone',
-    dataIndex: 'phone',
-    ellipsis: true,
+    title: '联系方式',
+    key: 'orderStatus',
+    dataIndex: 'orderStatus',
   },
   {
     title: '收货地址',
-    key: 'address',
-    dataIndex: 'address',
-    ellipsis: true,
+    key: 'consignee',
+    dataIndex: 'consignee',
   },
-  {
-    title: '快递单号',
-    key: 'trackingNumber',
-    dataIndex: 'trackingNumber',
-    ellipsis: true,
-  },
+];
+
+export const productItem = [
   {
     title: '物流公司',
-    key: 'companyName',
-    dataIndex: 'companyName',
-    ellipsis: true,
+    key: 'createTime',
+    dataIndex: 'createTime',
   },
   {
-    title: '开票状态',
-    key: 'isOpenInvoice',
-    dataIndex: 'isOpenInvoice',
-    valueType: 'select',
-    valueEnum: isOpenInvoiceEnum,
+    title: '发货时间',
+    key: 'createTime2',
+    dataIndex: 'createTime',
+  },
+  {
+    title: '运单号',
+    key: 'createTime3',
+    dataIndex: 'createTime',
+  },
+  {
+    title: '包裹内共x件商品',
+    key: 'list',
+    dataIndex: 'list',
+    span: 3,
+    valueType: () => {
+      return (
+        <Space size={[16, 16]} wrap>
+          <Card>
+            <Space>
+              <Image height={40} width={40} src={''} />
+              <div>
+                <b style={{ fontSize: '14px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
+                <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
+              </div>
+              <div>x2</div>
+            </Space>
+          </Card>
+        </Space>
+      );
+    },
   },
 ];
 
 export const manageColumn = [
   {
-    title: '商品图片',
+    title: '商品信息',
     dataIndex: 'mainGraph',
     key: 'mainGraph',
-
-    ellipsis: true,
-    width: 80,
-    render: (value) => {
-      return <Image src={value} preview={{ src: value }} />;
-    },
+    render: (_, record) => (
+      <Space>
+        <Image height={80} width={80} src={record.mainGraph} />
+        <div>
+          <b style={{ fontSize: '16px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
+          <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
+          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:36173573572</div>
+        </div>
+      </Space>
+    ),
   },
   {
-    title: '商品名称',
+    title: 'sku单价/数量',
     dataIndex: 'itemName',
     key: 'itemName',
-
-    ellipsis: true,
-    width: 80,
+    render: () => (
+      <Space direction="vertical">
+        <div>￥120.00</div>
+        <div style={{ float: 'right' }}>x2</div>
+      </Space>
+    ),
   },
   {
-    title: '规格',
+    title: '售后状态',
     dataIndex: 'specifications',
     key: 'specifications',
-
     ellipsis: true,
-    width: 80,
+    render: () => <Tag color="#f50">售后中</Tag>,
   },
   {
-    title: '型号',
+    title: '发货状态',
     dataIndex: 'model',
     key: 'model',
-
     ellipsis: true,
-    width: 80,
   },
   {
-    title: '数量',
+    title: 'sku总价',
     dataIndex: 'amount',
     key: 'amount',
-
     ellipsis: true,
-    width: 80,
+    render: () => <div>￥245.00</div>,
   },
   {
-    title: '商品价格',
+    title: '促销信息',
     dataIndex: 'unitPrice',
     key: 'unitPrice',
-
     ellipsis: true,
-    width: 80,
-  },
-  {
-    title: '运费',
-    dataIndex: 'name',
-    key: 'name',
-
-    ellipsis: true,
-    width: 80,
   },
 ];
-
-export const schemaUpOrder = ({ companySelect }) => {
-  return {
-    type: 'object',
-    displayType: 'row',
-    labelWidth: '100%',
-    properties: {
-      logisticsCompany: {
-        title: '物流公司',
-        type: 'string',
-        widget: 'select',
-        required: true,
-        props: {
-          options: companySelect,
-          showSearch: true,
-          allowClear: true,
-          filterOption: (input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase()),
-        },
-        placeholder: '请输入物流公司',
-      },
-      trackingNumber: {
-        title: '运单号',
-        type: 'string',
-        required: true,
-        placeholder: '请输入运单号',
-      },
-    },
-  };
-};

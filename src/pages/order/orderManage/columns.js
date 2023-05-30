@@ -1,66 +1,101 @@
-import { Divider } from 'antd';
-import { Fragment } from 'react';
-import { isOpenInvoiceEnum, orderStatusEnum } from './enum';
+import UserContent from '@/components/UserContent';
+import { Divider, Image, Space, Tag } from 'antd';
+import moment from 'moment';
 
-export const columns = (handle) => [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-
-    hideInSearch: true,
-    render: (text, record, index) => index + 1,
-  },
+export const columns = () => [
   {
     title: '订单编号',
     dataIndex: 'orderNumber',
+    key: 'name',
   },
   {
-    title: '数量',
-    dataIndex: 'itemCount',
+    title: '下单时间',
+    dataIndex: 'createTime',
+    key: 'createTime',
+    render: (_, record) =>
+      (record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
+  },
+  {
+    title: '用户信息',
+    dataIndex: 'user',
+    key: 'user',
+    render: (_, record) => (
+      <UserContent headUrl={''} name={record.userName} phone={record.userMobile} />
+    ),
+  },
+];
 
-    hideInSearch: true,
+export const expandColumn = ({ handle }) => [
+  {
+    title: '商品信息',
+    dataIndex: 'date',
+    key: 'date',
+    render: (_, record) => (
+      <Space>
+        <Image height={80} width={80} src={record.mainGraph} />
+        <div>
+          <b style={{ fontSize: '16px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
+          <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
+          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:36173573572</div>
+        </div>
+      </Space>
+    ),
+  },
+  {
+    title: 'sku单价/数量',
+    dataIndex: 'name',
+    key: 'name',
+    render: () => (
+      <Space direction="vertical">
+        <div>￥120.00</div>
+        <div style={{ float: 'right' }}>x2</div>
+      </Space>
+    ),
   },
   {
     title: '订单金额',
-    dataIndex: 'orderPrice',
-
-    hideInSearch: true,
+    key: 'state',
+    render: () => <div>￥245.00</div>,
   },
   {
-    title: '收货人',
-    dataIndex: 'consignee',
+    title: '售后状态',
+    dataIndex: 'upgradeNum',
+    key: 'upgradeNum',
+    render: () => <Tag color="#f50">售后中</Tag>,
   },
   {
-    title: '订单状态',
-    dataIndex: 'orderStatus',
-
-    valueType: 'select',
-    valueEnum: orderStatusEnum,
+    title: '收件信息',
+    dataIndex: 'upgradeNum',
+    key: 'upgradeNum',
+    render: () => (
+      <Space>
+        <div>
+          <b style={{ fontSize: '16px' }}>严佳能 17857001531</b>
+          <div style={{ fontSize: '14px' }}>浙江省 杭州市 萧山区 蜀山街道</div>
+          <div style={{ fontSize: '14px' }}>北辰奥园18-2-110</div>
+        </div>
+      </Space>
+    ),
   },
   {
-    title: '开票状态',
-    dataIndex: 'isOpenInvoice',
-
-    valueType: 'select',
-    hideInSearch: true,
-    valueEnum: isOpenInvoiceEnum,
+    title: '订单备注',
+    dataIndex: 'remark',
+    key: 'upgradeNum',
+    render: () => <div>这里是订单备注订单备注</div>,
+  },
+  {
+    title: '状订单态',
+    dataIndex: 'remark',
+    key: 'upgradeNum',
+    render: () => <div>待发货</div>,
   },
   {
     title: '操作',
-    width: 150,
-    fixed: 'right',
-
-    hideInSearch: true,
     render: (record) => (
       <div>
         <a onClick={() => handle('view', record)}>详情</a>
-
-        {record.orderStatus === 2 && (
-          <Fragment>
-            <Divider type="vertical" />
-            <a onClick={() => handle('upOrder', record)}>上传单号</a>
-          </Fragment>
-        )}
+        <Divider type="vertical" />
+        <a onClick={() => handle('push', record)}>发货</a>
       </div>
     ),
   },

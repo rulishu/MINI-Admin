@@ -3,13 +3,16 @@ import { all } from '@/service/order/orderManage';
 export default {
   namespace: 'orderManage',
   state: {
+    activeKey: '1',
     type: '',
     /** 详情弹窗  */
     visible: false,
-    /** 上传弹窗  */
-    upVisible: false,
+    /** 发货弹窗  */
+    pushVisible: false,
     /** 详情数据  */
     queryData: {},
+    /** 发货信息  */
+    pushData: {},
     /** 是否刷新分页  */
     reload: false,
     companySelect: [], // 物流公司
