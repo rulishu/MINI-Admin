@@ -1,9 +1,10 @@
-import { getTreeList } from '@/service/commonInterface';
+import { getEnums, getTreeList } from '@/service/commonInterface';
 
 export default {
   namespace: 'commonInterface',
   state: {
     treeList: [],
+    enums: {},
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -20,6 +21,21 @@ export default {
           type: 'update',
           payload: {
             treeList: result,
+          },
+        });
+      }
+    },
+    *getDictType({ payload }, { call, put, select }) {
+      const { code, result = [] } = yield call(getEnums, payload);
+      if (code && code === 200) {
+        const { enums } = yield select((state) => state.commonInterface);
+        yield put({
+          type: 'update',
+          payload: {
+            enums: {
+              ...enums,
+              [payload['dictType']]: result,
+            },
           },
         });
       }

@@ -351,7 +351,7 @@ export default function Tables() {
             padding: 0,
           },
         }}
-        cardBordered={true}
+        cardBordered={false}
         columns={columns({ handleEdit, options, categoryList, suppliersEnum })}
         rowKey="id"
         rowSelection={{

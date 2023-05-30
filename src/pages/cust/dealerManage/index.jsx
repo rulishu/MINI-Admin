@@ -11,19 +11,18 @@ export default () => {
   const { modal } = App.useApp();
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload } = useSelector((state) => state.agentManagement);
+  const { reload } = useSelector((state) => state.dealerManage);
   const update = (data) => {
     dispatch({
-      type: 'agentManagement/update',
+      type: 'dealerManage/update',
       payload: data,
     });
   };
 
   // 新增编辑刷新分页
   useEffect(() => {
-    dispatch({ type: 'agentManagement/selectByAgentCompany' });
+    dispatch({ type: 'dealerManage/selectByAgentCompany' });
     if (reload) ref?.current?.reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   const { mutateAsync: mutateDeleteAsync } = useReactMutation({
@@ -48,7 +47,7 @@ export default () => {
       });
     }
     if (type === 'delete') {
-      if (record?.areaId) {
+      if (record.areaId) {
         modal.error({
           title: '无法删除',
           content: '该代理商已绑定地盘，无法删除',
@@ -68,7 +67,7 @@ export default () => {
   return (
     <div>
       <ProTable
-        headerTitle="代理商列表"
+        headerTitle="经销商列表"
         actionRef={ref}
         options={false}
         search={{

@@ -5,3 +5,10 @@ export const getTreeList = async () => {
     method: 'GET',
   });
 };
+
+export const getEnums = async (body) => {
+  return request(`/jcgl-user/admin/user/dict/select/all`, {
+    method: 'POST',
+    data: body,
+  });
+};

@@ -6,7 +6,7 @@ import { addItem, updateItem } from '@/service/goods/productManage';
 import { ButtonGroupPro } from '@antdp/antdp-ui';
 import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Cascader, DatePicker } from 'antd';
+import { Card, Cascader, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
@@ -146,7 +146,8 @@ const TheForm = () => {
   };
 
   return (
-    <div style={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
+    <Card bodyStyle={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
+      {/* <TheBigCascader categoryTree={categoryTree} /> */}
       <FormRender
         form={form}
         colon={false}
@@ -213,7 +214,7 @@ const TheForm = () => {
         )}
         onFinish={onFinish}
       />
-    </div>
+    </Card>
   );
 };
 export default TheForm;

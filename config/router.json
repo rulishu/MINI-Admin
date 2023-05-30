@@ -116,7 +116,8 @@
           },
           {
             "path": "/cust/dealerManage",
-            "name": "经销商管理"
+            "name": "经销商管理",
+            "component": "@/pages/cust/dealerManage"
           },
           {
             "path": "/cust/agentManagement",
@@ -168,7 +169,7 @@
         "routes": [
           {
             "path": "/banner/bannerManage",
-            "name": "banner管理",
+            "name": "广告位管理",
             "component": "@/pages/homeManage/bannerManage"
           },
           {

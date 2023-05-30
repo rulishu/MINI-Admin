@@ -11,13 +11,13 @@ import { useEffect } from 'react';
 export default () => {
   const form = useForm();
   const {
-    agentManagement: { visible, queryInfo, type },
+    dealerManage: { visible, queryInfo, type },
   } = useSelector((state) => state);
 
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
-      type: 'agentManagement/update',
+      type: 'dealerManage/update',
       payload: data,
     });
   };
@@ -110,17 +110,17 @@ export default () => {
               form1: {
                 type: 'object',
                 widget: 'lineTitle',
-                title: '代理',
+                title: '经销',
                 properties: {
                   companyName: {
-                    title: '代理商名称',
+                    title: '经销商名称',
                     type: 'string',
                     required: true,
                     span: 12,
                     props: {
                       allowClear: true,
                     },
-                    placeholder: '请输入代理商',
+                    placeholder: '请输入经销商',
                   },
                   shopName: {
                     title: '镖局名称',

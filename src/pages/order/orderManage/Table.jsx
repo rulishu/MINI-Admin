@@ -73,7 +73,6 @@ export default function SearchTable() {
         }}
         cardProps={{
           headStyle: {},
-          bodyStyle: { padding: 0 },
           size: 'small',
           style: {
             padding: 0,

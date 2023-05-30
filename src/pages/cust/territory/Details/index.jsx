@@ -53,7 +53,6 @@ export default () => {
           reload: true,
           type: '',
           queryInfo: {},
-          relaod: true,
         });
       }
     },

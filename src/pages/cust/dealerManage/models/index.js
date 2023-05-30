@@ -1,12 +1,11 @@
 export default {
-  namespace: 'bannerManage',
+  namespace: 'dealerManage',
   state: {
-    activeKey: 1,
     visible: false,
-    /** add新增 / edit编辑  */
+    /** add新增 / edit编辑 / view查看  */
     type: '',
     queryInfo: {},
-    reload: false,
+    relaod: false,
   },
   reducers: {
     update: (state, { payload }) => ({

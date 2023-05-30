@@ -23,7 +23,7 @@ const Layout = () => {
           name: '埋名',
           avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
         }}
-        siderWidth={240}
+        siderWidth={208}
         topRightMenu={[
           {
             title: '个人中心',

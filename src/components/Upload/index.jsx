@@ -26,7 +26,7 @@ export default ({
   const { message } = App.useApp();
   useEffect(() => {
     addons && addons.removeErrorField(addons.dataPath);
-  }, [addons, value]);
+  }, [addons, _value]);
 
   useEffect(() => {
     onChange?.(fileList);
