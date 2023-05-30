@@ -98,6 +98,12 @@ export default () => {
         pagination={{
           showSizeChanger: true,
         }}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         cardBordered={true}
         columns={columns({ handleEdit })}
         rowKey="id"

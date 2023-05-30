@@ -93,6 +93,12 @@ export default () => {
             新增代理
           </Button>,
         ]}
+        cardProps={{
+          size: 'small',
+          style: {
+            padding: 0,
+          },
+        }}
         pagination={{
           showSizeChanger: true,
         }}
