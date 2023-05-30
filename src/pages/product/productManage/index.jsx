@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from '@umijs/max';
-import { Tabs } from 'antd';
+import { Card, Tabs } from 'antd';
 import { useEffect } from 'react';
 import Forms from './Forms';
 import Tables from './Tables';
@@ -58,20 +58,22 @@ const App = () => {
     return <Forms />;
   }
   return (
-    <Tabs
-      destroyInactiveTabPane={true}
-      activeKey={activeKey}
-      items={items}
-      size="small"
-      onChange={(key) => {
-        dispatch({
-          type: 'productManage/update',
-          payload: {
-            activeKey: key,
-          },
-        });
-      }}
-    />
+    <Card>
+      <Tabs
+        destroyInactiveTabPane={true}
+        activeKey={activeKey}
+        items={items}
+        size="small"
+        onChange={(key) => {
+          dispatch({
+            type: 'productManage/update',
+            payload: {
+              activeKey: key,
+            },
+          });
+        }}
+      />
+    </Card>
   );
 };
 
