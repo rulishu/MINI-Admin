@@ -59,12 +59,10 @@ export default function SearchTable() {
         actionRef={ref}
         options={false}
         request={async (params = {}) => {
-          const { current, pageSize, startTime, ...formData } = params;
+          const { current, pageSize, ...formData } = params;
           const { code, result } = await selectPage({
             pageSize,
             pageNum: current,
-            startTime: startTime && startTime[0],
-            endTime: startTime && startTime[1],
             ...formData,
           });
           if (code === 200) {
@@ -82,6 +80,7 @@ export default function SearchTable() {
         }}
         search={{
           labelWidth: 'auto',
+          span: 8,
         }}
         pagination={{
           showSizeChanger: true,

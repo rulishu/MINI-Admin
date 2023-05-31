@@ -5,15 +5,16 @@ import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
 export const columns = ({ handle }) => [
   {
-    title: '用户信息',
+    title: '用户',
     dataIndex: 'keyword',
     fieldProps: {
-      placeholder: '用户昵称/用户编号/注册号码',
+      placeholder: '请输入用户昵称/用户编号/注册号码',
     },
     hideInTable: true,
   },
   {
     title: '订单编号',
+    width: 120,
     dataIndex: 'orderNumber',
     fieldProps: {},
   },
@@ -25,6 +26,14 @@ export const columns = ({ handle }) => [
     },
     hideInTable: true,
     valueType: 'dateRange',
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
   },
   {
     title: '商品名称',
@@ -46,16 +55,16 @@ export const columns = ({ handle }) => [
   },
   {
     title: '下单时间',
+    width: 180,
     dataIndex: 'createTime',
-    key: 'createTime',
     hideInSearch: true,
     render: (_, record) =>
       (record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
   },
   {
     title: '用户信息',
+    width: 200,
     dataIndex: 'user',
-    key: 'user',
     hideInSearch: true,
     render: (_, record) => (
       <UserContent headUrl={''} name={record.userName} phone={record.userMobile} />
@@ -63,13 +72,15 @@ export const columns = ({ handle }) => [
   },
   {
     title: '订单金额',
-    key: 'orderPrice',
+    width: 120,
+    hideInSearch: true,
     render: (_, record) => <div>￥{record.orderPrice}</div>,
   },
   {
     title: '收件信息',
+    width: 200,
     dataIndex: 'upgradeNum',
-    key: 'upgradeNum',
+    hideInSearch: true,
     render: (_, record) => {
       const { consignee, phone, receivingAddress } = record.orderLogisticsDto || {};
       return (
@@ -87,12 +98,14 @@ export const columns = ({ handle }) => [
   {
     title: '订单备注',
     dataIndex: 'remark',
-    key: 'remark',
+    width: 120,
+    hideInSearch: true,
   },
   {
     title: '订单状态',
+    width: 90,
     dataIndex: 'orderStatus',
-    key: 'orderStatus',
+    hideInSearch: true,
     render: (_, record) => {
       const obj = String(record.orderStatus) && orderStatusEnum[record.orderStatus];
       return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
@@ -100,6 +113,8 @@ export const columns = ({ handle }) => [
   },
   {
     title: '操作',
+    width: 90,
+    hideInSearch: true,
     render: (record) => (
       <div>
         <a onClick={() => handle('view', record)}>详情</a>
