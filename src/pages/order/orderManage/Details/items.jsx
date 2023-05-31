@@ -1,4 +1,5 @@
 import { Card, Image, Space, Tag } from 'antd';
+import { orderStatusEnum, payEnum } from '../enum';
 
 export const basicItem = [
   {
@@ -17,6 +18,10 @@ export const basicItem = [
       color: '#000',
       fontSize: 15,
     },
+    render: (_, record) => {
+      const obj = String(record.orderStatus) && orderStatusEnum[record.orderStatus];
+      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
+    },
   },
   {
     title: '订单号',
@@ -26,33 +31,34 @@ export const basicItem = [
   },
   {
     title: '下单时间',
-    key: 'userName',
+    key: 'createTime',
     editable: () => false,
-    dataIndex: 'userName',
+    dataIndex: 'createTime',
   },
   {
     title: '付款时间',
-    key: 'phone',
+    key: 'payDate',
     editable: () => false,
-    dataIndex: 'phone',
+    dataIndex: 'payDate',
   },
   {
     title: '支付方式',
-    key: 'consignee',
+    key: 'payType',
     editable: () => false,
-    dataIndex: 'consignee',
+    dataIndex: 'payType',
+    valueEnum: payEnum,
   },
   {
     title: '支付单号',
-    key: 'consignee',
+    key: 'payOrderNumber',
     editable: () => false,
     dataIndex: 'consignee',
   },
   {
     title: '发货时间',
-    key: 'consignee1',
+    key: 'deliveryTime',
     editable: () => false,
-    dataIndex: 'consignee',
+    dataIndex: 'deliveryTime',
   },
   {
     title: '完成时间',
@@ -71,49 +77,49 @@ export const basicItem = [
 export const buyerItem = [
   {
     title: '用户昵称',
-    key: 'createTime',
-    dataIndex: 'createTime',
+    key: 'userName',
+    dataIndex: 'userName',
   },
   {
     title: '买家留言',
-    key: 'orderStatus',
-    dataIndex: 'orderStatus',
+    key: 'remark',
+    dataIndex: 'remark',
   },
 ];
 
 export const receiveItem = [
   {
     title: '收件人',
-    key: 'createTime',
-    dataIndex: 'createTime',
+    key: 'consignee',
+    dataIndex: 'consignee',
   },
   {
     title: '联系方式',
-    key: 'orderStatus',
-    dataIndex: 'orderStatus',
+    key: 'phone',
+    dataIndex: 'phone',
   },
   {
     title: '收货地址',
-    key: 'consignee',
-    dataIndex: 'consignee',
+    key: 'receivingAddress',
+    dataIndex: 'receivingAddress',
   },
 ];
 
 export const productItem = [
   {
     title: '物流公司',
+    key: 'companyName',
+    dataIndex: 'companyName',
+  },
+  {
+    title: '发货时间',
     key: 'createTime',
     dataIndex: 'createTime',
   },
   {
-    title: '发货时间',
-    key: 'createTime2',
-    dataIndex: 'createTime',
-  },
-  {
     title: '运单号',
-    key: 'createTime3',
-    dataIndex: 'createTime',
+    key: 'trackingNumber',
+    dataIndex: 'trackingNumber',
   },
   {
     title: '包裹内共x件商品',

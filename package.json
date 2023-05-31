@@ -26,7 +26,7 @@
     "@antdp/hooks": "2.0.15",
     "@antdp/user-login": "2.0.15",
     "antd": "5.4.7",
-    "form-render": "^2.1.19",
+    "form-render": "~2.1.28",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
