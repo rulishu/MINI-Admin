@@ -4,14 +4,50 @@ import moment from 'moment';
 
 export const columns = () => [
   {
+    title: '用户信息',
+    dataIndex: 'users',
+    fieldProps: {
+      placeholder: '用户昵称/用户编号/注册号码',
+    },
+    hideInTable: true,
+  },
+  {
     title: '订单编号',
     dataIndex: 'orderNumber',
-    key: 'name',
+    fieldProps: {},
+  },
+  {
+    title: '下单时间',
+    dataIndex: 'startTime',
+    fieldProps: {
+      showTime: true,
+    },
+    hideInTable: true,
+    valueType: 'dateRange',
+  },
+  {
+    title: '商品名称',
+    dataIndex: 'itemName',
+    fieldProps: {},
+    hideInTable: true,
+  },
+  {
+    title: '供应商',
+    dataIndex: 'supplierName',
+    fieldProps: {},
+    hideInTable: true,
+  },
+  {
+    title: '物流单号',
+    dataIndex: 'trackingNumber',
+    fieldProps: {},
+    hideInTable: true,
   },
   {
     title: '下单时间',
     dataIndex: 'createTime',
     key: 'createTime',
+    hideInSearch: true,
     render: (_, record) =>
       (record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
   },
@@ -19,6 +55,7 @@ export const columns = () => [
     title: '用户信息',
     dataIndex: 'user',
     key: 'user',
+    hideInSearch: true,
     render: (_, record) => (
       <UserContent headUrl={''} name={record.userName} phone={record.userMobile} />
     ),

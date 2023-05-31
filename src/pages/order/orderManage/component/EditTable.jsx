@@ -82,6 +82,7 @@ export default ({ value = [], onChange }) => {
               return (
                 <InputNumber
                   value={record.number}
+                  min={0}
                   onChange={(value) => handleNumberChange(record.id, value)}
                 />
               );

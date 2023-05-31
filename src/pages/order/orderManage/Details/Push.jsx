@@ -59,7 +59,7 @@ export default () => {
           <Button key="save" type="primary" loading={isLoading} onClick={form.submit}>
             保存
           </Button>
-          <Button key="cancel" onClick={() => update({ visible: false })}>
+          <Button key="cancel" onClick={() => update({ pushVisible: false })}>
             取消
           </Button>
         </div>
