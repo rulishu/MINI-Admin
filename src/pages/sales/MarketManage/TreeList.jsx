@@ -1,11 +1,13 @@
-import { CarryOutOutlined, FormOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Form, Tree } from 'antd';
+import { App, Button, Form, Tree } from 'antd';
 import { useEffect, useState } from 'react';
+const { DirectoryTree } = Tree;
 
 const TreeList = () => {
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
   const { marketManage } = useSelector((state) => state);
   const { marketTree } = marketManage;
   const [modalVisit, setModalVisit] = useState(false);
@@ -14,66 +16,17 @@ const TreeList = () => {
   const markets = (arr) => {
     return arr.map((item) => {
       const obj = {
-        title: (
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexWrap: 'nowrap',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span>{item?.marketingName}</span>
-            <div>
-              {item?.parentId === '0' && (
-                <Button
-                  type="link"
-                  onClick={() => {
-                    setModalData({ parentId: item?.id });
-                    setModalVisit(true);
-                  }}
-                >
-                  新增子类
-                </Button>
-              )}
-              <Button type="link">删除</Button>
-            </div>
-          </div>
-        ),
+        title: item?.marketingName,
         key: item?.id,
-        icon: <CarryOutOutlined />,
+        parentId: item?.parentId,
+        sort: item?.sort,
       };
       if (item?.child && item.child.length > 0) {
         obj.children = item.child.map((i) => ({
-          title: (
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                flexWrap: 'nowrap',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>{i?.marketingName}</span>
-              <div>
-                <Button
-                  type="link"
-                  onClick={() => {
-                    dispatch({
-                      type: 'marketManage/deleteMarket',
-                      payload: {},
-                    });
-                  }}
-                >
-                  删除
-                </Button>
-              </div>
-            </div>
-          ),
+          title: i?.marketingName,
           key: i?.id,
-          switcherIcon: <FormOutlined />,
+          parentId: i?.parentId,
+          sort: i?.sort,
           isLeaf: true,
         }));
       }
@@ -212,14 +165,20 @@ const TreeList = () => {
         ar.splice(i + 1, 0, dragObj);
       }
     }
+    console.log('GDatadata: ', data);
     setGData(data);
+
+    dispatch({
+      type: 'marketManage/moveMarket',
+      payload: { gData: data },
+    });
   };
-  console.log('gData: ', gData);
 
   return (
     <>
       <Button
         type="primary"
+        style={{ marginBottom: 10 }}
         onClick={() => {
           setModalData({ parentId: 0 });
           setModalVisit(true);
@@ -228,15 +187,77 @@ const TreeList = () => {
         <PlusOutlined />
         新建一级类目
       </Button>
-      <Tree
-        style={{ marginTop: 10 }}
+      <DirectoryTree
         // showLine
+        defaultExpandAll
         className="draggable-tree"
         draggable={{ icon: false }}
         blockNode
+        icon={null}
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}
+        onSelect={(selectedKeys, e) => {
+          const { selectedNodes } = e;
+          if (selectedNodes?.[0]?.parentId !== '0') {
+            dispatch({
+              type: 'marketManage/updateState',
+              payload: { activeMarketId: selectedKeys?.[0] },
+            });
+          }
+        }}
+        titleRender={(nodeData) => (
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexWrap: 'nowrap',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>{nodeData?.title}</span>
+            <span
+              style={{
+                marginLeft: 10,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {nodeData?.parentId === '0' && (
+                <a
+                  onClick={() => {
+                    setModalData({ parentId: nodeData?.id });
+                    setModalVisit(true);
+                  }}
+                >
+                  新增子类
+                </a>
+              )}
+              <a
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  modal.warning({
+                    title: '删除',
+                    maskClosable: true,
+                    autoFocusButton: false,
+                    content: '确认要删除吗？',
+                    okText: '删除',
+                    onOk: () => {
+                      dispatch({
+                        type: 'marketManage/deleteMarket',
+                        payload: {
+                          id: nodeData?.id,
+                        },
+                      });
+                    },
+                  });
+                }}
+              >
+                删除
+              </a>
+            </span>
+          </div>
+        )}
       />
       <ModalForm
         open={modalVisit}
@@ -246,7 +267,7 @@ const TreeList = () => {
         autoFocusFirstInput
         modalProps={{
           destroyOnClose: true,
-          onCancel: () => console.log('run'),
+          onCancel: () => setModalVisit(false),
         }}
         submitTimeout={2000}
         onFinish={async (values) => {

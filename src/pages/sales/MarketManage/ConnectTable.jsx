@@ -1,28 +1,62 @@
-import { Table } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
+import { useDispatch, useSelector } from '@umijs/max';
+import { App, Button, Image } from 'antd';
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-  data.push({
-    key: i,
-    name: `Edward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
+const ConnectTable = () => {
+  const { message } = App.useApp();
+  const dispatch = useDispatch();
+  const { marketManage } = useSelector((state) => state);
+  const { activeMarketId, tableData } = marketManage;
 
-const ConnectTable = ({ tableRef, scrollY }) => {
   return (
-    <Table
-      ref={tableRef}
-      style={{ width: '100%', height: '100%', minHeight: 714, overflow: 'auto' }}
-      columns={columns}
-      dataSource={data}
-      bordered
-      scroll={{
-        x: '100%',
-        y: scrollY,
+    <ProTable
+      className="conntct-goods"
+      dataSource={tableData}
+      rowKey="id"
+      manualRequest={true}
+      params={{
+        id: activeMarketId,
       }}
-      sticky
+      request={async (params = {}) => {
+        console.log('params: ', params);
+        if (params?.id) {
+          let obj = {};
+          dispatch({
+            type: 'marketManage/selectMarket',
+            payload: {
+              params,
+              callback: (data) => {
+                obj.data = data.tableData;
+                obj.total = data.total;
+                obj.success = true;
+              },
+            },
+          });
+          return obj;
+        } else {
+          message.warning('请先选中营销类目');
+        }
+      }}
+      pagination={{
+        showSizeChanger: true,
+      }}
+      columns={columns}
+      search={false}
+      options={false}
+      dateFormatter="string"
+      headerTitle={
+        <div>
+          <p>手动关联商品</p>
+          <p style={{ color: 'rgba(0, 0, 0, 0.25)', fontSize: 13 }}>
+            手动关联的商品属于强关联，不随商品后台类目变化而变化
+          </p>
+        </div>
+      }
+      toolBarRender={() => (
+        <Button type="primary" key="primary">
+          添加商品
+        </Button>
+      )}
     />
   );
 };
@@ -30,58 +64,47 @@ export default ConnectTable;
 
 const columns = [
   {
-    title: 'Full Name',
-    width: 100,
-    dataIndex: 'name',
-    key: 'name',
+    title: '商品信息',
+    dataIndex: 'item',
+    width: 150,
+    render: (_, record) => {
+      return (
+        <div style={{ height: 66, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Image width={66} height={66} src={record?.mainGraph} />
+          {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
+          <div style={{ flex: 1, marginLeft: 10, textAlign: 'left', height: 66 }}>
+            <p
+              style={{
+                padding: 0,
+                margin: 0,
+                height: 44,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {record?.itemName}
+            </p>
+            <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
+          </div>
+        </div>
+      );
+    },
   },
   {
-    title: 'Column 1',
+    title: '价格',
     dataIndex: 'address',
-    key: '1',
     width: 150,
   },
   {
-    title: 'Column 2',
+    title: '排序',
     dataIndex: 'address',
-    key: '2',
     width: 150,
   },
   {
-    title: 'Column 3',
-    dataIndex: 'address',
-    key: '3',
-    width: 150,
-  },
-  {
-    title: 'Column 4',
-    dataIndex: 'address',
-    key: '4',
-    width: 150,
-  },
-  {
-    title: 'Column 5',
-    dataIndex: 'address',
-    key: '5',
-    width: 150,
-  },
-  {
-    title: 'Column 6',
-    dataIndex: 'address',
-    key: '6',
-    width: 150,
-  },
-  {
-    title: 'Column 7',
-    dataIndex: 'address',
-    key: '7',
-    width: 150,
-  },
-  {
-    title: 'Action',
-    key: 'operation',
+    title: '操作',
+    key: '-_-!',
     width: 100,
     fixed: 'right',
-    render: () => <a>delete</a>,
+    render: () => <a>删除</a>,
   },
 ];

@@ -20,18 +20,6 @@ export async function getMarketTree() {
 //   });
 // }
 
-// export async function getCategory(params) {
-//   const { page, pageSize, ...others } = params;
-//   return request(
-//     `/jcgl-mall/admin/item/category/select/page/list?pageSize=${pageSize}&pageNum=${page}`,
-//     {
-//       method: 'POST',
-//       data: others,
-//       requestType: 'json',
-//     },
-//   );
-// }
-
 // 新增
 export async function addMarket(params) {
   return request('/jcgl-mall/admin/marketing/category/create', {
@@ -50,9 +38,49 @@ export async function addMarket(params) {
 // }
 
 export async function deleteMarket(params) {
-  return request(`/jcgl-mall/admin/marketing/category/delete?id=${params?.id}`, {
+  return request(`/jcgl-mall/admin/marketing/category/delete`, {
     method: 'DELETE',
-    // data: params,
+    data: params,
+    // requestType: 'json',
+  });
+}
+
+export async function moveMarket(params) {
+  return request('/jcgl-mall/admin/marketing/category/moveCategory', {
+    method: 'POST',
+    data: params,
+    // requestType: 'json',
+  });
+}
+
+// 更新类目
+
+export async function updateMarket(params) {
+  return request('/jcgl-mall/admin/marketing/category/update', {
+    method: 'PUT',
+    data: params,
+    // requestType: 'json',
+  });
+}
+
+// 查强绑商品
+export async function selectMarket(params) {
+  const { current, pageSize, ...others } = params;
+  return request(
+    `/jcgl-mall/admin/marketing/category/selectList?pageSize=${pageSize}&pageNum=${current}`,
+    {
+      method: 'POST',
+      data: others,
+      requestType: 'json',
+    },
+  );
+}
+
+// 强绑
+export async function addGoods(params) {
+  return request('/jcgl-mall/admin/marketing/relation/create', {
+    method: 'POST',
+    data: params,
     // requestType: 'json',
   });
 }

@@ -1,20 +1,35 @@
 import { ProForm, ProFormCascader } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Cascader, Input, Space } from 'antd';
+import { App, Button, Cascader, Input, Space } from 'antd';
+import { useEffect, useRef } from 'react';
+
 const { SHOW_CHILD } = Cascader;
 
-export default ({ cascaderList, setCascaderList }) => {
+export default () => {
+  const { message } = App.useApp();
   const dispatch = useDispatch();
+  const formRef = useRef();
 
-  const { groupManage } = useSelector((state) => state);
+  const { groupManage, marketManage } = useSelector((state) => state);
   const { categoryTree, categoryList } = groupManage;
+  const { cascaderList, activeMarketId } = marketManage;
+  console.log('activeMarketId: ', activeMarketId);
+
+  useEffect(() => {
+    if (cascaderList) {
+      formRef?.current?.setFieldsValue({
+        itemArray: cascaderList,
+      });
+    }
+  }, [cascaderList]);
 
   const getCategoryNameList = () => {
-    (categoryList || []).map((item) => ({
-      [item?.id]: item?.categoryName,
-    }));
+    const newObj = {};
+    categoryList.forEach((item) => {
+      newObj[item?.id] = item?.categoryName;
+    });
+    return newObj;
   };
-  console.log('getCategoryNameList: ', getCategoryNameList());
 
   const handler = (data) => {
     return data.map((item) => {
@@ -33,34 +48,56 @@ export default ({ cascaderList, setCascaderList }) => {
     }
   };
 
+  const getName = (data) => {
+    let arr = data.map((item) => getCategoryNameList()?.[item] || '') || [];
+    return arr.join('/');
+  };
+
   return (
     <>
       <ProForm
+        formRef={formRef}
         layout="inline"
-        grid={true}
-        rowProps={{
-          gutter: [16, 16],
+        onValuesChange={(changeValues) => {
+          dispatch({
+            type: 'marketManage/updateState',
+            payload: {
+              cascaderList: changeValues.itemArray,
+            },
+          });
         }}
-        submitter={false}
+        onFinish={async () => {
+          if (activeMarketId) {
+            dispatch({
+              type: 'marketManage/updateMarket',
+            });
+          } else {
+            message.warning('请先选中营销类目');
+          }
+        }}
+        submitter={{
+          // 配置按钮文本
+          searchConfig: {
+            submitText: '提交绑定',
+          },
+          // 配置按钮的属性
+          resetButtonProps: {
+            style: {
+              // 隐藏重置按钮
+              display: 'none',
+            },
+          },
+        }}
       >
         <ProFormCascader
-          initialValue={cascaderList}
           fieldProps={{
             multiple: true,
             maxTagCount: 'responsive',
             showCheckedStrategy: SHOW_CHILD,
-            onChange: (val) => {
-              console.log('val: ', val);
-              setCascaderList(val);
-              dispatch({
-                type: 'marketManage/updateState',
-                payload: {},
-              });
-            },
             options: options(),
           }}
           width="md"
-          name="areaList"
+          name="itemArray"
           label="关联后台类目"
         />
       </ProForm>
@@ -68,15 +105,27 @@ export default ({ cascaderList, setCascaderList }) => {
         关联后台叶子类目后，所有该类目下的商品都会出现在前台类目中
       </p>
       <Space wrap>
-        {cascaderList.map((item) => (
+        {cascaderList.map((item, index) => (
           <Space.Compact
-            key={item?.id}
+            key={item?.slice(-1)?.[0]}
             style={{
               width: '100%',
             }}
           >
-            <Input disabled defaultValue="一级/二级/三级" />
-            <Button type="default">删除</Button>
+            <Input disabled defaultValue={getName(item)} />
+            <Button
+              type="default"
+              onClick={() => {
+                dispatch({
+                  type: 'marketManage/updateState',
+                  payload: {
+                    cascaderList: cascaderList.toSpliced(index, 1),
+                  },
+                });
+              }}
+            >
+              删除
+            </Button>
           </Space.Compact>
         ))}
       </Space>
