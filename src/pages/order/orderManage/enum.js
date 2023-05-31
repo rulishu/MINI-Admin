@@ -58,3 +58,12 @@ export const afterSaleStatusEnum = {
     status: 'success',
   },
 };
+
+export const payEnum = {
+  1: {
+    text: '个人',
+  },
+  2: {
+    text: '企业',
+  },
+};

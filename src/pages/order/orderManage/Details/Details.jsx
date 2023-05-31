@@ -19,19 +19,6 @@ export default function Edit() {
 
   const handleCancel = () => updateFn({ visible: false });
 
-  const items = [
-    {
-      key: '1',
-      label: `包裹1`,
-      children: <ProDescriptions column={3} dataSource={queryData} columns={productItem} />,
-    },
-    {
-      key: '2',
-      label: `包裹2`,
-      children: <ProDescriptions column={3} dataSource={queryData} columns={productItem} />,
-    },
-  ];
-
   return (
     <Space direction="vertical">
       <FloatButton
@@ -55,15 +42,48 @@ export default function Edit() {
       </Card>
 
       <Card>
-        <ProDescriptions title="买家信息" column={4} dataSource={queryData} columns={buyerItem} />
-        <ProDescriptions title="收货信息" column={4} dataSource={queryData} columns={receiveItem} />
+        <ProDescriptions
+          title="买家信息"
+          column={4}
+          dataSource={queryData.orderLogisticsDto || {}}
+          columns={buyerItem}
+        />
+        <ProDescriptions
+          title="收货信息"
+          column={4}
+          dataSource={queryData.orderLogisticsDto || {}}
+          columns={receiveItem}
+        />
       </Card>
 
       <Card title="包裹信息">
         <Tabs
           destroyInactiveTabPane={true}
           activeKey={activeKey}
-          items={items}
+          items={[
+            {
+              key: '1',
+              label: `包裹1`,
+              children: (
+                <ProDescriptions
+                  column={3}
+                  dataSource={queryData.orderLogisticsDto || {}}
+                  columns={productItem}
+                />
+              ),
+            },
+            {
+              key: '2',
+              label: `包裹2`,
+              children: (
+                <ProDescriptions
+                  column={3}
+                  dataSource={queryData.orderLogisticsDto || {}}
+                  columns={productItem}
+                />
+              ),
+            },
+          ]}
           size="small"
           onChange={(key) => setKey(key)}
         />
