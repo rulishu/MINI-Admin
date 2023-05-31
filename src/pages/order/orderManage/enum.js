@@ -1,5 +1,3 @@
-import { CheckCircleOutlined, ClockCircleOutlined, SyncOutlined } from '@ant-design/icons';
-
 export const orderStatusEnum = {
   [-1]: {
     text: '订单已取消',
@@ -50,16 +48,13 @@ export const afterSaleStatusEnum = {
   0: {
     text: '未售后',
     status: 'default',
-    icon: <ClockCircleOutlined />,
   },
   1: {
     text: '售后中',
     status: 'processing',
-    icon: <SyncOutlined spin />,
   },
   2: {
     text: '已完成',
     status: 'success',
-    icon: <CheckCircleOutlined />,
   },
 };

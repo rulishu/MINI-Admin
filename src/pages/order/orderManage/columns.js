@@ -3,7 +3,7 @@ import { Divider, Image, Space, Tag } from 'antd';
 import moment from 'moment';
 import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
-export const columns = () => [
+export const columns = ({ handle }) => [
   {
     title: '用户信息',
     dataIndex: 'keyword',
@@ -61,13 +61,59 @@ export const columns = () => [
       <UserContent headUrl={''} name={record.userName} phone={record.userMobile} />
     ),
   },
+  {
+    title: '订单金额',
+    key: 'orderPrice',
+    render: (_, record) => <div>￥{record.orderPrice}</div>,
+  },
+  {
+    title: '收件信息',
+    dataIndex: 'upgradeNum',
+    key: 'upgradeNum',
+    render: (_, record) => {
+      const { consignee, phone, receivingAddress } = record.orderLogisticsDto || {};
+      return (
+        <Space>
+          <div>
+            <b style={{ fontSize: '16px' }}>
+              {consignee || '-'} {phone || '-'}
+            </b>
+            <div style={{ fontSize: '14px' }}>{receivingAddress || '-'}</div>
+          </div>
+        </Space>
+      );
+    },
+  },
+  {
+    title: '订单备注',
+    dataIndex: 'remark',
+    key: 'remark',
+  },
+  {
+    title: '订单状态',
+    dataIndex: 'orderStatus',
+    key: 'orderStatus',
+    render: (_, record) => {
+      const obj = String(record.orderStatus) && orderStatusEnum[record.orderStatus];
+      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
+    },
+  },
+  {
+    title: '操作',
+    render: (record) => (
+      <div>
+        <a onClick={() => handle('view', record)}>详情</a>
+        <Divider type="vertical" />
+        <a onClick={() => handle('push', record)}>发货</a>
+      </div>
+    ),
+  },
 ];
 
-export const expandColumn = ({ handle, recordData }) => [
+export const expandColumn = () => [
   {
     title: '商品信息',
-    dataIndex: 'date',
-    key: 'date',
+    dataIndex: 'item',
     render: (_, record) => (
       <Space>
         <Image height={80} width={80} src={record.mainGraph} />
@@ -82,7 +128,6 @@ export const expandColumn = ({ handle, recordData }) => [
   {
     title: 'sku单价/数量',
     dataIndex: 'unitPriceAndNumber',
-    key: 'unitPriceAndNumber',
     render: (_, record) => (
       <Space direction="vertical">
         <div>{`￥${record.unitPrice}`}</div>
@@ -91,63 +136,13 @@ export const expandColumn = ({ handle, recordData }) => [
     ),
   },
   {
-    title: '订单金额',
-    key: 'price',
-    render: () => <div>￥{recordData.orderPrice}</div>,
-  },
-  {
     title: '售后状态',
     dataIndex: 'afterSaleStatus',
     render: (_, record) => {
       const obj =
         (record.afterSaleStatus || record.afterSaleStatus === 0) &&
         afterSaleStatusEnum[record.afterSaleStatus];
-      return obj ? (
-        <Tag icon={obj.icon} color={obj.status}>
-          {obj.text}
-        </Tag>
-      ) : (
-        '-'
-      );
-    },
-  },
-  {
-    title: '收件信息',
-    dataIndex: 'upgradeNum',
-    key: 'upgradeNum',
-    render: () => (
-      <Space>
-        <div>
-          <b style={{ fontSize: '16px' }}>严佳能 17857001531</b>
-          <div style={{ fontSize: '14px' }}>浙江省 杭州市 萧山区 蜀山街道</div>
-          <div style={{ fontSize: '14px' }}>北辰奥园18-2-110</div>
-        </div>
-      </Space>
-    ),
-  },
-  {
-    title: '订单备注',
-    dataIndex: 'remark',
-    key: 'remark',
-    render: () => recordData.remark || '-',
-  },
-  {
-    title: '订单状态',
-    dataIndex: 'orderStatus',
-    key: 'orderStatus',
-    render: () => {
-      const obj = String(recordData.orderStatus) && orderStatusEnum[recordData.orderStatus];
       return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
     },
-  },
-  {
-    title: '操作',
-    render: (record) => (
-      <div>
-        <a onClick={() => handle('view', record)}>详情</a>
-        <Divider type="vertical" />
-        <a onClick={() => handle('push', record)}>发货</a>
-      </div>
-    ),
   },
 ];

@@ -94,7 +94,7 @@ export default function SearchTable() {
           },
         }}
         cardBordered={true}
-        columns={columns()}
+        columns={columns({ handle })}
         rowKey="id"
         expandable={{
           expandedRowRender,
