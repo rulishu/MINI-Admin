@@ -9,7 +9,7 @@ import { columns, expandColumn } from './columns';
 export default function SearchTable() {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { reload } = useSelector((state) => state.orderManage);
+  const { reload, activeKey } = useSelector((state) => state.orderManage);
 
   useEffect(() => {
     if (reload) {
@@ -44,7 +44,7 @@ export default function SearchTable() {
     const { itemList = [] } = record;
     return (
       <Table
-        columns={expandColumn({ handle })}
+        columns={expandColumn({ handle, recordData: record })}
         dataSource={itemList}
         pagination={false}
         rowKey="id"
@@ -59,10 +59,12 @@ export default function SearchTable() {
         actionRef={ref}
         options={false}
         request={async (params = {}) => {
-          const { current, pageSize, ...formData } = params;
+          const { current, pageSize, startTime, ...formData } = params;
           const { code, result } = await selectPage({
             pageSize,
             pageNum: current,
+            startTime: startTime && startTime[0],
+            endTime: startTime && startTime[1],
             ...formData,
           });
           if (code === 200) {
@@ -73,6 +75,10 @@ export default function SearchTable() {
               success: true,
             };
           }
+        }}
+        params={{
+          [activeKey === '售后中' || activeKey === '已关闭' ? 'afterSaleStatus' : 'status']:
+            activeKey === '售后中' ? 1 : activeKey === '已关闭' ? 2 : activeKey,
         }}
         search={{
           labelWidth: 'auto',

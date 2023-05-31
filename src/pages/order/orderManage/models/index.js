@@ -3,7 +3,7 @@ import { all } from '@/service/order/orderManage';
 export default {
   namespace: 'orderManage',
   state: {
-    activeKey: '1',
+    activeKey: 1,
     type: '',
     /** 详情弹窗  */
     visible: false,

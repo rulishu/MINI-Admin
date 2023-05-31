@@ -1,11 +1,12 @@
 import UserContent from '@/components/UserContent';
 import { Divider, Image, Space, Tag } from 'antd';
 import moment from 'moment';
+import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
 export const columns = () => [
   {
     title: '用户信息',
-    dataIndex: 'users',
+    dataIndex: 'keyword',
     fieldProps: {
       placeholder: '用户昵称/用户编号/注册号码',
     },
@@ -62,7 +63,7 @@ export const columns = () => [
   },
 ];
 
-export const expandColumn = ({ handle }) => [
+export const expandColumn = ({ handle, recordData }) => [
   {
     title: '商品信息',
     dataIndex: 'date',
@@ -71,34 +72,44 @@ export const expandColumn = ({ handle }) => [
       <Space>
         <Image height={80} width={80} src={record.mainGraph} />
         <div>
-          <b style={{ fontSize: '16px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
-          <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
-          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:36173573572</div>
+          <b style={{ fontSize: '16px' }}>{record.itemName}</b>
+          <div style={{ fontSize: '14px', color: '#ccc' }}>{record.model || '-'}</div>
+          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId || '-'}</div>
         </div>
       </Space>
     ),
   },
   {
     title: 'sku单价/数量',
-    dataIndex: 'name',
-    key: 'name',
-    render: () => (
+    dataIndex: 'unitPriceAndNumber',
+    key: 'unitPriceAndNumber',
+    render: (_, record) => (
       <Space direction="vertical">
-        <div>￥120.00</div>
-        <div style={{ float: 'right' }}>x2</div>
+        <div>{`￥${record.unitPrice}`}</div>
+        <div style={{ float: 'right' }}>{`x${record.amount}`}</div>
       </Space>
     ),
   },
   {
     title: '订单金额',
-    key: 'state',
-    render: () => <div>￥245.00</div>,
+    key: 'price',
+    render: () => <div>￥{recordData.orderPrice}</div>,
   },
   {
     title: '售后状态',
-    dataIndex: 'upgradeNum',
-    key: 'upgradeNum',
-    render: () => <Tag color="#f50">售后中</Tag>,
+    dataIndex: 'afterSaleStatus',
+    render: (_, record) => {
+      const obj =
+        (record.afterSaleStatus || record.afterSaleStatus === 0) &&
+        afterSaleStatusEnum[record.afterSaleStatus];
+      return obj ? (
+        <Tag icon={obj.icon} color={obj.status}>
+          {obj.text}
+        </Tag>
+      ) : (
+        '-'
+      );
+    },
   },
   {
     title: '收件信息',
@@ -117,14 +128,17 @@ export const expandColumn = ({ handle }) => [
   {
     title: '订单备注',
     dataIndex: 'remark',
-    key: 'upgradeNum',
-    render: () => <div>这里是订单备注订单备注</div>,
+    key: 'remark',
+    render: () => recordData.remark || '-',
   },
   {
-    title: '状订单态',
-    dataIndex: 'remark',
-    key: 'upgradeNum',
-    render: () => <div>待发货</div>,
+    title: '订单状态',
+    dataIndex: 'orderStatus',
+    key: 'orderStatus',
+    render: () => {
+      const obj = String(recordData.orderStatus) && orderStatusEnum[recordData.orderStatus];
+      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
+    },
   },
   {
     title: '操作',
