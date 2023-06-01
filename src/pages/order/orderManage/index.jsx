@@ -1,49 +1,42 @@
 import { useDispatch, useSelector } from '@umijs/max';
 import { Card, Tabs } from 'antd';
-import { useEffect } from 'react';
+import TableList from 'form-render/lib/widgets/listDrawer';
 import Details from './Details/Details';
 import Table from './Table';
 
 const App = () => {
   const { activeKey, visible } = useSelector((state) => state.orderManage);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({
-      type: 'orderManage/all',
-    });
-  }, []);
-
   const items = [
     {
       key: 1,
       label: `待付款`,
-      children: <Table key="4" />,
+      children: <Table />,
     },
     {
       key: 2,
       label: `备货中`,
-      children: <Table key="3" />,
+      children: <Table />,
     },
     {
       key: 3,
       label: `待收货`,
-      children: <Table key="1" />,
+      children: <Table />,
     },
     {
       key: '售后中',
       label: `售后中`,
-      children: <Table key="2" />,
+      children: <Table />,
     },
     {
       key: 4,
       label: `已完成`,
-      children: <Table key="2" />,
+      children: <Table />,
     },
     {
       key: 5,
       label: `已关闭`,
-      children: <Table key="2" />,
+      children: <TableList />,
     },
   ];
   if (visible) {
