@@ -38,7 +38,7 @@ export default function OrderTable({
                 padding: 12,
                 background: 'rgb(242, 246, 255)',
               }}
-              colSpan={columns.length - 1}
+              colSpan={renderColumnOperate ? columns.length - 1 : columns.length}
             >
               {rowSelection && (
                 <Checkbox
@@ -51,15 +51,17 @@ export default function OrderTable({
               )}
               {renderColumnHeader(row)}
             </td>
-            <td
-              style={{
-                padding: 12,
-                background: 'rgb(242, 246, 255)',
-              }}
-              colSpan={1}
-            >
-              {renderColumnOperate(row)}
-            </td>
+            {renderColumnOperate && (
+              <td
+                style={{
+                  padding: 12,
+                  background: 'rgb(242, 246, 255)',
+                }}
+                colSpan={1}
+              >
+                {renderColumnOperate(row)}
+              </td>
+            )}
             {columns.map((col) => (
               <td key={col.key} />
             ))}
