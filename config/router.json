@@ -101,6 +101,11 @@
           {
             "path": "/order/returnGoodsAddress",
             "name": "退货地址"
+          },
+          {
+            "path": "/order/afterSales",
+            "name": "售后管理",
+            "component": "@/pages/order/AfterSales"
           }
         ]
       },
