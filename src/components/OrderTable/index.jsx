@@ -12,6 +12,7 @@ export default function OrderTable({
   renderColumnOperate = null,
   rowKey = null,
   rowSelection = false,
+  scroll = {},
 }) {
   const { pageSize = 20, total = 0, pageNum = 1, goToPage = null, ...others } = pagination;
   const { selectedRow = [], onChange: onChangeSelection = null } = rowSelection;
@@ -109,8 +110,8 @@ export default function OrderTable({
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <div style={{ height: 'calc(100% - 48px)', overflow: 'auto' }}>
-          <table style={{ width: 'fit-content', minWidth: '100%' }}>
+        <div style={{ overflowY: 'scroll', maxHeight: scroll?.y ? scroll?.y : null }}>
+          <table style={{ width: scroll?.x ? scroll?.x : '100%', minWidth: '100%' }}>
             <thead>
               <tr style={{ background: 'rgb(248, 248, 250)' }}>
                 {columns.map((col, idx) => (
