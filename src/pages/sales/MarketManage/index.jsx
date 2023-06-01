@@ -1,24 +1,16 @@
-import { useDispatch } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Card } from 'antd';
-import { useEffect, useRef, useState } from 'react';
-import { connect } from 'umi';
+import { useEffect, useRef } from 'react';
 import ConnectTable from './ConnectTable';
 import SearchForm from './SearchForm';
 import TreeList from './TreeList';
 import './index.less';
 
 const SearchTable = () => {
+  const proTableRef = useRef();
   const dispatch = useDispatch();
-  //
-  const [cascaderList, setCascaderList] = useState(['zhejiang', 'hangzhou', 'xihu']);
-  //
-  const tableRef = useRef();
-  const [scrollY, setScrollY] = useState(380);
-  useEffect(() => {
-    if (tableRef?.current?.clientHeight > 120) {
-      setScrollY(tableRef?.current?.clientHeight - 120);
-    }
-  }, [cascaderList.length]);
+  const { loading } = useSelector((state) => state);
+
   //
   useEffect(() => {
     dispatch({
@@ -44,6 +36,7 @@ const SearchTable = () => {
       }}
     >
       <Card
+        loading={loading.effects['marketManage/getMarketTree']}
         style={{ marginRight: 10, minWidth: 250, height: '100%' }}
         bodyStyle={{ width: '100%', height: '100%', overflowY: 'auto' }}
       >
@@ -59,23 +52,23 @@ const SearchTable = () => {
           overflow: 'auto',
         }}
       >
-        <Card style={{ width: '100%' }} bodyStyle={{ width: '100%' }}>
-          <SearchForm cascaderList={cascaderList} setCascaderList={setCascaderList} />
+        <Card
+          loading={loading.effects['marketManage/selectMarket']}
+          style={{ width: '100%' }}
+          bodyStyle={{ width: '100%' }}
+        >
+          <SearchForm proTableRef={proTableRef} />
         </Card>
         <Card
+          loading={loading.effects['marketManage/selectMarket']}
           style={{ width: '100%', marginTop: 10, flex: 1, overflow: 'auto' }}
           bodyStyle={{ width: '100%', height: '100%' }}
         >
-          <ConnectTable tableRef={tableRef} scrollY={scrollY} />
+          <ConnectTable proTableRef={proTableRef} />
         </Card>
       </div>
     </div>
   );
 };
 
-export default connect(({ groupManage, loading }) => {
-  return {
-    groupManage,
-    loading,
-  };
-})(SearchTable);
+export default SearchTable;
