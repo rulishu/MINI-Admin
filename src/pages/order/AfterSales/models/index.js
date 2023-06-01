@@ -1,7 +1,7 @@
-import { all, getSuppliersList, getUserList, selectPage } from '@/service/order/orderManage';
+import { all, getSuppliersList, selectPage } from '@/service/order/orderManage';
 
 export default {
-  namespace: 'orderManage',
+  namespace: 'aftersales',
   state: {
     // 每页条数
     pageSize: 10,
@@ -12,7 +12,7 @@ export default {
     searchForm: {},
     // 数据源
     dataSource: [],
-    activeKey: 1,
+    activeKey: '1',
     /** view详情 push发货 */
     type: '',
     /** 详情弹窗  */
@@ -24,8 +24,7 @@ export default {
     /** 发货信息  */
     pushData: {},
     companySelect: [], // 物流公司
-    suppliersList: [], // 代理商列表
-    userList: [], // 客户列表
+    suppliersList: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -37,7 +36,7 @@ export default {
     // eslint-disable-next-line no-unused-vars
     *selectByPage({ payload }, { call, put, select }) {
       const { searchForm, pageSize, pageNum, activeKey } = yield select(
-        (state) => state.orderManage,
+        (state) => state.aftersales,
       );
       const params = {
         pageSize,
@@ -93,41 +92,9 @@ export default {
         });
       }
     },
-    *getUserList({ payload }, { call, put }) {
-      const { code, result } = yield call(getUserList, payload);
-      if (code === 200) {
-        let userList = (result || []).map((item) => {
-          return {
-            label: item.userName,
-            value: item.userId,
-            mobile: item.mobile,
-            headUrl: item.headUrl,
-          };
-        });
-        yield put({
-          type: 'update',
-          payload: {
-            userList: userList,
-          },
-        });
-      }
-    },
     *goToPage({ payload: { pageNum, pageSize } }, { put }) {
       yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
       yield put({ type: 'selectByPage' });
-    },
-
-    *details({ payload }, { call, put }) {
-      const { code, result } = yield call(getUserList, payload);
-      if (code === 200) {
-        yield put({
-          type: 'update',
-          payload: {
-            // pushVisible: true,
-            pushData: { result },
-          },
-        });
-      }
     },
   },
 };
