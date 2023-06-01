@@ -114,7 +114,7 @@ export default function SearchTable() {
     loading: loading.effects['orderManage/selectByPage'],
     rowSelection: false,
     rowKey: (record) => record.id,
-    scroll: { x: 1080 },
+    scroll: { x: 1300 },
   };
   return (
     <Fragment>

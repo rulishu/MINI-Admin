@@ -95,7 +95,7 @@ export const columns = () => [
     dataIndex: 'unitPriceAndNumber',
     key: 'unitPriceAndNumber',
     render: (record) => (
-      <Space direction="vertical">
+      <Space direction="vertical" size={0}>
         <div>{`￥${record.unitPrice}`}</div>
         <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>{`x${record.amount}`}</div>
       </Space>

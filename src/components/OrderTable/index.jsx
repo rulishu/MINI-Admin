@@ -37,7 +37,7 @@ export default function OrderTable({
             <td
               style={{
                 padding: 12,
-                background: 'rgb(242, 246, 255)',
+                background: 'rgb(242, 247, 255)',
               }}
               colSpan={renderColumnOperate ? columns.length - 1 : columns.length}
             >
@@ -56,7 +56,7 @@ export default function OrderTable({
               <td
                 style={{
                   padding: 12,
-                  background: 'rgb(242, 246, 255)',
+                  background: 'rgb(242, 247, 255)',
                 }}
                 colSpan={1}
               >

@@ -176,7 +176,7 @@ export const manageColumn = [
     width: 120,
     key: 'itemName',
     render: (_, record) => (
-      <Space direction="vertical">
+      <Space direction="vertical" size={0}>
         <div>￥{record.unitPrice}</div>
         <div style={{ float: 'right', color: '#ccc' }}>x{record.amount}</div>
       </Space>
