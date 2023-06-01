@@ -226,7 +226,7 @@ const TreeList = () => {
               {nodeData?.parentId === '0' && (
                 <a
                   onClick={() => {
-                    setModalData({ parentId: nodeData?.id });
+                    setModalData({ parentId: nodeData?.key });
                     setModalVisit(true);
                   }}
                 >
@@ -246,7 +246,7 @@ const TreeList = () => {
                       dispatch({
                         type: 'marketManage/deleteMarket',
                         payload: {
-                          id: nodeData?.id,
+                          id: nodeData?.key,
                         },
                       });
                     },
@@ -262,7 +262,7 @@ const TreeList = () => {
       <ModalForm
         open={modalVisit}
         title={modalData?.parentId === 0 ? '新建一级类目' : '添加子类目'}
-        layout="inline"
+        layout="Horizontal"
         form={form}
         autoFocusFirstInput
         modalProps={{

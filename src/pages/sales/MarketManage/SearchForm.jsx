@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 
 const { SHOW_CHILD } = Cascader;
 
-export default () => {
+export default ({ proTableRef }) => {
   const { message } = App.useApp();
   const dispatch = useDispatch();
   const formRef = useRef();
@@ -71,6 +71,7 @@ export default () => {
             dispatch({
               type: 'marketManage/updateMarket',
             });
+            proTableRef?.current?.reload();
           } else {
             message.warning('请先选中营销类目');
           }

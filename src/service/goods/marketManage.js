@@ -84,3 +84,19 @@ export async function addGoods(params) {
     // requestType: 'json',
   });
 }
+
+export async function deleteGoods(params) {
+  return request('/jcgl-mall/admin/marketing/relation/delete', {
+    method: 'POST',
+    data: params,
+    // requestType: 'json',
+  });
+}
+
+export async function updateGoodsSort(params) {
+  return request('/jcgl-mall/admin/marketing/relation/update', {
+    method: 'POST',
+    data: params,
+    // requestType: 'json',
+  });
+}

@@ -1,10 +1,12 @@
 import {
   addGoods,
   addMarket,
+  deleteGoods,
   deleteMarket,
   getMarketTree,
   moveMarket,
   selectMarket,
+  updateGoodsSort,
   updateMarket,
 } from '@/service/goods/marketManage';
 
@@ -39,18 +41,6 @@ const group = {
       }
     },
 
-    // *getAllCategory(_, { call, put }) {
-    //   const { code, result } = yield call(getAllCategory);
-    //   if (code === 200 && result) {
-    //     yield put({
-    //       type: 'updateState',
-    //       payload: {
-    //         categoryList: result || [],
-    //       },
-    //     });
-    //   }
-    // },
-
     *addMarket({ payload }, { call, put }) {
       const { code } = yield call(addMarket, payload);
       if (code === 200) {
@@ -60,7 +50,7 @@ const group = {
       }
     },
 
-    *moveMarket({ payload }, { call, put }) {
+    *moveMarket({ payload }, { call }) {
       console.log('payload: ', payload);
 
       const boList = [];
@@ -82,14 +72,24 @@ const group = {
       });
       const { code } = yield call(moveMarket, { boList });
       if (code === 200) {
-        yield put({
-          type: 'getMarketTree',
-        });
+        // yield put({
+        //   type: 'getMarketTree',
+        // });
       }
     },
 
-    *deleteMarket({ payload }, { call, put }) {
-      const { code } = yield call(deleteMarket, payload);
+    *deleteMarket({ payload }, { call, put, select }) {
+      const marketManage = yield select(({ marketManage }) => marketManage);
+      const { marketTree } = marketManage;
+      const obj = marketTree.find((item) => item?.id === payload?.id);
+      let ids = [payload?.id];
+      if (obj?.parentId === '0') {
+        obj?.child.forEach((item) => {
+          ids.push(item?.id);
+        });
+      }
+
+      const { code } = yield call(deleteMarket, { ids });
       if (code === 200) {
         yield put({
           type: 'getMarketTree',
@@ -149,12 +149,36 @@ const group = {
         callback && callback(obj);
       }
     },
-    *addGoods({ payload }, { call, put }) {
-      const { code } = yield call(addGoods, payload);
+
+    *addGoods({ payload }, { call, select }) {
+      const { id, callback } = payload;
+      const marketManage = yield select(({ marketManage }) => marketManage);
+      const { activeMarketId } = marketManage;
+
+      const { code } = yield call(addGoods, { marketingId: activeMarketId, itemId: id, type: 1 });
       if (code === 200) {
-        yield put({
-          type: 'getMarketTree',
-        });
+        callback(true);
+      }
+    },
+
+    *deleteGoods({ payload }, { call }) {
+      const { id, callback } = payload;
+
+      const { code } = yield call(deleteGoods, { id: id });
+      if (code === 200) {
+        callback(true);
+      }
+    },
+
+    *updateGoodsSort({ payload }, { call }) {
+      const { id, sort, callback } = payload;
+
+      const { code } = yield call(updateGoodsSort, {
+        id: id,
+        sort: sort && Number(sort),
+      });
+      if (code === 200) {
+        callback(true);
       }
     },
   },
