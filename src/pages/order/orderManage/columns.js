@@ -1,25 +1,25 @@
-import { DatePicker, Divider, Image, Space, Tag } from 'antd';
+import { DatePicker, Image, Space, Tag } from 'antd';
 import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
-export const searchItem = [
+export const searchItem = ({ supplierName }) => [
   {
     title: '用户',
     dataIndex: 'keyword',
-    formItemProps: {
+    fieldProps: {
       placeholder: '请输入用户昵称/用户编号/注册号码',
     },
   },
   {
     title: '订单编号',
     dataIndex: 'orderNumber',
-    formItemProps: {
+    fieldProps: {
       placeholder: '请输入订单编号',
     },
   },
   {
     title: '商品名称',
     dataIndex: 'itemName',
-    formItemProps: {
+    fieldProps: {
       placeholder: '请输入商品名称',
     },
   },
@@ -31,20 +31,27 @@ export const searchItem = [
   {
     title: '供应商',
     dataIndex: 'supplierName',
-    formItemProps: {
+    valueType: 'select',
+    fieldProps: {
       placeholder: '请输入供应商',
+      options: supplierName.options,
+      onFocus: supplierName.onFocus,
+      onSearch: supplierName.onSearch,
+      filterOption: false,
+      showSearch: true,
+      allowClear: true,
     },
   },
   {
     title: '物流单号',
     dataIndex: 'trackingNumber',
-    formItemProps: {
+    fieldProps: {
       placeholder: '请输入物流单号',
     },
   },
 ];
 
-export const columns = ({ handle }) => [
+export const columns = () => [
   {
     title: '商品信息',
     dataIndex: 'orders',
@@ -62,23 +69,26 @@ export const columns = ({ handle }) => [
   },
   {
     title: 'sku单价/数量',
+    width: 120,
     dataIndex: 'unitPriceAndNumber',
     key: 'unitPriceAndNumber',
     render: (record) => (
       <Space direction="vertical">
-        <div>{`￥${record.unitPrice}`}</div>
-        <div style={{ float: 'right' }}>{`x${record.amount}`}</div>
+        <b>{`￥${record.unitPrice}`}</b>
+        <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>{`x${record.amount}`}</div>
       </Space>
     ),
   },
   {
     title: '订单金额',
+    width: 90,
     dataIndex: 'orderPrice',
     key: 'orderPrice',
-    render: (record) => record.orderPrice,
+    render: (_, record) => '￥' + record.orderPrice || '-',
   },
   {
     title: '售后状态',
+    width: 90,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
     render: (record) => {
@@ -93,7 +103,6 @@ export const columns = ({ handle }) => [
     width: 200,
     dataIndex: 'upgradeNum',
     key: 'upgradeNum',
-    hideInSearch: true,
     render: (record) => {
       const { consignee, phone, receivingAddress } = record.orderLogisticsDto || {};
       return (
@@ -113,30 +122,21 @@ export const columns = ({ handle }) => [
     dataIndex: 'remark',
     key: 'remark',
     width: 120,
-    hideInSearch: true,
+    render: (_, record) => record.remark || '-',
   },
   {
     title: '订单状态',
     width: 90,
     dataIndex: 'orderStatus',
     key: 'orderStatus',
-    hideInSearch: true,
-    render: (record) => {
+    render: (_, record) => {
       const obj = String(record.orderStatus) && orderStatusEnum[record.orderStatus];
       return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
     },
   },
   {
     title: '操作',
-    key: 'operate',
     width: 120,
-    hideInSearch: true,
-    render: (record) => (
-      <div>
-        <a onClick={() => handle('view', record)}>订单详情</a>
-        <Divider type="vertical" />
-        <a onClick={() => handle('push', record)}>发货</a>
-      </div>
-    ),
+    key: 'operate',
   },
 ];
