@@ -122,15 +122,14 @@ export const columns = () => [
     title: '收件信息',
     dataIndex: 'upgradeNum',
     key: 'upgradeNum',
-    render: (record) => {
-      const { consignee, phone, receivingAddress } = record.orderLogisticsDto || {};
+    render: (_, record) => {
       return (
         <Space>
           <div>
-            <b style={{ fontSize: '16px' }}>
-              {consignee || '-'} {phone || '-'}
+            <b style={{ fontSize: '14px' }}>
+              {record.consignee || '-'} {record.phone || '-'}
             </b>
-            <div style={{ fontSize: '14px' }}>{receivingAddress || '-'}</div>
+            <div style={{ fontSize: '14px', color: '#ccc' }}>{record.address || '-'}</div>
           </div>
         </Space>
       );

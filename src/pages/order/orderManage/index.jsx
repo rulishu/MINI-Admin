@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from '@umijs/max';
 import { Card, Tabs } from 'antd';
-import TableList from 'form-render/lib/widgets/listDrawer';
 import Details from './Details/Details';
 import Table from './Table';
 
@@ -34,9 +33,9 @@ const App = () => {
       children: <Table />,
     },
     {
-      key: 5,
+      key: -2,
       label: `已关闭`,
-      children: <TableList />,
+      children: <Table />,
     },
   ];
   if (visible) {
