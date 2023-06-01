@@ -150,6 +150,7 @@ export const manageColumn = [
     title: '商品信息',
     dataIndex: 'mainGraph',
     key: 'mainGraph',
+    width: 200,
     render: (_, record) => (
       <Space>
         <Image height={80} width={80} src={record.mainGraph} />
@@ -164,6 +165,7 @@ export const manageColumn = [
   {
     title: 'sku单价/数量',
     dataIndex: 'itemName',
+    width: 120,
     key: 'itemName',
     render: () => (
       <Space direction="vertical">
@@ -175,6 +177,7 @@ export const manageColumn = [
   {
     title: '售后状态',
     dataIndex: 'specifications',
+    width: 90,
     key: 'specifications',
     ellipsis: true,
     render: () => <Tag color="#f50">售后中</Tag>,
@@ -182,12 +185,14 @@ export const manageColumn = [
   {
     title: '发货状态',
     dataIndex: 'model',
+    width: 90,
     key: 'model',
     ellipsis: true,
   },
   {
     title: 'sku总价',
     dataIndex: 'amount',
+    width: 90,
     key: 'amount',
     ellipsis: true,
     render: () => <div>￥245.00</div>,
@@ -195,6 +200,7 @@ export const manageColumn = [
   {
     title: '促销信息',
     dataIndex: 'unitPrice',
+    width: 90,
     key: 'unitPrice',
     ellipsis: true,
   },

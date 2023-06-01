@@ -1,7 +1,8 @@
 import { DatePicker, Image, Space, Tag } from 'antd';
 import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
-export const searchItem = ({ supplierName }) => [
+// eslint-disable-next-line no-unused-vars
+export const searchItem = ({ userId, supplierName }) => [
   {
     title: '用户',
     dataIndex: 'keyword',
@@ -9,6 +10,20 @@ export const searchItem = ({ supplierName }) => [
       placeholder: '请输入用户昵称/用户编号/注册号码',
     },
   },
+  // {
+  //   title: '用户',
+  //   dataIndex: 'userId',
+  //   valueType: 'select',
+  //   fieldProps: {
+  //     placeholder: '请选择用户',
+  //     options: userId.options,
+  //     onFocus: userId.onFocus,
+  //     onSearch: userId.onSearch,
+  //     filterOption: false,
+  //     showSearch: true,
+  //     allowClear: true,
+  //   },
+  // },
   {
     title: '订单编号',
     dataIndex: 'orderNumber',

@@ -1,4 +1,4 @@
-import { all, getSuppliersList, selectPage } from '@/service/order/orderManage';
+import { all, getSuppliersList, getUserList, selectPage } from '@/service/order/orderManage';
 
 export default {
   namespace: 'orderManage',
@@ -24,7 +24,8 @@ export default {
     /** 发货信息  */
     pushData: {},
     companySelect: [], // 物流公司
-    suppliersList: [],
+    suppliersList: [], // 代理商列表
+    userList: [], // 客户列表
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -88,6 +89,25 @@ export default {
           type: 'update',
           payload: {
             suppliersList: suppliersList,
+          },
+        });
+      }
+    },
+    *getUserList({ payload }, { call, put }) {
+      const { code, result } = yield call(getUserList, payload);
+      if (code === 200) {
+        let userList = (result || []).map((item) => {
+          return {
+            label: item.userName,
+            value: item.userId,
+            mobile: item.mobile,
+            headUrl: item.headUrl,
+          };
+        });
+        yield put({
+          type: 'update',
+          payload: {
+            userList: userList,
           },
         });
       }

@@ -19,6 +19,7 @@ export default function SearchTable() {
       // 数据源
       dataSource,
       suppliersList,
+      userList,
     },
     loading,
   } = useSelector((state) => state);
@@ -32,11 +33,15 @@ export default function SearchTable() {
 
   useEffect(() => {
     dispatch({
+      type: 'orderManage/all',
+    });
+    dispatch({
       type: 'orderManage/selectByPage',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 操作
   const handle = async (type, data) => {
     updateFn({ type: type });
     if (type === 'view') {
@@ -54,7 +59,15 @@ export default function SearchTable() {
     }
   };
 
-  // orderTable props
+  // 筛选条件模糊搜索
+  const handleSearch = (type, searchParams) => {
+    dispatch({
+      type: `orderManage/${type === 'user' ? 'getUserList' : 'getSuppliersList'}`,
+      payload: searchParams,
+    });
+  };
+
+  // orderTable参数
   const orderTableProps = {
     pagination: {
       pageNum,
@@ -86,7 +99,6 @@ export default function SearchTable() {
       </div>
     ),
     columns: columns({ handle }),
-
     loading: loading.effects['orderManage/selectByPage'],
     rowSelection: {
       selectedRow: [],
@@ -99,6 +111,7 @@ export default function SearchTable() {
       <BetaSchemaForm
         labelWidth="auto"
         layoutType="QueryFilter"
+        span={8}
         onFinish={(values) => {
           updateFn({ searchForm: values });
           dispatch({ type: 'orderManage/selectByPage' });
@@ -108,24 +121,24 @@ export default function SearchTable() {
           dispatch({ type: 'orderManage/selectByPage' });
         }}
         columns={searchItem({
+          userId: {
+            options: userList.map((item) => ({
+              label: (
+                <Space>
+                  <Avatar src={item.headUrl} />
+                  {item.label}-{item.mobile}
+                </Space>
+              ),
+              value: item.value,
+            })),
+            onFocus: () => handleSearch('user', { pageNum: 1, pageSize: 20 }),
+            onSearch: (value) => handleSearch('user', { pageNum: 1, pageSize: 20, keyWord: value }),
+          },
           supplierName: {
             options: suppliersList,
-            onFocus: () => {
-              dispatch({
-                type: 'orderManage/getSuppliersList',
-                payload: { pageNum: 1, pageSize: 20 },
-              });
-            },
-            onSearch: (value) => {
-              dispatch({
-                type: 'orderManage/getSuppliersList',
-                payload: {
-                  pageNum: 1,
-                  pageSize: 20,
-                  supplierName: value,
-                },
-              });
-            },
+            onFocus: () => handleSearch('supplier', { pageNum: 1, pageSize: 20 }),
+            onSearch: (value) =>
+              handleSearch('supplierName', { pageNum: 1, pageSize: 20, supplierName: value }),
           },
         })}
       />

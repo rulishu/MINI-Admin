@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export const selectPage = async ({ pageNum, pageSize, ...body }) => {
   return request(
-    `/jcgl-mall/admin/sell/select/page/admin/list?pageSize=${pageSize}&pageNum=${pageNum}`,
+    `/jcgl-mall/admin/order/info/select/page/order/list?pageSize=${pageSize}&pageNum=${pageNum}`,
     {
       method: 'POST',
       data: body,
@@ -40,4 +40,12 @@ export const getSuppliersList = async ({ pageNum, pageSize, ...body }) => {
       data: body,
     },
   );
+};
+
+// 获取用户啊列表
+export const getUserList = async (body) => {
+  return request(`/jcgl-user/admin/user/select/list`, {
+    method: 'POST',
+    data: body,
+  });
 };
