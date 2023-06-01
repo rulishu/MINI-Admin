@@ -17,7 +17,7 @@ export const orderStatusEnum = {
   },
   2: {
     text: '备货中',
-    status: 'processing',
+    status: 'warning',
   },
   3: {
     text: '待收货',

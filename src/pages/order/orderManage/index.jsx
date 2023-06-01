@@ -41,7 +41,7 @@ const App = () => {
       children: <Table key="2" />,
     },
     {
-      key: '已关闭',
+      key: 5,
       label: `已关闭`,
       children: <Table key="2" />,
     },
