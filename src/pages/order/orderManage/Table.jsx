@@ -1,7 +1,7 @@
 import OrderTable from '@/components/OrderTable';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Avatar, Space } from 'antd';
+import { Avatar, Divider, Space } from 'antd';
 import { Fragment, useEffect } from 'react';
 import Push from './Details/Push';
 import { columns, searchItem } from './columns';
@@ -18,7 +18,7 @@ export default function SearchTable() {
       total,
       // 数据源
       dataSource,
-      activeKey,
+      suppliersList,
     },
     loading,
   } = useSelector((state) => state);
@@ -35,7 +35,7 @@ export default function SearchTable() {
       type: 'orderManage/selectByPage',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey]);
+  }, []);
 
   const handle = async (type, data) => {
     updateFn({ type: type });
@@ -54,10 +54,19 @@ export default function SearchTable() {
     }
   };
 
+  // orderTable props
   const orderTableProps = {
-    pageNum,
-    pageSize,
-    total,
+    pagination: {
+      pageNum,
+      pageSize,
+      total,
+      goToPage: (page, pageSize) => {
+        dispatch({
+          type: 'orderManage/goToPage',
+          payload: { pageNum: page, pageSize: pageSize },
+        });
+      },
+    },
     dataSource,
     renderColumnHeader: (row) => (
       <Space size="large">
@@ -69,39 +78,56 @@ export default function SearchTable() {
         </span>
       </Space>
     ),
+    renderColumnOperate: (record) => (
+      <div>
+        <a onClick={() => handle('view', record)}>详情</a>
+        <Divider type="vertical" />
+        <a onClick={() => handle('push', record)}>发货</a>
+      </div>
+    ),
     columns: columns({ handle }),
-    goToPage: (page, pageSize) => {
-      dispatch({
-        type: 'orderManage/goToPage',
-        payload: { pageNum: page, pageSize: pageSize },
-      });
-    },
-    loading: loading.effects['orderManage/selectByPage'],
-    rowKey: 'id',
-  };
 
+    loading: loading.effects['orderManage/selectByPage'],
+    rowSelection: {
+      selectedRow: [],
+      onChange: (selectedRow) => console.log('selectedRow', selectedRow),
+    },
+    // rowKey: (record) => record.id + record.orderNumber,
+  };
   return (
     <Fragment>
       <BetaSchemaForm
         labelWidth="auto"
         layoutType="QueryFilter"
         onFinish={(values) => {
-          updateFn({
-            searchForm: values,
-          });
-          dispatch({
-            type: 'orderManage/selectByPage',
-          });
+          updateFn({ searchForm: values });
+          dispatch({ type: 'orderManage/selectByPage' });
         }}
         onReset={() => {
-          updateFn({
-            searchForm: {},
-          });
-          dispatch({
-            type: 'orderManage/selectByPage',
-          });
+          updateFn({ searchForm: {} });
+          dispatch({ type: 'orderManage/selectByPage' });
         }}
-        columns={searchItem}
+        columns={searchItem({
+          supplierName: {
+            options: suppliersList,
+            onFocus: () => {
+              dispatch({
+                type: 'orderManage/getSuppliersList',
+                payload: { pageNum: 1, pageSize: 20 },
+              });
+            },
+            onSearch: (value) => {
+              dispatch({
+                type: 'orderManage/getSuppliersList',
+                payload: {
+                  pageNum: 1,
+                  pageSize: 20,
+                  supplierName: value,
+                },
+              });
+            },
+          },
+        })}
       />
       <OrderTable {...orderTableProps} />
       <Push />

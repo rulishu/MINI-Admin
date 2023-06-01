@@ -1,34 +1,64 @@
-import { Empty, Pagination, Spin } from 'antd';
-import { Fragment } from 'react';
+import { useSelections } from 'ahooks';
+import { Checkbox, Empty, Pagination, Spin } from 'antd';
+import { Fragment, useEffect } from 'react';
 
 export default function OrderTable({
   columns = [],
   dataSource = [],
-  pageSize,
-  total,
-  pageNum,
-  goToPage,
+  pagination,
   productListCode = 'itemList',
   loading = false,
   renderColumnHeader = null,
-  rowKey = 'id',
+  renderColumnOperate = null,
+  rowKey = null,
+  rowSelection = false,
 }) {
+  const { pageSize = 20, total = 0, pageNum = 1, goToPage = null, ...others } = pagination;
+  const { selectedRow = [], onChange: onChangeSelection = null } = rowSelection;
+
+  const { selected, allSelected, isSelected, toggle, toggleAll, partiallySelected } = useSelections(
+    dataSource,
+    selectedRow,
+  );
+
+  useEffect(() => {
+    onChangeSelection?.(selected);
+  }, [onChangeSelection, selected]);
+
   const hasData = dataSource.length > 0;
 
   const tableContent = hasData ? (
     <tbody>
-      {dataSource.map((row) => (
-        <Fragment key={row[rowKey]}>
+      {dataSource.map((row, key) => (
+        <Fragment key={rowKey?.(row) || key}>
           {/* 订单信息行 */}
           <tr>
             <td
               style={{
-                padding: 15,
+                padding: 12,
                 background: 'rgb(242, 246, 255)',
               }}
-              colSpan={columns.length}
+              colSpan={columns.length - 1}
             >
+              {rowSelection && (
+                <Checkbox
+                  checked={isSelected(row)}
+                  onClick={() => {
+                    toggle(row);
+                  }}
+                  style={{ marginRight: 8 }}
+                />
+              )}
               {renderColumnHeader(row)}
+            </td>
+            <td
+              style={{
+                padding: 12,
+                background: 'rgb(242, 246, 255)',
+              }}
+              colSpan={1}
+            >
+              {renderColumnOperate(row)}
             </td>
             {columns.map((col) => (
               <td key={col.key} />
@@ -41,12 +71,14 @@ export default function OrderTable({
               {columns.map((col) => (
                 <td
                   style={{
-                    padding: 15,
+                    padding: 12,
                     borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
                   }}
                   key={col.key}
                 >
-                  {typeof col.render === 'function' ? col.render(product) : product[col.dataIndex]}
+                  {typeof col.render === 'function'
+                    ? col.render(product, row, key)
+                    : product[col.dataIndex]}
                 </td>
               ))}
             </tr>
@@ -75,18 +107,31 @@ export default function OrderTable({
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr style={{ background: 'rgb(248, 248, 250)' }}>
-              {columns.map((col) => (
-                <th style={{ padding: 15 }} key={col.key}>
-                  <span style={{ float: 'left' }}>{col.title}</span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          {tableContent}
-        </table>
+        <div style={{ height: 'calc(100% - 48px)', overflow: 'auto' }}>
+          <table style={{ width: 'fit-content', minWidth: '100%' }}>
+            <thead>
+              <tr style={{ background: 'rgb(248, 248, 250)' }}>
+                {columns.map((col, idx) => (
+                  <th style={{ padding: 12, width: col.width || 'auto' }} key={col.key}>
+                    <span style={{ float: 'left' }}>
+                      {idx === 0 && rowSelection && (
+                        <Checkbox
+                          checked={allSelected}
+                          onClick={toggleAll}
+                          indeterminate={partiallySelected}
+                          style={{ marginRight: 8 }}
+                        />
+                      )}
+                      {col.title}
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            {tableContent}
+          </table>
+        </div>
+
         {hasData && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 24 }}>
             <Pagination
@@ -96,6 +141,7 @@ export default function OrderTable({
               total={total}
               onChange={goToPage}
               showTotal={(total) => `第 ${pageNum}-${dataSource.length} 条/总共 ${total} 条`}
+              {...others}
             />
           </div>
         )}

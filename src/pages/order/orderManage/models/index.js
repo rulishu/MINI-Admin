@@ -1,15 +1,15 @@
-import { all, selectPage } from '@/service/order/orderManage';
+import { all, getSuppliersList, selectPage } from '@/service/order/orderManage';
 
 export default {
   namespace: 'orderManage',
   state: {
-    searchForm: {},
     // 每页条数
     pageSize: 10,
     // 第几页
     pageNum: 1,
     // 总条数
     total: 0,
+    searchForm: {},
     // 数据源
     dataSource: [],
     activeKey: 1,
@@ -24,6 +24,7 @@ export default {
     /** 发货信息  */
     pushData: {},
     companySelect: [], // 物流公司
+    suppliersList: [],
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -43,8 +44,8 @@ export default {
         ...searchForm,
         startTime: searchForm.startTime && searchForm.startTime[0],
         endTime: searchForm.startTime && searchForm.startTime[1],
-        [activeKey === '售后中' || activeKey === '已关闭' ? 'afterSaleStatus' : 'status']:
-          activeKey === '售后中' ? 1 : activeKey === '已关闭' ? 2 : activeKey,
+        [activeKey === '售后中' ? 'afterSaleStatus' : 'orderStatus']:
+          activeKey === '售后中' ? 1 : activeKey,
       };
       let { code, result } = yield call(selectPage, params);
       if (code && code === 200) {
@@ -57,8 +58,7 @@ export default {
         });
       }
     },
-    // eslint-disable-next-line no-unused-vars
-    *all(_, { call, put, select }) {
+    *all(_, { call, put }) {
       const { code, result } = yield call(all);
       if (code === 200) {
         let companyList = result.map((item) => {
@@ -71,6 +71,23 @@ export default {
           type: 'update',
           payload: {
             companySelect: companyList || [],
+          },
+        });
+      }
+    },
+    *getSuppliersList({ payload }, { call, put }) {
+      const { code, result } = yield call(getSuppliersList, payload);
+      if (code === 200) {
+        let suppliersList = (result.records || []).map((item) => {
+          return {
+            label: item.supplierName,
+            value: item.supplierId,
+          };
+        });
+        yield put({
+          type: 'update',
+          payload: {
+            suppliersList: suppliersList,
           },
         });
       }

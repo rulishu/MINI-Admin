@@ -30,3 +30,14 @@ export const odd = async (params) => {
     data: params,
   });
 };
+
+// 获取供应商
+export const getSuppliersList = async ({ pageNum, pageSize, ...body }) => {
+  return request(
+    `/jcgl-user/admin/user/suppliers/select/page/list?pageNum=${pageNum}&pageSize=${pageSize}`,
+    {
+      method: 'POST',
+      data: body,
+    },
+  );
+};
