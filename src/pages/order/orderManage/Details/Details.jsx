@@ -92,12 +92,12 @@ export default function Edit() {
       <Card title="商品信息">
         <Table
           columns={manageColumn}
-          dataSource={queryData.itemList || []}
-          rowKey="itemName"
+          dataSource={queryData.items || []}
+          rowKey="id"
           scroll={{ x: 1300 }}
         />
         <Typography.Text style={{ float: 'right', marginTop: 24 }}>
-          商品总价：￥450.00 运费：￥0.00 优惠卷：-￥0.00 订单金额：￥450.00
+          商品总价：￥450.00 运费：￥0.00 优惠卷：-￥0.00 订单金额：￥{queryData.orderPrice}
         </Typography.Text>
       </Card>
     </Space>
