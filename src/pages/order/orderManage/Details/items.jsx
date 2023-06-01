@@ -1,11 +1,12 @@
 import { Card, Image, Space, Tag } from 'antd';
-import { orderStatusEnum, payEnum } from '../enum';
+import { Fragment } from 'react';
+import { afterSaleStatusEnum, orderStatusEnum, payEnum } from '../enum';
 
 export const basicItem = [
   {
     title: '订单状态',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'orderStatus',
+    key: 'orderStatus',
     span: 4,
     editable: () => false,
     labelStyle: {
@@ -155,9 +156,16 @@ export const manageColumn = [
       <Space>
         <Image height={80} width={80} src={record.mainGraph} />
         <div>
-          <b style={{ fontSize: '16px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
-          <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
-          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:36173573572</div>
+          <b style={{ fontSize: '14px' }}>{record.itemName}</b>
+          <div style={{ fontSize: '14px', color: '#ccc' }}>
+            {(record.attributes || []).map((item, i) => (
+              <Fragment key={item.attributeId}>
+                <span> {`${item.attributeName}:${item.value}`}</span>
+                {i !== (record.attributes || []).length - 1 && <span>;</span>}
+              </Fragment>
+            ))}
+          </div>
+          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId}</div>
         </div>
       </Space>
     ),
@@ -167,10 +175,10 @@ export const manageColumn = [
     dataIndex: 'itemName',
     width: 120,
     key: 'itemName',
-    render: () => (
+    render: (_, record) => (
       <Space direction="vertical">
-        <div>￥120.00</div>
-        <div style={{ float: 'right' }}>x2</div>
+        <div>￥{record.unitPrice}</div>
+        <div style={{ float: 'right', color: '#ccc' }}>x{record.amount}</div>
       </Space>
     ),
   },
@@ -180,7 +188,12 @@ export const manageColumn = [
     width: 90,
     key: 'specifications',
     ellipsis: true,
-    render: () => <Tag color="#f50">售后中</Tag>,
+    render: (_, record) => {
+      const obj =
+        (record.afterSaleStatus || record.afterSaleStatus === 0) &&
+        afterSaleStatusEnum[record.afterSaleStatus];
+      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
+    },
   },
   {
     title: '发货状态',
@@ -195,11 +208,11 @@ export const manageColumn = [
     width: 90,
     key: 'amount',
     ellipsis: true,
-    render: () => <div>￥245.00</div>,
+    render: (_, record) => <div>￥{record.unitPrice * record.amount}</div>,
   },
   {
     title: '促销信息',
-    dataIndex: 'unitPrice',
+    dataIndex: 'unitPrice1',
     width: 90,
     key: 'unitPrice',
     ellipsis: true,

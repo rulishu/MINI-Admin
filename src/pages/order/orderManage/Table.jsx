@@ -1,4 +1,5 @@
 import OrderTable from '@/components/OrderTable';
+import { CopyOutlined } from '@ant-design/icons';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Avatar, Divider, Space } from 'antd';
@@ -23,7 +24,6 @@ export default function SearchTable() {
     },
     loading,
   } = useSelector((state) => state);
-
   const updateFn = (payload) => {
     dispatch({
       type: 'orderManage/update',
@@ -49,7 +49,7 @@ export default function SearchTable() {
       // if (code === 200) {
       //   updateFn({ queryData: result, visible: true });
       // }
-      updateFn({ queryData: data, visible: true });
+      updateFn({ queryData: { ...data }, visible: true });
     }
     if (type === 'push') {
       updateFn({
@@ -65,6 +65,15 @@ export default function SearchTable() {
       type: `orderManage/${type === 'user' ? 'getUserList' : 'getSuppliersList'}`,
       payload: searchParams,
     });
+  };
+
+  const handleCopy = (orderNumber) => {
+    const el = document.createElement('textarea');
+    el.value = orderNumber;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
   };
 
   // orderTable参数
@@ -83,11 +92,14 @@ export default function SearchTable() {
     dataSource,
     renderColumnHeader: (row) => (
       <Space size="large">
-        <span>订单编号：{row.orderNumber} 复制</span>
-        <span>下单时间：{row.createTime}</span>
         <span>
-          <Avatar style={{ marginRight: 8 }}>U</Avatar>
-          {row.userName} ID：{row.userId}
+          订单编号：<span>{row.orderNumber}</span>{' '}
+          <CopyOutlined onClick={() => handleCopy(row.orderNumber)} style={{ color: '#1677ff' }} />
+        </span>
+        <span>下单时间：{row.createTime || '-'}</span>
+        <span>
+          {row.userName && <span>{row.userName}</span>}{' '}
+          {row.userId && <span>ID：{row.userId}</span>}
         </span>
       </Space>
     ),
@@ -100,11 +112,8 @@ export default function SearchTable() {
     ),
     columns: columns({ handle }),
     loading: loading.effects['orderManage/selectByPage'],
-    rowSelection: {
-      selectedRow: [],
-      onChange: (selectedRow) => console.log('selectedRow', selectedRow),
-    },
-    // rowKey: (record) => record.id + record.orderNumber,
+    rowSelection: false,
+    rowKey: (record) => record.id,
   };
   return (
     <Fragment>

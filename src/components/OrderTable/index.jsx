@@ -6,7 +6,7 @@ export default function OrderTable({
   columns = [],
   dataSource = [],
   pagination,
-  productListCode = 'itemList',
+  productListCode = 'items',
   loading = false,
   renderColumnHeader = null,
   renderColumnOperate = null,
@@ -68,7 +68,7 @@ export default function OrderTable({
           </tr>
 
           {/* 产品信息行 */}
-          {row[productListCode].map((product, i) => (
+          {(row[productListCode] || []).map((product, i) => (
             <tr key={i}>
               {columns.map((col) => (
                 <td
