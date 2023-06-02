@@ -1,11 +1,18 @@
 import { useDispatch, useSelector } from '@umijs/max';
 import { Card, Tabs } from 'antd';
+import { useEffect } from 'react';
 import Details from './Details/Details';
 import Table from './Table';
 
 const App = () => {
   const { activeKey, visible } = useSelector((state) => state.orderManage);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: 'orderManage/getLogisticsCompany',
+    });
+  }, []);
   const items = [
     {
       key: 1,

@@ -1,42 +1,25 @@
-import { BetaSchemaForm } from '@ant-design/pro-components';
+import { selectPage } from '@/service/order/orderManage';
+import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Avatar, Space, Table } from 'antd';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import Push from './Details/Push';
-import { columns, expandColumns, searchItem } from './columns';
+import { columns, expandColumns } from './columns';
 import './index.less';
 
 export default function SearchTable() {
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
   const {
-    orderManage: {
-      pageSize,
-      pageNum,
-      total,
-      dataSource,
-      selectedRows,
-      selectedRowKeys,
-      suppliersList,
-      userList,
-    },
-    loading,
+    orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, userList },
   } = useSelector((state) => state);
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  const ref = useRef();
   const updateFn = (payload) => {
     dispatch({
       type: 'orderManage/update',
       payload: payload,
     });
   };
-
-  useEffect(() => {
-    dispatch({
-      type: 'orderManage/all',
-    });
-    dispatch({
-      type: 'orderManage/selectByPage',
-    });
-  }, []);
 
   // 筛选条件模糊搜索
   const handleSearch = (type, searchParams) => {
@@ -65,29 +48,67 @@ export default function SearchTable() {
     }
   };
 
-  // orderTable参数
-  const orderTableProps = {
+  // table参数
+  const tableProps = {
+    actionRef: ref,
+    className: 'table_card',
+    headerTitle: '订单列表',
+    options: false,
+    search: { labelWidth: 'auto' },
+    cardProps: {
+      size: 'small',
+      style: {
+        padding: 0,
+      },
+    },
     rowSelection: {
       selectedRows: selectedRows,
       selectedRowKeys: selectedRowKeys,
       onChange: (selectedRowKeys, selectedRows) =>
         updateFn({ selectedRowKeys: selectedRowKeys, selectedRows: selectedRows }),
     },
-    pagination: {
-      page: pageNum,
-      pageSize,
-      total,
-      onChange: (page, pageSize) => {
-        dispatch({
-          type: 'orderManage/goToPage',
-          payload: { pageNum: page, pageSize: pageSize },
-        });
-      },
-      showTotal: (total) => `第 ${pageNum}-${dataSource.length} 条/总共 ${total} 条`,
+    request: async (params = {}) => {
+      const { current, pageSize, ...formData } = params;
+      const { code, result } = await selectPage({
+        pageNum: current,
+        pageSize,
+        ...formData,
+      });
+      if (code && code === 200) {
+        setExpandedRowKeys((result.records || []).map((rowKey) => rowKey.id));
+        return {
+          data: result.records || [],
+          total: result.total,
+          success: true,
+        };
+      }
     },
-    dataSource,
-    columns: columns({ handle }),
-    loading: loading.effects['orderManage/selectByPage'],
+    params: {
+      [activeKey === '售后中' ? 'afterSaleStatus' : 'orderStatus']:
+        activeKey === '售后中' ? 1 : activeKey,
+    },
+    columns: columns({
+      handle,
+      userId: {
+        options: userList.map((item) => ({
+          label: (
+            <Space>
+              <Avatar src={item.headUrl} />
+              {item.label}-{item.mobile}
+            </Space>
+          ),
+          value: item.value,
+        })),
+        onFocus: () => handleSearch('user', { pageNum: 1, pageSize: 20 }),
+        onSearch: (value) => handleSearch('user', { pageNum: 1, pageSize: 20, keyWord: value }),
+      },
+      supplierName: {
+        options: suppliersList,
+        onFocus: () => handleSearch('supplier', { pageNum: 1, pageSize: 20 }),
+        onSearch: (value) =>
+          handleSearch('supplierName', { pageNum: 1, pageSize: 20, supplierName: value }),
+      },
+    }),
     rowKey: 'id',
     scroll: { x: 1300 },
     expandable: {
@@ -103,49 +124,15 @@ export default function SearchTable() {
       ),
       expandRowByClick: true,
       expandIcon: () => null,
-      expandedRowKeys: dataSource.map((rowKey) => rowKey.id),
+      expandedRowKeys: expandedRowKeys,
     },
     rowClassName: () => 'ant-table-row_color',
   };
 
   return (
     <Fragment>
-      <BetaSchemaForm
-        labelWidth="auto"
-        layoutType="QueryFilter"
-        span={8}
-        onFinish={(values) => {
-          updateFn({ searchForm: values });
-          dispatch({ type: 'orderManage/selectByPage' });
-        }}
-        onReset={() => {
-          updateFn({ searchForm: {} });
-          dispatch({ type: 'orderManage/selectByPage' });
-        }}
-        columns={searchItem({
-          userId: {
-            options: userList.map((item) => ({
-              label: (
-                <Space>
-                  <Avatar src={item.headUrl} />
-                  {item.label}-{item.mobile}
-                </Space>
-              ),
-              value: item.value,
-            })),
-            onFocus: () => handleSearch('user', { pageNum: 1, pageSize: 20 }),
-            onSearch: (value) => handleSearch('user', { pageNum: 1, pageSize: 20, keyWord: value }),
-          },
-          supplierName: {
-            options: suppliersList,
-            onFocus: () => handleSearch('supplier', { pageNum: 1, pageSize: 20 }),
-            onSearch: (value) =>
-              handleSearch('supplierName', { pageNum: 1, pageSize: 20, supplierName: value }),
-          },
-        })}
-      />
-      <Table {...orderTableProps} />
-      <Push />
+      <ProTable {...tableProps} />
+      <Push reload={ref?.current?.reload} />
     </Fragment>
   );
 }

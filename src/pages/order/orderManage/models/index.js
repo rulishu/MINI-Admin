@@ -1,38 +1,28 @@
 import {
-  all,
+  getLogisticsCompany,
   getPushItems,
   getSuppliersList,
   getUserList,
   pushItems,
-  selectPage,
 } from '@/service/order/orderManage';
 
 export default {
   namespace: 'orderManage',
   state: {
-    // 每页条数
-    pageSize: 10,
-    // 第几页
-    pageNum: 1,
-    // 总条数
-    total: 0,
-    searchForm: {},
-    // 数据源
-    dataSource: [],
     activeKey: 1,
     selectedRowKeys: [],
     selectedRows: [],
-    /** view详情 push发货 */
+    /** view详情 push发货 copy复制订单号 */
     type: '',
     /** 详情弹窗  */
     visible: false,
-    /** 发货弹窗  */
-    pushVisible: false,
     /** 详情数据  */
     queryData: {},
-    /** 发货信息  */
+    /** 发货弹窗  */
+    pushVisible: false,
+    /** 发货数据  */
     pushData: {},
-    companySelect: [], // 物流公司
+    logisticsCompanyList: [], // 物流公司
     suppliersList: [], // 代理商列表
     userList: [], // 客户列表
   },
@@ -43,52 +33,7 @@ export default {
     }),
   },
   effects: {
-    // eslint-disable-next-line no-unused-vars
-    *selectByPage({ payload }, { call, put, select }) {
-      const { searchForm, pageSize, pageNum, activeKey } = yield select(
-        (state) => state.orderManage,
-      );
-      const params = {
-        pageSize,
-        pageNum,
-        ...searchForm,
-        startTime: searchForm.startTime && searchForm.startTime[0],
-        endTime: searchForm.startTime && searchForm.startTime[1],
-        [activeKey === '售后中' ? 'afterSaleStatus' : 'orderStatus']:
-          activeKey === '售后中' ? 1 : activeKey,
-      };
-      let { code, result } = yield call(selectPage, params);
-      if (code && code === 200) {
-        yield put({
-          type: 'update',
-          payload: {
-            total: result.total,
-            dataSource: result.records || [],
-          },
-        });
-      }
-    },
-    *goToPage({ payload: { pageNum, pageSize } }, { put }) {
-      yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
-      yield put({ type: 'selectByPage' });
-    },
-    *all(_, { call, put }) {
-      const { code, result } = yield call(all);
-      if (code === 200) {
-        let companyList = result.map((item) => {
-          return {
-            label: item.name,
-            value: item.name,
-          };
-        });
-        yield put({
-          type: 'update',
-          payload: {
-            companySelect: companyList || [],
-          },
-        });
-      }
-    },
+    // 获取供应商列表
     *getSuppliersList({ payload }, { call, put }) {
       const { code, result } = yield call(getSuppliersList, payload);
       if (code === 200) {
@@ -106,6 +51,7 @@ export default {
         });
       }
     },
+    // 获取用户列表
     *getUserList({ payload }, { call, put }) {
       const { code, result } = yield call(getUserList, payload);
       if (code === 200) {
@@ -125,6 +71,24 @@ export default {
         });
       }
     },
+    // 获取物流公司列表
+    *getLogisticsCompany(_, { call, put }) {
+      const { code, result } = yield call(getLogisticsCompany);
+      if (code === 200) {
+        let logisticsCompanyList = result.map((item) => {
+          return {
+            label: item.name,
+            value: item.name,
+          };
+        });
+        yield put({
+          type: 'update',
+          payload: {
+            logisticsCompanyList: logisticsCompanyList || [],
+          },
+        });
+      }
+    },
     // 获取发货商品列表
     *getPushItems({ payload }, { call, put }) {
       const { code, result } = yield call(getPushItems, payload);
@@ -138,7 +102,8 @@ export default {
         });
       }
     },
-    *pushItems({ payload }, { call, put }) {
+    // 发货
+    *pushItems({ payload, callback }, { call, put }) {
       const { code } = yield call(pushItems, payload);
       if (code === 200) {
         yield put({
@@ -149,7 +114,7 @@ export default {
             type: '',
           },
         });
-        yield put({ type: 'selectByPage' });
+        callback?.();
       }
     },
   },

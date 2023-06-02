@@ -6,10 +6,10 @@ import FormRender, { useForm } from 'form-render';
 import { useEffect, useState } from 'react';
 import EditTable from '../component/EditTable';
 
-export default () => {
+export default ({ reload }) => {
   const form = useForm();
   const {
-    orderManage: { pushVisible, pushData, companySelect },
+    orderManage: { pushVisible, pushData, logisticsCompanyList },
     loading,
   } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -48,7 +48,11 @@ export default () => {
         amount: item.number,
       })),
     };
-    dispatch({ type: 'orderManage/pushItems', payload: params });
+    dispatch({
+      type: 'orderManage/pushItems',
+      payload: params,
+      callback: () => reload?.(),
+    });
   };
 
   const watch = {
@@ -118,7 +122,7 @@ export default () => {
                 hidden: '{{ formData.type !== 1  }}',
                 required: true,
                 props: {
-                  options: companySelect,
+                  options: logisticsCompanyList,
                   showSearch: true,
                   allowClear: true,
                   filterOption: (input, option) =>

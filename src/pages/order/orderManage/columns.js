@@ -1,16 +1,16 @@
 import { CopyOutlined } from '@ant-design/icons';
-import { Col, DatePicker, Divider, Image, Row, Space, Tag } from 'antd';
+import { Col, Divider, Image, Row, Space, Tag } from 'antd';
 import { Fragment } from 'react';
 import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
-// eslint-disable-next-line no-unused-vars
-export const searchItem = ({ userId, supplierName }) => [
+export const columns = ({ supplierName, handle }) => [
   {
     title: '用户',
     dataIndex: 'userQuery',
     fieldProps: {
       placeholder: '请输入用户昵称/用户编号/注册号码',
     },
+    hideInTable: true,
   },
   // {
   //   title: '用户',
@@ -32,6 +32,7 @@ export const searchItem = ({ userId, supplierName }) => [
     fieldProps: {
       placeholder: '请输入订单编号',
     },
+    hideInTable: true,
   },
   {
     title: '商品名称',
@@ -39,16 +40,31 @@ export const searchItem = ({ userId, supplierName }) => [
     fieldProps: {
       placeholder: '请输入商品名称',
     },
+    hideInTable: true,
   },
   {
     title: '创建时间',
     dataIndex: 'startTime',
-    renderFormItem: () => <DatePicker.RangePicker showTime={true} />,
+    hideInTable: true,
+    valueType: 'dateRange',
+    fieldProps: {
+      showTime: true,
+      format: 'YYYY-MM-DD HH:mm:ss',
+    },
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
   },
   {
     title: '供应商',
     dataIndex: 'supplierId',
     valueType: 'select',
+    hideInTable: true,
     fieldProps: {
       placeholder: '请输入供应商',
       options: supplierName.options,
@@ -65,14 +81,13 @@ export const searchItem = ({ userId, supplierName }) => [
     fieldProps: {
       placeholder: '请输入物流单号',
     },
+    hideInTable: true,
   },
-];
-
-export const columns = ({ handle }) => [
   {
     title: '商品信息',
     dataIndex: 'info',
     key: 'info',
+    hideInSearch: true,
     onCell: () => ({
       colSpan: 7,
     }),
@@ -100,6 +115,7 @@ export const columns = ({ handle }) => [
     dataIndex: 'sku',
     width: 150,
     key: 'sku',
+    hideInSearch: true,
     onCell: () => ({
       colSpan: 0,
     }),
@@ -110,6 +126,7 @@ export const columns = ({ handle }) => [
     dataIndex: 'orderPrice',
     width: 100,
     key: 'orderPrice',
+    hideInSearch: true,
     onCell: () => ({
       colSpan: 0,
     }),
@@ -120,6 +137,7 @@ export const columns = ({ handle }) => [
     dataIndex: 'afterSaleStatus',
     width: 100,
     key: 'afterSaleStatus',
+    hideInSearch: true,
     onCell: () => ({
       colSpan: 0,
     }),
@@ -129,6 +147,7 @@ export const columns = ({ handle }) => [
     title: '收件信息',
     dataIndex: 'receiveInfo',
     key: 'receiveInfo',
+    hideInSearch: true,
     width: 300,
     onCell: () => ({
       colSpan: 0,
@@ -138,6 +157,7 @@ export const columns = ({ handle }) => [
   {
     title: '订单备注',
     dataIndex: 'remark',
+    hideInSearch: true,
     width: 150,
     key: 'address',
     onCell: () => ({
@@ -149,6 +169,7 @@ export const columns = ({ handle }) => [
     title: '订单状态',
     dataIndex: 'orderStatus',
     key: 'orderStatus',
+    hideInSearch: true,
     width: 100,
     onCell: () => ({
       colSpan: 0,
@@ -159,6 +180,7 @@ export const columns = ({ handle }) => [
     title: '操作',
     dataIndex: 'operate',
     key: 'operate',
+    hideInSearch: true,
     width: 120,
     render: (_, record) => {
       // const { orderStatus } = record;

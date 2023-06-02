@@ -1,4 +1,4 @@
-import { all, getSuppliersList, selectPage } from '@/service/order/orderManage';
+import { getLogisticsCompany, getSuppliersList, selectPage } from '@/service/order/orderManage';
 
 export default {
   namespace: 'aftersales',
@@ -59,7 +59,7 @@ export default {
       }
     },
     *all(_, { call, put }) {
-      const { code, result } = yield call(all);
+      const { code, result } = yield call(getLogisticsCompany);
       if (code === 200) {
         let companyList = result.map((item) => {
           return {
