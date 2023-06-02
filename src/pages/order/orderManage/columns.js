@@ -1,5 +1,5 @@
 import { CopyOutlined } from '@ant-design/icons';
-import { Col, Divider, Image, Row, Space, Tag } from 'antd';
+import { Divider, Image, Space, Tag } from 'antd';
 import { Fragment } from 'react';
 import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
@@ -206,12 +206,12 @@ export const expandColumns = ({ rowData }) => [
     dataIndex: 'info',
     key: 'info',
     render: (_, record) => (
-      <Row>
-        <Col span={8}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div>
           {' '}
           <Image height={80} width={80} src={record.mainGraph} />
-        </Col>
-        <Col span={16}>
+        </div>
+        <div style={{ marginLeft: 12 }}>
           <b style={{ fontSize: '14px' }}>{record.itemName}</b>
           <div style={{ fontSize: '14px', color: '#ccc' }}>
             {(record.attributes || []).map((item, i) => (
@@ -222,8 +222,8 @@ export const expandColumns = ({ rowData }) => [
             ))}
           </div>
           <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId || '-'}</div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     ),
   },
   {
