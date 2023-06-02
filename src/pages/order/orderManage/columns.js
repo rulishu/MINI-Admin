@@ -68,7 +68,7 @@ export const searchItem = ({ userId, supplierName }) => [
   },
 ];
 
-export const columns = ({ handle, handleCopy }) => [
+export const columns = ({ handle }) => [
   {
     title: '商品信息',
     dataIndex: 'info',
@@ -82,7 +82,7 @@ export const columns = ({ handle, handleCopy }) => [
           <span>
             订单编号：<span>{row.orderNumber}</span>{' '}
             <CopyOutlined
-              onClick={() => handleCopy(row.orderNumber)}
+              onClick={() => handle('copy', { orderNumber: row.orderNumber })}
               style={{ color: '#1677ff' }}
             />
           </span>
@@ -161,11 +161,18 @@ export const columns = ({ handle, handleCopy }) => [
     key: 'operate',
     width: 120,
     render: (_, record) => {
+      // const { orderStatus } = record;
+      // orderStatus === 1 || orderStatus === 4 || orderStatus === -2;
+      const canPush = false;
       return (
         <div>
           <a onClick={() => handle('view', record)}>详情</a>
-          <Divider type="vertical" />
-          <a onClick={() => handle('push', record)}>发货</a>
+          {!canPush && (
+            <Fragment>
+              <Divider type="vertical" />
+              <a onClick={() => handle('push', record)}>发货</a>
+            </Fragment>
+          )}
         </div>
       );
     },

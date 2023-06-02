@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { shipmentsStatusEnum } from '../enum';
 
 // eslint-disable-next-line no-unused-vars
-export default ({ value = [], onChange }) => {
+export default ({ value = [], onChange, ...others }) => {
   const [defaultValue, setDefaultValue] = useState(value);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setselectedRowKeys] = useState([]);
@@ -13,17 +13,17 @@ export default ({ value = [], onChange }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRows]);
 
-  const handleNumberChange = (id, amount) => {
+  const handleNumberChange = (id, number) => {
     const newDefaultValue = defaultValue.map((item) => {
       if (item.id === id) {
-        return { ...item, amount };
+        return { ...item, number };
       } else {
         return item;
       }
     });
     const newSelectedRows = selectedRows.map((item) => {
       if (item.id === id) {
-        return { ...item, amount };
+        return { ...item, number };
       } else {
         return item;
       }
@@ -47,6 +47,7 @@ export default ({ value = [], onChange }) => {
   return (
     <div style={{ width: '100%' }}>
       <Table
+        {...others}
         pagination={false}
         rowKey="id"
         dataSource={defaultValue}
@@ -77,30 +78,38 @@ export default ({ value = [], onChange }) => {
           },
           {
             title: '购买数量',
-            dataIndex: 'totelAmount',
-            key: 'totelAmount',
+            dataIndex: 'amount',
+            key: 'amount',
+            width: 120,
           },
           {
             title: '发货状态',
             dataIndex: 'shipmentsStatus',
             key: 'shipmentsStatus',
+            width: 120,
             render: (_, record) => {
               const obj = shipmentsStatusEnum[record.shipmentsStatus] || {};
               return obj && <Tag color={obj.status}>{obj.text}</Tag>;
             },
           },
           {
+            title: '已发货数量',
+            dataIndex: 'shipmentAcount',
+            key: 'shipmentAcount',
+            width: 120,
+          },
+          {
             title: '发货数量',
-            dataIndex: 'amount',
-            key: 'amount',
+            dataIndex: 'number',
+            key: 'number',
             render: (_, record) => {
               return (
                 <InputNumber
                   disabled={record.shipmentsStatus === 2}
-                  value={record.amount}
+                  value={record.number}
                   defaultValue={0}
                   min={0}
-                  max={Math.max(record.totelAmount - record.shipmentAcount, 0)}
+                  max={Math.max(record.amount - record.shipmentAcount, 0)}
                   onChange={(value) => handleNumberChange(record.id, value)}
                 />
               );

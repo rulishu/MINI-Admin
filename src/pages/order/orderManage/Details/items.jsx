@@ -1,6 +1,6 @@
 import { Card, Image, Space, Tag } from 'antd';
 import { Fragment } from 'react';
-import { afterSaleStatusEnum, orderStatusEnum, payEnum } from '../enum';
+import { afterSaleStatusEnum, orderStatusEnum, payEnum, shipmentsStatusEnum } from '../enum';
 
 export const basicItem = [
   {
@@ -63,14 +63,15 @@ export const basicItem = [
   },
   {
     title: '完成时间',
-    key: 'consignee2',
+    key: 'endTime',
     editable: () => false,
-    dataIndex: 'consignee',
+    dataIndex: 'endTime',
     span: 2,
   },
   {
     title: '订单备注',
     key: 'remark',
+    editable: () => false,
     dataIndex: 'remark',
   },
 ];
@@ -101,16 +102,16 @@ export const receiveItem = [
   },
   {
     title: '收货地址',
-    key: 'receivingAddress',
-    dataIndex: 'receivingAddress',
+    key: 'address',
+    dataIndex: 'address',
   },
 ];
 
-export const productItem = [
+export const productItem = ({ number = 0 }) => [
   {
     title: '物流公司',
-    key: 'companyName',
-    dataIndex: 'companyName',
+    key: 'logisticsCompany',
+    dataIndex: 'logisticsCompany',
   },
   {
     title: '发货时间',
@@ -123,23 +124,35 @@ export const productItem = [
     dataIndex: 'trackingNumber',
   },
   {
-    title: '包裹内共x件商品',
-    key: 'list',
-    dataIndex: 'list',
+    title: `包裹内共${number}件商品`,
+    key: 'item',
+    dataIndex: 'item',
     span: 3,
-    valueType: () => {
+    render: (_, record) => {
       return (
         <Space size={[16, 16]} wrap>
-          <Card>
-            <Space>
-              <Image height={40} width={40} src={''} />
-              <div>
-                <b style={{ fontSize: '14px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
-                <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
-              </div>
-              <div>x2</div>
-            </Space>
-          </Card>
+          {(record.items || []).map((data, index) => {
+            return (
+              // eslint-disable-next-line react/no-array-index-key
+              <Card key={index}>
+                <Space>
+                  <Image height={40} width={40} src={data.mainGraph || '-'} />
+                  <div>
+                    <b style={{ fontSize: '14px' }}>{data.itemName || '-'}</b>
+                    <div style={{ fontSize: '14px', color: '#ccc' }}>
+                      {(data.attributes || []).map((attr, i) => (
+                        <Fragment key={attr.attributeId}>
+                          <span> {`${attr.attributeName}:${attr.value}`}</span>
+                          {i !== (data.attributes || []).length - 1 && <span>;</span>}
+                        </Fragment>
+                      ))}
+                    </div>
+                  </div>
+                  <div>x{data.amount}</div>
+                </Space>
+              </Card>
+            );
+          })}
         </Space>
       );
     },
@@ -184,9 +197,9 @@ export const manageColumn = [
   },
   {
     title: '售后状态',
-    dataIndex: 'specifications',
+    dataIndex: 'afterSaleStatus',
     width: 90,
-    key: 'specifications',
+    key: 'afterSaleStatus',
     ellipsis: true,
     render: (_, record) => {
       const obj =
@@ -197,24 +210,27 @@ export const manageColumn = [
   },
   {
     title: '发货状态',
-    dataIndex: 'model',
-    width: 90,
-    key: 'model',
-    ellipsis: true,
+    dataIndex: 'shipmentStatus',
+    key: 'shipmentStatus',
+    width: 120,
+    render: (_, record) => {
+      const obj = shipmentsStatusEnum[record.shipmentStatus] || {};
+      return obj && <Tag color={obj.status}>{obj.text}</Tag>;
+    },
   },
   {
     title: 'sku总价',
-    dataIndex: 'amount',
+    dataIndex: 'totalPrice',
     width: 90,
-    key: 'amount',
+    key: 'totalPrice',
     ellipsis: true,
-    render: (_, record) => <div>￥{record.unitPrice * record.amount}</div>,
+    render: (_, record) => <div>￥{record.totalPrice}</div>,
   },
   {
     title: '促销信息',
     dataIndex: 'unitPrice1',
     width: 90,
     key: 'unitPrice',
-    ellipsis: true,
+    render: () => '-',
   },
 ];

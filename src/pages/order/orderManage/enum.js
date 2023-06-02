@@ -61,10 +61,13 @@ export const afterSaleStatusEnum = {
 
 export const payEnum = {
   1: {
-    text: '个人',
+    text: '微信',
   },
   2: {
-    text: '企业',
+    text: '支付宝',
+  },
+  3: {
+    text: '银行卡',
   },
 };
 
