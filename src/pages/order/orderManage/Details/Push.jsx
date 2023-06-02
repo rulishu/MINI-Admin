@@ -39,7 +39,10 @@ export default () => {
   useEffect(() => {
     if (pushVisible) {
       form.setValues({
-        list: pushData.list,
+        items: pushData.items,
+        type: pushData.type,
+        logisticsCompany: pushData.logisticsCompany,
+        ogisticsTrackingNumber: pushData.ogisticsTrackingNumber,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +55,7 @@ export default () => {
   return (
     <AModal
       open={pushVisible}
-      width={700}
+      width={800}
       onCancel={() => update({ pushVisible: false })}
       footer={
         <div style={{ paddingBottom: 24, paddingRight: 24 }}>
@@ -72,7 +75,8 @@ export default () => {
           schema={{
             type: 'object',
             properties: {
-              list: {
+              items: {
+                tooltip: '请勾选商品，否则无法发货',
                 span: 24,
                 type: 'array',
                 title: '请选择商品',
@@ -108,7 +112,7 @@ export default () => {
                 },
                 placeholder: '请选择物流公司',
               },
-              trackingNumber: {
+              ogisticsTrackingNumber: {
                 span: 12,
                 title: '运单号',
                 type: 'string',
