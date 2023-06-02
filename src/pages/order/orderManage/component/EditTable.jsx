@@ -1,5 +1,5 @@
 import { Image, InputNumber, Space, Table } from 'antd';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 // eslint-disable-next-line no-unused-vars
 export default ({ value = [], onChange }) => {
@@ -58,16 +58,23 @@ export default ({ value = [], onChange }) => {
               <Space>
                 <Image height={80} width={80} src={record.mainGraph} />
                 <div>
-                  <b style={{ fontSize: '16px' }}>乔宣咖啡 挂耳咖啡礼盒 10g*7包</b>
-                  <div style={{ fontSize: '14px', color: '#ccc' }}>规格值1，规格值2</div>
+                  <b style={{ fontSize: '14px' }}>{record.itemName}</b>
+                  <div style={{ fontSize: '14px', color: '#ccc' }}>
+                    {(record.attributes || []).map((item, i) => (
+                      <Fragment key={item.attributeId}>
+                        <span> {`${item.attributeName}:${item.value}`}</span>
+                        {i !== (record.attributes || []).length - 1 && <span>;</span>}
+                      </Fragment>
+                    ))}
+                  </div>
                 </div>
               </Space>
             ),
           },
           {
             title: '数量',
-            dataIndex: 'num',
-            key: 'num',
+            dataIndex: 'amount',
+            key: 'amount',
           },
           {
             title: '发货状态',
@@ -83,6 +90,7 @@ export default ({ value = [], onChange }) => {
                 <InputNumber
                   value={record.number}
                   min={0}
+                  max={record.amount}
                   onChange={(value) => handleNumberChange(record.id, value)}
                 />
               );
