@@ -1,14 +1,12 @@
-import OrderTable from '@/components/OrderTable';
-import { CopyOutlined } from '@ant-design/icons';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Avatar, Divider, Space } from 'antd';
-import { Fragment, useEffect, useRef } from 'react';
+import { Avatar, Space, Table } from 'antd';
+import { Fragment, useEffect } from 'react';
 import Push from './Details/Push';
-import { columns, searchItem } from './columns';
+import { columns, expandColumns, searchItem } from './columns';
+import './index.less';
 
 export default function SearchTable() {
-  const tableRef = useRef();
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const {
@@ -55,7 +53,7 @@ export default function SearchTable() {
     if (type === 'push') {
       updateFn({
         pushVisible: true,
-        pushData: { ...data, list: [{ id: 1, status: 'open', number: 10 }] },
+        pushData: { ...data, type: 1 },
       });
     }
   };
@@ -79,44 +77,41 @@ export default function SearchTable() {
 
   // orderTable参数
   const orderTableProps = {
-    ref: tableRef,
     pagination: {
-      pageNum,
+      page: pageNum,
       pageSize,
       total,
-      goToPage: (page, pageSize) => {
+      onChange: (page, pageSize) => {
         dispatch({
           type: 'orderManage/goToPage',
           payload: { pageNum: page, pageSize: pageSize },
         });
       },
+      showTotal: (total) => `第 ${pageNum}-${dataSource.length} 条/总共 ${total} 条`,
     },
     dataSource,
-    renderColumnHeader: (row) => (
-      <Space size="large">
-        <span>
-          订单编号：<span>{row.orderNumber}</span>{' '}
-          <CopyOutlined onClick={() => handleCopy(row.orderNumber)} style={{ color: '#1677ff' }} />
-        </span>
-        <span>下单时间：{row.createTime || '-'}</span>
-        <span>
-          {row.userName && <span>{row.userName}</span>}{' '}
-          {row.userId && <span>ID：{row.userId}</span>}
-        </span>
-      </Space>
-    ),
-    renderColumnOperate: (record) => (
-      <div>
-        <a onClick={() => handle('view', record)}>详情</a>
-        <Divider type="vertical" />
-        <a onClick={() => handle('push', record)}>发货</a>
-      </div>
-    ),
-    columns: columns({ handle }),
+    columns: columns({ handle, handleCopy }),
     loading: loading.effects['orderManage/selectByPage'],
     rowSelection: false,
-    rowKey: (record) => record.id,
+    rowKey: 'id',
     scroll: { x: 1300 },
+    border: true,
+    expandable: {
+      expandedRowRender: (record) => (
+        <Table
+          className="expanded_table_td"
+          columns={expandColumns({ rowData: record })}
+          dataSource={record.items || []}
+          rowKey="id"
+          pagination={false}
+          rowClassName={() => 'valign-top'}
+        />
+      ),
+      expandRowByClick: true,
+      expandIcon: () => null,
+      expandedRowKeys: dataSource.map((rowKey) => rowKey.id),
+    },
+    rowClassName: () => 'ant-table-row_color',
   };
 
   return (
@@ -155,7 +150,7 @@ export default function SearchTable() {
           },
         })}
       />
-      <OrderTable {...orderTableProps} />
+      <Table {...orderTableProps} />
       <Push />
     </Fragment>
   );

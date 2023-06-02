@@ -1,4 +1,5 @@
-import { DatePicker, Image, Space, Tag } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
+import { Col, DatePicker, Divider, Image, Row, Space, Tag } from 'antd';
 import { Fragment } from 'react';
 import { afterSaleStatusEnum, orderStatusEnum } from './enum';
 
@@ -67,15 +68,119 @@ export const searchItem = ({ userId, supplierName }) => [
   },
 ];
 
-export const columns = () => [
+export const columns = ({ handle, handleCopy }) => [
   {
     title: '商品信息',
-    dataIndex: 'orders',
-    key: 'orders',
+    dataIndex: 'info',
+    key: 'info',
+    onCell: () => ({
+      colSpan: 7,
+    }),
+    render: (_, row) => {
+      return (
+        <Space size="large">
+          <span>
+            订单编号：<span>{row.orderNumber}</span>{' '}
+            <CopyOutlined
+              onClick={() => handleCopy(row.orderNumber)}
+              style={{ color: '#1677ff' }}
+            />
+          </span>
+          <span>下单时间：{row.createTime || '-'}</span>
+          <span>
+            {row.userName && <span>{row.userName}</span>}{' '}
+            {row.userId && <span>ID：{row.userId}</span>}
+          </span>
+        </Space>
+      );
+    },
+  },
+  {
+    title: 'sku单价/数量',
+    dataIndex: 'sku',
+    width: 150,
+    key: 'sku',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
+  },
+  {
+    title: '订单金额',
+    dataIndex: 'orderPrice',
+    width: 100,
+    key: 'orderPrice',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
+  },
+  {
+    title: '售后状态',
+    dataIndex: 'afterSaleStatus',
+    width: 100,
+    key: 'afterSaleStatus',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
+  },
+  {
+    title: '收件信息',
+    dataIndex: 'receiveInfo',
+    key: 'receiveInfo',
+    width: 300,
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
+  },
+  {
+    title: '订单备注',
+    dataIndex: 'remark',
+    width: 150,
+    key: 'address',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
+  },
+  {
+    title: '订单状态',
+    dataIndex: 'orderStatus',
+    key: 'orderStatus',
+    width: 100,
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
+  },
+  {
+    title: '操作',
+    dataIndex: 'operate',
+    key: 'operate',
+    width: 120,
     render: (record) => (
-      <Space>
-        <Image height={80} width={80} src={record.mainGraph} />
-        <div>
+      <div>
+        <a onClick={() => handle('view', record)}>详情</a>
+        <Divider type="vertical" />
+        <a onClick={() => handle('push', record)}>发货</a>
+      </div>
+    ),
+  },
+];
+
+export const expandColumns = ({ rowData }) => [
+  {
+    dataIndex: 'info',
+    key: 'info',
+    render: (_, record) => (
+      <Row>
+        <Col span={8}>
+          {' '}
+          <Image height={80} width={80} src={record.mainGraph} />
+        </Col>
+        <Col span={16}>
           <b style={{ fontSize: '14px' }}>{record.itemName}</b>
           <div style={{ fontSize: '14px', color: '#ccc' }}>
             {(record.attributes || []).map((item, i) => (
@@ -86,15 +191,15 @@ export const columns = () => [
             ))}
           </div>
           <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId || '-'}</div>
-        </div>
-      </Space>
+        </Col>
+      </Row>
     ),
   },
   {
-    title: 'sku单价/数量',
-    dataIndex: 'unitPriceAndNumber',
-    key: 'unitPriceAndNumber',
-    render: (record) => (
+    width: 150,
+    dataIndex: 'sku',
+    key: 'sku',
+    render: (_, record) => (
       <Space direction="vertical" size={0}>
         <div>{`￥${record.unitPrice}`}</div>
         <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>{`x${record.amount}`}</div>
@@ -102,56 +207,57 @@ export const columns = () => [
     ),
   },
   {
-    title: '订单金额',
+    width: 100,
     dataIndex: 'orderPrice',
     key: 'orderPrice',
-    render: (_, record) => '￥' + record.orderPrice || '-',
+    render: () => '￥' + rowData.orderPrice || '-',
   },
   {
-    title: '售后状态',
+    width: 100,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: (_, record) => {
+    render: () => {
       const obj =
-        (record.afterSaleStatus || record.afterSaleStatus === 0) &&
-        afterSaleStatusEnum[record.afterSaleStatus];
+        (rowData.afterSaleStatus || rowData.afterSaleStatus === 0) &&
+        afterSaleStatusEnum[rowData.afterSaleStatus];
       return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
     },
   },
   {
-    title: '收件信息',
-    dataIndex: 'upgradeNum',
-    key: 'upgradeNum',
-    render: (_, record) => {
+    dataIndex: 'receiveInfo',
+    key: 'receiveInfo',
+    width: 300,
+    render: () => {
       return (
         <Space>
           <div>
             <b style={{ fontSize: '14px' }}>
-              {record.consignee || '-'} {record.phone || '-'}
+              {rowData.consignee || '-'} {rowData.phone || '-'}
             </b>
-            <div style={{ fontSize: '14px', color: '#ccc' }}>{record.address || '-'}</div>
+            <div style={{ fontSize: '14px', color: '#ccc' }}>{rowData.address || '-'}</div>
           </div>
         </Space>
       );
     },
   },
   {
-    title: '订单备注',
+    width: 150,
     dataIndex: 'remark',
     key: 'remark',
-    render: (_, record) => record.remark || '-',
+    render: () => rowData.remark || '-',
   },
   {
-    title: '订单状态',
     dataIndex: 'orderStatus',
     key: 'orderStatus',
-    render: (_, record) => {
-      const obj = String(record.orderStatus) && orderStatusEnum[record.orderStatus];
+    width: 100,
+    render: () => {
+      const obj = String(rowData.orderStatus) && orderStatusEnum[rowData.orderStatus];
       return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
     },
   },
   {
-    title: '操作',
+    dataIndex: 'operate',
     key: 'operate',
+    width: 120,
   },
 ];
