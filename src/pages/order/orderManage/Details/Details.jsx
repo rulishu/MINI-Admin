@@ -102,8 +102,8 @@ export default function Edit() {
           scroll={{ x: 1300 }}
         />
         <Typography.Text style={{ float: 'right', marginTop: 24 }}>
-          商品总价：{queryData.totalPrice} 运费：￥0.00 优惠卷：￥0.00 订单金额：￥
-          {queryData.orderPrice}
+          商品总价：{queryData.totalPrice || '-'} 运费：￥0.00 优惠卷：￥0.00 订单金额：￥
+          {queryData.orderPrice || '-'}
         </Typography.Text>
       </Card>
     </Space>
