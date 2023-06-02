@@ -12,14 +12,16 @@ export default () => {
     orderManage: { pushVisible, pushData, companySelect },
     loading,
   } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const [disabled, setDisabled] = useState(false);
 
-  const dispatch = useDispatch();
-  const update = (data) => {
+  const close = () => {
     dispatch({
       type: 'orderManage/update',
-      payload: data,
+      payload: {
+        pushVisible: false,
+      },
     });
   };
 
@@ -28,8 +30,6 @@ export default () => {
       form.setValues({
         items: pushData.items,
         type: pushData.type,
-        logisticsCompany: pushData.logisticsCompany,
-        trackingNumber: pushData.trackingNumber,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,11 +41,11 @@ export default () => {
       logisticsCompany: values.logisticsCompany,
       trackingNumber: values.trackingNumber,
       items: values.items.map((item) => ({
-        orderItemId: item.orderItemId,
+        totelAmount: item.amount,
+        orderItemId: item.id,
         itemId: item.itemId,
-        totelAmount: item.totelAmount,
         shipmentAcount: item.shipmentAcount,
-        amount: item.amount,
+        amount: item.number,
       })),
     };
     dispatch({ type: 'orderManage/pushItems', payload: params });
@@ -61,10 +61,10 @@ export default () => {
     <AModal
       open={pushVisible}
       width={800}
-      onCancel={() => update({ pushVisible: false })}
+      onCancel={close}
       footer={
         <div style={{ paddingBottom: 24, paddingRight: 24 }}>
-          <Button key="cancel" onClick={() => update({ pushVisible: false })}>
+          <Button key="cancel" onClick={close}>
             取消
           </Button>
           <Button
@@ -93,7 +93,9 @@ export default () => {
                 type: 'array',
                 title: '请选择商品',
                 widget: 'editTable',
-                props: {},
+                props: {
+                  loading: loading.effects['orderManage/getPushItems'],
+                },
               },
               type: {
                 span: 24,

@@ -64,3 +64,10 @@ export const pushItems = async (body) => {
     data: body,
   });
 };
+
+// 详情-获取包裹信息
+export const getInfoPushList = async ({ id }) => {
+  return request(`/jcgl-mall/admin/order/logistics/select/list?id=${id}`, {
+    method: 'GET',
+  });
+};

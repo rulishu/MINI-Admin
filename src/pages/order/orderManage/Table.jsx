@@ -12,12 +12,11 @@ export default function SearchTable() {
   const {
     orderManage: {
       pageSize,
-      // 第几页
       pageNum,
-      // 总条数
       total,
-      // 数据源
       dataSource,
+      selectedRows,
+      selectedRowKeys,
       suppliersList,
       userList,
     },
@@ -37,24 +36,7 @@ export default function SearchTable() {
     dispatch({
       type: 'orderManage/selectByPage',
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // 操作
-  const handle = async (type, data) => {
-    // console.log('type', type, 'data', data);
-    updateFn({ type: type });
-    if (type === 'view') {
-      // const { code, result } = await details(data?.id);
-      // if (code === 200) {
-      //   updateFn({ queryData: result, visible: true });
-      // }
-      updateFn({ queryData: { ...data }, visible: true });
-    }
-    if (type === 'push') {
-      dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
-    }
-  };
 
   // 筛选条件模糊搜索
   const handleSearch = (type, searchParams) => {
@@ -64,17 +46,33 @@ export default function SearchTable() {
     });
   };
 
-  const handleCopy = (orderNumber) => {
-    const el = document.createElement('textarea');
-    el.value = orderNumber;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+  // 操作
+  const handle = async (type, data) => {
+    updateFn({ type: type });
+    if (type === 'view') {
+      updateFn({ queryData: { ...data }, visible: true });
+    }
+    if (type === 'push') {
+      dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
+    }
+    if (type === 'copy') {
+      const el = document.createElement('textarea');
+      el.value = data.orderNumber;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
   };
 
   // orderTable参数
   const orderTableProps = {
+    rowSelection: {
+      selectedRows: selectedRows,
+      selectedRowKeys: selectedRowKeys,
+      onChange: (selectedRowKeys, selectedRows) =>
+        updateFn({ selectedRowKeys: selectedRowKeys, selectedRows: selectedRows }),
+    },
     pagination: {
       page: pageNum,
       pageSize,
@@ -88,12 +86,10 @@ export default function SearchTable() {
       showTotal: (total) => `第 ${pageNum}-${dataSource.length} 条/总共 ${total} 条`,
     },
     dataSource,
-    columns: columns({ handle, handleCopy }),
+    columns: columns({ handle }),
     loading: loading.effects['orderManage/selectByPage'],
-    rowSelection: false,
     rowKey: 'id',
     scroll: { x: 1300 },
-    border: true,
     expandable: {
       expandedRowRender: (record) => (
         <Table

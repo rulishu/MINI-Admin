@@ -20,6 +20,8 @@ export default {
     // 数据源
     dataSource: [],
     activeKey: 1,
+    selectedRowKeys: [],
+    selectedRows: [],
     /** view详情 push发货 */
     type: '',
     /** 详情弹窗  */
