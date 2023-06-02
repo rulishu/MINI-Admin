@@ -61,9 +61,27 @@ export const afterSaleStatusEnum = {
 
 export const payEnum = {
   1: {
-    text: '个人',
+    text: '微信',
   },
   2: {
-    text: '企业',
+    text: '支付宝',
+  },
+  3: {
+    text: '银行卡',
+  },
+};
+
+export const shipmentsStatusEnum = {
+  0: {
+    text: '未发货',
+    status: 'default',
+  },
+  1: {
+    text: '部分发货',
+    status: 'processing',
+  },
+  2: {
+    text: '已发货',
+    status: 'success',
   },
 };

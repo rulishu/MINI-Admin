@@ -1,75 +1,87 @@
 import AModal from '@/components/AModal';
 import { ProCard } from '@ant-design/pro-components';
-import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import EditTable from '../component/EditTable';
 
 export default () => {
   const form = useForm();
   const {
     orderManage: { pushVisible, pushData, companySelect },
+    loading,
   } = useSelector((state) => state);
-
   const dispatch = useDispatch();
-  const update = (data) => {
+
+  const [disabled, setDisabled] = useState(false);
+
+  const close = () => {
     dispatch({
       type: 'orderManage/update',
-      payload: data,
+      payload: {
+        pushVisible: false,
+      },
     });
   };
-
-  // eslint-disable-next-line no-unused-vars
-  const { mutateAsync, isLoading } = useReactMutation({
-    mutationFn: null,
-    onSuccess: ({ code }) => {
-      if (code && code === 200) {
-        update({
-          visible: false,
-          reload: true,
-          type: '',
-          pushData: {},
-        });
-      }
-    },
-  });
 
   useEffect(() => {
     if (pushVisible) {
       form.setValues({
         items: pushData.items,
         type: pushData.type,
-        logisticsCompany: pushData.logisticsCompany,
-        ogisticsTrackingNumber: pushData.ogisticsTrackingNumber,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pushVisible, pushData]);
 
   const onFinish = (values) => {
-    console.log('values', values);
+    const params = {
+      orderId: pushData.orderId,
+      logisticsCompany: values.logisticsCompany,
+      trackingNumber: values.trackingNumber,
+      items: values.items.map((item) => ({
+        totelAmount: item.amount,
+        orderItemId: item.id,
+        itemId: item.itemId,
+        shipmentAcount: item.shipmentAcount,
+        amount: item.number,
+      })),
+    };
+    dispatch({ type: 'orderManage/pushItems', payload: params });
+  };
+
+  const watch = {
+    items: (value) => {
+      setDisabled(value.length == 0 || !value);
+    },
   };
 
   return (
     <AModal
       open={pushVisible}
       width={800}
-      onCancel={() => update({ pushVisible: false })}
+      onCancel={close}
       footer={
         <div style={{ paddingBottom: 24, paddingRight: 24 }}>
-          <Button key="save" type="primary" loading={isLoading} onClick={form.submit}>
-            保存
-          </Button>
-          <Button key="cancel" onClick={() => update({ pushVisible: false })}>
+          <Button key="cancel" onClick={close}>
             取消
+          </Button>
+          <Button
+            disabled={disabled}
+            key="save"
+            type="primary"
+            loading={loading.effects['orderManage/pushItems']}
+            onClick={form.submit}
+          >
+            发货
           </Button>
         </div>
       }
     >
       <ProCard title="发货" headerBordered bodyStyle={{ paddingBottom: 0 }}>
         <FormRender
+          watch={watch}
           form={form}
           widgets={{ editTable: EditTable }}
           schema={{
@@ -81,7 +93,9 @@ export default () => {
                 type: 'array',
                 title: '请选择商品',
                 widget: 'editTable',
-                props: {},
+                props: {
+                  loading: loading.effects['orderManage/getPushItems'],
+                },
               },
               type: {
                 span: 24,
@@ -112,7 +126,7 @@ export default () => {
                 },
                 placeholder: '请选择物流公司',
               },
-              ogisticsTrackingNumber: {
+              trackingNumber: {
                 span: 12,
                 title: '运单号',
                 type: 'string',

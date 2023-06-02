@@ -6,6 +6,7 @@ import { App, Button } from 'antd';
 import { Fragment, useEffect, useRef } from 'react';
 import Config from './Details/Config';
 import { columns } from './columns';
+import './index.less';
 
 export default () => {
   const ref = useRef();
@@ -71,6 +72,7 @@ export default () => {
   return (
     <Fragment>
       <ProTable
+        className="table_card"
         options={false}
         headerTitle={activeKey === 1 ? 'Banner列表' : '活动列表'}
         actionRef={ref}
