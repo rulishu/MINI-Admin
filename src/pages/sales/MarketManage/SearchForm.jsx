@@ -13,7 +13,6 @@ export default ({ proTableRef }) => {
   const { groupManage, marketManage } = useSelector((state) => state);
   const { categoryTree, categoryList } = groupManage;
   const { cascaderList, activeMarketId } = marketManage;
-  console.log('activeMarketId: ', activeMarketId);
 
   useEffect(() => {
     if (cascaderList) {
@@ -81,6 +80,9 @@ export default ({ proTableRef }) => {
           searchConfig: {
             submitText: '提交绑定',
           },
+          submitButtonProps: {
+            disabled: !activeMarketId,
+          },
           // 配置按钮的属性
           resetButtonProps: {
             style: {
@@ -92,6 +94,7 @@ export default ({ proTableRef }) => {
       >
         <ProFormCascader
           fieldProps={{
+            disabled: !activeMarketId,
             multiple: true,
             maxTagCount: 'responsive',
             showCheckedStrategy: SHOW_CHILD,

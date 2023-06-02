@@ -36,6 +36,8 @@ const group = {
           payload: {
             activeMarketId: '',
             marketTree: result || [],
+            cascaderList: [],
+            tableData: [],
           },
         });
       }
@@ -50,7 +52,7 @@ const group = {
       }
     },
 
-    *moveMarket({ payload }, { call }) {
+    *moveMarket({ payload }, { call, put }) {
       console.log('payload: ', payload);
 
       const boList = [];
@@ -72,6 +74,14 @@ const group = {
       });
       const { code } = yield call(moveMarket, { boList });
       if (code === 200) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            activeMarketId: '',
+            cascaderList: [],
+            tableData: [],
+          },
+        });
         // yield put({
         //   type: 'getMarketTree',
         // });

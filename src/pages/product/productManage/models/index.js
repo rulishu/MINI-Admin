@@ -49,7 +49,7 @@ export default {
       if (code === 200) {
         let attrLists = [];
         result.forEach((item) => {
-          if (item?.attributes) {
+          if (item?.attributes && item?.status === 1) {
             let arr = item?.attributes.concat([]);
             arr[0]['imageUrl'] = item?.imageUrl;
             attrLists = attrLists.concat(arr);
@@ -90,28 +90,32 @@ export default {
         const attributeVos = arr;
         console.log('初始化编辑attributeVos: ', attributeVos);
 
-        const itemSkuVos = result.map((theSKU) => {
-          if (theSKU?.attributes) {
-            let obj = {};
-            // let attributesObj = {};
-            const attributes = theSKU?.attributes.map((theAttr) => {
-              console.log('theAttr: ', theAttr);
-              const name = attrOptions.find((item) => item?.id === String(theAttr?.attributeId));
-              // ?.attributeName;
-              console.log('name: ', name);
+        const itemSkuVos = [];
+        result.forEach((theSKU) => {
+          if (theSKU?.status === 1) {
+            if (theSKU?.attributes) {
+              let obj = {};
+              // let attributesObj = {};
+              const attributes = [];
+              theSKU?.attributes.forEach((theAttr) => {
+                console.log('theAttr: ', theAttr);
+                const name = attrOptions.find((item) => item?.id === String(theAttr?.attributeId));
+                // ?.attributeName;
+                console.log('name: ', name);
 
-              if (name?.attributeName) {
-                obj[name.attributeName] = theAttr.value;
-                //     attributesObj[name] = { ...theAttr, attribute_name: name };
-                return { ...theAttr, attribute_name: name?.attributeName };
-              } else {
-                return theAttr;
-              }
-            });
-            // return { ...theSKU, ...obj, attributes: attributesObj };
-            return { ...theSKU, ...obj, attributes };
-          } else {
-            return theSKU;
+                if (name?.attributeName) {
+                  obj[name.attributeName] = theAttr.value;
+                  //     attributesObj[name] = { ...theAttr, attribute_name: name };
+                  attributes.push({ ...theAttr, attribute_name: name?.attributeName });
+                } else {
+                  attributes.push(theAttr);
+                }
+              });
+              // return { ...theSKU, ...obj, attributes: attributesObj };
+              itemSkuVos.push({ ...theSKU, ...obj, attributes });
+            } else {
+              itemSkuVos.push(theSKU);
+            }
           }
         });
         console.log('初始化编辑itemSkuVos: ', itemSkuVos);
