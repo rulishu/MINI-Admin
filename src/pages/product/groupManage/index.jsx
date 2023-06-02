@@ -96,7 +96,7 @@ const SearchTable = (props) => {
           const { code, result } = await getCategory({
             page: current,
             pageSize,
-            categoryName: params?.categoryName?.label,
+            categoryName: params?.categoryName,
             level: params?.level,
           });
           let tableData = [];
