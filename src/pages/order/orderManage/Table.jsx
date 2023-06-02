@@ -42,6 +42,7 @@ export default function SearchTable() {
 
   // 操作
   const handle = async (type, data) => {
+    // console.log('type', type, 'data', data);
     updateFn({ type: type });
     if (type === 'view') {
       // const { code, result } = await details(data?.id);
@@ -51,10 +52,7 @@ export default function SearchTable() {
       updateFn({ queryData: { ...data }, visible: true });
     }
     if (type === 'push') {
-      updateFn({
-        pushVisible: true,
-        pushData: { ...data, type: 1 },
-      });
+      dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
     }
   };
 

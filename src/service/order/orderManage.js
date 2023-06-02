@@ -49,3 +49,18 @@ export const getUserList = async (body) => {
     data: body,
   });
 };
+
+// 获取发货商品列表
+export const getPushItems = async ({ orderId }) => {
+  return request(`/jcgl-mall/admin/order/logistics/select/items?id=${orderId}`, {
+    method: 'GET',
+  });
+};
+
+// 发货
+export const pushItems = async (body) => {
+  return request(`/jcgl-mall/admin/order/logistics/create`, {
+    method: 'POST',
+    data: body,
+  });
+};
