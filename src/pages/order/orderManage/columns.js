@@ -160,13 +160,15 @@ export const columns = ({ handle, handleCopy }) => [
     dataIndex: 'operate',
     key: 'operate',
     width: 120,
-    render: (record) => (
-      <div>
-        <a onClick={() => handle('view', record)}>详情</a>
-        <Divider type="vertical" />
-        <a onClick={() => handle('push', record)}>发货</a>
-      </div>
-    ),
+    render: (_, record) => {
+      return (
+        <div>
+          <a onClick={() => handle('view', record)}>详情</a>
+          <Divider type="vertical" />
+          <a onClick={() => handle('push', record)}>发货</a>
+        </div>
+      );
+    },
   },
 ];
 

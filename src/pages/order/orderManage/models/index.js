@@ -1,4 +1,11 @@
-import { all, getSuppliersList, getUserList, selectPage } from '@/service/order/orderManage';
+import {
+  all,
+  getPushItems,
+  getSuppliersList,
+  getUserList,
+  pushItems,
+  selectPage,
+} from '@/service/order/orderManage';
 
 export default {
   namespace: 'orderManage',
@@ -59,13 +66,17 @@ export default {
         });
       }
     },
+    *goToPage({ payload: { pageNum, pageSize } }, { put }) {
+      yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
+      yield put({ type: 'selectByPage' });
+    },
     *all(_, { call, put }) {
       const { code, result } = yield call(all);
       if (code === 200) {
         let companyList = result.map((item) => {
           return {
             label: item.name,
-            value: item.id,
+            value: item.name,
           };
         });
         yield put({
@@ -112,21 +123,31 @@ export default {
         });
       }
     },
-    *goToPage({ payload: { pageNum, pageSize } }, { put }) {
-      yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
-      yield put({ type: 'selectByPage' });
-    },
-
-    *details({ payload }, { call, put }) {
-      const { code, result } = yield call(getUserList, payload);
+    // 获取发货商品列表
+    *getPushItems({ payload }, { call, put }) {
+      const { code, result } = yield call(getPushItems, payload);
       if (code === 200) {
         yield put({
           type: 'update',
           payload: {
-            // pushVisible: true,
-            pushData: { result },
+            pushVisible: true,
+            pushData: { ...payload, items: result, type: 1 },
           },
         });
+      }
+    },
+    *pushItems({ payload }, { call, put }) {
+      const { code } = yield call(pushItems, payload);
+      if (code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            pushVisible: false,
+            pushData: {},
+            type: '',
+          },
+        });
+        yield put({ type: 'selectByPage' });
       }
     },
   },

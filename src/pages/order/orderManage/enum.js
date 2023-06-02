@@ -67,3 +67,18 @@ export const payEnum = {
     text: '企业',
   },
 };
+
+export const shipmentsStatusEnum = {
+  0: {
+    text: '未发货',
+    status: 'default',
+  },
+  1: {
+    text: '部分发货',
+    status: 'processing',
+  },
+  2: {
+    text: '已发货',
+    status: 'success',
+  },
+};

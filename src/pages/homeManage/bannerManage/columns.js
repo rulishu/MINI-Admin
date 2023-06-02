@@ -64,7 +64,7 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '活动时间',
-    width: 120,
+    width: 150,
     dataIndex: 'showStartTime',
     align: 'left',
     hideInSearch: true,
