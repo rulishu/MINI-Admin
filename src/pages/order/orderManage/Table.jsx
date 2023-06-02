@@ -3,11 +3,12 @@ import { CopyOutlined } from '@ant-design/icons';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Avatar, Divider, Space } from 'antd';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import Push from './Details/Push';
 import { columns, searchItem } from './columns';
 
 export default function SearchTable() {
+  const tableRef = useRef();
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const {
@@ -78,6 +79,7 @@ export default function SearchTable() {
 
   // orderTable参数
   const orderTableProps = {
+    ref: tableRef,
     pagination: {
       pageNum,
       pageSize,
@@ -116,6 +118,7 @@ export default function SearchTable() {
     rowKey: (record) => record.id,
     scroll: { x: 1300 },
   };
+
   return (
     <Fragment>
       <BetaSchemaForm
