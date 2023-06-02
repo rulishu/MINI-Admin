@@ -51,16 +51,7 @@ export const columns = ({ handleEdit, categoryList }) => [
   {
     title: '类目名称',
     dataIndex: 'categoryName',
-    valueType: 'select',
     hideInTable: true,
-    fieldProps: {
-      showSearch: true,
-      labelInValue: true,
-      options: categoryList.map((item) => ({ label: item?.categoryName, value: item?.id })),
-      optionFilterProp: 'label',
-      filterOption: (input, option) =>
-        (option?.label ?? '').toLowerCase().includes(input.toLowerCase()),
-    },
   },
   {
     title: '类目等级',

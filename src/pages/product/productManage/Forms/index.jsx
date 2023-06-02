@@ -16,7 +16,7 @@ const TheForm = () => {
   const form = useForm();
   const { productManage, groupManage, supplier, commonInterface } = useSelector((state) => state);
   const { type, queryInfo, showForm, templateIdList, itemSkuVos } = productManage;
-  const { categoryTree } = groupManage;
+  const { categoryTree, categoryList } = groupManage;
   const { suppliersList } = supplier;
   const { treeList } = commonInterface;
   // const [step, setStep] = useState(1);
@@ -74,7 +74,7 @@ const TheForm = () => {
         version: 0,
       })),
       ...form4,
-      price: form4?.price && Number(form4?.price),
+      // price: form4?.price && Number(form4?.price),
       ...form5,
       openTime:
         form5?.groundType === 3 ? null : dayjs(form5?.openTime).format('YYYY-MM-DD HH:mm:00'),
@@ -158,6 +158,7 @@ const TheForm = () => {
           cityTreeList,
           allStocks(itemSkuVos),
           getMinSale(),
+          categoryList,
         )}
         widgets={{
           cascader: Cascader,
