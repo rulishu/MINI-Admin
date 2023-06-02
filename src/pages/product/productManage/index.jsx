@@ -58,7 +58,7 @@ const App = () => {
     return <Forms />;
   }
   return (
-    <Card>
+    <Card bodyStyle={{ padding: 12 }}>
       <Tabs
         destroyInactiveTabPane={true}
         activeKey={activeKey}

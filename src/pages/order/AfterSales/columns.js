@@ -1,5 +1,6 @@
-import { Image, Space, Tag } from 'antd';
+import { Divider, Image, Space, Tag, Typography } from 'antd';
 import { afterSaleStatusEnum } from './enum';
+const { Paragraph } = Typography;
 
 export const searchItem = () => [
   {
@@ -81,65 +82,226 @@ export const columns = () => [
     title: '商品信息',
     dataIndex: 'orders',
     key: 'orders',
-    render: (record) => (
-      <Space>
-        <Image height={80} width={80} src={record.mainGraph} />
-        <div>
-          <b style={{ fontSize: '16px' }}>{record.itemName}</b>
-          <div style={{ fontSize: '14px', color: '#ccc' }}>{record.model || '-'}</div>
-          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId || '-'}</div>
-        </div>
-      </Space>
-    ),
+    onCell: () => ({
+      colSpan: 6,
+    }),
+    render: (_, row) => {
+      return (
+        <Space size="large" align="center">
+          <Paragraph
+            style={{ margin: 0 }}
+            copyable={{
+              text: row?.orderNumber,
+            }}
+          >
+            订单编号：{row?.orderNumber}
+          </Paragraph>
+          <Paragraph
+            style={{ margin: 0 }}
+            copyable={{
+              text: row?.orderNumber,
+            }}
+          >
+            售后编号：{row?.orderNumber}
+          </Paragraph>
+
+          <span>申请时间：{row?.createTime}</span>
+          <Tag>未发货待退款</Tag>
+        </Space>
+      );
+    },
   },
   {
     title: 'sku单价/数量',
     width: 120,
     dataIndex: 'unitPriceAndNumber',
     key: 'unitPriceAndNumber',
-    render: (record) => (
-      <Space direction="vertical">
-        <b>{`￥${record.unitPrice}`}</b>
-        <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>{`x${record.amount}`}</div>
-      </Space>
-    ),
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
   },
   {
     title: 'sku实付金额',
-    width: 110,
+    width: 120,
     dataIndex: '11111111orderPrice',
     key: 'orderPrice',
-    render: (_, record) => '￥' + record.orderPrice || '-',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
   },
   {
     title: '退款金额',
     width: 90,
     dataIndex: '111111111orderPrice',
     key: 'orderPrice',
-    render: (_, record) => '￥' + record.orderPrice || '-',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
   },
   {
     title: '售后状态',
     width: 90,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: (record) => {
-      const obj =
-        (record.afterSaleStatus || record.afterSaleStatus === 0) &&
-        afterSaleStatusEnum[record.afterSaleStatus];
-      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
-    },
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
   },
   {
     title: '原因',
     dataIndex: 'remark',
     key: 'remark',
     width: 120,
-    render: (_, record) => record.remark || '-',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
   },
   {
     title: '操作',
     width: 120,
-    key: 'operate',
+    key: '_operate_',
+  },
+];
+
+export const expandColumns = ({ activeKey, showModal }) => [
+  {
+    // title: '商品信息',
+    dataIndex: 'orders',
+    key: 'orders',
+    render: (record) => (
+      <Space>
+        <Image height={80} width={80} src={record?.mainGraph} />
+        <div>
+          <b style={{ fontSize: '16px' }}>{record?.itemName}</b>
+          <div style={{ fontSize: '14px', color: '#ccc' }}>{record?.model || '-'}</div>
+          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record?.itemId || '-'}</div>
+        </div>
+      </Space>
+    ),
+  },
+  {
+    // title: 'sku单价/数量',
+    width: 120,
+    dataIndex: 'unitPriceAndNumber',
+    key: 'unitPriceAndNumber',
+    render: (record) => (
+      <Space direction="vertical">
+        <b>{`￥${record?.unitPrice}`}</b>
+        <div
+          style={{ float: 'right', fontSize: '14px', color: '#ccc' }}
+        >{`x${record?.amount}`}</div>
+      </Space>
+    ),
+  },
+  {
+    // title: 'sku实付金额',
+    width: 120,
+    dataIndex: '11111111orderPrice',
+    key: 'orderPrice',
+    render: (_, record) => '￥' + record?.orderPrice || '-',
+  },
+  {
+    // title: '退款金额',
+    width: 90,
+    dataIndex: '111111111orderPrice',
+    key: 'orderPrice',
+    render: (_, record) => '￥' + record?.orderPrice || '-',
+  },
+  {
+    // title: '售后状态',
+    width: 90,
+    dataIndex: 'afterSaleStatus',
+    key: 'afterSaleStatus',
+    render: (record) => {
+      const obj =
+        (record?.afterSaleStatus || record?.afterSaleStatus === 0) &&
+        afterSaleStatusEnum[record.afterSaleStatus];
+      return obj ? <Tag color={obj?.status}>{obj.text}</Tag> : '-';
+    },
+  },
+  {
+    // title: '原因',
+    dataIndex: 'remark',
+    key: 'remark',
+    width: 120,
+    render: (_, record) => record?.remark || '-',
+  },
+  {
+    // title: '操作',
+    width: 120,
+    key: '_operate_',
+    render: (_, record) => {
+      if (
+        (activeKey === '1' && record?.afterSaleStatus === '待审核') ||
+        (activeKey === '2' && record?.afterSaleStatus === '待审核')
+      ) {
+        return (
+          <div>
+            <a
+              onClick={() => {
+                showModal();
+              }}
+            >
+              同意退款
+            </a>
+            <Divider type="vertical" />
+            <a
+              onClick={() => {
+                showModal();
+              }}
+            >
+              拒绝退款
+            </a>
+          </div>
+        );
+      }
+      if (activeKey === '3' && record?.afterSaleStatus === '待审核') {
+        return (
+          <div>
+            <a
+              onClick={() => {
+                showModal();
+              }}
+            >
+              同意退货
+            </a>
+            <Divider type="vertical" />
+            <a
+              onClick={() => {
+                showModal();
+              }}
+            >
+              拒绝退货
+            </a>
+          </div>
+        );
+      }
+      if (activeKey === '3' && record?.afterSaleStatus === '待平台收货') {
+        return (
+          <div>
+            <a
+              onClick={() => {
+                showModal();
+              }}
+            >
+              确认收货
+            </a>
+            <Divider type="vertical" />
+            <a
+              onClick={() => {
+                showModal();
+              }}
+            >
+              拒绝收货
+            </a>
+          </div>
+        );
+      }
+    },
   },
 ];

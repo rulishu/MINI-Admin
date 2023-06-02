@@ -1,17 +1,15 @@
-import OrderTable from '@/components/OrderTable';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Space, Tag, Typography } from 'antd';
-import { Fragment, useEffect } from 'react';
-import { columns, searchItem } from './columns';
-const { Paragraph } = Typography;
+import { Modal, Table } from 'antd';
+import { Fragment, useEffect, useState } from 'react';
+import './../orderManage/index.less';
+import { columns, expandColumns, searchItem } from './columns';
 
-export default function SearchTable({ key }) {
-  console.log('key: ', key);
+export default function SearchTable() {
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
   const {
     aftersales: {
+      activeKey,
       pageSize,
       // 第几页
       pageNum,
@@ -23,6 +21,7 @@ export default function SearchTable({ key }) {
     loading,
   } = useSelector((state) => state);
   console.log('dataSource: ', dataSource);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const updateFn = (payload) => {
     dispatch({
@@ -55,53 +54,55 @@ export default function SearchTable({ key }) {
     }
   };
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   // orderTable props
   const orderTableProps = {
     pagination: {
       pageNum,
       pageSize,
       total,
-      goToPage: (page, pageSize) => {
+      onChange: (page, pageSize) => {
         dispatch({
           type: 'aftersales/goToPage',
           payload: { pageNum: page, pageSize: pageSize },
         });
       },
+      showTotal: (total) => `第 ${pageNum}-${dataSource.length} 条/总共 ${total} 条`,
     },
-    dataSource: [],
-    renderColumnHeader: (row) => (
-      <Space size="large" align="center">
-        <Paragraph
-          style={{ margin: 0 }}
-          copyable={{
-            text: row.orderNumber,
-          }}
-        >
-          订单编号：{row.orderNumber}
-        </Paragraph>
-        <Paragraph
-          style={{ margin: 0 }}
-          copyable={{
-            text: row.orderNumber,
-          }}
-        >
-          售后编号：{row.orderNumber}
-        </Paragraph>
-
-        <span>申请时间：{row.createTime}</span>
-        <Tag>未发货待退款</Tag>
-      </Space>
-    ),
-    renderColumnOperate: () => <div />,
+    dataSource,
     columns: columns({ handle }),
-
     loading: loading.effects['aftersales/selectByPage'],
-    rowSelection: {
-      selectedRow: [],
-      onChange: (selectedRow) => console.log('selectedRow', selectedRow),
+    rowSelection: false,
+    rowKey: 'id',
+    scroll: { x: 1300 },
+    border: true,
+    expandable: {
+      expandedRowRender: (record) => (
+        <Table
+          className="expanded_table_td"
+          columns={expandColumns({ rowData: record, showModal })}
+          dataSource={record?.items || []}
+          rowKey="id"
+          pagination={false}
+          rowClassName={() => 'valign-top'}
+        />
+      ),
+      expandRowByClick: true,
+      expandIcon: () => null,
+      expandedRowKeys: dataSource.map((rowKey) => rowKey.id),
     },
-    // rowKey: (record) => record.id + record.orderNumber,
+    rowClassName: () => 'ant-table-row_color',
   };
+
   return (
     <Fragment>
       <BetaSchemaForm
@@ -115,9 +116,14 @@ export default function SearchTable({ key }) {
           updateFn({ searchForm: {} });
           dispatch({ type: 'aftersales/selectByPage' });
         }}
-        columns={searchItem()}
+        columns={searchItem(dispatch, activeKey)}
       />
-      <OrderTable {...orderTableProps} />
+      <Table {...orderTableProps} />
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </Fragment>
   );
 }

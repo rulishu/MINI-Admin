@@ -14,6 +14,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             ...prefix,
             goodsCost: 0,
             price: 0,
+            referencePrice: 0,
             membershipPrice: 0,
             skuCode: 0,
             stock: 0,
@@ -107,6 +108,17 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           value={text}
           style={{ width: 160 }}
           onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
+        />
+      ),
+    },
+    {
+      title: '参考价',
+      dataIndex: 'referencePrice',
+      render: (text, record, index) => (
+        <Input
+          value={text}
+          style={{ width: 160 }}
+          onChange={(e) => handleEntryDataChange(index, 'referencePrice', e.target.value)}
         />
       ),
     },
@@ -210,6 +222,16 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
                     setBulk({ ...bulk, membershipPrice: e.target.value });
                   }}
                   placeholder="会员价"
+                />
+              </Tooltip>
+            </Col>
+            <Col span={4}>
+              <Tooltip trigger={['focus']} title="参考价" placement="topLeft">
+                <Input
+                  onChange={(e) => {
+                    setBulk({ ...bulk, referencePrice: e.target.value });
+                  }}
+                  placeholder="参考价"
                 />
               </Tooltip>
             </Col>

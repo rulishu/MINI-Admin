@@ -1,6 +1,14 @@
 import dayjs from 'dayjs';
 
-export default (options, suppliersList, templateIdList, cityTreeList, allstocks, minSale) => ({
+export default (
+  options,
+  suppliersList,
+  templateIdList,
+  cityTreeList,
+  allstocks,
+  minSale,
+  categoryList = [],
+) => ({
   type: 'object',
   widget: 'lineTitle',
   displayType: 'row',
@@ -22,6 +30,24 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
             // displayRender: (labels) => labels[labels.length - 1],
             options: options(),
           },
+          rules: [
+            {
+              validator: (_, value) => {
+                if (
+                  categoryList.find((item) => item?.id === value?.[value.length - 1])?.leafOrder !==
+                  1
+                ) {
+                  // 或者是返回一个对象，用于动态设置 message 内容
+                  return {
+                    status: false,
+                    message: '请选择叶子类目',
+                  };
+                } else {
+                  return true;
+                }
+              },
+            },
+          ],
         },
       },
     },
@@ -183,17 +209,17 @@ export default (options, suppliersList, templateIdList, cityTreeList, allstocks,
             min: 0,
           },
         },
-        price: {
-          title: '参考价格',
-          type: 'string',
-          // widget: 'Number',
-          tooltip: '参考价大于等于售卖价，最多保留2位小数',
-          placeholder: '请输入参考价格',
-          required: true,
-          props: {
-            // min: 0,
-          },
-        },
+        // price: {
+        //   title: '参考价格',
+        //   type: 'string',
+        //   // widget: 'Number',
+        //   tooltip: '参考价大于等于售卖价，最多保留2位小数',
+        //   placeholder: '请输入参考价格',
+        //   required: true,
+        //   props: {
+        //     // min: 0,
+        //   },
+        // },
         spuCode: {
           title: 'SPU编码',
           type: 'string',

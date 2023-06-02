@@ -9,7 +9,7 @@ const TreeList = () => {
   const dispatch = useDispatch();
   const { modal } = App.useApp();
   const { marketManage } = useSelector((state) => state);
-  const { marketTree } = marketManage;
+  const { marketTree, activeMarketId } = marketManage;
   const [modalVisit, setModalVisit] = useState(false);
   const [modalData, setModalData] = useState({});
 
@@ -20,6 +20,7 @@ const TreeList = () => {
         key: item?.id,
         parentId: item?.parentId,
         sort: item?.sort,
+        disabled: true,
       };
       if (item?.child && item.child.length > 0) {
         obj.children = item.child.map((i) => ({
@@ -190,6 +191,7 @@ const TreeList = () => {
       <DirectoryTree
         // showLine
         defaultExpandAll
+        defaultSelectedKeys={[activeMarketId]}
         className="draggable-tree"
         draggable={{ icon: false }}
         blockNode
@@ -197,6 +199,7 @@ const TreeList = () => {
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}
+        filterTreeNode={(node) => node?.key === activeMarketId}
         onSelect={(selectedKeys, e) => {
           const { selectedNodes } = e;
           if (selectedNodes?.[0]?.parentId !== '0') {
@@ -225,7 +228,8 @@ const TreeList = () => {
             >
               {nodeData?.parentId === '0' && (
                 <a
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setModalData({ parentId: nodeData?.key });
                     setModalVisit(true);
                   }}
@@ -235,7 +239,8 @@ const TreeList = () => {
               )}
               <a
                 style={{ marginLeft: 10 }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   modal.warning({
                     title: '删除',
                     maskClosable: true,
