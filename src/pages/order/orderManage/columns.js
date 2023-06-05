@@ -1,7 +1,7 @@
 import { CopyOutlined } from '@ant-design/icons';
-import { Divider, Image, Space, Tag } from 'antd';
+import { Divider, Space } from 'antd';
 import { Fragment } from 'react';
-import { afterSaleStatusEnum, orderStatusEnum } from './enum';
+import { AfterSaleStatusComp, GoodInfoComp, OrderStatusComp, SkuComp } from './component';
 
 export const columns = ({ supplierName, handle }) => [
   {
@@ -204,37 +204,13 @@ export const expandColumns = ({ rowData }) => [
   {
     dataIndex: 'info',
     key: 'info',
-    render: (_, record) => (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div>
-          {' '}
-          <Image height={80} width={80} src={record.mainGraph} />
-        </div>
-        <div style={{ marginLeft: 12 }}>
-          <b style={{ fontSize: '14px' }}>{record.itemName}</b>
-          <div style={{ fontSize: '14px', color: '#ccc' }}>
-            {(record.attributes || []).map((item, i) => (
-              <Fragment key={item.attributeId}>
-                <span> {`${item.attributeName}:${item.value}`}</span>
-                {i !== (record.attributes || []).length - 1 && <span>;</span>}
-              </Fragment>
-            ))}
-          </div>
-          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId || '-'}</div>
-        </div>
-      </div>
-    ),
+    render: (_, record) => <GoodInfoComp record={record} />,
   },
   {
     width: 150,
     dataIndex: 'sku',
     key: 'sku',
-    render: (_, record) => (
-      <Space direction="vertical" size={0}>
-        <div>{`￥${record.unitPrice}`}</div>
-        <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>{`x${record.amount}`}</div>
-      </Space>
-    ),
+    render: (_, record) => <SkuComp record={record} />,
   },
   {
     width: 100,
@@ -246,12 +222,7 @@ export const expandColumns = ({ rowData }) => [
     width: 100,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: () => {
-      const obj =
-        (rowData.afterSaleStatus || rowData.afterSaleStatus === 0) &&
-        afterSaleStatusEnum[rowData.afterSaleStatus];
-      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
-    },
+    render: () => <AfterSaleStatusComp record={rowData} />,
   },
   {
     dataIndex: 'receiveInfo',
@@ -280,10 +251,7 @@ export const expandColumns = ({ rowData }) => [
     dataIndex: 'orderStatus',
     key: 'orderStatus',
     width: 100,
-    render: () => {
-      const obj = String(rowData.orderStatus) && orderStatusEnum[rowData.orderStatus];
-      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
-    },
+    render: () => <OrderStatusComp record={rowData} />,
   },
   {
     dataIndex: 'operate',
