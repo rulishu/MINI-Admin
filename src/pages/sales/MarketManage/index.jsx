@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from '@umijs/max';
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 import { useEffect, useRef } from 'react';
 import ConnectTable from './ConnectTable';
 import SearchForm from './SearchForm';
@@ -36,7 +36,7 @@ const SearchTable = () => {
       }}
     >
       <Card
-        loading={loading.effects['marketManage/getMarketTree']}
+        // loading={loading.effects['marketManage/getMarketTree']}
         style={{ marginRight: 10, minWidth: 250, height: '100%' }}
         bodyStyle={{
           paddingLeft: 12,
@@ -46,7 +46,12 @@ const SearchTable = () => {
           overflowY: 'auto',
         }}
       >
-        <TreeList />
+        <Spin
+          style={{ width: '100%', height: '100%' }}
+          spinning={loading.effects['marketManage/getMarketTree']}
+        >
+          <TreeList />
+        </Spin>
       </Card>
       <div
         style={{
@@ -59,24 +64,40 @@ const SearchTable = () => {
         }}
       >
         <Card
-          loading={
-            loading.effects['marketManage/selectMarket'] ||
-            loading.effects['marketManage/getMarketTree']
-          }
+          // loading={
+          //   loading.effects['marketManage/selectMarket'] ||
+          //   loading.effects['marketManage/getMarketTree']
+          // }
           style={{ width: '100%' }}
           bodyStyle={{ paddingLeft: 12, paddingRight: 12, width: '100%' }}
         >
-          <SearchForm proTableRef={proTableRef} />
+          <Spin
+            style={{ width: '100%', height: '100%' }}
+            spinning={
+              loading.effects['marketManage/selectMarket'] ||
+              loading.effects['marketManage/getMarketTree']
+            }
+          >
+            <SearchForm proTableRef={proTableRef} />
+          </Spin>
         </Card>
         <Card
-          loading={
-            loading.effects['marketManage/selectMarket'] ||
-            loading.effects['marketManage/getMarketTree']
-          }
+          // loading={
+          //   loading.effects['marketManage/selectMarket'] ||
+          //   loading.effects['marketManage/getMarketTree']
+          // }
           style={{ width: '100%', marginTop: 10, flex: 1, overflow: 'auto' }}
           bodyStyle={{ paddingLeft: 12, paddingRight: 12, width: '100%', height: '100%' }}
         >
-          <ConnectTable proTableRef={proTableRef} />
+          <Spin
+            style={{ width: '100%', height: '100%' }}
+            spinning={
+              loading.effects['marketManage/selectMarket'] ||
+              loading.effects['marketManage/getMarketTree']
+            }
+          >
+            <ConnectTable proTableRef={proTableRef} />
+          </Spin>
         </Card>
       </div>
     </div>

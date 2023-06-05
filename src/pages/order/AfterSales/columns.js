@@ -1,4 +1,4 @@
-import { Divider, Image, Space, Tag, Typography } from 'antd';
+import { Image, Space, Tag, Typography } from 'antd';
 import { afterSaleStatusEnum } from './enum';
 const { Paragraph } = Typography;
 
@@ -22,7 +22,7 @@ export const searchItem = () => [
     dataIndex: 'supplierName',
     valueType: 'select',
     fieldProps: {
-      placeholder: '请输入供应商',
+      placeholder: '请输入售后类型',
       options: [
         {
           label: '未发货仅退款',
@@ -80,8 +80,8 @@ export const searchItem = () => [
 export const columns = () => [
   {
     title: '商品信息',
-    dataIndex: 'orders',
-    key: 'orders',
+    dataIndex: 'goodsInfo',
+    key: 'goodsInfo',
     onCell: () => ({
       colSpan: 6,
     }),
@@ -113,7 +113,7 @@ export const columns = () => [
   },
   {
     title: 'sku单价/数量',
-    width: 120,
+    width: 140,
     dataIndex: 'unitPriceAndNumber',
     key: 'unitPriceAndNumber',
     onCell: () => ({
@@ -124,8 +124,8 @@ export const columns = () => [
   {
     title: 'sku实付金额',
     width: 120,
-    dataIndex: '11111111orderPrice',
-    key: 'orderPrice',
+    dataIndex: 'payAmount',
+    key: 'payAmount',
     onCell: () => ({
       colSpan: 0,
     }),
@@ -133,9 +133,9 @@ export const columns = () => [
   },
   {
     title: '退款金额',
-    width: 90,
-    dataIndex: '111111111orderPrice',
-    key: 'orderPrice',
+    width: 120,
+    dataIndex: 'refundSuccessAmount',
+    key: 'refundSuccessAmount',
     onCell: () => ({
       colSpan: 0,
     }),
@@ -143,7 +143,7 @@ export const columns = () => [
   },
   {
     title: '售后状态',
-    width: 90,
+    width: 120,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
     onCell: () => ({
@@ -153,8 +153,8 @@ export const columns = () => [
   },
   {
     title: '原因',
-    dataIndex: 'remark',
-    key: 'remark',
+    dataIndex: 'reason',
+    key: 'reason',
     width: 120,
     onCell: () => ({
       colSpan: 0,
@@ -168,11 +168,12 @@ export const columns = () => [
   },
 ];
 
-export const expandColumns = ({ activeKey, showModal }) => [
+export const expandColumns = ({ handlerAction }) => [
+  // { dataIndex: 'empty', key: 'empty', width: 48 },
   {
     // title: '商品信息',
-    dataIndex: 'orders',
-    key: 'orders',
+    dataIndex: 'goodsInfo',
+    key: 'goodsInfo',
     render: (record) => (
       <Space>
         <Image height={80} width={80} src={record?.mainGraph} />
@@ -186,7 +187,7 @@ export const expandColumns = ({ activeKey, showModal }) => [
   },
   {
     // title: 'sku单价/数量',
-    width: 120,
+    width: 140,
     dataIndex: 'unitPriceAndNumber',
     key: 'unitPriceAndNumber',
     render: (record) => (
@@ -201,20 +202,20 @@ export const expandColumns = ({ activeKey, showModal }) => [
   {
     // title: 'sku实付金额',
     width: 120,
-    dataIndex: '11111111orderPrice',
-    key: 'orderPrice',
-    render: (_, record) => '￥' + record?.orderPrice || '-',
+    dataIndex: 'payAmount',
+    key: 'payAmount',
+    render: (_, record) => '￥' + record?.payAmount || '-',
   },
   {
     // title: '退款金额',
-    width: 90,
-    dataIndex: '111111111orderPrice',
-    key: 'orderPrice',
-    render: (_, record) => '￥' + record?.orderPrice || '-',
+    width: 120,
+    dataIndex: 'refundSuccessAmount',
+    key: 'refundSuccessAmount',
+    render: (_, record) => '￥' + record?.refundSuccessAmount || '-',
   },
   {
     // title: '售后状态',
-    width: 90,
+    width: 120,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
     render: (record) => {
@@ -226,82 +227,15 @@ export const expandColumns = ({ activeKey, showModal }) => [
   },
   {
     // title: '原因',
-    dataIndex: 'remark',
-    key: 'remark',
+    dataIndex: 'reason',
+    key: 'reason',
     width: 120,
-    render: (_, record) => record?.remark || '-',
+    render: (_, record) => record?.reason || '-',
   },
   {
     // title: '操作',
     width: 120,
     key: '_operate_',
-    render: (_, record) => {
-      if (
-        (activeKey === '1' && record?.afterSaleStatus === '待审核') ||
-        (activeKey === '2' && record?.afterSaleStatus === '待审核')
-      ) {
-        return (
-          <div>
-            <a
-              onClick={() => {
-                showModal();
-              }}
-            >
-              同意退款
-            </a>
-            <Divider type="vertical" />
-            <a
-              onClick={() => {
-                showModal();
-              }}
-            >
-              拒绝退款
-            </a>
-          </div>
-        );
-      }
-      if (activeKey === '3' && record?.afterSaleStatus === '待审核') {
-        return (
-          <div>
-            <a
-              onClick={() => {
-                showModal();
-              }}
-            >
-              同意退货
-            </a>
-            <Divider type="vertical" />
-            <a
-              onClick={() => {
-                showModal();
-              }}
-            >
-              拒绝退货
-            </a>
-          </div>
-        );
-      }
-      if (activeKey === '3' && record?.afterSaleStatus === '待平台收货') {
-        return (
-          <div>
-            <a
-              onClick={() => {
-                showModal();
-              }}
-            >
-              确认收货
-            </a>
-            <Divider type="vertical" />
-            <a
-              onClick={() => {
-                showModal();
-              }}
-            >
-              拒绝收货
-            </a>
-          </div>
-        );
-      }
-    },
+    render: handlerAction,
   },
 ];
