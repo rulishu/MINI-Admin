@@ -50,6 +50,7 @@ export default function SearchTable() {
 
   // table参数
   const tableProps = {
+    bordered: true,
     actionRef: ref,
     className: 'table_card',
     headerTitle: '订单列表',
