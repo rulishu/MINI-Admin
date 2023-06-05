@@ -35,15 +35,7 @@ export const columns = ({ supplierName, handle }) => [
     hideInTable: true,
   },
   {
-    title: '商品名称',
-    dataIndex: 'itemName',
-    fieldProps: {
-      placeholder: '请输入商品名称',
-    },
-    hideInTable: true,
-  },
-  {
-    title: '创建时间',
+    title: '下单时间',
     dataIndex: 'startTime',
     hideInTable: true,
     valueType: 'dateRange',
@@ -59,6 +51,14 @@ export const columns = ({ supplierName, handle }) => [
         };
       },
     },
+  },
+  {
+    title: '商品名称',
+    dataIndex: 'itemName',
+    fieldProps: {
+      placeholder: '请输入商品名称',
+    },
+    hideInTable: true,
   },
   {
     title: '供应商',

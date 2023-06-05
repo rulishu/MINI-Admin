@@ -4,6 +4,8 @@ import { selectByAgentArea, selectByAgentCompany } from '@/service/cust/territor
 export default {
   namespace: 'territory',
   state: {
+    videoVisible: false,
+    videoData: {},
     visible: false,
     /** add新增 / edit编辑 / view查看  */
     type: '',

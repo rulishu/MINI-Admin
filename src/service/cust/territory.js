@@ -41,3 +41,11 @@ export const deleteItem = async ({ id }) => {
     method: 'DELETE',
   });
 };
+
+// 上传视频
+export const uploadVideos = async (body) => {
+  return request(`/jcgl-user/admin/agent/uploadVideos`, {
+    method: 'PUT',
+    data: body,
+  });
+};
