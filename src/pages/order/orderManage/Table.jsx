@@ -1,7 +1,7 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Avatar, Space, Table } from 'antd';
+import { App, Avatar, Space, Table } from 'antd';
 import { Fragment, useRef, useState } from 'react';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
@@ -12,6 +12,7 @@ export default function SearchTable() {
   const {
     orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, userList },
   } = useSelector((state) => state);
+  const { message } = App.useApp();
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const ref = useRef();
   const updateFn = (payload) => {
@@ -45,6 +46,7 @@ export default function SearchTable() {
       el.select();
       document.execCommand('copy');
       document.body.removeChild(el);
+      message.success('复制成功');
     }
   };
 

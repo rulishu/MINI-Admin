@@ -62,7 +62,7 @@ export default ({
         onProgress({ percent: 100 });
         onSuccess(response, file);
         const newFile = {
-          url: `http://${response.result}`,
+          url: `${response.result}`,
           name: file.name,
           uid: file.uid,
           status: 'success',

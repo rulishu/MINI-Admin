@@ -1,4 +1,5 @@
-import { Card, Image, Space } from 'antd';
+import AImage from '@/components/AImage';
+import { Card, Space } from 'antd';
 import { Fragment } from 'react';
 import {
   AfterSaleStatusComp,
@@ -83,8 +84,8 @@ export const basicItem = [
 export const buyerItem = [
   {
     title: '用户昵称',
-    key: 'userName',
-    dataIndex: 'userName',
+    key: 'consumerName',
+    dataIndex: 'consumerName',
   },
   {
     title: '买家留言',
@@ -140,7 +141,7 @@ export const productItem = ({ number = 0 }) => [
               // eslint-disable-next-line react/no-array-index-key
               <Card key={index}>
                 <Space>
-                  <Image height={40} width={40} src={data.mainGraph || '-'} />
+                  <AImage height={40} width={40} src={data.mainGraph || '-'} />
                   <div>
                     <b style={{ fontSize: '14px' }}>{data.itemName || '-'}</b>
                     <div style={{ fontSize: '14px', color: '#ccc' }}>

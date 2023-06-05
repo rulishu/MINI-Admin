@@ -1,4 +1,5 @@
-import { Image, Space, Tag } from 'antd';
+import AImage from '@/components/AImage';
+import { Space, Tag } from 'antd';
 import { Fragment } from 'react';
 import { afterSaleStatusEnum, orderStatusEnum, shipmentsStatusEnum } from '../enum';
 import EditTable from './EditTable';
@@ -9,7 +10,7 @@ const GoodInfoComp = ({ record }) => {
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div>
         {' '}
-        <Image height={80} width={80} src={record.mainGraph} />
+        <AImage height={80} width={80} src={record.mainGraph} />
       </div>
       <div style={{ marginLeft: 12 }}>
         <b style={{ fontSize: '14px' }}>{record.itemName}</b>
