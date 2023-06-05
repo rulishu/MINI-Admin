@@ -1,4 +1,4 @@
-import { ProForm, ProFormCascader } from '@ant-design/pro-components';
+import { ProFormCascader, QueryFilter } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button, Cascader, Input, Space } from 'antd';
 import { useEffect, useRef } from 'react';
@@ -54,9 +54,14 @@ export default ({ proTableRef }) => {
 
   return (
     <>
-      <ProForm
+      <QueryFilter
+        style={{ padding: 0 }}
         formRef={formRef}
-        layout="inline"
+        // layout="inline"
+        labelWidth="auto"
+        defaultCollapsed={false}
+        span={12}
+        collapsed={false}
         onValuesChange={(changeValues) => {
           dispatch({
             type: 'marketManage/updateState',
@@ -69,8 +74,10 @@ export default ({ proTableRef }) => {
           if (activeMarketId) {
             dispatch({
               type: 'marketManage/updateMarket',
+              payload: {
+                proTableRef,
+              },
             });
-            proTableRef?.current?.reload();
           } else {
             message.warning('请先选中营销类目');
           }
@@ -104,7 +111,7 @@ export default ({ proTableRef }) => {
           name="itemArray"
           label="关联后台类目"
         />
-      </ProForm>
+      </QueryFilter>
       <p style={{ color: 'rgba(0, 0, 0, 0.25)' }}>
         关联后台叶子类目后，所有该类目下的商品都会出现在前台类目中
       </p>
@@ -120,12 +127,20 @@ export default ({ proTableRef }) => {
             <Button
               type="default"
               onClick={() => {
+                // modal.warning({
+                //   autoFocusButton: null,
+                //   closable: true,
+                //   title: '确认删除',
+                //   content: '确认要删除吗？',
+                //   onOk: () => {
                 dispatch({
                   type: 'marketManage/updateState',
                   payload: {
                     cascaderList: cascaderList.toSpliced(index, 1),
                   },
                 });
+                //   },
+                // });
               }}
             >
               删除

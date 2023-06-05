@@ -20,7 +20,7 @@ const TreeList = () => {
         key: item?.id,
         parentId: item?.parentId,
         sort: item?.sort,
-        disabled: true,
+        // disabled: true,
       };
       if (item?.child && item.child.length > 0) {
         obj.children = item.child.map((i) => ({
@@ -174,6 +174,7 @@ const TreeList = () => {
       payload: { gData: data },
     });
   };
+  console.log('activeMarketId: ', activeMarketId);
 
   return (
     <>
@@ -191,7 +192,7 @@ const TreeList = () => {
       <DirectoryTree
         // showLine
         defaultExpandAll
-        defaultSelectedKeys={[activeMarketId]}
+        // defaultSelectedKeys={[activeMarketId]}
         className="draggable-tree"
         draggable={{ icon: false }}
         blockNode
@@ -199,7 +200,8 @@ const TreeList = () => {
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}
-        filterTreeNode={(node) => node?.key === activeMarketId}
+        // filterTreeNode={(node) => node?.key === activeMarketId}
+        selectedKeys={[activeMarketId]}
         onSelect={(selectedKeys, e) => {
           const { selectedNodes } = e;
           if (selectedNodes?.[0]?.parentId !== '0') {

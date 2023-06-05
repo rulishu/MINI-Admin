@@ -1,4 +1,4 @@
-import { getLogisticsCompany, getSuppliersList, selectPage } from '@/service/order/orderManage';
+import { selectPage } from '@/service/order/aftersales';
 
 export default {
   namespace: 'aftersales',
@@ -42,8 +42,8 @@ export default {
         pageSize,
         pageNum,
         ...searchForm,
-        startTime: searchForm.startTime && searchForm.startTime[0],
-        endTime: searchForm.startTime && searchForm.startTime[1],
+        // startTime: searchForm.startTime && searchForm.startTime[0],
+        // endTime: searchForm.startTime && searchForm.startTime[1],
         [activeKey === '售后中' ? 'afterSaleStatus' : 'orderStatus']:
           activeKey === '售后中' ? 1 : activeKey,
       };
@@ -58,43 +58,43 @@ export default {
         });
       }
     },
-    *all(_, { call, put }) {
-      const { code, result } = yield call(getLogisticsCompany);
-      if (code === 200) {
-        let companyList = result.map((item) => {
-          return {
-            label: item.name,
-            value: item.id,
-          };
-        });
-        yield put({
-          type: 'update',
-          payload: {
-            companySelect: companyList || [],
-          },
-        });
-      }
-    },
-    *getSuppliersList({ payload }, { call, put }) {
-      const { code, result } = yield call(getSuppliersList, payload);
-      if (code === 200) {
-        let suppliersList = (result.records || []).map((item) => {
-          return {
-            label: item.supplierName,
-            value: item.supplierId,
-          };
-        });
-        yield put({
-          type: 'update',
-          payload: {
-            suppliersList: suppliersList,
-          },
-        });
-      }
-    },
-    *goToPage({ payload: { pageNum, pageSize } }, { put }) {
-      yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
-      yield put({ type: 'selectByPage' });
-    },
+    // *all(_, { call, put }) {
+    //   const { code, result } = yield call(getLogisticsCompany);
+    //   if (code === 200) {
+    //     let companyList = result.map((item) => {
+    //       return {
+    //         label: item.name,
+    //         value: item.id,
+    //       };
+    //     });
+    //     yield put({
+    //       type: 'update',
+    //       payload: {
+    //         companySelect: companyList || [],
+    //       },
+    //     });
+    //   }
+    // },
+    // *getSuppliersList({ payload }, { call, put }) {
+    //   const { code, result } = yield call(getSuppliersList, payload);
+    //   if (code === 200) {
+    //     let suppliersList = (result.records || []).map((item) => {
+    //       return {
+    //         label: item.supplierName,
+    //         value: item.supplierId,
+    //       };
+    //     });
+    //     yield put({
+    //       type: 'update',
+    //       payload: {
+    //         suppliersList: suppliersList,
+    //       },
+    //     });
+    //   }
+    // },
+    // *goToPage({ payload: { pageNum, pageSize } }, { put }) {
+    //   yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
+    //   yield put({ type: 'selectByPage' });
+    // },
   },
 };

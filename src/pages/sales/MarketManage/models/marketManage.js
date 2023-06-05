@@ -108,7 +108,7 @@ const group = {
     },
 
     // 更新绑定商品类目
-    *updateMarket({ payload }, { call, put, select }) {
+    *updateMarket({ payload }, { call, select }) {
       console.log('payload: ', payload);
       const marketManage = yield select(({ marketManage }) => marketManage);
       const { cascaderList, activeMarketId } = marketManage;
@@ -125,11 +125,13 @@ const group = {
         id: activeMarketId,
       });
       if (code === 200) {
+        payload?.proTableRef?.current?.reload();
+
         //
-        yield put({
-          type: 'updateState',
-          payload: {},
-        });
+        // yield put({
+        //   type: 'updateState',
+        //   payload: {},
+        // });
       }
     },
 

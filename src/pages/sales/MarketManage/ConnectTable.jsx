@@ -2,10 +2,11 @@ import { selectSellPage } from '@/service/goods/productManage';
 import { PlusOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormSelect, ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Form, Image, Input } from 'antd';
+import { App, Button, Form, Image, Input } from 'antd';
 const ConnectTable = ({ proTableRef }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
   const { marketManage } = useSelector((state) => state);
   const { activeMarketId, tableData } = marketManage;
 
@@ -46,7 +47,7 @@ const ConnectTable = ({ proTableRef }) => {
       title: '价格',
       dataIndex: 'price',
       width: 150,
-      render: (txt, record) => record?.itemDto?.price,
+      render: (txt, record) => record?.itemDto?.costPrice,
     },
     {
       title: '排序',
@@ -82,15 +83,23 @@ const ConnectTable = ({ proTableRef }) => {
       render: (_, record) => (
         <a
           onClick={() => {
-            dispatch({
-              type: 'marketManage/deleteGoods',
-              payload: {
-                id: record?.id,
-                callback: (type) => {
-                  if (type) {
-                    proTableRef?.current?.reload();
-                  }
-                },
+            modal.warning({
+              autoFocusButton: null,
+              closable: true,
+              title: '确认删除',
+              content: '确定要删除这条商品吗？',
+              onOk: () => {
+                dispatch({
+                  type: 'marketManage/deleteGoods',
+                  payload: {
+                    id: record?.id,
+                    callback: (type) => {
+                      if (type) {
+                        proTableRef?.current?.reload();
+                      }
+                    },
+                  },
+                });
               },
             });
           }}
@@ -172,6 +181,7 @@ const ConnectTable = ({ proTableRef }) => {
                   },
                 },
               });
+              return true;
             }}
           >
             <ProFormSelect
