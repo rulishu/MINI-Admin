@@ -148,7 +148,7 @@ export const columns = ({ supplierName, handle }) => [
     dataIndex: 'receiveInfo',
     key: 'receiveInfo',
     hideInSearch: true,
-    width: 300,
+    width: 250,
     onCell: () => ({
       colSpan: 0,
     }),
@@ -257,7 +257,7 @@ export const expandColumns = ({ rowData }) => [
   {
     dataIndex: 'receiveInfo',
     key: 'receiveInfo',
-    width: 300,
+    width: 250,
     render: () => {
       return (
         <Space>

@@ -60,13 +60,14 @@ export default function Edit() {
         onClick={handleCancel}
         icon={<ImportOutlined />}
         type="primary"
-        style={{ right: 24 }}
+        style={{ right: 24, bottom: 80 }}
       />
       <Card title="订单信息">
         <ProDescriptions
           editable={{
-            onSave: async (keypath, newInfo, oriInfo) => {
-              console.log(keypath, newInfo, oriInfo);
+            onSave: async (keypath, newInfo) => {
+              const value = newInfo[keypath];
+              updateFn({ queryData: { ...queryData, [keypath]: value } });
               return true;
             },
           }}
@@ -102,8 +103,10 @@ export default function Edit() {
           scroll={{ x: 1300 }}
         />
         <Typography.Text style={{ float: 'right', marginTop: 24 }}>
-          商品总价：{queryData.totalPrice || '-'} 运费：￥0.00 优惠卷：￥0.00 订单金额：￥
-          {queryData.orderPrice || '-'}
+          商品总价：<span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || '-'} </span>运费：
+          <span style={{ color: '#1677ff' }}>￥0.00</span> 优惠卷：
+          <span style={{ color: '#1677ff' }}>￥0.00</span> 订单金额：
+          <span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || '-'} </span>
         </Typography.Text>
       </Card>
     </Space>
