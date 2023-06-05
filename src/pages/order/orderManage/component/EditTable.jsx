@@ -89,14 +89,16 @@ export default ({ value = [], onChange, ...others }) => {
             width: 120,
             render: (_, record) => {
               const obj = shipmentsStatusEnum[record.shipmentsStatus] || {};
-              return obj && <Tag color={obj.status}>{obj.text}</Tag>;
+              return (
+                obj && (
+                  <Tag color={obj.status}>
+                    {record.shipmentsStatus === 1
+                      ? `${record.shipmentAcount}/${record.amount}已发货`
+                      : obj.text}
+                  </Tag>
+                )
+              );
             },
-          },
-          {
-            title: '已发货数量',
-            dataIndex: 'shipmentAcount',
-            key: 'shipmentAcount',
-            width: 120,
           },
           {
             title: '发货数量',

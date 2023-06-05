@@ -183,13 +183,12 @@ export const columns = ({ supplierName, handle }) => [
     hideInSearch: true,
     width: 120,
     render: (_, record) => {
-      // const { orderStatus } = record;
-      // orderStatus === 1 || orderStatus === 4 || orderStatus === -2;
-      const canPush = false;
+      const { orderStatus } = record;
+      const canPush = orderStatus === 2;
       return (
         <div>
           <a onClick={() => handle('view', record)}>详情</a>
-          {!canPush && (
+          {canPush && (
             <Fragment>
               <Divider type="vertical" />
               <a onClick={() => handle('push', record)}>发货</a>
