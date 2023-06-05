@@ -1,26 +1,16 @@
-import { getInfoPushList } from '@/service/order/orderManage';
 import { ImportOutlined } from '@ant-design/icons';
 import { ProDescriptions } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { useRequest } from 'ahooks';
 import { Card, Empty, FloatButton, Space, Table, Tabs, Typography } from 'antd';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { basicItem, buyerItem, manageColumn, productItem, receiveItem } from './items';
 
 export default function Edit() {
   const dispatch = useDispatch();
-  const { queryData, visible } = useSelector((state) => state.orderManage);
-
-  // 包裹信息
-  const { run, loading, data } = useRequest(getInfoPushList, {
-    manual: false,
-  });
-
-  useEffect(() => {
-    if (visible) {
-      run({ id: queryData.id });
-    }
-  }, [visible]);
+  const {
+    orderManage: { queryData, pushList },
+    loading: loading,
+  } = useSelector((state) => state);
 
   const updateFn = (payload) => {
     dispatch({
@@ -32,9 +22,8 @@ export default function Edit() {
   const handleCancel = () => updateFn({ visible: false });
 
   const packageListItems = useMemo(() => {
-    const datas = data && data.result ? data.result : [];
-    if (datas.length > 0) {
-      return datas.map((item, i) => {
+    if (pushList.length > 0) {
+      return pushList.map((item, i) => {
         return {
           key: String(i + 1),
           label: `包裹${i + 1}`,
@@ -52,7 +41,7 @@ export default function Edit() {
       });
     }
     return [];
-  }, [data]);
+  }, [pushList]);
 
   return (
     <Space direction="vertical">
@@ -62,12 +51,19 @@ export default function Edit() {
         type="primary"
         style={{ right: 24, bottom: 80 }}
       />
-      <Card title="订单信息">
+      <Card title="订单信息" loading={loading.effects['orderManage/selectById']}>
         <ProDescriptions
           editable={{
             onSave: async (keypath, newInfo) => {
               const value = newInfo[keypath];
               updateFn({ queryData: { ...queryData, [keypath]: value } });
+              dispatch({
+                type: 'orderManage/updateInfo',
+                payload: {
+                  [keypath]: value,
+                  id: queryData.id,
+                },
+              });
               return true;
             },
           }}
@@ -77,12 +73,12 @@ export default function Edit() {
         />
       </Card>
 
-      <Card>
+      <Card loading={loading.effects['orderManage/selectById']}>
         <ProDescriptions title="买家信息" column={4} dataSource={queryData} columns={buyerItem} />
         <ProDescriptions title="收货信息" column={4} dataSource={queryData} columns={receiveItem} />
       </Card>
 
-      <Card title="包裹信息" loading={loading}>
+      <Card title="包裹信息" loading={loading.effects['orderManage/getInfoPushList']}>
         {packageListItems.length > 0 ? (
           <Tabs
             destroyInactiveTabPane={true}
@@ -95,7 +91,7 @@ export default function Edit() {
         )}
       </Card>
 
-      <Card title="商品信息">
+      <Card title="商品信息" loading={loading.effects['orderManage/selectById']}>
         <Table
           columns={manageColumn}
           dataSource={queryData.items || []}

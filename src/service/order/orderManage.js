@@ -10,13 +10,30 @@ export const selectPage = async ({ pageNum, pageSize, ...body }) => {
   );
 };
 
-export const details = async (params) => {
-  return request(`/jcgl-mall/admin/sell/details?id=${params}`, {
+// 详情-获取包裹信息
+export const getInfoPushList = async ({ id }) => {
+  return request(`/jcgl-mall/admin/order/logistics/select/list?id=${id}`, {
     method: 'GET',
-    data: params,
   });
 };
 
+// 详情
+export const selectById = async (body) => {
+  return request(`/jcgl-mall/admin/order/info/selectPrimaryKey`, {
+    method: 'POST',
+    data: body,
+  });
+};
+
+// 详情编辑
+export const update = async (body) => {
+  return request(`/jcgl-mall/admin/order/info/update`, {
+    method: 'PUT',
+    data: body,
+  });
+};
+
+// 获取物流公司列表
 export const getLogisticsCompany = async (params) => {
   return request('/jcgl-mall/admin/sell/select/all', {
     method: 'GET',
@@ -24,7 +41,7 @@ export const getLogisticsCompany = async (params) => {
   });
 };
 
-// 获取供应商
+// 获取供应商列表
 export const getSuppliersList = async ({ pageNum, pageSize, ...body }) => {
   return request(
     `/jcgl-user/admin/user/suppliers/select/page/list?pageNum=${pageNum}&pageSize=${pageSize}`,
@@ -35,7 +52,7 @@ export const getSuppliersList = async ({ pageNum, pageSize, ...body }) => {
   );
 };
 
-// 获取用户啊列表
+// 获取用户列表
 export const getUserList = async (body) => {
   return request(`/jcgl-user/admin/user/select/list`, {
     method: 'POST',
@@ -55,12 +72,5 @@ export const pushItems = async (body) => {
   return request(`/jcgl-mall/admin/order/logistics/create`, {
     method: 'POST',
     data: body,
-  });
-};
-
-// 详情-获取包裹信息
-export const getInfoPushList = async ({ id }) => {
-  return request(`/jcgl-mall/admin/order/logistics/select/list?id=${id}`, {
-    method: 'GET',
   });
 };

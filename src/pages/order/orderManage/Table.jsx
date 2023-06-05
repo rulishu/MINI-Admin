@@ -33,7 +33,7 @@ export default function SearchTable() {
   const handle = async (type, data) => {
     updateFn({ type: type });
     if (type === 'view') {
-      updateFn({ queryData: { ...data }, visible: true });
+      dispatch({ type: 'orderManage/selectById', payload: { id: data.id } });
     }
     if (type === 'push') {
       dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
@@ -112,6 +112,7 @@ export default function SearchTable() {
     rowKey: 'id',
     scroll: { x: 1300 },
     expandable: {
+      showExpandColumn: false,
       expandedRowRender: (record) => (
         <Table
           className="expanded_table_td"

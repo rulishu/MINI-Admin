@@ -1,9 +1,12 @@
 import {
+  getInfoPushList,
   getLogisticsCompany,
   getPushItems,
   getSuppliersList,
   getUserList,
   pushItems,
+  selectById,
+  update,
 } from '@/service/order/orderManage';
 
 export default {
@@ -25,6 +28,7 @@ export default {
     logisticsCompanyList: [], // 物流公司
     suppliersList: [], // 代理商列表
     userList: [], // 客户列表
+    pushList: [], // 包裹信息
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -114,6 +118,41 @@ export default {
             type: '',
           },
         });
+        callback?.();
+      }
+    },
+    *selectById({ payload }, { call, put }) {
+      const { code, result } = yield call(selectById, payload);
+      if (code === 200) {
+        yield put({
+          type: 'getInfoPushList',
+          payload: {
+            id: payload.id,
+          },
+        });
+        yield put({
+          type: 'update',
+          payload: {
+            queryData: result,
+            visible: true,
+          },
+        });
+      }
+    },
+    *getInfoPushList({ payload }, { call, put }) {
+      const { code, result } = yield call(getInfoPushList, payload);
+      if (code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            pushList: result || [],
+          },
+        });
+      }
+    },
+    *updateInfo({ payload, callback }, { call }) {
+      const { code } = yield call(update, payload);
+      if (code === 200) {
         callback?.();
       }
     },
