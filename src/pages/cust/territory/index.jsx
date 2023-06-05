@@ -4,7 +4,8 @@ import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
-import Details from './Details';
+import Edit from './Details/Edit';
+import VideoModal from './Details/VideoModal';
 import { columns } from './columns';
 
 export default () => {
@@ -61,6 +62,12 @@ export default () => {
         onOk: () => mutateDeleteAsync({ id: record.id }),
       });
     }
+    if (type === 'video') {
+      update({
+        videoVisible: true,
+        videoData: { ...record },
+      });
+    }
   };
   return (
     <div>
@@ -107,7 +114,8 @@ export default () => {
         rowKey="id"
         scroll={{ x: 1300 }}
       />
-      <Details />
+      <Edit />
+      <VideoModal />
     </div>
   );
 };
