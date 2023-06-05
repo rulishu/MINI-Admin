@@ -51,9 +51,9 @@ export const basicItem = [
   },
   {
     title: '支付单号',
-    key: 'payOrderNumber',
+    key: 'paymentOrderNumber',
     editable: () => false,
-    dataIndex: 'consignee',
+    dataIndex: 'paymentOrderNumber',
   },
   {
     title: '发货时间',
@@ -71,7 +71,7 @@ export const basicItem = [
   {
     title: '订单备注',
     key: 'remark',
-    editable: () => false,
+    editable: () => true,
     dataIndex: 'remark',
   },
 ];
@@ -84,8 +84,8 @@ export const buyerItem = [
   },
   {
     title: '买家留言',
-    key: 'remark',
-    dataIndex: 'remark',
+    key: 'userRemark',
+    dataIndex: 'userRemark',
   },
 ];
 
@@ -228,9 +228,9 @@ export const manageColumn = [
   },
   {
     title: '促销信息',
-    dataIndex: 'unitPrice1',
+    dataIndex: 'saleMessage',
     width: 90,
-    key: 'unitPrice',
+    key: 'saleMessage',
     render: () => '-',
   },
 ];
