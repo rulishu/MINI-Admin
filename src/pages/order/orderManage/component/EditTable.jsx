@@ -1,6 +1,7 @@
-import { Image, InputNumber, Space, Table, Tag } from 'antd';
-import { Fragment, useEffect, useState } from 'react';
+import { InputNumber, Table, Tag } from 'antd';
+import { useEffect, useState } from 'react';
 import { shipmentsStatusEnum } from '../enum';
+import { GoodInfoComp } from './index';
 
 // eslint-disable-next-line no-unused-vars
 export default ({ value = [], onChange, ...others }) => {
@@ -59,22 +60,7 @@ export default ({ value = [], onChange, ...others }) => {
             title: '商品信息',
             dataIndex: 'date',
             key: 'date',
-            render: (_, record) => (
-              <Space>
-                <Image height={80} width={80} src={record.mainGraph} />
-                <div>
-                  <b style={{ fontSize: '14px' }}>{record.itemName}</b>
-                  <div style={{ fontSize: '14px', color: '#ccc' }}>
-                    {(record.attributes || []).map((item, i) => (
-                      <Fragment key={item.attributeId}>
-                        <span> {`${item.attributeName}:${item.value}`}</span>
-                        {i !== (record.attributes || []).length - 1 && <span>;</span>}
-                      </Fragment>
-                    ))}
-                  </div>
-                </div>
-              </Space>
-            ),
+            render: (_, record) => <GoodInfoComp record={record} />,
           },
           {
             title: '购买数量',

@@ -1,6 +1,13 @@
-import { Card, Image, Space, Tag } from 'antd';
+import { Card, Image, Space } from 'antd';
 import { Fragment } from 'react';
-import { afterSaleStatusEnum, orderStatusEnum, payEnum, shipmentsStatusEnum } from '../enum';
+import {
+  AfterSaleStatusComp,
+  GoodInfoComp,
+  OrderStatusComp,
+  ShipmentStatusComp,
+  SkuComp,
+} from '../component';
+import { payEnum } from '../enum';
 
 export const basicItem = [
   {
@@ -19,10 +26,7 @@ export const basicItem = [
       color: '#000',
       fontSize: 15,
     },
-    render: (_, record) => {
-      const obj = String(record.orderStatus) && orderStatusEnum[record.orderStatus];
-      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
-    },
+    render: (_, record) => <OrderStatusComp record={record} />,
   },
   {
     title: '订单号',
@@ -165,35 +169,14 @@ export const manageColumn = [
     dataIndex: 'mainGraph',
     key: 'mainGraph',
     width: 200,
-    render: (_, record) => (
-      <Space>
-        <Image height={80} width={80} src={record.mainGraph} />
-        <div>
-          <b style={{ fontSize: '14px' }}>{record.itemName}</b>
-          <div style={{ fontSize: '14px', color: '#ccc' }}>
-            {(record.attributes || []).map((item, i) => (
-              <Fragment key={item.attributeId}>
-                <span> {`${item.attributeName}:${item.value}`}</span>
-                {i !== (record.attributes || []).length - 1 && <span>;</span>}
-              </Fragment>
-            ))}
-          </div>
-          <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.itemId}</div>
-        </div>
-      </Space>
-    ),
+    render: (_, record) => <GoodInfoComp record={record} />,
   },
   {
     title: 'sku单价/数量',
     dataIndex: 'itemName',
     width: 120,
     key: 'itemName',
-    render: (_, record) => (
-      <Space direction="vertical" size={0}>
-        <div>￥{record.unitPrice}</div>
-        <div style={{ float: 'right', color: '#ccc' }}>x{record.amount}</div>
-      </Space>
-    ),
+    render: (_, record) => <SkuComp record={record} />,
   },
   {
     title: '售后状态',
@@ -201,22 +184,14 @@ export const manageColumn = [
     width: 90,
     key: 'afterSaleStatus',
     ellipsis: true,
-    render: (_, record) => {
-      const obj =
-        (record.afterSaleStatus || record.afterSaleStatus === 0) &&
-        afterSaleStatusEnum[record.afterSaleStatus];
-      return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
-    },
+    render: (_, record) => <AfterSaleStatusComp record={record} />,
   },
   {
     title: '发货状态',
     dataIndex: 'shipmentStatus',
     key: 'shipmentStatus',
     width: 120,
-    render: (_, record) => {
-      const obj = shipmentsStatusEnum[record.shipmentStatus] || {};
-      return obj && <Tag color={obj.status}>{obj.text}</Tag>;
-    },
+    render: (_, record) => <ShipmentStatusComp record={record} />,
   },
   {
     title: 'sku总价',
