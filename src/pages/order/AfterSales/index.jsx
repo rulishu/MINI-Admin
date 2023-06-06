@@ -19,6 +19,7 @@ const App = () => {
             type: 'aftersales/update',
             payload: {
               activeKey: key,
+              searchForm: {},
             },
           });
         }}

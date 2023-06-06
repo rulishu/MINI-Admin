@@ -1,11 +1,6 @@
-import {
-  BetaSchemaForm,
-  ModalForm,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components';
+import { BetaSchemaForm, ModalForm, ProFormTextArea } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Button, Divider, Table, message } from 'antd';
+import { App, Button, Divider, Table } from 'antd';
 import { Fragment, useEffect } from 'react';
 import { columns, expandColumns, searchItem } from './columns';
 import './index.less';
@@ -70,113 +65,144 @@ export default function SearchTable() {
   };
 
   const handlerAction = (_, record) => {
-    if (
-      (activeKey === '1' && record?.afterSaleStatus === '待审核') ||
-      (activeKey === '2' && record?.afterSaleStatus === '待审核')
-    ) {
-      return (
-        <>
-          <Button
-            type="link"
-            onClick={() => {
-              addModal({
-                title: '确认退款',
-                content: (
-                  <>
-                    <p>售后类型：未发货仅退款</p>
-                    <p>退款金额：￥210.00</p>
-                  </>
-                ),
-                onOk: () => {
-                  //
-                },
-              });
-            }}
-          >
-            同意退款
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            type="link"
-            onClick={() => {
-              addModal({
-                title: '拒绝退款',
-                content: (
-                  <>
-                    <p>确认拒绝退款吗？</p>
-                  </>
-                ),
-                onOk: () => {
-                  //
-                },
-              });
-            }}
-          >
-            拒绝退款
-          </Button>
-        </>
-      );
+    if (activeKey === '1') {
+      if (
+        (record?.orderStatus === 1 || record?.orderStatus === 2) &&
+        record?.afterServiceType === 1
+      ) {
+        return (
+          <>
+            <Button
+              type="link"
+              onClick={() => {
+                addModal({
+                  title: '确认退款',
+                  content: (
+                    <>
+                      <p>
+                        售后类型： {record?.orderStatus}
+                        {record?.afterServiceType}
+                      </p>
+                      <p>退款金额：￥{record?.totalPrice}</p>
+                    </>
+                  ),
+                  onOk: () => {
+                    dispatch({
+                      type: 'aftersales/updateOrderGoodsStatus',
+                      payload: {
+                        afterServiceCode: record?.afterServiceCode,
+                        status: 3,
+                      },
+                    });
+                  },
+                });
+              }}
+            >
+              同意退款
+            </Button>
+            <Divider type="vertical" />
+            <Button
+              type="link"
+              onClick={() => {
+                addModal({
+                  title: '拒绝退款',
+                  content: (
+                    <p>
+                      {record?.orderStatus === 1
+                        ? '确认拒绝退款吗?'
+                        : '确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?'}
+                    </p>
+                  ),
+                  onOk: () => {
+                    dispatch({
+                      type: 'aftersales/updateOrderGoodsStatus',
+                      payload: {
+                        afterServiceCode: record?.afterServiceCode,
+                        status: 2,
+                      },
+                    });
+                  },
+                });
+              }}
+            >
+              拒绝退款
+            </Button>
+          </>
+        );
+      }
+      if (record?.orderStatus === 2 && record?.afterServiceType === 2) {
+        return (
+          <>
+            <ModalForm
+              title="同意退货"
+              trigger={<Button type="link">同意退货</Button>}
+              autoFocusFirstInput
+              modalProps={{
+                destroyOnClose: true,
+                onCancel: () => console.log('run'),
+              }}
+              submitTimeout={2000}
+              onFinish={async (values) => {
+                console.log(values);
+                dispatch({
+                  type: 'aftersales/updateOrderGoodsStatus',
+                  payload: {
+                    afterServiceCode: record?.afterServiceCode,
+                    status: 1,
+                    returnAddress: values?.returnAddress,
+                  },
+                });
+                return true;
+              }}
+            >
+              <p>
+                售后类型： {record?.orderStatus}
+                {record?.afterServiceType}
+              </p>
+              <ProFormTextArea name="returnAddress" label="退货地址" placeholder="请输入退货地址" />
+            </ModalForm>
+            <Divider type="vertical" />
+            <Button
+              type="link"
+              onClick={() => {
+                addModal({
+                  title: '拒绝退货',
+                  content: <p>确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?</p>,
+                  onOk: () => {
+                    //
+                  },
+                });
+              }}
+            >
+              拒绝退货
+            </Button>
+          </>
+        );
+      }
     }
-    if (activeKey === '3' && record?.afterSaleStatus === '待审核') {
-      return (
-        <>
-          <ModalForm
-            title="新建表单"
-            trigger={<Button type="link">同意退货</Button>}
-            autoFocusFirstInput
-            modalProps={{
-              destroyOnClose: true,
-              onCancel: () => console.log('run'),
-            }}
-            submitTimeout={2000}
-            onFinish={async (values) => {
-              console.log(values.name);
-              message.success('提交成功');
-              return true;
-            }}
-          >
-            <ProFormText name="name" label="售后类型" />
-            <ProFormTextArea name="text" label="退货地址" placeholder="请输入退货地址" />
-          </ModalForm>
-          <Divider type="vertical" />
-          <Button
-            type="link"
-            onClick={() => {
-              addModal({
-                title: '确认退款',
-                content: (
-                  <>
-                    <p>售后类型：未发货仅退款</p>
-                    <p>退款金额：￥210.00</p>
-                  </>
-                ),
-                onOk: () => {
-                  //
-                },
-              });
-            }}
-          >
-            拒绝退货
-          </Button>
-        </>
-      );
-    }
-    if (activeKey === '3' && record?.afterSaleStatus === '待平台收货') {
+
+    if (activeKey === '3' && record?.orderStatus === 2 && record?.afterServiceType === 2) {
       return (
         <>
           <Button
             type="link"
             onClick={() => {
               addModal({
-                title: '确认退款',
+                title: '确认收货',
                 content: (
                   <>
-                    <p>售后类型：未发货仅退款</p>
-                    <p>退款金额：￥210.00</p>
+                    <p>确认收货后，款项将退还用户</p>
+                    <p>退款金额：￥{record?.totalPrice}</p>
                   </>
                 ),
                 onOk: () => {
-                  //
+                  dispatch({
+                    type: 'aftersales/updateOrderGoodsStatus',
+                    payload: {
+                      afterServiceCode: record?.afterServiceCode,
+                      status: 3,
+                    },
+                  });
                 },
               });
             }}
@@ -188,15 +214,16 @@ export default function SearchTable() {
             type="link"
             onClick={() => {
               addModal({
-                title: '确认退款',
-                content: (
-                  <>
-                    <p>售后类型：未发货仅退款</p>
-                    <p>退款金额：￥210.00</p>
-                  </>
-                ),
+                title: '拒绝收货',
+                content: <p>确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?</p>,
                 onOk: () => {
-                  //
+                  dispatch({
+                    type: 'aftersales/updateOrderGoodsStatus',
+                    payload: {
+                      afterServiceCode: record?.afterServiceCode,
+                      status: 2,
+                    },
+                  });
                 },
               });
             }}
