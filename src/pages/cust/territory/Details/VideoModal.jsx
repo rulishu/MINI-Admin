@@ -78,7 +78,7 @@ export default () => {
           widgets={{ upload: Upload }}
           schema={{
             type: 'object',
-            column: 2,
+            column: 1,
             properties: {
               videos: {
                 title: '视频',
