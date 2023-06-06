@@ -103,11 +103,12 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: '会员价',
       dataIndex: 'membershipPrice',
-      render: (text, record, index) => (
+      render: (text) => (
         <Input
+          disabled
           value={text}
           style={{ width: 160 }}
-          onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
+          // onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
         />
       ),
     },
@@ -149,6 +150,9 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
   const handleEntryDataChange = (index, dataIndex, value) => {
     const newData = [...dataSource];
     newData[index][dataIndex] = value;
+    if (dataIndex === 'price') {
+      newData[index]['membershipPrice'] = value;
+    }
     setDataSource(newData);
     // //
     // const datas = newData.map((item) => {
@@ -209,13 +213,13 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
               <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
                 <Input
                   onChange={(e) => {
-                    setBulk({ ...bulk, price: e.target.value });
+                    setBulk({ ...bulk, price: e.target.value, membershipPrice: e.target.value });
                   }}
                   placeholder="销售价"
                 />
               </Tooltip>
             </Col>
-            <Col span={4}>
+            {/* <Col span={4}>
               <Tooltip trigger={['focus']} title="会员价" placement="topLeft">
                 <Input
                   onChange={(e) => {
@@ -224,7 +228,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
                   placeholder="会员价"
                 />
               </Tooltip>
-            </Col>
+            </Col> */}
             <Col span={4}>
               <Tooltip trigger={['focus']} title="参考价" placement="topLeft">
                 <Input
