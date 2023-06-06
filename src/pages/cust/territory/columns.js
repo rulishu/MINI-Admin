@@ -1,6 +1,6 @@
 import UserContent from '@/components/UserContent';
-// import VideoList from '@/components/VideoList';
-// import { getUrlToList } from '@/utils';
+import VideoList from '@/components/VideoList';
+import { getUrlToList } from '@/utils';
 import { Divider } from 'antd';
 import moment from 'moment';
 import { levelEnum } from './enum';
@@ -51,14 +51,14 @@ export const columns = ({ handleEdit }) => [
       />
     ),
   },
-  // {
-  //   title: '镖局视频',
-  //   dataIndex: 'videos',
-  //   align: 'left',
-  //   hideInSearch: true,
-  //   render: (_, record) =>
-  //     (record.videos && <VideoList value={getUrlToList(record.videos)} />) || '-',
-  // },
+  {
+    title: '镖局视频',
+    dataIndex: 'videos',
+    align: 'left',
+    hideInSearch: true,
+    render: (_, record) =>
+      (record.videos && <VideoList value={getUrlToList(record.videos)} />) || '-',
+  },
   {
     title: '创建时间',
     dataIndex: 'createTime',
