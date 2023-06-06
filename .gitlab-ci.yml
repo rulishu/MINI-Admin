@@ -55,6 +55,9 @@ Docker Imgae Build Dev:
     - docker-compose -p ronghui-admin-dev -f docker-compose.dev.yml down
     #   启动服务
     - docker-compose -p ronghui-admin-dev -f docker-compose.dev.yml up -d
+    - if [ $(docker images $CI_REGISTRY_IMAGE/ronghui-admin-dev  -q -f dangling=true) ];then
+    - docker rmi $(docker images $CI_REGISTRY_IMAGE/ronghui-admin-dev  -q -f dangling=true)
+    - fi
 
 #Docker Imgae Build:
 #  stage: deploy
