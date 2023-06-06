@@ -3,7 +3,7 @@ import SKUList from '@/components/sku/SKUList';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Modal } from 'antd';
-import { cloneElement, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 
 const SKUModal = (props) => {
   const { message } = App.useApp();
@@ -15,6 +15,12 @@ const SKUModal = (props) => {
 
   const [attributeData, setAttributeData] = useState(attributeVos);
   const [tableSource, setTableSource] = useState(itemSkuVos);
+
+  useEffect(() => {
+    setAttributeData(attributeVos);
+    setTableSource(itemSkuVos);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attributeVos.length, itemSkuVos.length]);
 
   const onFinish = (list = []) => {
     console.log('value: ', value);
@@ -42,7 +48,6 @@ const SKUModal = (props) => {
   };
 
   const getSKU = (val) => {
-    //
     if (val?.length > 0) {
       setAttributeData(val);
       setTableSource([]);

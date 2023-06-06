@@ -19,7 +19,7 @@ export const searchItem = () => [
   },
   {
     title: '售后类型',
-    dataIndex: 'supplierName',
+    dataIndex: 'afterType',
     valueType: 'select',
     fieldProps: {
       placeholder: '请输入售后类型',
@@ -49,28 +49,9 @@ export const searchItem = () => [
       placeholder: '请输入商品名称',
     },
   },
-  // {
-  //   title: '创建时间',
-  //   dataIndex: 'startTime',
-  //   renderFormItem: () => <DatePicker.RangePicker showTime={true} />,
-  // },
-  // {
-  //   title: '供应商',
-  //   dataIndex: 'supplierName',
-  //   valueType: 'select',
-  //   fieldProps: {
-  //     placeholder: '请输入供应商',
-  //     options: supplierName.options,
-  //     onFocus: supplierName.onFocus,
-  //     onSearch: supplierName.onSearch,
-  //     filterOption: false,
-  //     showSearch: true,
-  //     allowClear: true,
-  //   },
-  // },
   {
     title: '物流单号',
-    dataIndex: 'trackingNumber',
+    dataIndex: 'return_order_number',
     fieldProps: {
       placeholder: '请输入物流单号',
     },
@@ -99,14 +80,19 @@ export const columns = () => [
           <Paragraph
             style={{ margin: 0 }}
             copyable={{
-              text: row?.orderNumber,
+              text: row?.afterServiceCode,
             }}
           >
-            售后编号：{row?.orderNumber}
+            售后编号：{row?.afterServiceCode}
           </Paragraph>
 
-          <span>申请时间：{row?.createTime}</span>
-          <Tag>未发货待退款</Tag>
+          <span>申请时间：{row?.orderCreateTime}</span>
+          {(row?.orderStatus || row?.afterServiceType) && (
+            <Tag>
+              {row?.orderStatus}
+              {row?.afterServiceType}
+            </Tag>
+          )}
         </Space>
       );
     },
@@ -174,7 +160,7 @@ export const expandColumns = ({ handlerAction }) => [
     // title: '商品信息',
     dataIndex: 'goodsInfo',
     key: 'goodsInfo',
-    render: (record) => (
+    render: (_, record) => (
       <Space>
         <Image height={80} width={80} src={record?.mainGraph} />
         <div>
@@ -188,14 +174,14 @@ export const expandColumns = ({ handlerAction }) => [
   {
     // title: 'sku单价/数量',
     width: 140,
-    dataIndex: 'unitPriceAndNumber',
-    key: 'unitPriceAndNumber',
-    render: (record) => (
+    dataIndex: 'unitPrice',
+    key: 'unitPrice',
+    render: (_, record) => (
       <Space direction="vertical">
-        <b>{`￥${record?.unitPrice}`}</b>
-        <div
-          style={{ float: 'right', fontSize: '14px', color: '#ccc' }}
-        >{`x${record?.amount}`}</div>
+        <b>{record?.unitPrice && `￥${record?.unitPrice}`}</b>
+        <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>
+          {record?.shipmentAcount && `x${record?.shipmentAcount}`}
+        </div>
       </Space>
     ),
   },
@@ -204,21 +190,21 @@ export const expandColumns = ({ handlerAction }) => [
     width: 120,
     dataIndex: 'payAmount',
     key: 'payAmount',
-    render: (_, record) => '￥' + record?.payAmount || '-',
+    render: (_, record) => '￥' + record?.totalPrice || '-',
   },
   {
     // title: '退款金额',
     width: 120,
-    dataIndex: 'refundSuccessAmount',
-    key: 'refundSuccessAmount',
-    render: (_, record) => '￥' + record?.refundSuccessAmount || '-',
+    dataIndex: 'totalPrice',
+    key: 'totalPrice',
+    render: (_, record) => '￥' + record?.totalPrice || '-',
   },
   {
     // title: '售后状态',
     width: 120,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: (record) => {
+    render: (_, record) => {
       const obj =
         (record?.afterSaleStatus || record?.afterSaleStatus === 0) &&
         afterSaleStatusEnum[record.afterSaleStatus];
