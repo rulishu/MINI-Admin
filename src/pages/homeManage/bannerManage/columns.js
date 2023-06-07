@@ -77,8 +77,7 @@ export const columns = ({ handleEdit }) => [
         </div>
         <div>
           结束时间：
-          {(record.showStartTime && moment(record.showStartTime).format('YYYY-MM-DD HH:mm:ss')) ||
-            '-'}
+          {(record.showEndTime && moment(record.showEndTime).format('YYYY-MM-DD HH:mm:ss')) || '-'}
         </div>
       </div>
     ),

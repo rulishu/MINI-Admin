@@ -18,6 +18,7 @@ const Layout = () => {
     <Authorized authority={!!token} redirectPath="/login">
       <BasicLayout
         projectName="奋斗之露"
+        theme="dark"
         logo={logo}
         profile={{
           name: '埋名',
