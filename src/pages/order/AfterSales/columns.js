@@ -1,5 +1,5 @@
 import { Image, Space, Tag, Typography } from 'antd';
-import { afterSaleStatusEnum } from './enum';
+import { afterSaleStatusEnum, afterServiceTypeEnums, orderStatusEnums } from './enum';
 const { Paragraph } = Typography;
 
 export const searchItem = () => [
@@ -89,8 +89,8 @@ export const columns = () => [
           <span>申请时间：{row?.orderCreateTime}</span>
           {(row?.orderStatus || row?.afterServiceType) && (
             <Tag>
-              {row?.orderStatus}
-              {row?.afterServiceType}
+              {orderStatusEnums?.[row?.orderStatus]}
+              {afterServiceTypeEnums?.[row?.afterServiceType]}
             </Tag>
           )}
         </Space>
@@ -100,8 +100,8 @@ export const columns = () => [
   {
     title: 'sku单价/数量',
     width: 140,
-    dataIndex: 'unitPriceAndNumber',
-    key: 'unitPriceAndNumber',
+    dataIndex: 'unitPrice',
+    key: 'unitPrice',
     onCell: () => ({
       colSpan: 0,
     }),
@@ -176,28 +176,29 @@ export const expandColumns = ({ handlerAction }) => [
     width: 140,
     dataIndex: 'unitPrice',
     key: 'unitPrice',
-    render: (_, record) => (
-      <Space direction="vertical">
-        <b>{record?.unitPrice && `￥${record?.unitPrice}`}</b>
-        <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>
-          {record?.shipmentAcount && `x${record?.shipmentAcount}`}
-        </div>
-      </Space>
-    ),
+    render: (_, record) =>
+      record?.unitPrice && (
+        <Space direction="vertical">
+          <b>{`￥${record?.unitPrice}`}</b>
+          <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>
+            {record?.shipmentAcount && `x${record?.shipmentAcount}`}
+          </div>
+        </Space>
+      ),
   },
   {
     // title: 'sku实付金额',
     width: 120,
     dataIndex: 'payAmount',
     key: 'payAmount',
-    render: (_, record) => '￥' + record?.totalPrice || '-',
+    render: (_, record) => record?.totalPrice && ('￥' + record?.totalPrice || '-'),
   },
   {
     // title: '退款金额',
     width: 120,
     dataIndex: 'totalPrice',
     key: 'totalPrice',
-    render: (_, record) => '￥' + record?.totalPrice || '-',
+    render: (_, record) => record?.totalPrice && ('￥' + record?.totalPrice || '-'),
   },
   {
     // title: '售后状态',

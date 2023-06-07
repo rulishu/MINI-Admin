@@ -31,24 +31,12 @@ export const updateOrderGoodsStatus = async (params) => {
   });
 };
 
-// // 获取供应商
-// export const getSuppliersList = async ({ pageNum, pageSize, ...body }) => {
-//   return request(
-//     `/jcgl-user/admin/user/suppliers/select/page/list?pageNum=${pageNum}&pageSize=${pageSize}`,
-//     {
-//       method: 'POST',
-//       data: body,
-//     },
-//   );
-// };
-
-// // 获取用户啊列表
-// export const getUserList = async (body) => {
-//   return request(`/jcgl-user/admin/user/select/list`, {
-//     method: 'POST',
-//     data: body,
-//   });
-// };
+export const refundApply = async (body) => {
+  return request(`/jcgl-mall/admin/after/service/record/refund`, {
+    method: 'PUT',
+    data: body,
+  });
+};
 
 // // 获取发货商品列表
 // export const getPushItems = async ({ orderId }) => {
