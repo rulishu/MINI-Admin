@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export const selectPage = async ({ pageNum, pageSize, ...body }) => {
   return request(
-    `/jcgl-mall/admin/after/service/record/select/page/list?pageSize=${pageSize}&pageNum=${pageNum}`,
+    `/jcgl-mall/admin/after/service/record/select/new/page/list?pageSize=${pageSize}&pageNum=${pageNum}`,
     {
       method: 'POST',
       data: body,
@@ -24,12 +24,12 @@ export const selectPage = async ({ pageNum, pageSize, ...body }) => {
 //   });
 // };
 
-// export const odd = async (params) => {
-//   return request('/jcgl-mall/admin/sell/update/odd', {
-//     method: 'PUT',
-//     data: params,
-//   });
-// };
+export const updateOrderGoodsStatus = async (params) => {
+  return request('/jcgl-mall/admin/after/service/record/update/status', {
+    method: 'PUT',
+    data: params,
+  });
+};
 
 // // 获取供应商
 // export const getSuppliersList = async ({ pageNum, pageSize, ...body }) => {

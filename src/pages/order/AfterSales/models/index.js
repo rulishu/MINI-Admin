@@ -1,4 +1,4 @@
-import { selectPage } from '@/service/order/aftersales';
+import { selectPage, updateOrderGoodsStatus } from '@/service/order/aftersales';
 
 export default {
   namespace: 'aftersales',
@@ -34,20 +34,60 @@ export default {
   },
   effects: {
     // eslint-disable-next-line no-unused-vars
-    *selectByPage({ payload }, { call, put, select }) {
+    *selectByPage(_, { call, put, select }) {
       const { searchForm, pageSize, pageNum, activeKey } = yield select(
         (state) => state.aftersales,
       );
+
+      const { afterType, ...others } = searchForm;
+      let status, additionalStatus;
+      if (activeKey === '1') {
+        status = -1;
+      } else if (activeKey === '2') {
+        status = 3;
+      } else if (activeKey === '3') {
+        status = 1;
+        additionalStatus = 1;
+      } else if (activeKey === '4') {
+        status = 1;
+        additionalStatus = 2;
+      } else if (activeKey === '5') {
+        status = 2;
+      } else if (activeKey === '6') {
+        status = 2;
+        additionalStatus = 2;
+      } else if (activeKey === '7') {
+        status = 5;
+      } else if (activeKey === '8') {
+        status = 4;
+      }
+
+      let orderStatus; // 订单状态
+      let afterServiceType; //售后类型 1.退款 2退货退款
+
+      if (afterType === 1) {
+        orderStatus = 1;
+        afterServiceType = 1;
+      }
+      if (afterType === 2) {
+        orderStatus = 2;
+        afterServiceType = 1;
+      }
+      if (afterType === 3) {
+        orderStatus = 2;
+        afterServiceType = 2;
+      }
+
       const params = {
         pageSize,
         pageNum,
-        ...searchForm,
-        // startTime: searchForm.startTime && searchForm.startTime[0],
-        // endTime: searchForm.startTime && searchForm.startTime[1],
-        [activeKey === '售后中' ? 'afterSaleStatus' : 'orderStatus']:
-          activeKey === '售后中' ? 1 : activeKey,
+        ...others,
+        status,
+        additionalStatus,
+        orderStatus,
+        afterServiceType,
       };
-      let { code, result } = yield call(selectPage, params);
+      const { code, result } = yield call(selectPage, params);
       if (code && code === 200) {
         yield put({
           type: 'update',
@@ -58,23 +98,14 @@ export default {
         });
       }
     },
-    // *all(_, { call, put }) {
-    //   const { code, result } = yield call(getLogisticsCompany);
-    //   if (code === 200) {
-    //     let companyList = result.map((item) => {
-    //       return {
-    //         label: item.name,
-    //         value: item.id,
-    //       };
-    //     });
-    //     yield put({
-    //       type: 'update',
-    //       payload: {
-    //         companySelect: companyList || [],
-    //       },
-    //     });
-    //   }
-    // },
+    *updateOrderGoodsStatus({ payload }, { call, put }) {
+      const { code } = yield call(updateOrderGoodsStatus, payload);
+      if (code === 200) {
+        yield put({
+          type: 'selectByPage',
+        });
+      }
+    },
     // *getSuppliersList({ payload }, { call, put }) {
     //   const { code, result } = yield call(getSuppliersList, payload);
     //   if (code === 200) {

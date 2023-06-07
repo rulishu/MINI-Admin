@@ -67,3 +67,20 @@ export const payEnum = {
     text: '企业',
   },
 };
+
+// 发货状态
+export const shipmentEnums = {
+  0: '未发货',
+  1: '部分发货',
+  2: '已发货',
+};
+
+export const afterStatusEnums = {
+  '-1': '待审核',
+  0: '未售后',
+  1: '审核通过',
+  2: '审核拒绝',
+  3: '退款中',
+  4: '已完成',
+  5: '已关闭',
+};
