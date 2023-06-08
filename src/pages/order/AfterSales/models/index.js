@@ -1,4 +1,4 @@
-import { selectPage, updateOrderGoodsStatus } from '@/service/order/aftersales';
+import { refundApply, selectPage, updateOrderGoodsStatus } from '@/service/order/aftersales';
 
 export default {
   namespace: 'aftersales',
@@ -106,23 +106,23 @@ export default {
         });
       }
     },
-    // *getSuppliersList({ payload }, { call, put }) {
-    //   const { code, result } = yield call(getSuppliersList, payload);
-    //   if (code === 200) {
-    //     let suppliersList = (result.records || []).map((item) => {
-    //       return {
-    //         label: item.supplierName,
-    //         value: item.supplierId,
-    //       };
-    //     });
-    //     yield put({
-    //       type: 'update',
-    //       payload: {
-    //         suppliersList: suppliersList,
-    //       },
-    //     });
-    //   }
-    // },
+    // 退款
+    *refundApply({ payload }, { call, put }) {
+      const { record } = payload;
+      const { code } = yield call(refundApply, {
+        afterServiceId: record?.orderObj?.id, //售后单ID
+        // amount: record?.amount, //退款金额 单位元
+        amount: 0.01,
+        // outOrderNo: '495ff36bd06b4093b2f648609e97740c', //外部单号
+        reason: record?.reason, //退款原因
+        userId: record?.orderObj?.userId, //订单用户ID
+      });
+      if (code === 200) {
+        yield put({
+          type: 'selectByPage',
+        });
+      }
+    },
     // *goToPage({ payload: { pageNum, pageSize } }, { put }) {
     //   yield put({ type: 'update', payload: { ...{ pageNum, pageSize } } });
     //   yield put({ type: 'selectByPage' });

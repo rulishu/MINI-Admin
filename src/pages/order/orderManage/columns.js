@@ -184,7 +184,7 @@ export const columns = ({ supplierName, handle }) => [
     width: 120,
     render: (_, record) => {
       const { orderStatus } = record;
-      const canPush = orderStatus === 2;
+      const canPush = orderStatus === 2 || orderStatus === 3;
       return (
         <div>
           <a onClick={() => handle('view', record)}>详情</a>
