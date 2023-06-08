@@ -84,8 +84,8 @@ export const basicItem = [
 export const buyerItem = [
   {
     title: '用户昵称',
-    key: 'consumerName',
-    dataIndex: 'consumerName',
+    key: 'nickName',
+    dataIndex: 'nickName',
   },
   {
     title: '买家留言',
