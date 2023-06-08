@@ -1,8 +1,9 @@
 import { BetaSchemaForm, ModalForm, ProFormTextArea } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Button, Divider, Table } from 'antd';
+import { App, Button, Table } from 'antd';
 import { Fragment, useEffect } from 'react';
 import { columns, expandColumns, searchItem } from './columns';
+import { afterServiceTypeEnums, orderStatusEnums } from './enum';
 import './index.less';
 
 export default function SearchTable() {
@@ -54,11 +55,14 @@ export default function SearchTable() {
     }
   };
 
-  const addModal = (title, content, onOk) => {
-    modal.warning({
+  const addModal = ({ title, content, onOk }) => {
+    modal.confirm({
       autoFocusButton: null,
       closable: true,
       title,
+      okText: title,
+      onCancel: () => {},
+      cancelText: '取消',
       content,
       onOk,
     });
@@ -67,8 +71,8 @@ export default function SearchTable() {
   const handlerAction = (_, record) => {
     if (activeKey === '1') {
       if (
-        (record?.orderObj?.orderStatus === 1 || record?.orderObj?.orderStatus === 2) &&
-        record?.afterServiceType === 1
+        (record?.orderObj?.orderStatus === 2 || record?.orderObj?.orderStatus === 3) &&
+        record?.orderObj?.afterServiceType === 1
       ) {
         return (
           <>
@@ -80,12 +84,13 @@ export default function SearchTable() {
                   content: (
                     <>
                       <p>
-                        售后类型： {record?.orderObj?.orderStatus}
-                        {record?.afterServiceType}
+                        售后类型： {orderStatusEnums?.[record?.orderObj?.orderStatus]}
+                        {afterServiceTypeEnums?.[record?.afterServiceType]}
                       </p>
                       <p>退款金额：￥{record?.totalPrice}</p>
                     </>
                   ),
+
                   onOk: () => {
                     dispatch({
                       type: 'aftersales/refundApply',
@@ -101,7 +106,6 @@ export default function SearchTable() {
             >
               同意退款
             </Button>
-            <Divider type="vertical" />
             <Button
               type="link"
               onClick={() => {
@@ -109,7 +113,7 @@ export default function SearchTable() {
                   title: '拒绝退款',
                   content: (
                     <p>
-                      {record?.orderObj?.orderStatus === 1
+                      {record?.orderObj?.orderStatus === 2
                         ? '确认拒绝退款吗?'
                         : '确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?'}
                     </p>
@@ -118,7 +122,9 @@ export default function SearchTable() {
                     dispatch({
                       type: 'aftersales/updateOrderGoodsStatus',
                       payload: {
-                        afterServiceCode: record?.afterServiceCode,
+                        id: record?.orderObj?.id
+                          ? Number(record?.orderObj?.id)
+                          : record?.orderObj?.id,
                         status: 2,
                       },
                     });
@@ -131,7 +137,7 @@ export default function SearchTable() {
           </>
         );
       }
-      if (record?.orderObj?.orderStatus === 2 && record?.afterServiceType === 2) {
+      if (record?.orderObj?.orderStatus === 3 && record?.orderObj?.afterServiceType === 2) {
         return (
           <>
             <ModalForm
@@ -148,7 +154,7 @@ export default function SearchTable() {
                 dispatch({
                   type: 'aftersales/updateOrderGoodsStatus',
                   payload: {
-                    afterServiceCode: record?.afterServiceCode,
+                    id: record?.orderObj?.id ? Number(record?.orderObj?.id) : record?.orderObj?.id,
                     status: 1,
                     returnAddress: values?.returnAddress,
                   },
@@ -162,7 +168,6 @@ export default function SearchTable() {
               </p>
               <ProFormTextArea name="returnAddress" label="退货地址" placeholder="请输入退货地址" />
             </ModalForm>
-            <Divider type="vertical" />
             <Button
               type="link"
               onClick={() => {
@@ -184,8 +189,8 @@ export default function SearchTable() {
 
     if (
       activeKey === '3' &&
-      record?.orderObj?.orderStatus === 2 &&
-      record?.afterServiceType === 2
+      record?.orderObj?.orderStatus === 3 &&
+      record?.orderObj?.afterServiceType === 2
     ) {
       return (
         <>
@@ -202,10 +207,9 @@ export default function SearchTable() {
                 ),
                 onOk: () => {
                   dispatch({
-                    type: 'aftersales/updateOrderGoodsStatus',
+                    type: 'aftersales/refundApply',
                     payload: {
-                      afterServiceCode: record?.afterServiceCode,
-                      status: 3,
+                      record,
                     },
                   });
                 },
@@ -214,7 +218,6 @@ export default function SearchTable() {
           >
             确认收货
           </Button>
-          <Divider type="vertical" />
           <Button
             type="link"
             onClick={() => {
@@ -225,7 +228,9 @@ export default function SearchTable() {
                   dispatch({
                     type: 'aftersales/updateOrderGoodsStatus',
                     payload: {
-                      afterServiceCode: record?.afterServiceCode,
+                      id: record?.orderObj?.id
+                        ? Number(record?.orderObj?.id)
+                        : record?.orderObj?.id,
                       status: 2,
                     },
                   });
