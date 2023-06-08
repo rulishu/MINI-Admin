@@ -32,8 +32,8 @@ const Layout = () => {
           },
           {
             title: '个人设置',
-            link: '/setting/property',
             icon: <SettingOutlined />,
+            onClick: () => {},
           },
           {
             divider: true,
