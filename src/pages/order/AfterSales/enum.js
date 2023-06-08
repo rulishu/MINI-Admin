@@ -1,34 +1,3 @@
-export const orderStatusEnum = {
-  [-1]: {
-    text: '订单已取消',
-    status: 'error',
-  },
-  [-2]: {
-    text: '订单关闭',
-    status: 'error',
-  },
-  0: {
-    text: '待定价',
-    status: 'default',
-  },
-  1: {
-    text: '待付款',
-    status: 'default',
-  },
-  2: {
-    text: '备货中',
-    status: 'warning',
-  },
-  3: {
-    text: '待收货',
-    status: 'processing',
-  },
-  4: {
-    text: '已完成',
-    status: 'success',
-  },
-};
-
 export const isOpenInvoiceEnum = {
   0: {
     text: '未开票',
@@ -86,11 +55,17 @@ export const afterStatusEnums = {
 };
 
 export const afterServiceTypeEnums = {
-  1: '退款',
+  1: '仅退款',
   2: '退货退款',
 };
 
 export const orderStatusEnums = {
-  1: '发货',
-  2: '未发货',
+  0: '待定价',
+  1: '待付款',
+  2: '待发货', // 未发货 = 待发货
+  3: '已发货', // 已发货 = 待收货
+  4: '已完成',
+  [-2]: '已取消',
+  6: '已退款',
+  7: '待评价',
 };

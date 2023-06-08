@@ -64,7 +64,7 @@ export const columns = () => [
     dataIndex: 'goodsInfo',
     key: 'goodsInfo',
     onCell: () => ({
-      colSpan: 6,
+      colSpan: 7,
     }),
     render: (_, row) => {
       return (
@@ -72,7 +72,7 @@ export const columns = () => [
           <Paragraph
             style={{ margin: 0 }}
             copyable={{
-              text: row?.orderNumber,
+              text: row?.orderNumber || '',
             }}
           >
             订单编号：{row?.orderNumber}
@@ -80,7 +80,7 @@ export const columns = () => [
           <Paragraph
             style={{ margin: 0 }}
             copyable={{
-              text: row?.afterServiceCode,
+              text: row?.afterServiceCode || '',
             }}
           >
             售后编号：{row?.afterServiceCode}
@@ -151,9 +151,24 @@ export const columns = () => [
     title: '操作',
     width: 120,
     key: '_operate_',
+    onCell: () => ({
+      colSpan: 0,
+    }),
+    render: () => null,
   },
 ];
 
+const handleAttr = (record) => {
+  let txt = '';
+  if (record?.attributes && record?.attributes.length > 0) {
+    record?.attributes.forEach((item) => {
+      if (item?.attributeName && item?.value) {
+        txt = txt + `${item?.attributeName}:${item?.value}   `;
+      }
+    });
+  }
+  return txt;
+};
 export const expandColumns = ({ handlerAction }) => [
   // { dataIndex: 'empty', key: 'empty', width: 48 },
   {
@@ -165,7 +180,7 @@ export const expandColumns = ({ handlerAction }) => [
         <Image height={80} width={80} src={record?.mainGraph} />
         <div>
           <b style={{ fontSize: '16px' }}>{record?.itemName}</b>
-          <div style={{ fontSize: '14px', color: '#ccc' }}>{record?.model || '-'}</div>
+          <div style={{ fontSize: '14px', color: '#ccc' }}>{handleAttr(record) || '-'}</div>
           <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record?.itemId || '-'}</div>
         </div>
       </Space>
@@ -181,7 +196,7 @@ export const expandColumns = ({ handlerAction }) => [
         <Space direction="vertical">
           <b>{`￥${record?.unitPrice}`}</b>
           <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>
-            {record?.shipmentAcount && `x${record?.shipmentAcount}`}
+            {record?.amount && `x${record?.amount}`}
           </div>
         </Space>
       ),
