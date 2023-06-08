@@ -76,11 +76,21 @@ export const shipmentEnums = {
 };
 
 export const afterStatusEnums = {
-  '-1': '待审核',
+  [-1]: '待审核',
   0: '未售后',
   1: '审核通过',
   2: '审核拒绝',
   3: '退款中',
   4: '已完成',
   5: '已关闭',
+};
+
+export const afterServiceTypeEnums = {
+  1: '退款',
+  2: '退货退款',
+};
+
+export const orderStatusEnums = {
+  1: '发货',
+  2: '未发货',
 };

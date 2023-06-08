@@ -67,7 +67,7 @@ export default function SearchTable() {
   const handlerAction = (_, record) => {
     if (activeKey === '1') {
       if (
-        (record?.orderStatus === 1 || record?.orderStatus === 2) &&
+        (record?.orderObj?.orderStatus === 1 || record?.orderObj?.orderStatus === 2) &&
         record?.afterServiceType === 1
       ) {
         return (
@@ -80,7 +80,7 @@ export default function SearchTable() {
                   content: (
                     <>
                       <p>
-                        售后类型： {record?.orderStatus}
+                        售后类型： {record?.orderObj?.orderStatus}
                         {record?.afterServiceType}
                       </p>
                       <p>退款金额：￥{record?.totalPrice}</p>
@@ -88,10 +88,11 @@ export default function SearchTable() {
                   ),
                   onOk: () => {
                     dispatch({
-                      type: 'aftersales/updateOrderGoodsStatus',
+                      type: 'aftersales/refundApply',
                       payload: {
-                        afterServiceCode: record?.afterServiceCode,
-                        status: 3,
+                        record,
+                        // afterServiceCode: record?.afterServiceCode,
+                        // status: 3,
                       },
                     });
                   },
@@ -108,7 +109,7 @@ export default function SearchTable() {
                   title: '拒绝退款',
                   content: (
                     <p>
-                      {record?.orderStatus === 1
+                      {record?.orderObj?.orderStatus === 1
                         ? '确认拒绝退款吗?'
                         : '确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?'}
                     </p>
@@ -130,7 +131,7 @@ export default function SearchTable() {
           </>
         );
       }
-      if (record?.orderStatus === 2 && record?.afterServiceType === 2) {
+      if (record?.orderObj?.orderStatus === 2 && record?.afterServiceType === 2) {
         return (
           <>
             <ModalForm
@@ -156,7 +157,7 @@ export default function SearchTable() {
               }}
             >
               <p>
-                售后类型： {record?.orderStatus}
+                售后类型： {record?.orderObj?.orderStatus}
                 {record?.afterServiceType}
               </p>
               <ProFormTextArea name="returnAddress" label="退货地址" placeholder="请输入退货地址" />
@@ -181,7 +182,11 @@ export default function SearchTable() {
       }
     }
 
-    if (activeKey === '3' && record?.orderStatus === 2 && record?.afterServiceType === 2) {
+    if (
+      activeKey === '3' &&
+      record?.orderObj?.orderStatus === 2 &&
+      record?.afterServiceType === 2
+    ) {
       return (
         <>
           <Button
@@ -268,7 +273,7 @@ export default function SearchTable() {
         <Table
           className="expanded_table_td"
           columns={expandColumns({ rowData: record, handlerAction })}
-          dataSource={record?.items || []}
+          dataSource={record?.items.map((item) => ({ ...item, orderObj: record })) || []}
           rowKey="id"
           pagination={false}
           rowClassName={() => 'valign-top'}
