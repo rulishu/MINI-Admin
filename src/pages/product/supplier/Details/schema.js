@@ -25,7 +25,9 @@ export const schema = ({ getProductUserList, province }) => {
             type: 'number',
             props: {
               min: 0,
+              max: 9999999999,
               step: 0.01,
+              addonAfter: '万',
             },
             placeholder: '请输入注册资本',
           },
