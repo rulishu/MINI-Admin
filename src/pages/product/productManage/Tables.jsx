@@ -465,7 +465,7 @@ export default function Tables() {
               </Form>
             </div>
           )}
-          {type === 'down' && <p>下架商品将迁移入[仓库]中</p>}
+          {type === 'down' && <p>下架商品将迁移入[仓库中]中</p>}
           {type === 'delete' && <p>商品删除后不可见，请谨慎操作</p>}
         </>
       </Modal>

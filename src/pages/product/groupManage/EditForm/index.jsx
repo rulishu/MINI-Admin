@@ -71,7 +71,7 @@ const EditForm = (props) => {
         title: '类目名称',
         type: 'string',
         required: true,
-        props: {},
+        max: 20,
       },
       parr: {
         title: '父类目',
