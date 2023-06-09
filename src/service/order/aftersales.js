@@ -25,7 +25,7 @@ export const selectPage = async ({ pageNum, pageSize, ...body }) => {
 // };
 
 export const updateOrderGoodsStatus = async (params) => {
-  return request('/jcgl-mall/admin/after/service/record/update/status', {
+  return request('/jcgl-mall/admin/after/service/record/update', {
     method: 'PUT',
     data: params,
   });

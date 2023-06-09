@@ -1,4 +1,5 @@
 import { refundApply, selectPage, updateOrderGoodsStatus } from '@/service/order/aftersales';
+import { message } from 'antd';
 
 export default {
   namespace: 'aftersales',
@@ -66,15 +67,15 @@ export default {
       let afterServiceType; //售后类型 1.退款 2退货退款
 
       if (afterType === 1) {
-        orderStatus = 1;
+        orderStatus = 2;
         afterServiceType = 1;
       }
       if (afterType === 2) {
-        orderStatus = 2;
+        orderStatus = 3;
         afterServiceType = 1;
       }
       if (afterType === 3) {
-        orderStatus = 2;
+        orderStatus = 3;
         afterServiceType = 2;
       }
 
@@ -87,7 +88,7 @@ export default {
         orderStatus,
         afterServiceType,
       };
-      const { code, result } = yield call(selectPage, params);
+      const { code, result, message: msg } = yield call(selectPage, params);
       if (code && code === 200) {
         yield put({
           type: 'update',
@@ -96,6 +97,15 @@ export default {
             dataSource: result.records || [],
           },
         });
+      } else {
+        yield put({
+          type: 'update',
+          payload: {
+            total: 0,
+            dataSource: [],
+          },
+        });
+        message.warning(msg);
       }
     },
     *updateOrderGoodsStatus({ payload }, { call, put }) {
@@ -109,7 +119,8 @@ export default {
     // 退款
     *refundApply({ payload }, { call, put }) {
       const { record } = payload;
-      const { code } = yield call(refundApply, {
+      console.log('退款: ', record);
+      const data = yield call(refundApply, {
         afterServiceId: record?.orderObj?.id, //售后单ID
         // amount: record?.amount, //退款金额 单位元
         amount: 0.01,
@@ -117,10 +128,12 @@ export default {
         reason: record?.reason, //退款原因
         userId: record?.orderObj?.userId, //订单用户ID
       });
-      if (code === 200) {
+      if (data?.code === 200) {
         yield put({
           type: 'selectByPage',
         });
+      } else {
+        message.warning(data?.message);
       }
     },
     // *goToPage({ payload: { pageNum, pageSize } }, { put }) {
