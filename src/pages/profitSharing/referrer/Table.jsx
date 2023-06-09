@@ -25,6 +25,7 @@ export default function SearchTable() {
       actionRef={ref}
       options={false}
       defaultSize="small"
+      pagination={false}
       request={async () => {
         const { code, result } = await queryOne({
           configType: 7,
