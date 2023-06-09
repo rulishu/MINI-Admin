@@ -25,7 +25,7 @@ export const columns = ({ handleEdit, productSelector }) => [
     render: (_, record) => (
       <div style={{ textAlign: 'left' }}>
         <b style={{ fontSize: '16px' }}>{record?.supplierName || '-'}</b>
-        <div style={{ fontSize: '14px' }}>地址：{record?.address || '-'}</div>
+        <div style={{ fontSize: '14px' }}>地址：{record?.regAddress || '-'}</div>
       </div>
     ),
   },
