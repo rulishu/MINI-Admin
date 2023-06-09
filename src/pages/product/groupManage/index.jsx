@@ -128,7 +128,7 @@ const SearchTable = (props) => {
             }}
             type="primary"
           >
-            新增分组
+            新增类目
           </Button>
         )}
       />

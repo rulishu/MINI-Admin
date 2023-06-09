@@ -144,7 +144,6 @@ export default (
         itemVideo: {
           title: '视频',
           widget: 'picupload',
-          required: true,
           props: {
             listType: 'picture-card',
             maxCount: 1,
