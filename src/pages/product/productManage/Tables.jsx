@@ -123,7 +123,7 @@ export default function Tables() {
               },
               form4: {
                 stock: result?.stock,
-                costPrice: result?.costPrice,
+                price: result?.price,
                 // price: result?.price >= 0 ? `${result?.price}` : result?.price,
                 spuCode: result?.spuCode,
                 itemSkuVos,
