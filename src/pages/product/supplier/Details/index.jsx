@@ -141,7 +141,7 @@ export default () => {
           widgets={{
             selectUser: SelectUser,
             cascader: Cascader,
-            upload: Upload,
+            comUpload: Upload,
           }}
         />
       </ProCard>

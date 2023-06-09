@@ -2,7 +2,7 @@ import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button, Modal } from 'antd';
 import FormRender, { useForm } from 'form-render';
-import { cloneElement } from 'react';
+import { cloneElement, useEffect } from 'react';
 import { schema } from './columns';
 
 export default function SearchTable({ tableRef }) {
@@ -16,11 +16,17 @@ export default function SearchTable({ tableRef }) {
       payload: data,
     });
   };
+  useEffect(() => {
+    if (visible) {
+      form.setValues({ ...queryData });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
 
   const onFinish = async (data) => {
     const { areaLevelPercent, cityLevelPercent, provinceLevelPercent, totalPercent } = data;
     if (areaLevelPercent + cityLevelPercent + provinceLevelPercent > 100) {
-      message.warning('会员分润系数大于100%');
+      message.warning('省市区系数总和不能大于100');
     } else {
       dispatch({
         type: 'members/edit',
