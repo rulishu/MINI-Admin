@@ -117,6 +117,8 @@ export default (
           props: {
             expandTrigger: 'hover',
             options: cityTreeList(),
+            bottom:
+              '商品溯源地用于追踪该商品的归属镖局，例：萧山区的商品会依次被萧山镖局->杭州镖局->浙江镖局捕获',
           },
         },
       },

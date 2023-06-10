@@ -145,6 +145,27 @@ const TheForm = () => {
     return itemSkuVos?.[0]?.price || 0;
   };
 
+  const TheCascader = (props) => {
+    const { expandTrigger, options, bottom } = props;
+    return (
+      <div style={{ width: '100%' }}>
+        <Cascader expandTrigger={expandTrigger} options={options} style={{ marginBottom: '5px' }} />
+        {bottom && (
+          <span
+            style={{
+              background: 'rgba(0, 0, 0, 0.02)',
+              padding: '5px 10px',
+              color: '#888',
+              fontSize: '11px',
+            }}
+          >
+            {bottom}
+          </span>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Card bodyStyle={{ width: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
       {/* <TheBigCascader categoryTree={categoryTree} /> */}
@@ -161,7 +182,7 @@ const TheForm = () => {
           categoryList,
         )}
         widgets={{
-          cascader: Cascader,
+          cascader: TheCascader,
           picupload: TheUpload,
           skubutton: SKUButton,
           antddate: DatePicker,
