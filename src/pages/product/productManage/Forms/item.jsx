@@ -198,7 +198,7 @@ export default (
             min: 0,
           },
         },
-        costPrice: {
+        price: {
           title: '售卖价格',
           type: 'number',
           // widget: 'Number',

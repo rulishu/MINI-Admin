@@ -86,7 +86,7 @@ export const schema = ({ getProductUserList, province }) => {
           legalFrontUrl: {
             title: '身份证图片正面',
             type: 'array',
-            widget: 'upload',
+            widget: 'comUpload',
             required: true,
             props: {
               listType: 'picture-card',
@@ -97,7 +97,7 @@ export const schema = ({ getProductUserList, province }) => {
           legalBackUrl: {
             title: '身份证图片反面',
             type: 'array',
-            widget: 'upload',
+            widget: 'comUpload',
             required: true,
             props: {
               listType: 'picture-card',
@@ -116,7 +116,7 @@ export const schema = ({ getProductUserList, province }) => {
           contractUrl: {
             title: '供应商合同',
             type: 'array',
-            widget: 'upload',
+            widget: 'comUpload',
             required: true,
             props: {
               listType: 'picture-card',
@@ -128,7 +128,7 @@ export const schema = ({ getProductUserList, province }) => {
           licenseUrl: {
             title: '营业执照',
             type: 'array',
-            widget: 'upload',
+            widget: 'comUpload',
             required: true,
             props: {
               listType: 'picture-card',
@@ -139,7 +139,7 @@ export const schema = ({ getProductUserList, province }) => {
           otherUrl: {
             title: '其它经营许可证',
             type: 'array',
-            widget: 'upload',
+            widget: 'comUpload',
             props: {
               listType: 'picture-card',
               maxCount: 20,

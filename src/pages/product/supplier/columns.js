@@ -43,7 +43,12 @@ export const columns = ({ handleEdit, productSelector }) => [
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => (
-      <UserContent headUrl="" name={record.contactName} phone={record.contactPhone} />
+      <UserContent
+        showHead={false}
+        headUrl=""
+        name={record.contactName}
+        phone={record.contactPhone}
+      />
     ),
   },
   // {
