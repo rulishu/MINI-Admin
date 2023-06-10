@@ -18,15 +18,21 @@ export default ({
   disabled = false,
   ...others
 }) => {
-  let _value = getDefaultValue(value);
   const [loading, setLoading] = useState(false);
-  const [fileList, setFileList] = useState(_value);
+  const [fileList, setFileList] = useState([]);
   const [previewUrl, setPreviewUrl] = useState('');
   const [isVideo, setIsVideo] = useState(false);
   const { message } = App.useApp();
   useEffect(() => {
+    if (value && value?.length > 0) {
+      let _value = getDefaultValue(value);
+      setFileList(_value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value.length]);
+  useEffect(() => {
     addons && addons.removeErrorField(addons.dataPath);
-  }, [addons, _value]);
+  }, [addons]);
 
   useEffect(() => {
     onChange?.(fileList);

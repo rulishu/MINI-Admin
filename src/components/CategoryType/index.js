@@ -16,31 +16,30 @@ const TheBigCascader = (props) => {
   const [outValue, setOutValue] = useState([]);
 
   useEffect(() => {
-    if (categoryTree && categoryTree.length > 0) {
-      const arr = [];
-      categoryTree.forEach((item) => {
-        if (item?.id !== '0') {
-          arr.push(item);
-        }
-      });
-      setList1(arr);
-    }
-  }, [categoryTree]);
-
-  useEffect(() => {
     if (value) {
-      const obj = categoryTree.find((item) => item?.id === value?.[0]);
-      //
-      if (obj?.children && obj?.children.length > 0) {
-        setList2(arr2);
-        const arr2 = obj?.children;
-        const obj2 = arr2.find((item) => item?.id === value?.[1]);
+      if (categoryTree && categoryTree.length > 0) {
+        const arr = [];
+        categoryTree.forEach((item) => {
+          if (item?.id !== '0') {
+            arr.push(item);
+          }
+        });
+        setList1(arr);
+
+        const obj = categoryTree.find((item) => item?.id === value?.[0]);
         //
-        if (obj2?.children && obj2?.children.length > 0) {
-          const arr3 = obj2?.children;
-          setList3(arr3);
+        if (obj?.children && obj?.children.length > 0) {
+          const arr2 = obj?.children;
+          setList2(arr2);
+          const obj2 = arr2.find((item) => item?.id === value?.[1]);
+          //
+          if (obj2?.children && obj2?.children.length > 0) {
+            const arr3 = obj2?.children;
+            setList3(arr3);
+          }
         }
       }
+
       setOutValue(value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
