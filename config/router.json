@@ -65,7 +65,7 @@
           },
           {
             "path": "/product/groupManage",
-            "name": "商品类目",
+            "name": "后台类目管理",
             "component": "@/pages/product/groupManage"
           },
           {
@@ -147,11 +147,6 @@
         "icon": "gift",
         "routes": [
           {
-            "path": "/sales/marketingCategory",
-            "name": "营销类目",
-            "component": "@/pages/sales/MarketManage"
-          },
-          {
             "path": "/sales/salesActivities",
             "name": "优惠卷",
             "component": "@/pages/sales/salesActivities"
@@ -172,6 +167,11 @@
         "name": "投放",
         "icon": "snippets",
         "routes": [
+          {
+            "path": "/banner/marketingCategory",
+            "name": "营销类目",
+            "component": "@/pages/sales/MarketManage"
+          },
           {
             "path": "/banner/bannerManage",
             "name": "广告位管理",
