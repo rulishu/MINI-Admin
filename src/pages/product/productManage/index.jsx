@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from '@umijs/max';
 import { Card, Tabs } from 'antd';
 import { useEffect } from 'react';
-import Forms from './Forms';
+import ModalForm from './ModalForm';
 import Tables from './Tables';
 import './index.less';
 
 const App = () => {
-  const { showForm, activeKey } = useSelector((state) => state.productManage);
+  const { activeKey } = useSelector((state) => state.productManage);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,9 +54,9 @@ const App = () => {
       children: <Tables key="2" />,
     },
   ];
-  if (showForm) {
-    return <Forms />;
-  }
+  // if (showForm) {
+  //   return <Forms />;
+  // }
   return (
     <Card bodyStyle={{ padding: 12 }}>
       <Tabs
@@ -73,6 +73,7 @@ const App = () => {
           });
         }}
       />
+      <ModalForm />
     </Card>
   );
 };

@@ -89,50 +89,42 @@ export default function Tables() {
           payload: {
             queryInfo: {
               id: result?.id,
-              form1: {
-                categoryId: categoryList
-                  .find((item) => item?.id === result?.categoryId)
-                  ?.parentArray?.split(',')
-                  ?.concat([result?.categoryId]),
-              },
-              form2: {
-                itemName: result?.itemName,
-                details: result?.details,
-                itemType: result?.itemType,
-                suppliersId,
-                provenance: result?.provenance?.split(','),
-              },
-              form3: {
-                mainGraphs: result?.mainGraphs.map((item) => ({
-                  name: item?.itemName,
-                  uid: item?.id,
-                  url: item?.path,
-                })),
-                itemVideo: [
-                  {
-                    name: 'video',
-                    uid: 1,
-                    url: result?.itemVideo,
-                  },
-                ],
-                itemImageVoList: result?.itemImageDtoList.map((item) => ({
-                  name: item?.itemName,
-                  uid: item?.id,
-                  url: item?.path,
-                })),
-              },
-              form4: {
-                stock: result?.stock,
-                price: result?.price,
-                // price: result?.price >= 0 ? `${result?.price}` : result?.price,
-                spuCode: result?.spuCode,
-                itemSkuVos,
-              },
-              form5: {
-                templateId: { label: result?.templateName, value: result?.templateId },
-                groundType: result?.groundType,
-                openTime: dayjs(result?.openTime),
-              },
+              categoryId: categoryList
+                .find((item) => item?.id === result?.categoryId)
+                ?.parentArray?.split(',')
+                ?.concat([result?.categoryId]),
+              itemName: result?.itemName,
+              details: result?.details,
+              itemType: result?.itemType,
+              suppliersId,
+              provenance: result?.provenance?.split(','),
+              //
+              mainGraphs: result?.mainGraphs.map((item) => ({
+                name: item?.itemName,
+                uid: item?.id,
+                url: item?.path,
+              })),
+              itemVideo: [
+                {
+                  name: 'video',
+                  uid: 1,
+                  url: result?.itemVideo,
+                },
+              ],
+              itemImageVoList: result?.itemImageDtoList.map((item) => ({
+                name: item?.itemName,
+                uid: item?.id,
+                url: item?.path,
+              })),
+              //
+              itemSkuVos,
+              stock: result?.stock,
+              price: result?.price,
+              spuCode: result?.spuCode,
+              //
+              templateId: { label: result?.templateName, value: result?.templateId },
+              groundType: result?.groundType,
+              openTime: dayjs(result?.openTime),
             },
             showForm: true,
           },
