@@ -9,6 +9,7 @@ import {
   updateGoodsSort,
   updateMarket,
 } from '@/service/goods/marketManage';
+import { message } from 'antd';
 
 const group = {
   namespace: 'marketManage',
@@ -126,12 +127,15 @@ const group = {
       });
       if (code === 200) {
         payload?.proTableRef?.current?.reload();
+        message.success('绑定成功');
 
         //
         // yield put({
         //   type: 'updateState',
         //   payload: {},
         // });
+      } else {
+        message.success('绑定失败');
       }
     },
 

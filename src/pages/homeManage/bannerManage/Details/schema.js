@@ -58,6 +58,7 @@ export const basicSchema = ({ queryInfo, options }) => {
             widget: 'dateRange',
             props: {
               showTime: true,
+              format: 'YYYY-MM-DD HH:mm:ss',
             },
             required: true,
           },
