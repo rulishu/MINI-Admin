@@ -18,7 +18,8 @@ export default function Tables() {
   const ref = useRef();
   const [form] = Form.useForm();
   const { productManage, groupManage, loading, supplier } = useSelector((state) => state);
-  const { activeKey, select, modalData, type, isModalOpen, itemSkuVos, srks } = productManage;
+  const { activeKey, select, modalData, type, isModalOpen, itemSkuVos, srks, showForm } =
+    productManage;
   const { suppliersList } = supplier;
   const { categoryTree, categoryList } = groupManage;
   const { message } = App.useApp();
@@ -266,6 +267,9 @@ export default function Tables() {
         search={{
           labelWidth: 'auto',
           labelAlign: 'left',
+        }}
+        params={{
+          showForm: showForm,
         }}
         request={async (params = {}) => {
           const {

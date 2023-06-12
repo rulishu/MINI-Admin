@@ -180,6 +180,7 @@ export default () => {
               width={1000}
               onCancel={() => onClosed()}
               open={showForm}
+              keyboard={false}
               footer={submitter}
               destroyOnClose
             >
