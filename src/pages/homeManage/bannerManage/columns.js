@@ -36,7 +36,18 @@ export const columns = ({ handleEdit }) => [
     width: 120,
     align: 'left',
     hideInSearch: true,
-    render: (_, record) => record.jumpPath || record.linkMenuTag || '-',
+    render: (_, record) => {
+      if (record?.linkMenuTag && record?.jumpPath) {
+        return (
+          <span>
+            <div>{record.linkMenuTag}</div>
+            <div>{record.jumpPath}</div>
+          </span>
+        );
+      } else {
+        return record?.jumpPath || record?.linkMenuTag || '-';
+      }
+    },
   },
   {
     title: '排序',
