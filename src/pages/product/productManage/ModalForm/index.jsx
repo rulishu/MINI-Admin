@@ -405,9 +405,9 @@ export default () => {
             />
             <ProFormCascader
               name="provenance"
-              label="商品原产地"
+              label="商品溯源地"
               rules={[{ required: true }]}
-              extra="原产地作为商品溯源的标签，请精确到三级地址"
+              extra=" 商品溯源地用于追踪该商品的归属镖局，例：萧山区的商品会依次被萧山镖局->杭州镖局->浙江镖局捕获"
               fieldProps={{
                 options: cityTreeList(),
               }}

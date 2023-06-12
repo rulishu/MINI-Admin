@@ -49,7 +49,9 @@ export default () => {
           name: queryInfo.name,
           jumpPath: queryInfo.jumpPath,
           path: (queryInfo.path && getUrlToList(queryInfo.path)) || [],
-          linkMenuTag: queryInfo.linkMenuTag,
+          linkMenuTag: enums.banner_tager_type.find(
+            (item) => item?.dictLabel === queryInfo?.linkMenuTag,
+          )?.dictValue,
           showStartTime: queryInfo.showStartTime && [
             queryInfo.showStartTime,
             queryInfo.showEndTime,
@@ -59,6 +61,7 @@ export default () => {
         },
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const onFinish = (values) => {
@@ -67,7 +70,8 @@ export default () => {
       name: form1.name,
       jumpPath: form1.jumpPath,
       path: (form1.path && getUrl(form1.path)) || '',
-      linkMenuTag: form1.linkMenuTag,
+      linkMenuTag: enums.banner_tager_type.find((item) => item?.dictValue === form1?.linkMenuTag)
+        ?.dictLabel,
       showStartTime: form1.showStartTime && form1.showStartTime[0] && form1.showStartTime[0],
       showEndTime: form1.showStartTime && form1.showStartTime[1] && form1.showStartTime[1],
       category: form1.category,
@@ -79,20 +83,20 @@ export default () => {
   };
 
   const watch = {
-    'form1.linkMenuTag': () => {
+    'form1.linkMenuTag': (val) => {
       form.setValues({
         form1: {
-          jumpPath: '',
+          jumpPath: val,
         },
       });
     },
-    'form1.jumpPath': () => {
-      form.setValues({
-        form1: {
-          linkMenuTag: '',
-        },
-      });
-    },
+    // 'form1.jumpPath': () => {
+    //   form.setValues({
+    //     form1: {
+    //       linkMenuTag: '',
+    //     },
+    //   });
+    // },
   };
 
   return (
