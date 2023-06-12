@@ -16,15 +16,27 @@ const TheBigCascader = (props) => {
   const [outValue, setOutValue] = useState([]);
 
   useEffect(() => {
+    if (categoryTree && categoryTree.length > 0) {
+      const arr = [];
+      categoryTree.forEach((item) => {
+        if (item?.id !== '0') {
+          arr.push(item);
+        }
+      });
+      setList1(arr);
+    }
+  }, [categoryTree]);
+
+  useEffect(() => {
     if (value) {
       if (categoryTree && categoryTree.length > 0) {
-        const arr = [];
-        categoryTree.forEach((item) => {
-          if (item?.id !== '0') {
-            arr.push(item);
-          }
-        });
-        setList1(arr);
+        // const arr = [];
+        // categoryTree.forEach((item) => {
+        //   if (item?.id !== '0') {
+        //     arr.push(item);
+        //   }
+        // });
+        // setList1(arr);
 
         const obj = categoryTree.find((item) => item?.id === value?.[0]);
         //
