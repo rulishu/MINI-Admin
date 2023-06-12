@@ -34,14 +34,26 @@ const SKUModal = (props) => {
         //   },
         // });
       }
-      dispatch({
-        type: 'productManage/update',
-        payload: {
-          itemSkuVos: list,
-          showSKU: false,
-        },
+      let isAttr = true;
+      list.forEach((item) => {
+        if (item?.attributes && item?.attributes?.length > 0) {
+          isAttr = isAttr && true;
+        } else {
+          isAttr = isAttr && false;
+        }
       });
-      onChange(list);
+      if (isAttr) {
+        dispatch({
+          type: 'productManage/update',
+          payload: {
+            itemSkuVos: list,
+            showSKU: false,
+          },
+        });
+        onChange(list);
+      } else {
+        message.warning('请先添加规格');
+      }
     } else {
       message.warning('请先添加规格');
     }
@@ -70,26 +82,25 @@ const SKUModal = (props) => {
       }}
       onOk={() => {}}
       width={1200}
+      maskClosable={false}
+      keyboard={false}
+      closable={false}
       footer={null}
-      onCancel={() => {
-        dispatch({
-          type: 'productManage/update',
-          payload: { showSKU: false },
-        });
-      }}
+      onCancel={
+        null
+        //   () => {
+        //   dispatch({
+        //     type: 'productManage/update',
+        //     payload: { showSKU: false },
+        //   });
+        // }
+      }
     >
       <ProCard title="商品规格" headerBordered bodyStyle={{}}>
         <GoodsSKU
           attrValue={attributeVos}
           onChange={getSKU}
-          options={
-            attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))
-            // [
-            //   { label: '酒精度', value: 1 },
-            //   { label: '容量', value: 2 },
-            //   { label: '甜度', value: 3 },
-            // ]
-          }
+          options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
         />
         <div style={{ marginTop: 20 }}>
           <SKUList data={attributeData} onChange={onFinish} editData={tableSource} />

@@ -86,7 +86,12 @@ export default () => {
         content: '确定是否删除该供应商？',
         maskClosable: true,
         autoFocusButton: null,
-        onOk: () => mutateDeleteAsync({ id: record.supplierId }),
+        onOk: () =>
+          mutateDeleteAsync({
+            id: record.supplierId,
+            productId: record?.productId,
+            supplierId: record?.supplierId,
+          }),
       });
     }
   };

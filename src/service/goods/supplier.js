@@ -17,9 +17,10 @@ export const selectById = async ({ id }) => {
   });
 };
 
-export const deleteItem = async ({ id }) => {
-  return request(`/jcgl-user/admin/user/suppliers/delete?id=${id}`, {
-    method: 'GET',
+export const deleteItem = async (body) => {
+  return request(`/jcgl-user/admin/user/suppliers/delete`, {
+    method: 'POST',
+    data: body,
   });
 };
 

@@ -1,6 +1,7 @@
 import {
   createSKU,
   getAllTemplateId,
+  insertAttribute,
   selectAttr,
   selectSKU,
   updateSKU,
@@ -180,6 +181,14 @@ export default {
             templateIdList: result || [],
           },
         });
+      }
+    },
+
+    *insertAttribute({ payload }, { call }) {
+      const { callback, ...others } = payload;
+      const { code, result } = yield call(insertAttribute, others);
+      if (code === 200) {
+        callback(result);
       }
     },
   },
