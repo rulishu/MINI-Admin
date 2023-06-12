@@ -122,11 +122,12 @@ export default {
       console.log('退款: ', record);
       const data = yield call(refundApply, {
         afterServiceId: record?.orderObj?.id, //售后单ID
-        // amount: record?.amount, //退款金额 单位元
-        amount: 0.01,
+        amount: record?.amount, //退款金额 单位元
+        // amount: 0.01,
         // outOrderNo: '495ff36bd06b4093b2f648609e97740c', //外部单号
-        reason: record?.reason, //退款原因
-        userId: record?.orderObj?.userId, //订单用户ID
+        orderNo: record?.orderObj?.orderNumber,
+        reason: record?.orderObj?.reason, //退款原因
+        userId: record?.orderObj?.createBy, //订单用户ID
       });
       if (data?.code === 200) {
         yield put({
