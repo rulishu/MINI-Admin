@@ -52,7 +52,7 @@ export default ({ reload }) => {
     const { items } = params;
     const numberError = (items || []).findIndex((item) => !item.amount);
     if (numberError !== -1) {
-      message.error('发货数量数量不能为空');
+      message.error('发货数量不能为空');
       return;
     }
     dispatch({
