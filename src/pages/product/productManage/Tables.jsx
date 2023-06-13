@@ -124,7 +124,7 @@ export default function Tables() {
               spuCode: result?.spuCode,
               //
               templateId: { label: result?.templateName, value: result?.templateId },
-              groundType: result?.groundType,
+              // groundType: result?.groupType,
               openTime: dayjs(result?.openTime),
             },
             showForm: true,
