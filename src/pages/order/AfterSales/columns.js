@@ -1,5 +1,5 @@
 import { Image, Space, Tag, Typography } from 'antd';
-import { afterSaleStatusEnum, afterServiceTypeEnums, orderStatusEnums } from './enum';
+import { afterSaleEnums, afterSaleStatusEnum } from './enum';
 const { Paragraph } = Typography;
 
 export const searchItem = () => [
@@ -87,12 +87,7 @@ export const columns = () => [
           </Paragraph>
 
           <span>申请时间：{row?.orderCreateTime}</span>
-          {(row?.orderStatus || row?.afterServiceType) && (
-            <Tag>
-              {orderStatusEnums?.[row?.orderStatus]}
-              {afterServiceTypeEnums?.[row?.afterServiceType]}
-            </Tag>
-          )}
+          {row?.afterServiceType && <Tag>{afterSaleEnums[row?.afterServiceType]}</Tag>}
         </Space>
       );
     },

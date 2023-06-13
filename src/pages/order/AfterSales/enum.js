@@ -69,3 +69,9 @@ export const orderStatusEnums = {
   6: '已退款',
   7: '待评价',
 };
+
+export const afterSaleEnums = {
+  1: '未发货仅退款',
+  2: '已发货退货退款',
+  3: '已发货仅退款',
+};
