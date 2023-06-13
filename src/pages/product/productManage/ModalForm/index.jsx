@@ -465,7 +465,7 @@ export default () => {
             <Form.Item
               name="itemVideo"
               label="视频"
-              rules={[{ required: true }]}
+              // rules={[{ required: true }]}
               extra="仅支持mp4格式上传，大小100M内，建议30秒内短视频最佳"
             >
               <TheUpload
