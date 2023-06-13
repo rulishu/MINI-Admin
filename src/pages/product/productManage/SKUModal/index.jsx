@@ -24,6 +24,7 @@ const SKUModal = (props) => {
 
   const onFinish = (list = []) => {
     console.log('value: ', value);
+    console.log('list: ', list);
     if (list?.length > 0) {
       if (type === 'edit') {
         // dispatch({
@@ -37,9 +38,15 @@ const SKUModal = (props) => {
       let isAttr = true;
       list.forEach((item) => {
         if (item?.attributes && item?.attributes?.length > 0) {
-          isAttr = isAttr && true;
+          item?.attributes.forEach((i) => {
+            if (i?.attributeId && i?.value && i?.attribute_name) {
+              isAttr = isAttr && true;
+            } else {
+              isAttr = false;
+            }
+          });
         } else {
-          isAttr = isAttr && false;
+          isAttr = false;
         }
       });
       if (isAttr) {
@@ -62,7 +69,7 @@ const SKUModal = (props) => {
   const getSKU = (val) => {
     if (val?.length > 0) {
       setAttributeData(val);
-      setTableSource([]);
+      // setTableSource([]);
     } else {
       message.warning('请先添加规格');
     }

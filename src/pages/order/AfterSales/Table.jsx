@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button, Table } from 'antd';
 import { Fragment, useEffect } from 'react';
 import { columns, expandColumns, searchItem } from './columns';
-import { afterServiceTypeEnums, orderStatusEnums } from './enum';
+import { afterSaleEnums } from './enum';
 import './index.less';
 
 export default function SearchTable() {
@@ -22,7 +22,6 @@ export default function SearchTable() {
     },
     loading,
   } = useSelector((state) => state);
-  console.log('dataSource: ', dataSource);
 
   const updateFn = (payload) => {
     dispatch({
@@ -70,10 +69,7 @@ export default function SearchTable() {
 
   const handlerAction = (_, record) => {
     if (activeKey === '1') {
-      if (
-        (record?.orderObj?.orderStatus === 2 || record?.orderObj?.orderStatus === 3) &&
-        record?.orderObj?.afterServiceType === 1
-      ) {
+      if (record?.orderObj?.afterServiceType === 1 || record?.orderObj?.afterServiceType === 2) {
         return (
           <>
             <Button
@@ -83,10 +79,7 @@ export default function SearchTable() {
                   title: '确认退款',
                   content: (
                     <>
-                      <p>
-                        售后类型： {orderStatusEnums?.[record?.orderObj?.orderStatus]}
-                        {afterServiceTypeEnums?.[record?.afterServiceType]}
-                      </p>
+                      <p>售后类型： {afterSaleEnums?.[record?.orderObj?.afterServiceType]}</p>
                       <p>退款金额：￥{record?.totalPrice}</p>
                     </>
                   ),
@@ -113,7 +106,7 @@ export default function SearchTable() {
                   title: '拒绝退款',
                   content: (
                     <p>
-                      {record?.orderObj?.orderStatus === 2
+                      {record?.orderObj?.afterServiceType === 1
                         ? '确认拒绝退款吗?'
                         : '确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?'}
                     </p>
@@ -137,7 +130,7 @@ export default function SearchTable() {
           </>
         );
       }
-      if (record?.orderObj?.orderStatus === 3 && record?.orderObj?.afterServiceType === 2) {
+      if (record?.orderObj?.afterServiceType === 3) {
         return (
           <>
             <ModalForm
@@ -162,10 +155,7 @@ export default function SearchTable() {
                 return true;
               }}
             >
-              <p>
-                售后类型： {record?.orderObj?.orderStatus}
-                {record?.afterServiceType}
-              </p>
+              <p>售后类型： {record?.orderObj?.afterServiceType}</p>
               <ProFormTextArea name="returnAddress" label="退货地址" placeholder="请输入退货地址" />
             </ModalForm>
             <Button
@@ -187,11 +177,7 @@ export default function SearchTable() {
       }
     }
 
-    if (
-      activeKey === '3' &&
-      record?.orderObj?.orderStatus === 3 &&
-      record?.orderObj?.afterServiceType === 2
-    ) {
+    if (activeKey === '3' && record?.orderObj?.afterServiceType === 3) {
       return (
         <>
           <Button

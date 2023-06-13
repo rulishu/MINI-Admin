@@ -114,6 +114,7 @@ export default {
         yield put({
           type: 'selectByPage',
         });
+        message.success('审核成功');
       }
     },
     // 退款
@@ -133,8 +134,7 @@ export default {
         yield put({
           type: 'selectByPage',
         });
-      } else {
-        message.warning(data?.message);
+        message.success('退款成功');
       }
     },
     // *goToPage({ payload: { pageNum, pageSize } }, { put }) {
