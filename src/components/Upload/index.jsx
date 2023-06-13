@@ -1,5 +1,6 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
+import { useUnmount } from 'ahooks';
 import { App, Button, Upload } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
@@ -38,6 +39,12 @@ export default ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, addons]);
+
+  useUnmount(() => {
+    if (addons && addons.removeErrorField && addons.dataPath) {
+      addons.removeErrorField(addons.dataPath);
+    }
+  });
 
   useEffect(() => {
     onChange?.(fileList);

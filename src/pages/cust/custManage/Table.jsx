@@ -1,11 +1,11 @@
-import { selectById, selectPage } from '@/service/cust/custManage';
+import { selectPage } from '@/service/cust/custManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useReactMutation } from '@antdp/hooks';
 import { useDispatch } from '@umijs/max';
 import { columns } from './columns';
 
 export default function SearchTable() {
   const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
   const update = (data) => {
     dispatch({
       type: 'custManage/update',
@@ -14,21 +14,7 @@ export default function SearchTable() {
   };
 
   // eslint-disable-next-line no-unused-vars
-  const { mutateAsync } = useReactMutation({
-    mutationFn: selectById,
-    onSuccess: ({ code, result }) => {
-      if (code && code === 200) {
-        update({ visible: true, queryData: result });
-      }
-    },
-  });
-
-  // eslint-disable-next-line no-unused-vars
-  const handleEdit = (type, data) => {
-    if (type === 'view') {
-      //  mutateAsync({ id: data.id });
-    }
-  };
+  const handleEdit = (type, data) => {};
 
   return (
     <ProTable

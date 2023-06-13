@@ -9,12 +9,12 @@ export default ({
   value = undefined,
   onChange,
   configCode = {
-    key: 'userId',
-    value: 'userId',
+    key: 'consumerId',
+    value: 'consumerId',
     label: 'consumerName',
     headUrl: 'headUrl',
     phone: 'consumerPhone',
-    searchCode: 'userName',
+    searchCode: 'consumerName',
   },
   title,
   ...others

@@ -167,6 +167,14 @@ export const schema = ({ getProductUserList, province }) => {
             props: {
               fetch: getProductUserList,
               title: '绑定推荐人',
+              configCode: {
+                key: 'id',
+                value: 'id',
+                label: 'consumerName',
+                headUrl: 'headUrl',
+                phone: 'consumerPhone',
+                searchCode: 'consumerName',
+              },
             },
           },
         },

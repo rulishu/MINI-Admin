@@ -122,7 +122,8 @@
           {
             "path": "/cust/dealerManage",
             "name": "经销商管理",
-            "component": "@/pages/cust/dealerManage"
+            "component": "@/pages/cust/dealerManage",
+            "hideInMenu": true
           },
           {
             "path": "/cust/agentManagement",
