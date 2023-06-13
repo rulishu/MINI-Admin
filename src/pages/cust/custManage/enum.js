@@ -1,32 +1,25 @@
-export const status = {
-  1: {
-    text: '奋斗者',
-  },
-  2: {
+export const levelStatus = {
+  ['1']: {
     text: '一级经销商',
   },
-  3: {
+  ['2']: {
     text: '二级经销商',
+  },
+  ['3']: {
+    text: '奋斗者',
   },
 };
 
-export const agentStatus = {
-  1: {
-    text: '省代理',
+export const agentLevelStatus = {
+  ['1']: {
+    text: '省级代理',
   },
-  2: {
-    text: '市代理',
+  ['2']: {
+    text: '市级代理',
   },
-  3: {
+  ['3']: {
     text: '区/县代理',
   },
 };
 
-export const vipStatus = {
-  1: {
-    text: '普通用户',
-  },
-  2: {
-    text: 'vip用户',
-  },
-};
+export const vipStatus = {};

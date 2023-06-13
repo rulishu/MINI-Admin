@@ -1,7 +1,7 @@
 import UserContent from '@/components/UserContent';
 import { Divider } from 'antd';
 import moment from 'moment';
-import { agentStatus, status, vipStatus } from './enum';
+import { agentLevelStatus, levelStatus, vipStatus } from './enum';
 
 export const columns = ({ handleEdit }) => [
   {
@@ -52,41 +52,51 @@ export const columns = ({ handleEdit }) => [
     title: '注册时间',
     dataIndex: 'createTime',
     align: 'left',
-    valueType: 'date',
+    valueType: 'dateTime',
     hideInTable: true,
   },
   {
     title: '经销等级',
-    dataIndex: 'openTime2',
+    dataIndex: 'level',
     align: 'left',
     valueType: 'select',
-    valueEnum: status,
+    valueEnum: levelStatus,
+    render: (_, record) => (record.level && levelStatus[record.level].text) || '无',
   },
   {
     title: '代理等级',
-    dataIndex: 'openTime3',
-    align: 'left',
+    dataIndex: 'agentLevel',
+    align: 'agentLevel',
     valueType: 'select',
-    valueEnum: agentStatus,
+    valueEnum: agentLevelStatus,
+    render: (_, record) => (record.agentLevel && levelStatus[record.agentLevel].text) || '无',
   },
   {
     title: '会员等级',
-    dataIndex: 'openTime4',
-    align: 'left',
+    dataIndex: 'levelStatus',
+    align: 'levelStatus',
     valueType: 'select',
     valueEnum: vipStatus,
+    render: (_, record) => (record.levelStatus && levelStatus[record.levelStatus].text) || '无',
   },
   {
     title: '邀请人',
-    dataIndex: 'details5',
+    dataIndex: 'inviter',
     width: 180,
     align: 'left',
     hideInSearch: true,
-    render: () => {},
+    render: (text, record) => {
+      return (
+        (record.inviter && (
+          <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
+        )) ||
+        '无'
+      );
+    },
   },
   {
     title: '注册时间',
-    dataIndex: 'createTimeDetails',
+    dataIndex: 'createTime',
     align: 'left',
     width: 180,
     valueType: 'date',
