@@ -88,6 +88,7 @@ export const schema = ({ getProductUserList, province }) => {
             type: 'array',
             widget: 'comUpload',
             required: true,
+            rules: [{ required: true, message: '请上传身份证图片正面' }],
             props: {
               listType: 'picture-card',
               warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
@@ -99,6 +100,7 @@ export const schema = ({ getProductUserList, province }) => {
             type: 'array',
             widget: 'comUpload',
             required: true,
+            rules: [{ required: true, message: '请上传身份证图片反面' }],
             props: {
               listType: 'picture-card',
               warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
@@ -118,6 +120,7 @@ export const schema = ({ getProductUserList, province }) => {
             type: 'array',
             widget: 'comUpload',
             required: true,
+            rules: [{ required: true, message: '请上传供应商合同' }],
             props: {
               listType: 'picture-card',
               maxCount: 20,
@@ -130,6 +133,7 @@ export const schema = ({ getProductUserList, province }) => {
             type: 'array',
             widget: 'comUpload',
             required: true,
+            rules: [{ required: true, message: '请上传营业执照' }],
             props: {
               listType: 'picture-card',
               warn: '图片支持PNG、JPG、JPEG格式，大小不超过5MB',
