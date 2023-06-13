@@ -177,7 +177,7 @@ export default function SearchTable() {
       }
     }
 
-    if (activeKey === '3' && record?.orderObj?.afterServiceType === 3) {
+    if (activeKey === '4' && record?.orderObj?.afterServiceType === 3) {
       return (
         <>
           <Button
