@@ -136,7 +136,14 @@ export default function SearchTable() {
   return (
     <Fragment>
       <ProTable {...tableProps} />
-      <Push reload={ref?.current?.reload} />
+      <Push
+        reload={() => {
+          ref?.current?.reload?.();
+          dispatch({
+            type: 'orderManage/getOrderCount',
+          });
+        }}
+      />
     </Fragment>
   );
 }
