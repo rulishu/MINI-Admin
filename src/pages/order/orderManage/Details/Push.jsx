@@ -1,12 +1,13 @@
 import AModal from '@/components/AModal';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button } from 'antd';
+import { App, Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect, useState } from 'react';
 import EditTable from '../component/EditTable';
 
 export default ({ reload }) => {
+  const { message } = App.useApp();
   const form = useForm();
   const {
     orderManage: { pushVisible, pushData, logisticsCompanyList },
@@ -48,6 +49,12 @@ export default ({ reload }) => {
         amount: item.number,
       })),
     };
+    const { items } = params;
+    const numberError = (items || []).findIndex((item) => !item.amount);
+    if (numberError !== -1) {
+      message.error('发货数量数量不能为空');
+      return;
+    }
     dispatch({
       type: 'orderManage/pushItems',
       payload: params,
