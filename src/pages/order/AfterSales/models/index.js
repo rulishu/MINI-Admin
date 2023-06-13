@@ -122,7 +122,7 @@ export default {
       console.log('退款: ', record);
       const data = yield call(refundApply, {
         afterServiceId: record?.orderObj?.id, //售后单ID
-        amount: record?.amount, //退款金额 单位元
+        amount: record?.totalPrice, //退款金额 单位元
         // amount: 0.01,
         // outOrderNo: '495ff36bd06b4093b2f648609e97740c', //外部单号
         orderNo: record?.orderObj?.orderNumber,

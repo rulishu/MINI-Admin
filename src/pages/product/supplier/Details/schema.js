@@ -25,7 +25,7 @@ export const schema = ({ getProductUserList, province }) => {
             type: 'number',
             props: {
               min: 0,
-              max: 9999999999,
+              max: 99999999,
               step: 0.01,
               addonAfter: '万',
             },

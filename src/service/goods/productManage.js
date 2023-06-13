@@ -93,3 +93,10 @@ export const getAllTemplateId = async () => {
     // data: body,
   });
 };
+
+export const insertAttribute = async (body) => {
+  return request(`/jcgl-mall/admin/item/info/insert/sku/attribute`, {
+    method: 'POST',
+    data: body,
+  });
+};

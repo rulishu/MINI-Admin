@@ -2,6 +2,7 @@ import { Button, Card, Col, Input, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
+  console.log('data: ', data);
   const [dataSource, setDataSource] = useState([]);
   const [bulk, setBulk] = useState({});
 
@@ -44,6 +45,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         }
       };
 
+      console.log('updatedDataSource: ', updatedDataSource);
       // Generate SKU data
       const updatedDataSource = [];
       generateSKUs(filterData, 0, {}, updatedDataSource);
@@ -60,6 +62,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     ...data.map((attribute) => ({
       title: attribute.attribute_name,
       dataIndex: attribute.attribute_name,
+      width: 130,
       // render: (text, record, index) => {
       //   return mergeCells(
       //     text,
@@ -81,10 +84,11 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: '成本价',
       dataIndex: 'goodsCost',
+      width: 130,
       render: (text, record, index) => (
         <Input
           value={text}
-          style={{ width: 160 }}
+          style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'goodsCost', e.target.value)}
         />
       ),
@@ -92,10 +96,11 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: '销售价',
       dataIndex: 'price',
+      width: 130,
       render: (text, record, index) => (
         <Input
           value={text}
-          style={{ width: 160 }}
+          style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'price', e.target.value)}
         />
       ),
@@ -103,11 +108,12 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: '会员价',
       dataIndex: 'membershipPrice',
+      width: 130,
       render: (text) => (
         <Input
           disabled
           value={text}
-          style={{ width: 160 }}
+          style={{ width: '100%' }}
           // onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
         />
       ),
@@ -115,10 +121,11 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: '参考价',
       dataIndex: 'referencePrice',
+      width: 130,
       render: (text, record, index) => (
         <Input
           value={text}
-          style={{ width: 160 }}
+          style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'referencePrice', e.target.value)}
         />
       ),
@@ -126,10 +133,11 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: '销售库存',
       dataIndex: 'stock',
+      width: 130,
       render: (text, record, index) => (
         <Input
           value={text}
-          style={{ width: 160 }}
+          style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'stock', e.target.value)}
         />
       ),
@@ -137,10 +145,11 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     {
       title: 'sku编码',
       dataIndex: 'skuCode',
+      width: 130,
       render: (text, record, index) => (
         <Input
           value={text}
-          style={{ width: 160 }}
+          style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'skuCode', e.target.value)}
         />
       ),
