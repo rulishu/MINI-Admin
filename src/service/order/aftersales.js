@@ -38,12 +38,12 @@ export const refundApply = async (body) => {
   });
 };
 
-// // 获取发货商品列表
-// export const getPushItems = async ({ orderId }) => {
-//   return request(`/jcgl-mall/admin/order/logistics/select/items?id=${orderId}`, {
-//     method: 'GET',
-//   });
-// };
+// 获取
+export const getAfterSaleAcount = async () => {
+  return request('/jcgl-mall/admin/after/service/record/select/after/sale/acount', {
+    method: 'GET',
+  });
+};
 
 // // 发货
 // export const pushItems = async (body) => {

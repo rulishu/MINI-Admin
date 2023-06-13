@@ -1,4 +1,9 @@
-import { refundApply, selectPage, updateOrderGoodsStatus } from '@/service/order/aftersales';
+import {
+  getAfterSaleAcount,
+  refundApply,
+  selectPage,
+  updateOrderGoodsStatus,
+} from '@/service/order/aftersales';
 import { message } from 'antd';
 
 export default {
@@ -34,6 +39,17 @@ export default {
     }),
   },
   effects: {
+    *getAfterSaleAcount(_, { call, put }) {
+      const res = yield call(getAfterSaleAcount);
+      if (res?.code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            allAcount: res?.result,
+          },
+        });
+      }
+    },
     // eslint-disable-next-line no-unused-vars
     *selectByPage(_, { call, put, select }) {
       const { searchForm, pageSize, pageNum, activeKey } = yield select(
@@ -114,6 +130,7 @@ export default {
         yield put({
           type: 'selectByPage',
         });
+        message.success('审核成功');
       }
     },
     // 退款
@@ -133,8 +150,7 @@ export default {
         yield put({
           type: 'selectByPage',
         });
-      } else {
-        message.warning(data?.message);
+        message.success('退款成功');
       }
     },
     // *goToPage({ payload: { pageNum, pageSize } }, { put }) {

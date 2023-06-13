@@ -38,19 +38,56 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             ...prefix,
             [attribute_name]: value,
             attributes: attributes_teemp,
-            skuId: skuList.length,
+            attrId: skuList.length,
             // imageUrl: obj?.imageUrl ? [obj?.imageUrl] : undefined,
           };
           generateSKUs(attributes, index + 1, newPrefix, skuList);
         }
       };
 
-      console.log('updatedDataSource: ', updatedDataSource);
       // Generate SKU data
       const updatedDataSource = [];
       generateSKUs(filterData, 0, {}, updatedDataSource);
+
+      // 如果规格值相同，将旧数据赋值
+      console.log('updatedDataSource: ', updatedDataSource);
       if (editData.length > 0) {
-        setDataSource(editData);
+        let newDataSource = [].concat(updatedDataSource);
+        updatedDataSource.forEach((item, index) => {
+          //
+          editData.forEach((theAttrbuteData) => {
+            let type = true;
+
+            const { attributes, ...others } = theAttrbuteData;
+            if (attributes?.length === data.length) {
+              attributes.forEach((i) => {
+                //
+                if (item?.attributes?.[i?.attribute_name]) {
+                  if (
+                    item?.attributes?.[i?.attribute_name]?.attribute_name === i?.attribute_name &&
+                    item?.attributes?.[i?.attribute_name]?.value === i?.value
+                  ) {
+                    type = type && true;
+                    //
+                  } else {
+                    type = false;
+                  }
+                }
+              });
+            } else {
+              type = false;
+            }
+            if (type) {
+              newDataSource[index] = { ...item, ...others };
+            }
+          });
+        });
+        console.log('newDataSource: ', newDataSource);
+        if (newDataSource.length > 0) {
+          setDataSource(newDataSource);
+        } else {
+          setDataSource(updatedDataSource);
+        }
       } else {
         setDataSource(updatedDataSource);
       }
@@ -284,7 +321,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
-          rowKey="skuId"
+          rowKey="attrId"
           size="small"
           scroll={{ x: 990 }}
         />
