@@ -168,7 +168,7 @@ const EditForm = (props) => {
 
   return (
     <Modal
-      title="分组信息"
+      title="类目信息"
       open={addOpen}
       destroyOnClose
       onCancel={() => {
