@@ -118,7 +118,7 @@ export default function Tables() {
                 url: item?.path,
               })),
               //
-              itemSkuVos,
+              itemSkuVos: itemSkuVos || [],
               stock: result?.stock,
               price: result?.price,
               spuCode: result?.spuCode,
