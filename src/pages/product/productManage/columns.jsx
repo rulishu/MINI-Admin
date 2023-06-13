@@ -19,7 +19,7 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
     title: '商品',
     dataIndex: 'item',
     search: false,
-    width: 200,
+    width: 250,
     render: (_, record) => {
       return (
         <div style={{ height: 88, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -69,14 +69,14 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
     title: '创建时间',
     dataIndex: 'createTimeRange',
     hideInTable: true,
-    width: 80,
+    width: 100,
     valueType: 'dateRange',
   },
   {
     title: '开售时间',
     dataIndex: 'sellTimeRange',
     hideInTable: true,
-    width: 80,
+    width: 100,
     valueType: 'dateRange',
   },
   {
@@ -136,7 +136,7 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
   },
   {
     title: '操作',
-    width: 95,
+    width: 110,
     fixed: 'right',
     hideInSearch: true,
     render: (_, record) => (
