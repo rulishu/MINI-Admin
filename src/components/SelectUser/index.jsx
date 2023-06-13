@@ -11,7 +11,7 @@ export default ({
   configCode = {
     key: 'userId',
     value: 'userId',
-    label: 'userName',
+    label: 'consumerName',
     headUrl: 'headUrl',
     phone: 'consumerPhone',
     searchCode: 'userName',
