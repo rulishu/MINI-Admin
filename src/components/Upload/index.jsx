@@ -1,6 +1,5 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { request } from '@umijs/max';
-import { useUnmount } from 'ahooks';
 import { App, Button, Upload } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Preview from './preview';
@@ -16,7 +15,7 @@ export default ({
   /** 上传文件限制大小  */
   limitSize = 5,
   disabled = false,
-  addons,
+  addons = null,
   ...others
 }) => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +23,6 @@ export default ({
   const [previewUrl, setPreviewUrl] = useState('');
   const [isVideo, setIsVideo] = useState(false);
   const { message } = App.useApp();
-  const { removeErrorField, dataPath } = addons;
 
   useEffect(() => {
     if (value && value?.length > 0) {
@@ -35,8 +33,8 @@ export default ({
   }, [value.length]);
 
   useEffect(() => {
-    if (removeErrorField && dataPath) {
-      removeErrorField(dataPath);
+    if (addons && addons.removeErrorField && addons.dataPath) {
+      addons.removeErrorField(addons.dataPath);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, addons]);
@@ -45,12 +43,6 @@ export default ({
     onChange?.(fileList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileList]);
-
-  useUnmount(() => {
-    if (removeErrorField && dataPath) {
-      removeErrorField(dataPath);
-    }
-  });
 
   const beforeUpload = (file) => {
     const isLt5M = file.size / 1024 / 1024 < limitSize;
