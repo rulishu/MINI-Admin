@@ -1,6 +1,7 @@
 import {
   getInfoPushList,
   getLogisticsCompany,
+  getOrderCount,
   getPushItems,
   getSuppliersList,
   getUserList,
@@ -29,6 +30,7 @@ export default {
     suppliersList: [], // 代理商列表
     userList: [], // 客户列表
     pushList: [], // 包裹信息
+    count: {},
   },
   reducers: {
     update: (state, { payload }) => ({
@@ -154,6 +156,17 @@ export default {
       const { code } = yield call(update, payload);
       if (code === 200) {
         callback?.();
+      }
+    },
+    *getOrderCount(_, { call, put }) {
+      const { code, result } = yield call(getOrderCount);
+      if (code === 200) {
+        yield put({
+          type: 'update',
+          payload: {
+            count: result || {},
+          },
+        });
       }
     },
   },

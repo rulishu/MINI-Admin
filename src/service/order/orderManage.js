@@ -74,3 +74,9 @@ export const pushItems = async (body) => {
     data: body,
   });
 };
+
+export const getOrderCount = async () => {
+  return request(`/jcgl-mall/admin/order/info/select/order/count`, {
+    method: 'GET',
+  });
+};

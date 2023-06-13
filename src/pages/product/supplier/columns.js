@@ -20,6 +20,7 @@ export const columns = ({ handleEdit, productSelector }) => [
   {
     title: '供应商信息',
     dataIndex: 'supplier',
+    width: 450,
     ellipsis: true,
     hideInSearch: true,
     render: (_, record) => (
