@@ -27,8 +27,9 @@ export const deleteItem = async ({ id }) => {
   });
 };
 
-export const getUserList = async ({ phone }) => {
-  return request(`/jcgl-user/admin/user/select/user/phone?phone=${phone}`, {
+export const getUserList = async (body) => {
+  return request(`/jcgl-user/admin/user/select/list`, {
     method: 'POST',
+    data: body,
   });
 };
