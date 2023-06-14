@@ -29,7 +29,12 @@ export default ({ reload }) => {
   useEffect(() => {
     if (pushVisible) {
       form.setValues({
-        items: pushData.items,
+        items:
+          pushData.items &&
+          (pushData.items || []).map((product) => ({
+            ...product,
+            number: Math.max(product.amount - product.shipmentAcount, 0),
+          })),
         type: pushData.type,
       });
     }

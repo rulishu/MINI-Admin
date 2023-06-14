@@ -95,7 +95,7 @@ export default ({ value = [], onChange, ...others }) => {
                 <InputNumber
                   disabled={record.shipmentsStatus === 2}
                   value={record.number}
-                  defaultValue={0}
+                  defaultValue={record.number}
                   min={0}
                   max={Math.max(record.amount - record.shipmentAcount, 0)}
                   onChange={(value) => handleNumberChange(record.id, value)}

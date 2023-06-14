@@ -80,7 +80,7 @@ export const columns = ({ handleEdit }) => [
     align: 'agentLevel',
     valueType: 'select',
     valueEnum: agentLevelStatus,
-    render: (_, record) => (record.agentLevel && levelStatus[record.agentLevel].text) || '无',
+    render: (_, record) => (record.agentLevel && agentLevelStatus[record.agentLevel].text) || '无',
   },
   {
     title: '会员等级',

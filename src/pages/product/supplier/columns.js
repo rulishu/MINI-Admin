@@ -4,11 +4,10 @@ import moment from 'moment';
 export const columns = ({ handleEdit, productSelector }) => [
   {
     title: 'ID',
-    dataIndex: 'id',
+    dataIndex: 'supplierId',
     width: 40,
     ellipsis: true,
     hideInSearch: true,
-    render: (text, record, index) => index + 1,
   },
   {
     title: '供应商名称',
