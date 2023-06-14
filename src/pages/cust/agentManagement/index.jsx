@@ -6,6 +6,7 @@ import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
+import './index.less';
 
 export default () => {
   const { modal } = App.useApp();
@@ -73,6 +74,7 @@ export default () => {
         options={false}
         search={{
           labelWidth: 'auto',
+          className: 'search_form',
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;

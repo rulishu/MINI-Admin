@@ -78,7 +78,7 @@ export default () => {
         actionRef={ref}
         search={{
           labelWidth: 'auto',
-          style: {},
+          className: 'search_form',
         }}
         params={{
           type: activeKey,

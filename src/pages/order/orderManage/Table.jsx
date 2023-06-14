@@ -2,7 +2,7 @@ import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Avatar, Space, Table } from 'antd';
-import { Fragment, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
 import './index.less';
@@ -57,7 +57,7 @@ export default function SearchTable() {
     className: 'table_card',
     headerTitle: '订单列表',
     options: false,
-    search: { labelWidth: 'auto', span: 8 },
+    search: { labelWidth: 'auto', span: 8, className: 'search_form' },
     cardProps: {
       size: 'small',
       style: {
@@ -131,10 +131,15 @@ export default function SearchTable() {
       expandedRowKeys: expandedRowKeys,
     },
     rowClassName: () => 'ant-table-row_color',
+    pagination: {
+      onChange: () => {
+        const node = document.querySelector('.ant-layout-content');
+        node.scrollTop = 0;
+      },
+    },
   };
-
   return (
-    <Fragment>
+    <div>
       <ProTable {...tableProps} />
       <Push
         reload={() => {
@@ -144,6 +149,6 @@ export default function SearchTable() {
           });
         }}
       />
-    </Fragment>
+    </div>
   );
 }

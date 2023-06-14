@@ -8,7 +8,6 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'id',
     align: 'left',
     hideInSearch: true,
-    render: (text, record, index) => index + 1,
   },
   {
     title: '代理商名称',

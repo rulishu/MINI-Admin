@@ -79,7 +79,7 @@ export default ({
                 icon={<UserOutlined />}
               />
             )}
-            {`${value.label}-${value.phone}`}
+            {`${value.label}-${value.value}-${value.phone}`}
           </span>
         ) : (
           '未绑定'
@@ -120,7 +120,9 @@ export default ({
                     icon={<UserOutlined />}
                   />
                 )}
-                {`${item[configCode['label']]}-${item[configCode['phone']]}`}
+                {`${item[configCode['label']]}-${item[configCode['value']]}-${
+                  item[configCode['phone']]
+                }`}
               </Space>
             </Option>
           ))}

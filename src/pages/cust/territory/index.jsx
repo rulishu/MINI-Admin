@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react';
 import Edit from './Details/Edit';
 import VideoModal from './Details/VideoModal';
 import { columns } from './columns';
+import './index.less';
 
 export default () => {
   const ref = useRef();
@@ -77,6 +78,7 @@ export default () => {
         options={false}
         search={{
           labelWidth: 'auto',
+          className: 'search_form',
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;

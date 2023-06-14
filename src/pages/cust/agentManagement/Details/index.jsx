@@ -164,7 +164,7 @@ export default () => {
                         label: 'consumerName',
                         headUrl: 'headUrl',
                         phone: 'consumerPhone',
-                        searchCode: 'phone',
+                        searchCode: 'search',
                       },
                       title: '代理人',
                     },

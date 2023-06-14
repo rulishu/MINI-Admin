@@ -173,7 +173,7 @@ export const schema = ({ getProductUserList, province }) => {
                 label: 'consumerName',
                 headUrl: 'headUrl',
                 phone: 'consumerPhone',
-                searchCode: 'consumerName',
+                searchCode: 'search',
               },
             },
           },

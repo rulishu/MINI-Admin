@@ -12,7 +12,7 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '用户手机号',
-    dataIndex: 'mobile',
+    dataIndex: 'consumerPhone',
     align: 'left',
     hideInTable: true,
   },
@@ -21,38 +21,52 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'id',
     width: 80,
     align: 'left',
-    hideInSearch: true,
-    render: (text, record, index) => index + 1,
   },
   {
     title: '用户信息',
     dataIndex: 'details',
-    width: 180,
     align: 'left',
+    width: 250,
     render: (text, record) => {
       return (
-        <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
+        <UserContent
+          width={220}
+          headUrl={record.headUrl}
+          name={record.consumerName}
+          phone={record.mobile}
+        />
       );
     },
     hideInSearch: true,
   },
-  {
-    title: '邀请人昵称',
-    dataIndex: 'details3',
-    align: 'left',
-    hideInTable: true,
-  },
-  {
-    title: '邀请人手机号',
-    dataIndex: 'details4',
-    align: 'left',
-    hideInTable: true,
-  },
+  // {
+  //   title: '邀请人昵称',
+  //   dataIndex: 'details3',
+  //   align: 'left',
+  //   hideInTable: true,
+  // },
+  // {
+  //   title: '邀请人手机号',
+  //   dataIndex: 'details4',
+  //   align: 'left',
+  //   hideInTable: true,
+  // },
   {
     title: '注册时间',
     dataIndex: 'createTime',
-    align: 'left',
-    valueType: 'dateTime',
+    valueType: 'dateRange',
+    fieldProps: {
+      showTime: true,
+      format: 'YYYY-MM-DD HH:mm:ss',
+    },
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
     hideInTable: true,
   },
   {
@@ -69,7 +83,7 @@ export const columns = ({ handleEdit }) => [
     align: 'agentLevel',
     valueType: 'select',
     valueEnum: agentLevelStatus,
-    render: (_, record) => (record.agentLevel && levelStatus[record.agentLevel].text) || '无',
+    render: (_, record) => (record.agentLevel && agentLevelStatus[record.agentLevel].text) || '无',
   },
   {
     title: '会员等级',
