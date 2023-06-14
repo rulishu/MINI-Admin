@@ -50,7 +50,7 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
     width: 100,
     hideInTable: true,
     fieldProps: {
-      expandTrigger: 'hover',
+      // expandTrigger: 'hover',
       options: options(),
       changeOnSelect: true,
       fieldNames: {

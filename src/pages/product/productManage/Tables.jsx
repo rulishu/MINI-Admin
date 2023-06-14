@@ -118,7 +118,7 @@ export default function Tables() {
                 url: item?.path,
               })),
               //
-              itemSkuVos: itemSkuVos || [],
+              itemSkuVos: result?.itemSkuVos ? result?.itemSkuVos : itemSkuVos,
               stock: result?.stock,
               price: result?.price,
               spuCode: result?.spuCode,
@@ -155,7 +155,6 @@ export default function Tables() {
     // 编辑
     if (type === 'edit') {
       handlerSKU(record);
-      selectById({ id: record?.id && Number(record.id) });
     }
     // 上架/下架/删除
     if (type === 'upload' || type === 'down' || type == 'delete') {
@@ -180,7 +179,12 @@ export default function Tables() {
   const handlerSKU = (record) => {
     dispatch({
       type: 'productManage/selectSKU',
-      payload: record?.id,
+      payload: {
+        id: record?.id,
+        callback: () => {
+          selectById({ id: record?.id && Number(record.id) });
+        },
+      },
     });
   };
 
@@ -312,6 +316,7 @@ export default function Tables() {
             minOpenTime: sellTimeRange?.[0] ? `${sellTimeRange[0]} 00:00:00` : undefined,
             maxOpenTime: sellTimeRange?.[1] ? `${sellTimeRange[1]} 23:59:59` : undefined,
           };
+          console.log('formData: ', formData);
           if (formData?.categoryId && formData?.categoryId.length > 0) {
             body.categoryId = formData?.categoryId[formData?.categoryId.length - 1];
           }

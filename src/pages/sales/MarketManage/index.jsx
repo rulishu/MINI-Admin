@@ -36,11 +36,12 @@ const SearchTable = () => {
       }}
     >
       <Card
+        size="small"
         // loading={loading.effects['marketManage/getMarketTree']}
         style={{ marginRight: 10, minWidth: 250, height: '100%' }}
         bodyStyle={{
-          paddingLeft: 12,
-          paddingRight: 12,
+          // paddingLeft: 12,
+          // paddingRight: 12,
           width: '100%',
           height: '100%',
           overflowY: 'auto',
@@ -68,8 +69,9 @@ const SearchTable = () => {
           //   loading.effects['marketManage/selectMarket'] ||
           //   loading.effects['marketManage/getMarketTree']
           // }
+          size="small"
           style={{ width: '100%' }}
-          bodyStyle={{ paddingLeft: 12, paddingRight: 12, width: '100%' }}
+          bodyStyle={{ width: '100%' }}
         >
           <Spin
             style={{ width: '100%', height: '100%' }}
@@ -82,12 +84,13 @@ const SearchTable = () => {
           </Spin>
         </Card>
         <Card
+          size="small"
           // loading={
           //   loading.effects['marketManage/selectMarket'] ||
           //   loading.effects['marketManage/getMarketTree']
           // }
           style={{ width: '100%', marginTop: 10, flex: 1, overflow: 'auto' }}
-          bodyStyle={{ paddingLeft: 12, paddingRight: 12, width: '100%', height: '100%' }}
+          bodyStyle={{ width: '100%', height: '100%' }}
         >
           <Spin
             style={{ width: '100%', height: '100%' }}
