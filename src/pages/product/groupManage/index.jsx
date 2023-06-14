@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import EditForm from './EditForm';
 import { columns } from './columns';
+import './index.less';
 
 const SearchTable = (props) => {
   const { dispatch, groupManage, loading } = props;
@@ -88,6 +89,10 @@ const SearchTable = (props) => {
           style: {
             padding: 0,
           },
+        }}
+        search={{
+          labelWidth: 'auto',
+          className: 'search_form',
         }}
         options={false}
         request={async (params = {}) => {

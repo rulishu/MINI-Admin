@@ -57,7 +57,7 @@ export default function SearchTable() {
     className: 'table_card',
     headerTitle: '订单列表',
     options: false,
-    search: { labelWidth: 'auto', span: 8 },
+    search: { labelWidth: 'auto', span: 8, className: 'search_form' },
     cardProps: {
       size: 'small',
       style: {

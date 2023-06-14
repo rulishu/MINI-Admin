@@ -267,6 +267,7 @@ export default function Tables() {
         search={{
           labelWidth: 'auto',
           labelAlign: 'left',
+          className: 'search_form',
         }}
         params={{
           showForm: showForm,

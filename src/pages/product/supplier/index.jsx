@@ -6,6 +6,7 @@ import { App, Button } from 'antd';
 import { Fragment, useEffect, useRef } from 'react';
 import Details from './Details';
 import { columns } from './columns';
+import './index.less';
 
 export default () => {
   const ref = useRef();
@@ -107,6 +108,7 @@ export default () => {
         }}
         search={{
           labelWidth: 'auto',
+          className: 'search_form',
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
