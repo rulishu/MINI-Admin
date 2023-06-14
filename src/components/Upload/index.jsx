@@ -53,6 +53,14 @@ export default ({
 
   const beforeUpload = (file) => {
     const isLt5M = file.size / 1024 / 1024 < limitSize;
+    // 截取掉fileName.之前的内容
+    const parts = file.name.split('.');
+    // 文件类型
+    const fileType = '.' + parts[parts.length - 1];
+    if (others.accept && !others.accept.includes(fileType)) {
+      message.warning(`不允许上传${fileType}类型文件`);
+      return false;
+    }
     if (!isLt5M) {
       message.warning(`上传文件大小不能超过${limitSize}MB!`);
     }
