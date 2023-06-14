@@ -21,7 +21,6 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'id',
     width: 80,
     align: 'left',
-    hideInSearch: true,
   },
   {
     title: '用户信息',

@@ -2,6 +2,7 @@ import { selectPage } from '@/service/cust/custManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import { columns } from './columns';
+import './index.less';
 
 export default function SearchTable() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function SearchTable() {
       options={false}
       search={{
         labelWidth: 'auto',
+        className: 'search_form',
       }}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;
