@@ -14,7 +14,7 @@ export default {
   namespace: 'productManage',
   state: {
     /** table activeKey  */
-    activeKey: '4',
+    activeKey: '1',
     /** 是否打开form表单  */
     showForm: false,
     /** add新增 / edit编辑 / view查看  */
@@ -209,10 +209,10 @@ export default {
           values?.categoryId?.slice(-1)?.[0] && Number(values?.categoryId?.slice(-1)?.[0]), // 类目ID
         suppliersId: values?.suppliersId?.value,
         suppliersName: values?.suppliersId?.label?.split('(')?.[0],
-        provenance: values?.provenance.join(),
+        provenance: values?.provenance?.join(),
         //
         mainGraph: values?.mainGraphs?.[0]?.url,
-        mainGraphs: values?.mainGraphs.map((item) => ({
+        mainGraphs: values?.mainGraphs?.map((item) => ({
           itemName: values?.itemName,
           itemId: queryInfo?.id,
           path: item?.url,

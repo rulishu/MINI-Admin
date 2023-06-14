@@ -48,21 +48,20 @@ export default () => {
     setStep(0);
   };
 
-  // useEffect(() => {
-  //   if (showForm === true) {
-  //     console.log('queryInfo: ', queryInfo);
-
-  //     formRef1?.current?.setFieldsValue({
-  //       mainGraphs: queryInfo?.mainGraphs,
-  //       categoryId: queryInfo?.categoryId,
-  //     });
-  //     // formRef2?.current?.setFieldsValue({
-  //     //   ...queryInfo,
-  //     // });
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [showForm, queryInfo]);
+  useEffect(() => {
+    if (queryInfo?.categoryId && showForm === true && type === 'edit') {
+      console.log('queryInfo: ', queryInfo);
+      // formRef1?.current?.setFieldsValue({
+      //   mainGraphs: queryInfo?.mainGraphs,
+      //   categoryId: queryInfo?.categoryId,
+      // });
+      // formRef2?.current?.setFieldsValue({
+      //   ...queryInfo,
+      // });
+      setStep(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showForm]);
 
   useEffect(() => {
     if (itemSkuVos.length > 0) {
@@ -293,6 +292,7 @@ export default () => {
         </StepsForm.StepForm>
         {/* 第二步 */}
         <StepsForm.StepForm
+          initialValues={{ ...queryInfo }}
           formRef={formRef2}
           layout="horizontal"
           labelCol={{ span: 4 }}
@@ -325,7 +325,25 @@ export default () => {
               label="商品类目"
             /> */}
 
-            <Form.Item name="categoryId" label="商品类目" rules={[{ required: true }]}>
+            <Form.Item
+              name="categoryId"
+              label="商品类目"
+              rules={[
+                { required: true },
+                {
+                  validator: (_, value) => {
+                    if (
+                      categoryList.find((item) => item?.id === value?.[value.length - 1])
+                        ?.leafOrder !== 1
+                    ) {
+                      return Promise.reject(new Error('请选择叶子类目'));
+                    } else {
+                      return Promise.resolve();
+                    }
+                  },
+                },
+              ]}
+            >
               <CascaderButton
                 disabled={true}
                 onClick={() => {
