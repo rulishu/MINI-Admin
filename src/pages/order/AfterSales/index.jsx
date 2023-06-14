@@ -59,7 +59,7 @@ const App = () => {
   ];
 
   return (
-    <Card>
+    <Card size="small">
       <Tabs
         size="small"
         defaultActiveKey="1"
