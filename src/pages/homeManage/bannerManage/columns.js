@@ -9,6 +9,7 @@ export const columns = ({ handleEdit }) => [
     width: 40,
     align: 'left',
     hideInSearch: true,
+    render: (text, record, index) => index + 1,
   },
   {
     title: '活动名称',
