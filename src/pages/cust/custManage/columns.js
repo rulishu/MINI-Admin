@@ -12,7 +12,7 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '用户手机号',
-    dataIndex: 'mobile',
+    dataIndex: 'consumerPhone',
     align: 'left',
     hideInTable: true,
   },
@@ -36,23 +36,34 @@ export const columns = ({ handleEdit }) => [
     },
     hideInSearch: true,
   },
-  {
-    title: '邀请人昵称',
-    dataIndex: 'details3',
-    align: 'left',
-    hideInTable: true,
-  },
-  {
-    title: '邀请人手机号',
-    dataIndex: 'details4',
-    align: 'left',
-    hideInTable: true,
-  },
+  // {
+  //   title: '邀请人昵称',
+  //   dataIndex: 'details3',
+  //   align: 'left',
+  //   hideInTable: true,
+  // },
+  // {
+  //   title: '邀请人手机号',
+  //   dataIndex: 'details4',
+  //   align: 'left',
+  //   hideInTable: true,
+  // },
   {
     title: '注册时间',
     dataIndex: 'createTime',
-    align: 'left',
-    valueType: 'dateTime',
+    valueType: 'dateRange',
+    fieldProps: {
+      showTime: true,
+      format: 'YYYY-MM-DD HH:mm:ss',
+    },
+    search: {
+      transform: (value) => {
+        return {
+          startTime: value[0],
+          endTime: value[1],
+        };
+      },
+    },
     hideInTable: true,
   },
   {
