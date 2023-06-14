@@ -22,16 +22,20 @@ export const columns = ({ handleEdit }) => [
     width: 80,
     align: 'left',
     hideInSearch: true,
-    render: (text, record, index) => index + 1,
   },
   {
     title: '用户信息',
     dataIndex: 'details',
-    width: 180,
     align: 'left',
+    width: 250,
     render: (text, record) => {
       return (
-        <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
+        <UserContent
+          width={220}
+          headUrl={record.headUrl}
+          name={record.consumerName}
+          phone={record.mobile}
+        />
       );
     },
     hideInSearch: true,
@@ -80,7 +84,7 @@ export const columns = ({ handleEdit }) => [
     align: 'agentLevel',
     valueType: 'select',
     valueEnum: agentLevelStatus,
-    render: (_, record) => (record.agentLevel && levelStatus[record.agentLevel].text) || '无',
+    render: (_, record) => (record.agentLevel && agentLevelStatus[record.agentLevel].text) || '无',
   },
   {
     title: '会员等级',

@@ -1,14 +1,14 @@
 import UserContent from '@/components/UserContent';
-import { Divider } from 'antd';
+import { Divider, Typography } from 'antd';
 import moment from 'moment';
+const { Text } = Typography;
 export const columns = ({ handleEdit, productSelector }) => [
   {
     title: 'ID',
-    dataIndex: 'id',
+    dataIndex: 'supplierId',
     width: 40,
     ellipsis: true,
     hideInSearch: true,
-    render: (text, record, index) => index + 1,
   },
   {
     title: '供应商名称',
@@ -25,8 +25,19 @@ export const columns = ({ handleEdit, productSelector }) => [
     hideInSearch: true,
     render: (_, record) => (
       <div style={{ textAlign: 'left' }}>
-        <b style={{ fontSize: '16px' }}>{record?.supplierName || '-'}</b>
-        <div style={{ fontSize: '14px' }}>地址：{record?.regAddress || '-'}</div>
+        <div>
+          <Text
+            style={{ fontSize: '16px', fontWeight: 'bold' }}
+            ellipsis={{ tooltip: record?.supplierName }}
+          >
+            {record?.supplierName || '-'}
+          </Text>
+        </div>
+        <div>
+          <Text style={{ fontSize: '14px' }} ellipsis={{ tooltip: record?.regAddress }}>
+            地址：{record?.regAddress || '-'}
+          </Text>
+        </div>
       </div>
     ),
   },
@@ -49,6 +60,7 @@ export const columns = ({ handleEdit, productSelector }) => [
         headUrl=""
         name={record.contactName}
         phone={record.contactPhone}
+        width={180}
       />
     ),
   },
@@ -87,6 +99,7 @@ export const columns = ({ handleEdit, productSelector }) => [
         headUrl={record.productHeader}
         name={record.productSelector}
         phone={record.productSelectorContact}
+        width={220}
       />
     ),
   },

@@ -138,7 +138,8 @@
           {
             "path": "/cust/memberManage",
             "name": "会员管理",
-            "component": "@/pages/cust/memberManage"
+            "component": "@/pages/cust/memberManage",
+            "hideInMenu": true
           }
         ]
       },
@@ -155,6 +156,7 @@
           {
             "path": "/sales/pointsManagement",
             "name": "会员积分",
+            "hideInMenu": true,
             "component": "@/pages/sales/pointsManagement"
           },
           {
@@ -188,6 +190,7 @@
         "path": "/data",
         "name": "数据",
         "icon": "bar-chart",
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/data/userData",
@@ -215,6 +218,7 @@
         "path": "/log",
         "name": "日志",
         "icon": "snippets",
+        "hideInMenu": true,
         "routes": [
           {
             "path": "/log/menuManage",

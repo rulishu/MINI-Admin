@@ -183,8 +183,8 @@ export const columns = ({ supplierName, handle }) => [
     hideInSearch: true,
     width: 120,
     render: (_, record) => {
-      const { logisticsStatus } = record;
-      const canPush = logisticsStatus === 0;
+      const { logisticsStatus, orderStatus } = record;
+      const canPush = logisticsStatus === 0 && orderStatus === 2;
       return (
         <div>
           <a onClick={() => handle('view', record)}>详情</a>
