@@ -193,7 +193,7 @@ const ConnectTable = ({ proTableRef }) => {
                 const { code, result } = await selectSellPage({
                   pageNum: 1,
                   pageSize: 10,
-                  id: params?.keyWords,
+                  keyword: params?.keyWords,
                 });
                 if (code && code === 200) {
                   return (
@@ -204,7 +204,7 @@ const ConnectTable = ({ proTableRef }) => {
                   );
                 }
               }}
-              placeholder=""
+              placeholder="请输入商品名称/商品ID"
               rules={[{ required: true, message: 'Please select your country!' }]}
             />
           </ModalForm>
