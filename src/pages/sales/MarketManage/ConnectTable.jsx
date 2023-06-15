@@ -3,6 +3,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormSelect, ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button, Form, Image, Input } from 'antd';
+import dayjs from 'dayjs';
+
 const ConnectTable = ({ proTableRef }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -44,41 +46,55 @@ const ConnectTable = ({ proTableRef }) => {
       ),
     },
     {
-      title: '价格',
-      dataIndex: 'price',
-      width: 150,
-      render: (txt, record) => record?.itemDto?.costPrice,
+      title: '商品状态',
+      dataIndex: 'status',
+      width: 80,
+      render: (txt, record) => {
+        if (record?.itemDto?.onShelf === 0) {
+          return '仓库中';
+        }
+        if (record?.itemDto?.onShelf === 2) {
+          const now = new Date();
+          const openTime = dayjs(record?.itemDto?.openTime).valueOf();
+          if (openTime > now.getTime()) {
+            return '未上架';
+          } else {
+            return '已上架';
+          }
+        }
+      },
     },
     {
       title: '排序',
       dataIndex: 'sort',
-      width: 150,
-      render: (txt, record) => (
-        <Input
-          defaultValue={record?.sort}
-          onChange={() => {}}
-          onBlur={(e) => {
-            console.log('record: ', record);
-            dispatch({
-              type: 'marketManage/updateGoodsSort',
-              payload: {
-                id: record?.id,
-                sort: e.target.value,
-                callback: (type) => {
-                  if (type) {
-                    proTableRef?.current?.reload();
-                  }
+      width: 80,
+      render: (txt, record) =>
+        record?.type === 1 && (
+          <Input
+            defaultValue={record?.sort}
+            onChange={() => {}}
+            onBlur={(e) => {
+              console.log('record: ', record);
+              dispatch({
+                type: 'marketManage/updateGoodsSort',
+                payload: {
+                  id: record?.id,
+                  sort: e.target.value,
+                  callback: (type) => {
+                    if (type) {
+                      proTableRef?.current?.reload();
+                    }
+                  },
                 },
-              },
-            });
-          }}
-        />
-      ),
+              });
+            }}
+          />
+        ),
     },
     {
       title: '操作',
       key: '-_-!',
-      width: 100,
+      width: 80,
       fixed: 'right',
       render: (_, record) => (
         <a
@@ -116,27 +132,26 @@ const ConnectTable = ({ proTableRef }) => {
         className="conntct-goods"
         actionRef={proTableRef}
         dataSource={tableData}
-        rowKey="id"
+        rowKey="itemId"
         manualRequest={true}
         params={{
           id: activeMarketId,
         }}
         request={async (params = {}) => {
+          let obj = { success: true };
           if (params?.id) {
-            let obj = {};
-            dispatch({
+            await dispatch({
               type: 'marketManage/selectMarket',
               payload: {
                 params,
                 callback: (data) => {
-                  obj.data = data.tableData;
-                  obj.total = data.total;
-                  obj.success = true;
+                  obj.data = data?.tableData;
+                  obj.total = data?.total || 0;
                 },
               },
             });
-            return obj;
           }
+          return obj;
         }}
         pagination={{
           showSizeChanger: true,
