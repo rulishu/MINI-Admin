@@ -61,6 +61,14 @@ export const columns = ({ supplierName, handle }) => [
     hideInTable: true,
   },
   {
+    title: '商品ID',
+    dataIndex: 'id',
+    fieldProps: {
+      placeholder: '请输入商品ID',
+    },
+    hideInTable: true,
+  },
+  {
     title: '供应商',
     dataIndex: 'supplierId',
     valueType: 'select',
@@ -77,7 +85,7 @@ export const columns = ({ supplierName, handle }) => [
   },
   {
     title: '物流单号',
-    dataIndex: 'ogisticsTrackingNumber',
+    dataIndex: 'logisticsTrackingNumber',
     fieldProps: {
       placeholder: '请输入物流单号',
     },
@@ -103,8 +111,7 @@ export const columns = ({ supplierName, handle }) => [
           </span>
           <span>下单时间：{row.createTime || '-'}</span>
           <span>
-            {row.userName && <span>{row.userName}</span>}{' '}
-            {row.userId && <span>ID：{row.userId}</span>}
+            用户：{row.userName || '-'} ID：{row.userId || '-'}
           </span>
         </Space>
       );
@@ -222,7 +229,7 @@ export const expandColumns = ({ rowData }) => [
     width: 100,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: () => <AfterSaleStatusComp record={rowData} />,
+    render: () => (rowData.afterSaleStatus === 0 ? '-' : <AfterSaleStatusComp record={rowData} />),
   },
   {
     dataIndex: 'receiveInfo',

@@ -2,7 +2,6 @@ import CascaderButton from '@/components/CascaderButton';
 import CategoryType from '@/components/CategoryType';
 import SKUButton from '@/components/SKUButton';
 import TheUpload from '@/components/Upload';
-import { addItem, updateItem } from '@/service/goods/productManage';
 import {
   ProCard,
   ProFormCascader,
@@ -13,7 +12,6 @@ import {
   ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-components';
-import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button, Form, Modal } from 'antd';
 import dayjs from 'dayjs';
@@ -24,7 +22,9 @@ export default () => {
   const formRef = useRef();
   const formRef1 = useRef();
   const formRef2 = useRef();
-  const { productManage, groupManage, supplier, commonInterface } = useSelector((state) => state);
+  const { productManage, groupManage, supplier, commonInterface, loading } = useSelector(
+    (state) => state,
+  );
   const { type, queryInfo, showForm, templateIdList, itemSkuVos } = productManage;
   const { categoryList } = groupManage;
   const { suppliersList } = supplier;
@@ -48,30 +48,20 @@ export default () => {
     setStep(0);
   };
 
-  const { mutateAsync } = useReactMutation({
-    mutationFn: type === 'add' ? addItem : updateItem,
-    onSuccess: ({ code }) => {
-      if (code && code === 200) {
-        onClosed();
-      }
-    },
-  });
-
-  // useEffect(() => {
-  //   if (showForm === true) {
-  //     console.log('queryInfo: ', queryInfo);
-
-  //     formRef1?.current?.setFieldsValue({
-  //       mainGraphs: queryInfo?.mainGraphs,
-  //       categoryId: queryInfo?.categoryId,
-  //     });
-  //     // formRef2?.current?.setFieldsValue({
-  //     //   ...queryInfo,
-  //     // });
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [showForm, queryInfo]);
+  useEffect(() => {
+    if (queryInfo?.categoryId && showForm === true && type === 'edit') {
+      console.log('queryInfo: ', queryInfo);
+      // formRef1?.current?.setFieldsValue({
+      //   mainGraphs: queryInfo?.mainGraphs,
+      //   categoryId: queryInfo?.categoryId,
+      // });
+      // formRef2?.current?.setFieldsValue({
+      //   ...queryInfo,
+      // });
+      setStep(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showForm]);
 
   useEffect(() => {
     if (itemSkuVos.length > 0) {
@@ -130,43 +120,20 @@ export default () => {
         current={step}
         onCurrentChange={(current) => setStep(current)}
         formRef={formRef}
-        onFinish={async (values) => {
+        onFinish={(values) => {
           console.log('保存: ', { ...values, itemSkuVos });
-          mutateAsync({
-            ...values,
-            categoryId:
-              values?.categoryId?.slice(-1)?.[0] && Number(values?.categoryId?.slice(-1)?.[0]), // 类目ID
-            suppliersId: values?.suppliersId?.value,
-            suppliersName: values?.suppliersId?.label.split('(')?.[0],
-            provenance: values?.provenance.join(),
-            //
-            mainGraph: values?.mainGraphs?.[0]?.url,
-            mainGraphs: values?.mainGraphs.map((item) => ({
-              itemName: values?.itemName,
-              itemId: queryInfo?.id,
-              path: item?.url,
-              version: 0,
-            })),
-            itemVideo: values?.itemVideo?.[0]?.url,
-            itemImageVoList: values?.itemImageVoList.map((item) => ({
-              itemName: values?.itemName,
-              path: item?.url,
-              version: 1,
-              itemId: queryInfo?.id,
-            })),
-            //
-            itemSkuVos,
-            //
-            templateId: values?.templateId?.value,
-            templateName: values?.templateId?.label,
-            onShelf: values?.groundType === 3 ? 0 : 2,
-            openTime:
-              values?.groundType === 3
-                ? null
-                : dayjs(values?.openTime).format('YYYY-MM-DD HH:mm:00'),
-
-            id: queryInfo?.id, // 商品ID
+          let closeType = false;
+          dispatch({
+            type: 'productManage/editGoods',
+            payload: {
+              values,
+              callback: () => {
+                onClosed();
+                closeType = true;
+              },
+            },
           });
+          return closeType;
         }}
         formProps={{
           validateMessages: {
@@ -176,7 +143,7 @@ export default () => {
         stepsFormRender={(dom, submitter) => {
           return (
             <Modal
-              title="分步表单"
+              title={type === 'add' ? '新增商品' : '编辑商品'}
               width={1000}
               onCancel={() => onClosed()}
               open={showForm}
@@ -219,7 +186,12 @@ export default () => {
               >
                 上一步
               </Button>,
-              <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+              <Button
+                type="primary"
+                key="goToTree"
+                loading={loading.global}
+                onClick={() => props.onSubmit?.()}
+              >
                 提交
               </Button>,
             ];
@@ -320,6 +292,7 @@ export default () => {
         </StepsForm.StepForm>
         {/* 第二步 */}
         <StepsForm.StepForm
+          initialValues={{ ...queryInfo }}
           formRef={formRef2}
           layout="horizontal"
           labelCol={{ span: 4 }}
@@ -352,7 +325,25 @@ export default () => {
               label="商品类目"
             /> */}
 
-            <Form.Item name="categoryId" label="商品类目" rules={[{ required: true }]}>
+            <Form.Item
+              name="categoryId"
+              label="商品类目"
+              rules={[
+                { required: true },
+                {
+                  validator: (_, value) => {
+                    if (
+                      categoryList.find((item) => item?.id === value?.[value.length - 1])
+                        ?.leafOrder !== 1
+                    ) {
+                      return Promise.reject(new Error('请选择叶子类目'));
+                    } else {
+                      return Promise.resolve();
+                    }
+                  },
+                },
+              ]}
+            >
               <CascaderButton
                 disabled={true}
                 onClick={() => {

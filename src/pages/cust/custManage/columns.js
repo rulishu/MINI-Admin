@@ -1,5 +1,5 @@
 import UserContent from '@/components/UserContent';
-import { Divider } from 'antd';
+// import { Divider } from 'antd';
 import moment from 'moment';
 import { agentLevelStatus, levelStatus, vipStatus } from './enum';
 
@@ -126,8 +126,8 @@ export const columns = ({ handleEdit }) => [
     render: (record) => (
       <div>
         <a onClick={() => handleEdit('view', record)}>详情</a>
-        <Divider type="vertical" />
-        <a onClick={() => handleEdit('delete', record)}>删除</a>
+        {/* <Divider type="vertical" />
+        <a onClick={() => handleEdit('delete', record)}>删除</a> */}
       </div>
     ),
   },

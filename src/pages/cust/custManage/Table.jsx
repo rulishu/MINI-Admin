@@ -22,7 +22,9 @@ export default function SearchTable() {
       headerTitle="用户列表"
       options={false}
       search={{
-        labelWidth: 'auto',
+        labelWidth: 80,
+        labelAlign: 'left',
+        span: 8,
         className: 'search_form',
       }}
       request={async (params = {}) => {

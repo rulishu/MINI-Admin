@@ -99,7 +99,7 @@ export default () => {
         }}
         toolBarRender={() => [
           <Button key="add" type="primary" onClick={() => handleEdit('add')}>
-            新增代理
+            地盘配置
           </Button>,
         ]}
         cardProps={{

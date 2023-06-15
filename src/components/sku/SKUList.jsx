@@ -2,7 +2,6 @@ import { Button, Card, Col, Input, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
-  console.log('data: ', data);
   const [dataSource, setDataSource] = useState([]);
   const [bulk, setBulk] = useState({});
 
@@ -13,12 +12,12 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         if (index === attributes.length) {
           skuList.push({
             ...prefix,
-            goodsCost: 0,
-            price: 0,
-            referencePrice: 0,
-            membershipPrice: 0,
-            skuCode: 0,
-            stock: 0,
+            goodsCost: '0',
+            price: '0',
+            referencePrice: '0',
+            membershipPrice: '0',
+            skuCode: '0',
+            stock: '0',
           });
           return;
         }
@@ -39,6 +38,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             [attribute_name]: value,
             attributes: attributes_teemp,
             attrId: skuList.length,
+            flag: true,
             // imageUrl: obj?.imageUrl ? [obj?.imageUrl] : undefined,
           };
           generateSKUs(attributes, index + 1, newPrefix, skuList);
@@ -78,7 +78,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
               type = false;
             }
             if (type) {
-              newDataSource[index] = { ...item, ...others };
+              newDataSource[index] = { ...item, ...others, flag: false };
             }
           });
         });
@@ -108,15 +108,15 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       //     (row) => record[attribute.attribute_name] === row[attribute.attribute_name],
       //   );
       // },
-      onCell: (record, index) => {
-        const text = record[attribute.attribute_name];
-        return mergeCells(
-          text,
-          index,
-          dataSource,
-          (row) => record[attribute.attribute_name] === row[attribute.attribute_name],
-        );
-      },
+      // onCell: (record, index) => {
+      //   const text = record[attribute.attribute_name];
+      //   return mergeCells(
+      //     text,
+      //     index,
+      //     dataSource,
+      //     (row) => record[attribute.attribute_name] === row[attribute.attribute_name],
+      //   );
+      // },
     })),
     {
       title: '成本价',
@@ -124,6 +124,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       width: 130,
       render: (text, record, index) => (
         <Input
+          status={text ? '' : 'error'}
           value={text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'goodsCost', e.target.value)}
@@ -136,6 +137,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       width: 130,
       render: (text, record, index) => (
         <Input
+          status={text ? '' : 'error'}
           value={text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'price', e.target.value)}
@@ -148,6 +150,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       width: 130,
       render: (text) => (
         <Input
+          status={text ? '' : 'error'}
           disabled
           value={text}
           style={{ width: '100%' }}
@@ -161,6 +164,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       width: 130,
       render: (text, record, index) => (
         <Input
+          status={text ? '' : 'error'}
           value={text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'referencePrice', e.target.value)}
@@ -173,6 +177,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       width: 130,
       render: (text, record, index) => (
         <Input
+          status={text ? '' : 'error'}
           value={text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'stock', e.target.value)}
@@ -185,6 +190,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       width: 130,
       render: (text, record, index) => (
         <Input
+          status={text ? '' : 'error'}
           value={text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'skuCode', e.target.value)}
@@ -308,7 +314,13 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             <Col span={1.5}>
               <Button
                 onClick={() => {
-                  setDataSource(dataSource.map((item) => ({ ...item, ...bulk })));
+                  let obj = {};
+                  Object.keys(bulk).forEach((item) => {
+                    if (bulk?.[item]) {
+                      obj[item] = bulk?.[item];
+                    }
+                  });
+                  setDataSource(dataSource.map((item) => ({ ...item, ...obj })));
                 }}
               >
                 设置

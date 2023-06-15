@@ -77,7 +77,7 @@ export default () => {
       if (record?.flag) {
         modal.error({
           title: '无法删除',
-          content: '该供应商存在未下架商品，请优先处理商品',
+          content: '该供应商已关联商品，无法删除',
           maskClosable: true,
         });
         return;
@@ -107,7 +107,8 @@ export default () => {
           defaultCollapsed: false,
         }}
         search={{
-          labelWidth: 'auto',
+          labelWidth: 90,
+          labelAlign: 'left',
           className: 'search_form',
         }}
         request={async (params = {}) => {
