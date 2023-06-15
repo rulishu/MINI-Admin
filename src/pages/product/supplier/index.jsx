@@ -108,6 +108,9 @@ export default () => {
         }}
         search={{
           labelWidth: 'auto',
+          style: {
+            padding: '24px 12px',
+          },
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;

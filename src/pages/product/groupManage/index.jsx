@@ -92,6 +92,9 @@ const SearchTable = (props) => {
         }}
         search={{
           labelWidth: 'auto',
+          style: {
+            padding: '24px 12px',
+          },
         }}
         options={false}
         request={async (params = {}) => {
