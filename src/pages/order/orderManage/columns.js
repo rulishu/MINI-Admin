@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { AfterSaleStatusComp, GoodInfoComp, OrderStatusComp, SkuComp } from './component';
 const { Text } = Typography;
 
-export const columns = ({ supplierName, handle }) => [
+export const columns = ({ supplierName, handle, activeKey }) => [
   {
     title: '用户ID',
     dataIndex: 'userId',
@@ -193,8 +193,8 @@ export const columns = ({ supplierName, handle }) => [
     hideInSearch: true,
     width: 120,
     render: (_, record) => {
-      const { logisticsStatus, orderStatus } = record;
-      const canPush = logisticsStatus === 0 && (orderStatus === 2 || orderStatus === 3);
+      const { logisticsStatus } = record;
+      const canPush = logisticsStatus === 0 && activeKey === 2;
       return (
         <div>
           <a onClick={() => handle('view', record)}>详情</a>
@@ -264,14 +264,17 @@ export const expandColumns = ({ rowData, handle }) => [
             <Space direction="horizontal">
               <Input
                 style={{ width: 120 }}
-                onChange={(value) => handle('change', rowData, value)}
+                onChange={(value) => handle('changeRemark', rowData, value)}
                 value={rowData.backgroundMessage}
                 allowClear
               />
-              <CheckOutlined style={{ color: '#1677ff' }} onClick={() => handle('save', rowData)} />
+              <CheckOutlined
+                style={{ color: '#1677ff' }}
+                onClick={() => handle('saveRemark', rowData)}
+              />
               <CloseOutlined
                 style={{ color: '#1677ff' }}
-                onClick={() => handle('cancel', rowData)}
+                onClick={() => handle('cancelRemark', rowData)}
               />
             </Space>
           ) : (
@@ -279,7 +282,10 @@ export const expandColumns = ({ rowData, handle }) => [
               <Text ellipsis={{ tooltip: rowData?.backgroundMessage }}>
                 {rowData.backgroundMessage || '-'}
               </Text>
-              <EditOutlined style={{ marginLeft: 8 }} onClick={() => handle('edit', rowData)} />
+              <EditOutlined
+                style={{ marginLeft: 8 }}
+                onClick={() => handle('editRemark', rowData)}
+              />
             </span>
           )}
         </div>
