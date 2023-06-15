@@ -34,12 +34,15 @@ export default function SearchTable() {
   // 操作
   const handle = async (type, data, e) => {
     updateFn({ type: type });
+    // 查看详情
     if (type === 'view') {
       dispatch({ type: 'orderManage/selectById', payload: { id: data.id } });
     }
+    // 发货
     if (type === 'push') {
       dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
     }
+    // 复制
     if (type === 'copy') {
       const el = document.createElement('textarea');
       el.value = data.orderNumber;
@@ -49,21 +52,25 @@ export default function SearchTable() {
       document.body.removeChild(el);
       message.success('复制成功');
     }
-    if (type === 'edit') {
+    // 编辑备注
+    if (type === 'editRemark') {
       data.edit = true;
       data.oldBackgroundMessage = data.backgroundMessage;
       updateFn({ dataSource: [...dataSource] });
     }
-    if (type === 'cancel') {
+    // 取消编辑备注
+    if (type === 'cancelRemark') {
       data.edit = false;
       data.backgroundMessage = data.oldBackgroundMessage;
       updateFn({ dataSource: [...dataSource] });
     }
-    if (type === 'change') {
+    // 备注change
+    if (type === 'changeRemark') {
       const { value: inputValue } = e.target;
       data.backgroundMessage = inputValue;
     }
-    if (type === 'save') {
+    // 保存备注
+    if (type === 'saveRemark') {
       data.edit = false;
       updateFn({ dataSource: [...dataSource] });
       dispatch({
