@@ -58,7 +58,9 @@ export const basicItem = [
     title: '支付单号',
     key: 'paymentOrderNumber',
     editable: () => false,
+    valueType: 'text',
     dataIndex: 'paymentOrderNumber',
+    ellipsis: true,
   },
   {
     title: '发货时间',
