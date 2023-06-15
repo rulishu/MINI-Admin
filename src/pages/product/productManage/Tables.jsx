@@ -158,9 +158,18 @@ export default function Tables() {
     }
     // 上架/下架/删除
     if (type === 'upload' || type === 'down' || type == 'delete') {
-      let newsrks = record;
-      if (!newsrks) {
+      let newsrks = record?.id ? [record?.id] : [];
+      if (newsrks.length === 0) {
         newsrks = selectedRowKeys;
+        if (newsrks.length > 0 && type === 'upload') {
+          if (newsrks.some((item) => item?.companyId === '0')) {
+            return message.warning('商品信息未完善，请先编辑商品后上架');
+          }
+        }
+      } else {
+        if (type === 'upload' && record?.companyId === '0') {
+          return message.warning('商品信息未完善，请先编辑商品后上架');
+        }
       }
       if (newsrks?.length !== 0) {
         dispatch({
@@ -199,7 +208,13 @@ export default function Tables() {
   };
   const options = () => {
     if (categoryTree.length > 0) {
-      return [...handler(categoryTree)];
+      const newArr = [];
+      handler(categoryTree).forEach((item) => {
+        if (item?.value !== '0') {
+          newArr.push(item);
+        }
+      });
+      return newArr;
     } else {
       return [];
     }

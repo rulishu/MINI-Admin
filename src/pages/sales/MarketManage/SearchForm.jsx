@@ -41,7 +41,13 @@ export default ({ proTableRef }) => {
   };
   const options = () => {
     if (categoryTree.length > 0) {
-      return [...handler(categoryTree)];
+      const newArr = [];
+      handler(categoryTree).forEach((item) => {
+        if (item?.value !== '0') {
+          newArr.push(item);
+        }
+      });
+      return newArr;
     } else {
       return [];
     }

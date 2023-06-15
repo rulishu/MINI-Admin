@@ -146,17 +146,17 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
         </a>
         <Divider type="vertical" />
         {record?.groupType === 3 && (
-          <a type="link" size="small" onClick={() => handleEdit('upload', [record?.id])}>
+          <a type="link" size="small" onClick={() => handleEdit('upload', record)}>
             上架
           </a>
         )}
         {record?.onShelf === 2 && (
-          <a type="link" size="small" onClick={() => handleEdit('down', [record?.id])}>
+          <a type="link" size="small" onClick={() => handleEdit('down', record)}>
             下架
           </a>
         )}
         <Divider type="vertical" />
-        <a type="link" size="small" onClick={() => handleEdit('delete', [record?.id])}>
+        <a type="link" size="small" onClick={() => handleEdit('delete', record)}>
           删除
         </a>
       </div>
