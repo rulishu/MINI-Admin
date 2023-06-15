@@ -1,7 +1,7 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useNavigate, useSelector } from '@umijs/max';
-import { App, Table } from 'antd';
+import { App, Skeleton, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
@@ -10,18 +10,11 @@ import './index.less';
 export default function SearchTable() {
   const dispatch = useDispatch();
   const {
-    orderManage: {
-      activeKey,
-      selectedRows,
-      selectedRowKeys,
-      suppliersList,
-      dataSource,
-      pageNum,
-      pageSize,
-    },
+    orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, dataSource },
   } = useSelector((state) => state);
   const { message } = App.useApp();
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  const [tableLoading, setTableLoading] = useState(false);
   const ref = useRef();
   let navigate = useNavigate();
   const updateFn = (payload) => {
@@ -42,12 +35,15 @@ export default function SearchTable() {
   // 操作
   const handle = async (type, data, e) => {
     updateFn({ type: type });
+    // 查看详情
     if (type === 'view') {
       dispatch({ type: 'orderManage/selectById', payload: { id: data.id } });
     }
+    // 发货
     if (type === 'push') {
       dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
     }
+    // 复制
     if (type === 'copy') {
       const el = document.createElement('textarea');
       el.value = data.orderNumber;
@@ -57,21 +53,25 @@ export default function SearchTable() {
       document.body.removeChild(el);
       message.success('复制成功');
     }
-    if (type === 'edit') {
+    // 编辑备注
+    if (type === 'editRemark') {
       data.edit = true;
       data.oldBackgroundMessage = data.backgroundMessage;
       updateFn({ dataSource: [...dataSource] });
     }
-    if (type === 'cancel') {
+    // 取消编辑备注
+    if (type === 'cancelRemark') {
       data.edit = false;
       data.backgroundMessage = data.oldBackgroundMessage;
       updateFn({ dataSource: [...dataSource] });
     }
-    if (type === 'change') {
+    // 备注change
+    if (type === 'changeRemark') {
       const { value: inputValue } = e.target;
       data.backgroundMessage = inputValue;
     }
-    if (type === 'save') {
+    // 保存备注
+    if (type === 'saveRemark') {
       data.edit = false;
       updateFn({ dataSource: [...dataSource] });
       dispatch({
@@ -105,6 +105,7 @@ export default function SearchTable() {
         padding: 0,
       },
     },
+    onLoadingChange: (loading) => setTableLoading(loading),
     rowSelection: {
       selectedRows: selectedRows,
       selectedRowKeys: selectedRowKeys,
@@ -113,9 +114,9 @@ export default function SearchTable() {
     },
     request: async (params = {}) => {
       // eslint-disable-next-line no-unused-vars
-      const { current: page, pageSize: pagesize, ...formData } = params;
+      const { current, pageSize, ...formData } = params;
       const { code, result } = await selectPage({
-        pageNum: pageNum,
+        pageNum: current,
         pageSize: pageSize,
         ...formData,
       });
@@ -134,6 +135,7 @@ export default function SearchTable() {
         activeKey === '售后中' ? 1 : activeKey,
     },
     columns: columns({
+      activeKey: activeKey,
       handle,
       supplierName: {
         options: suppliersList,
@@ -147,14 +149,16 @@ export default function SearchTable() {
     expandable: {
       showExpandColumn: false,
       expandedRowRender: (record) => (
-        <Table
-          className="expanded_table_td"
-          columns={expandColumns({ rowData: record, handle: handle })}
-          dataSource={record.items || []}
-          rowKey="id"
-          pagination={false}
-          rowClassName={() => 'valign-top'}
-        />
+        <Skeleton loading={tableLoading}>
+          <Table
+            className="expanded_table_td"
+            columns={expandColumns({ rowData: record, handle: handle })}
+            dataSource={record.items || []}
+            rowKey="id"
+            pagination={false}
+            rowClassName={() => 'valign-top'}
+          />
+        </Skeleton>
       ),
       expandRowByClick: true,
       expandIcon: () => null,
@@ -162,13 +166,10 @@ export default function SearchTable() {
     },
     rowClassName: () => 'ant-table-row_color',
     pagination: {
-      current: pageNum,
-      pageSize: pageSize,
       showSizeChanger: true,
-      onChange: (page, pageSize) => {
+      onChange: () => {
         const node = document.querySelector('.ant-layout-content');
         node.scrollTop = 0;
-        updateFn({ pageNum: page, pageSize: pageSize });
       },
     },
   };
