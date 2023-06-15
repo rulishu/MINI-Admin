@@ -104,7 +104,7 @@ export default {
         orderStatus,
         afterServiceType,
       };
-      const { code, result, message: msg } = yield call(selectPage, params);
+      const { code, result } = yield call(selectPage, params);
       if (code && code === 200) {
         yield put({
           type: 'update',
@@ -113,15 +113,6 @@ export default {
             dataSource: result.records || [],
           },
         });
-      } else {
-        yield put({
-          type: 'update',
-          payload: {
-            total: 0,
-            dataSource: [],
-          },
-        });
-        message.warning(msg);
       }
     },
     *updateOrderGoodsStatus({ payload }, { call, put }) {

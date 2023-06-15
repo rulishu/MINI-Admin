@@ -166,6 +166,15 @@ export default function SearchTable() {
                   content: <p>确认拒绝后,用户无法再次发起当前sku的售后申请,确认拒绝吗?</p>,
                   onOk: () => {
                     //
+                    dispatch({
+                      type: 'aftersales/updateOrderGoodsStatus',
+                      payload: {
+                        id: record?.orderObj?.id
+                          ? Number(record?.orderObj?.id)
+                          : record?.orderObj?.id,
+                        status: 2,
+                      },
+                    });
                   },
                 });
               }}
@@ -246,9 +255,10 @@ export default function SearchTable() {
       total,
       onChange: (page, pageSize) => {
         dispatch({
-          type: 'aftersales/goToPage',
+          type: 'aftersales/update',
           payload: { pageNum: page, pageSize: pageSize },
         });
+        dispatch({ type: 'aftersales/selectByPage' });
       },
       showTotal: (total) => `第 ${pageNum}-${dataSource.length} 条/总共 ${total} 条`,
     },
