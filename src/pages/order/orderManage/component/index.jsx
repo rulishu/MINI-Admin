@@ -1,5 +1,5 @@
 import AImage from '@/components/AImage';
-import { Space, Tag } from 'antd';
+import { Space, Tag, Typography } from 'antd';
 import { Fragment } from 'react';
 import { afterSaleStatusEnum, orderStatusEnum, shipmentsStatusEnum } from '../enum';
 import EditTable from './EditTable';
@@ -12,8 +12,10 @@ const GoodInfoComp = ({ record }) => {
         {' '}
         <AImage height={80} width={80} src={record.mainGraph} />
       </div>
-      <div style={{ marginLeft: 12 }}>
-        <b style={{ fontSize: '14px' }}>{record.itemName}</b>
+      <div style={{ marginLeft: 12, width: 250 }}>
+        <Typography.Text ellipsis={{ tooltip: record.itemName }} style={{ fontSize: '14px' }}>
+          {record.itemName}
+        </Typography.Text>
         <div style={{ fontSize: '14px', color: '#ccc' }}>
           {(record.attributes || []).map((item, i) => (
             <Fragment key={item.attributeId}>
@@ -31,9 +33,14 @@ const GoodInfoComp = ({ record }) => {
 // sku单价/数量
 const SkuComp = ({ record }) => {
   return (
-    <Space direction="vertical" size={0}>
-      <div>{`￥${record.unitPrice}`}</div>
-      <div style={{ float: 'right', fontSize: '14px', color: '#ccc' }}>{`x${record.amount}`}</div>
+    <Space direction="vertical" size={0} style={{ width: 130 }}>
+      <Typography.Text
+        ellipsis={{ tooltip: `￥${record.unitPrice}` }}
+      >{`￥${record.unitPrice}`}</Typography.Text>
+      <Typography.Text
+        ellipsis={{ tooltip: `x${record.amount}` }}
+        style={{ float: 'right', fontSize: '14px', color: '#ccc' }}
+      >{`x${record.amount}`}</Typography.Text>
     </Space>
   );
 };

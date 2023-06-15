@@ -65,7 +65,7 @@ export const columns = ({ supplierName, handle, activeKey }) => [
   },
   {
     title: '商品ID',
-    dataIndex: 'id',
+    dataIndex: 'itemId',
     fieldProps: {
       placeholder: '请输入商品ID',
     },
@@ -243,11 +243,19 @@ export const expandColumns = ({ rowData, handle }) => [
     render: () => {
       return (
         <Space>
-          <div>
-            <b style={{ fontSize: '14px' }}>
+          <div style={{ width: 220 }}>
+            <Text
+              ellipsis={{ tooltip: `${rowData.consignee || '-'} ${rowData.phone || '-'} ` }}
+              style={{ fontSize: '14px' }}
+            >
               {rowData.consignee || '-'} {rowData.phone || '-'}
-            </b>
-            <div style={{ fontSize: '14px', color: '#ccc' }}>{rowData.address || '-'}</div>
+            </Text>
+            <Text
+              ellipsis={{ tooltip: rowData.address }}
+              style={{ fontSize: '14px', color: '#ccc' }}
+            >
+              {rowData.address || '-'}
+            </Text>
           </div>
         </Space>
       );
