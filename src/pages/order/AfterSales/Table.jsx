@@ -320,6 +320,7 @@ export default function SearchTable() {
   return (
     <Fragment>
       <BetaSchemaForm
+        className="after-search-form"
         initialValues={searchForm}
         labelAlign="right"
         labelWidth={70}
