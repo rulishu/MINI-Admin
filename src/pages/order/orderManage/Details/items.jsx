@@ -89,8 +89,8 @@ export const buyerItem = [
   },
   {
     title: '买家留言',
-    key: 'userRemark',
-    dataIndex: 'userRemark',
+    key: 'remark',
+    dataIndex: 'remark',
   },
 ];
 

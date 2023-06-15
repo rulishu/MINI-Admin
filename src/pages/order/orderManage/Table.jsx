@@ -1,7 +1,7 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Avatar, Space, Table } from 'antd';
+import { App, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
@@ -10,7 +10,7 @@ import './index.less';
 export default function SearchTable() {
   const dispatch = useDispatch();
   const {
-    orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, userList },
+    orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, dataSource },
   } = useSelector((state) => state);
   const { message } = App.useApp();
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
@@ -31,7 +31,7 @@ export default function SearchTable() {
   };
 
   // 操作
-  const handle = async (type, data) => {
+  const handle = async (type, data, e) => {
     updateFn({ type: type });
     if (type === 'view') {
       dispatch({ type: 'orderManage/selectById', payload: { id: data.id } });
@@ -48,6 +48,31 @@ export default function SearchTable() {
       document.body.removeChild(el);
       message.success('复制成功');
     }
+    if (type === 'edit') {
+      data.edit = true;
+      data.oldRemark = data.remark;
+      updateFn({ dataSource: [...dataSource] });
+    }
+    if (type === 'cancel') {
+      data.edit = false;
+      data.remark = data.oldRemark;
+      updateFn({ dataSource: [...dataSource] });
+    }
+    if (type === 'change') {
+      const { value: inputValue } = e.target;
+      data.remark = inputValue;
+    }
+    if (type === 'save') {
+      data.edit = false;
+      updateFn({ dataSource: [...dataSource] });
+      dispatch({
+        type: 'orderManage/updateInfo',
+        payload: {
+          remark: data.remark,
+          id: data.id,
+        },
+      });
+    }
   };
 
   // table参数
@@ -60,6 +85,7 @@ export default function SearchTable() {
     search: {
       labelWidth: 70,
       labelAlign: 'left',
+      span: 8,
       className: 'search_form',
     },
     cardProps: {
@@ -83,32 +109,20 @@ export default function SearchTable() {
       });
       if (code && code === 200) {
         setExpandedRowKeys((result.records || []).map((rowKey) => rowKey.id));
+        updateFn({ dataSource: result.records || [], total: result.total });
         return {
-          data: result.records || [],
           total: result.total,
           success: true,
         };
       }
     },
+    dataSource: dataSource,
     params: {
       [activeKey === '售后中' ? 'afterSaleStatus' : 'orderStatus']:
         activeKey === '售后中' ? 1 : activeKey,
     },
     columns: columns({
       handle,
-      userId: {
-        options: userList.map((item) => ({
-          label: (
-            <Space>
-              <Avatar src={item.headUrl} />
-              {item.label}-{item.mobile}
-            </Space>
-          ),
-          value: item.value,
-        })),
-        onFocus: () => handleSearch('user', { pageNum: 1, pageSize: 20 }),
-        onSearch: (value) => handleSearch('user', { pageNum: 1, pageSize: 20, keyWord: value }),
-      },
       supplierName: {
         options: suppliersList,
         onFocus: () => handleSearch('supplier', { pageNum: 1, pageSize: 20 }),
@@ -123,7 +137,7 @@ export default function SearchTable() {
       expandedRowRender: (record) => (
         <Table
           className="expanded_table_td"
-          columns={expandColumns({ rowData: record })}
+          columns={expandColumns({ rowData: record, handle: handle })}
           dataSource={record.items || []}
           rowKey="id"
           pagination={false}
@@ -142,6 +156,7 @@ export default function SearchTable() {
       },
     },
   };
+
   return (
     <div>
       <ProTable {...tableProps} />

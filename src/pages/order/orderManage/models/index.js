@@ -13,6 +13,15 @@ import {
 export default {
   namespace: 'orderManage',
   state: {
+    // 每页条数
+    pageSize: 10,
+    // 第几页
+    pageNum: 1,
+    // 总条数
+    total: 0,
+    searchForm: {},
+    // 数据源
+    dataSource: [],
     activeKey: 1,
     selectedRowKeys: [],
     selectedRows: [],
