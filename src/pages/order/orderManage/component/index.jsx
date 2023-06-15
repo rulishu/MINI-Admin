@@ -33,14 +33,11 @@ const GoodInfoComp = ({ record }) => {
 // sku单价/数量
 const SkuComp = ({ record }) => {
   return (
-    <Space direction="vertical" size={0} style={{ width: 130 }}>
-      <Typography.Text
-        ellipsis={{ tooltip: `￥${record.unitPrice}` }}
-      >{`￥${record.unitPrice}`}</Typography.Text>
-      <Typography.Text
-        ellipsis={{ tooltip: `x${record.amount}` }}
-        style={{ float: 'right', fontSize: '14px', color: '#ccc' }}
-      >{`x${record.amount}`}</Typography.Text>
+    <Space direction="vertical" size={0}>
+      <div style={{ maxWidth: 130 }}>{`￥${record.unitPrice}`}</div>
+      <div
+        style={{ maxWidth: 130, float: 'right', fontSize: '14px', color: '#ccc' }}
+      >{`x${record.amount}`}</div>
     </Space>
   );
 };
