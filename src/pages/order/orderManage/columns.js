@@ -232,12 +232,9 @@ export const expandColumns = ({ rowData, handle }) => [
     width: 100,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: () =>
-      rowData.afterSaleStatus === 0 ? (
-        '-'
-      ) : (
-        <AfterSaleStatusComp onClick={() => handle('goAfterSale', rowData)} record={rowData} />
-      ),
+    render: () => (
+      <AfterSaleStatusComp onClick={() => handle('goAfterSale', rowData)} record={rowData} />
+    ),
   },
   {
     dataIndex: 'receiveInfo',

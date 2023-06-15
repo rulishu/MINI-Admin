@@ -21,7 +21,7 @@ export default {
     total: 0,
     // 数据源
     dataSource: [],
-    activeKey: 1,
+    activeKey: 2,
     selectedRowKeys: [],
     selectedRows: [],
     /** view详情 push发货 copy复制订单号 */
