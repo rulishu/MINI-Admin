@@ -251,7 +251,7 @@ export default function SearchTable() {
       //   updateFn({ selectedRowKeys: selectedRowKeys, selectedRows: selectedRows }),
     },
     pagination: {
-      pageNum,
+      current: pageNum,
       pageSize,
       total,
       onChange: (page, pageSize) => {
@@ -296,11 +296,12 @@ export default function SearchTable() {
         labelWidth={70}
         layoutType="QueryFilter"
         onFinish={(values) => {
-          updateFn({ searchForm: values });
+          console.log('values: ', values);
+          updateFn({ searchForm: values, pageNum: 1 });
           dispatch({ type: 'aftersales/selectByPage' });
         }}
         onReset={() => {
-          updateFn({ searchForm: {} });
+          updateFn({ searchForm: {}, pageNum: 1 });
           dispatch({ type: 'aftersales/selectByPage' });
         }}
         columns={searchItem(dispatch, activeKey)}
