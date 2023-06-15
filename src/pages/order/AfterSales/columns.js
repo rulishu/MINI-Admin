@@ -19,7 +19,7 @@ export const searchItem = () => [
   },
   {
     title: '售后类型',
-    dataIndex: 'afterType',
+    dataIndex: 'afterServiceType',
     valueType: 'select',
     fieldProps: {
       placeholder: '请输入售后类型',
@@ -29,11 +29,11 @@ export const searchItem = () => [
           value: 1,
         },
         {
-          label: '已发货仅退款',
+          label: '已发货退货退款',
           value: 2,
         },
         {
-          label: '已发货退货退款',
+          label: '已发货仅退款',
           value: 3,
         },
       ],
