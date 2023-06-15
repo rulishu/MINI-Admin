@@ -270,8 +270,7 @@ export default function Tables() {
         options={false}
         search={{
           labelWidth: 70,
-          labelAlign: 'left',
-          className: 'search_form',
+          labelAlign: 'right',
         }}
         params={{
           showForm: showForm,

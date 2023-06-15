@@ -75,22 +75,22 @@ export const basicItem = [
   },
   {
     title: '订单备注',
-    key: 'remark',
+    key: 'backgroundMessage',
     editable: () => true,
-    dataIndex: 'remark',
+    dataIndex: 'backgroundMessage',
   },
 ];
 
 export const buyerItem = [
   {
     title: '用户昵称',
-    key: 'nickName',
-    dataIndex: 'nickName',
+    key: 'userName',
+    dataIndex: 'userName',
   },
   {
     title: '买家留言',
-    key: 'userRemark',
-    dataIndex: 'userRemark',
+    key: 'remark',
+    dataIndex: 'remark',
   },
 ];
 

@@ -1,31 +1,18 @@
-import { CopyOutlined } from '@ant-design/icons';
-import { Divider, Space } from 'antd';
+import { CheckOutlined, CloseOutlined, CopyOutlined, EditOutlined } from '@ant-design/icons';
+import { Divider, Input, Space, Typography } from 'antd';
 import { Fragment } from 'react';
 import { AfterSaleStatusComp, GoodInfoComp, OrderStatusComp, SkuComp } from './component';
+const { Text } = Typography;
 
 export const columns = ({ supplierName, handle }) => [
   {
-    title: '用户',
-    dataIndex: 'userQuery',
+    title: '用户ID',
+    dataIndex: 'userId',
     fieldProps: {
-      placeholder: '请输入用户昵称/用户编号/注册号码',
+      placeholder: '请输入用户ID/用户编号/注册号码',
     },
     hideInTable: true,
   },
-  // {
-  //   title: '用户',
-  //   dataIndex: 'userId',
-  //   valueType: 'select',
-  //   fieldProps: {
-  //     placeholder: '请选择用户',
-  //     options: userId.options,
-  //     onFocus: userId.onFocus,
-  //     onSearch: userId.onSearch,
-  //     filterOption: false,
-  //     showSearch: true,
-  //     allowClear: true,
-  //   },
-  // },
   {
     title: '订单编号',
     dataIndex: 'orderNumber',
@@ -51,6 +38,22 @@ export const columns = ({ supplierName, handle }) => [
         };
       },
     },
+  },
+  {
+    title: '用户昵称',
+    dataIndex: 'userName',
+    fieldProps: {
+      placeholder: '请输入用户昵称',
+    },
+    hideInTable: true,
+  },
+  {
+    title: '用户手机',
+    dataIndex: 'userMobile',
+    fieldProps: {
+      placeholder: '请输入用户手机',
+    },
+    hideInTable: true,
   },
   {
     title: '商品名称',
@@ -111,7 +114,7 @@ export const columns = ({ supplierName, handle }) => [
           </span>
           <span>下单时间：{row.createTime || '-'}</span>
           <span>
-            用户：{row.userName || '-'} ID：{row.userId || '-'}
+            【用户：{row.userName || '-'} ID：{row.userId || '-'}】
           </span>
         </Space>
       );
@@ -163,9 +166,9 @@ export const columns = ({ supplierName, handle }) => [
   },
   {
     title: '订单备注',
-    dataIndex: 'remark',
+    dataIndex: 'backgroundMessage',
     hideInSearch: true,
-    width: 150,
+    width: 180,
     key: 'address',
     onCell: () => ({
       colSpan: 0,
@@ -207,7 +210,7 @@ export const columns = ({ supplierName, handle }) => [
   },
 ];
 
-export const expandColumns = ({ rowData }) => [
+export const expandColumns = ({ rowData, handle }) => [
   {
     dataIndex: 'info',
     key: 'info',
@@ -229,7 +232,12 @@ export const expandColumns = ({ rowData }) => [
     width: 100,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: () => (rowData.afterSaleStatus === 0 ? '-' : <AfterSaleStatusComp record={rowData} />),
+    render: () =>
+      rowData.afterSaleStatus === 0 ? (
+        '-'
+      ) : (
+        <AfterSaleStatusComp onClick={() => handle('goAfterSale', rowData)} record={rowData} />
+      ),
   },
   {
     dataIndex: 'receiveInfo',
@@ -249,10 +257,37 @@ export const expandColumns = ({ rowData }) => [
     },
   },
   {
-    width: 150,
-    dataIndex: 'remark',
-    key: 'remark',
-    render: () => rowData.remark || '-',
+    width: 180,
+    dataIndex: 'backgroundMessage',
+    key: 'backgroundMessage',
+    render: () => {
+      return (
+        <div style={{ width: 150 }}>
+          {rowData.edit ? (
+            <Space direction="horizontal">
+              <Input
+                style={{ width: 120 }}
+                onChange={(value) => handle('change', rowData, value)}
+                value={rowData.backgroundMessage}
+                allowClear
+              />
+              <CheckOutlined style={{ color: '#1677ff' }} onClick={() => handle('save', rowData)} />
+              <CloseOutlined
+                style={{ color: '#1677ff' }}
+                onClick={() => handle('cancel', rowData)}
+              />
+            </Space>
+          ) : (
+            <span style={{ width: 150, display: 'flex' }}>
+              <Text ellipsis={{ tooltip: rowData?.backgroundMessage }}>
+                {rowData.backgroundMessage || '-'}
+              </Text>
+              <EditOutlined style={{ marginLeft: 8 }} onClick={() => handle('edit', rowData)} />
+            </span>
+          )}
+        </div>
+      );
+    },
   },
   {
     dataIndex: 'orderStatus',
