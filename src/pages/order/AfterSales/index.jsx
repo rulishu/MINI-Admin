@@ -7,15 +7,41 @@ const App = () => {
   const dispatch = useDispatch();
   const { activeKey, allAcount } = useSelector((state) => state.aftersales);
   const params = useLocation();
-  console.log('params', params);
+
   useEffect(() => {
     dispatch({
       type: 'aftersales/getAfterSaleAcount',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    console.log('params', params);
+    if (params?.state?.id) {
+      dispatch({
+        type: 'aftersales/update',
+        payload: {
+          searchForm: {
+            orderNumber: params?.state?.orderNumber,
+          },
+        },
+      });
+      dispatch({
+        type: 'aftersales/update',
+        payload: {
+          activeKey: '9',
+        },
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const items = [
+    {
+      key: '9',
+      label: '全部',
+      children: <Table key="9" />,
+    },
     {
       key: '1',
       label: allAcount?.audit >= 0 ? `待审核(${allAcount?.audit})` : '待审核',
