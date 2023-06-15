@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { AfterSaleStatusComp, GoodInfoComp, OrderStatusComp, SkuComp } from './component';
 const { Text } = Typography;
 
-export const columns = ({ supplierName, handle }) => [
+export const columns = ({ supplierName, handle, activeKey }) => [
   {
     title: '用户ID',
     dataIndex: 'userId',
@@ -193,8 +193,8 @@ export const columns = ({ supplierName, handle }) => [
     hideInSearch: true,
     width: 120,
     render: (_, record) => {
-      const { logisticsStatus, orderStatus } = record;
-      const canPush = logisticsStatus === 0 && (orderStatus === 2 || orderStatus === 3);
+      const { logisticsStatus } = record;
+      const canPush = logisticsStatus === 0 && activeKey === 2;
       return (
         <div>
           <a onClick={() => handle('view', record)}>详情</a>

@@ -10,15 +10,7 @@ import './index.less';
 export default function SearchTable() {
   const dispatch = useDispatch();
   const {
-    orderManage: {
-      activeKey,
-      selectedRows,
-      selectedRowKeys,
-      suppliersList,
-      dataSource,
-      pageNum,
-      pageSize,
-    },
+    orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, dataSource },
   } = useSelector((state) => state);
   const { message } = App.useApp();
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
@@ -113,9 +105,9 @@ export default function SearchTable() {
     },
     request: async (params = {}) => {
       // eslint-disable-next-line no-unused-vars
-      const { current: page, pageSize: pagesize, ...formData } = params;
+      const { current, pageSize, ...formData } = params;
       const { code, result } = await selectPage({
-        pageNum: pageNum,
+        pageNum: current,
         pageSize: pageSize,
         ...formData,
       });
@@ -134,6 +126,7 @@ export default function SearchTable() {
         activeKey === '售后中' ? 1 : activeKey,
     },
     columns: columns({
+      activeKey: activeKey,
       handle,
       supplierName: {
         options: suppliersList,
@@ -162,13 +155,10 @@ export default function SearchTable() {
     },
     rowClassName: () => 'ant-table-row_color',
     pagination: {
-      current: pageNum,
-      pageSize: pageSize,
       showSizeChanger: true,
-      onChange: (page, pageSize) => {
+      onChange: () => {
         const node = document.querySelector('.ant-layout-content');
         node.scrollTop = 0;
-        updateFn({ pageNum: page, pageSize: pageSize });
       },
     },
   };
