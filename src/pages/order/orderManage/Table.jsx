@@ -1,7 +1,7 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useNavigate, useSelector } from '@umijs/max';
-import { App, Table } from 'antd';
+import { App, Skeleton, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
@@ -14,6 +14,7 @@ export default function SearchTable() {
   } = useSelector((state) => state);
   const { message } = App.useApp();
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  const [tableLoading, setTableLoading] = useState(false);
   const ref = useRef();
   let navigate = useNavigate();
   const updateFn = (payload) => {
@@ -104,6 +105,7 @@ export default function SearchTable() {
         padding: 0,
       },
     },
+    onLoadingChange: (loading) => setTableLoading(loading),
     rowSelection: {
       selectedRows: selectedRows,
       selectedRowKeys: selectedRowKeys,
@@ -147,14 +149,16 @@ export default function SearchTable() {
     expandable: {
       showExpandColumn: false,
       expandedRowRender: (record) => (
-        <Table
-          className="expanded_table_td"
-          columns={expandColumns({ rowData: record, handle: handle })}
-          dataSource={record.items || []}
-          rowKey="id"
-          pagination={false}
-          rowClassName={() => 'valign-top'}
-        />
+        <Skeleton loading={tableLoading}>
+          <Table
+            className="expanded_table_td"
+            columns={expandColumns({ rowData: record, handle: handle })}
+            dataSource={record.items || []}
+            rowKey="id"
+            pagination={false}
+            rowClassName={() => 'valign-top'}
+          />
+        </Skeleton>
       ),
       expandRowByClick: true,
       expandIcon: () => null,
