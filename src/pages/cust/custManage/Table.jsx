@@ -23,9 +23,8 @@ export default function SearchTable() {
       options={false}
       search={{
         labelWidth: 80,
-        labelAlign: 'left',
+        labelAlign: 'right',
         span: 8,
-        className: 'search_form',
       }}
       request={async (params = {}) => {
         const { current, pageSize, ...formData } = params;

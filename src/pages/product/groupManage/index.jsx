@@ -92,7 +92,6 @@ const SearchTable = (props) => {
         }}
         search={{
           labelWidth: 'auto',
-          className: 'search_form',
         }}
         options={false}
         request={async (params = {}) => {

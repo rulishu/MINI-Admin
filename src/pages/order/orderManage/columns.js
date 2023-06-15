@@ -49,7 +49,7 @@ export const columns = ({ supplierName, handle }) => [
   },
   {
     title: '用户手机',
-    dataIndex: 'phone',
+    dataIndex: 'userMobile',
     fieldProps: {
       placeholder: '请输入用户手机',
     },
@@ -114,7 +114,7 @@ export const columns = ({ supplierName, handle }) => [
           </span>
           <span>下单时间：{row.createTime || '-'}</span>
           <span>
-            用户：{row.userName || '-'} ID：{row.userId || '-'}
+            【用户：{row.userName || '-'} ID：{row.userId || '-'}】
           </span>
         </Space>
       );
@@ -166,7 +166,7 @@ export const columns = ({ supplierName, handle }) => [
   },
   {
     title: '订单备注',
-    dataIndex: 'remark',
+    dataIndex: 'backgroundMessage',
     hideInSearch: true,
     width: 180,
     key: 'address',
@@ -253,8 +253,8 @@ export const expandColumns = ({ rowData, handle }) => [
   },
   {
     width: 180,
-    dataIndex: 'remark',
-    key: 'remark',
+    dataIndex: 'backgroundMessage',
+    key: 'backgroundMessage',
     render: () => {
       return (
         <div style={{ width: 180 }}>
@@ -263,7 +263,7 @@ export const expandColumns = ({ rowData, handle }) => [
               <Input
                 style={{ width: 120 }}
                 onChange={(value) => handle('change', rowData, value)}
-                value={rowData.remark}
+                value={rowData.backgroundMessage}
                 allowClear
               />
               <CheckOutlined style={{ color: '#1677ff' }} onClick={() => handle('save', rowData)} />
@@ -274,7 +274,9 @@ export const expandColumns = ({ rowData, handle }) => [
             </Space>
           ) : (
             <span style={{ width: 150, display: 'flex' }}>
-              <Text ellipsis={{ tooltip: rowData?.remark }}>{rowData.remark || '-'}</Text>
+              <Text ellipsis={{ tooltip: rowData?.backgroundMessage }}>
+                {rowData.backgroundMessage || '-'}
+              </Text>
               <EditOutlined style={{ marginLeft: 8 }} onClick={() => handle('edit', rowData)} />
             </span>
           )}

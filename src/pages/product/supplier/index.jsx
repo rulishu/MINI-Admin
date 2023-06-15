@@ -107,9 +107,7 @@ export default () => {
           defaultCollapsed: false,
         }}
         search={{
-          labelWidth: 90,
-          labelAlign: 'left',
-          className: 'search_form',
+          labelWidth: 'auto',
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;

@@ -50,17 +50,17 @@ export default function SearchTable() {
     }
     if (type === 'edit') {
       data.edit = true;
-      data.oldRemark = data.remark;
+      data.oldBackgroundMessage = data.backgroundMessage;
       updateFn({ dataSource: [...dataSource] });
     }
     if (type === 'cancel') {
       data.edit = false;
-      data.remark = data.oldRemark;
+      data.backgroundMessage = data.oldBackgroundMessage;
       updateFn({ dataSource: [...dataSource] });
     }
     if (type === 'change') {
       const { value: inputValue } = e.target;
-      data.remark = inputValue;
+      data.backgroundMessage = inputValue;
     }
     if (type === 'save') {
       data.edit = false;
@@ -68,7 +68,7 @@ export default function SearchTable() {
       dispatch({
         type: 'orderManage/updateInfo',
         payload: {
-          remark: data.remark,
+          backgroundMessage: data.backgroundMessage,
           id: data.id,
         },
       });
@@ -84,9 +84,8 @@ export default function SearchTable() {
     options: false,
     search: {
       labelWidth: 70,
-      labelAlign: 'left',
+      labelAlign: 'right',
       span: 8,
-      className: 'search_form',
     },
     cardProps: {
       size: 'small',

@@ -75,9 +75,9 @@ export const basicItem = [
   },
   {
     title: '订单备注',
-    key: 'remark',
+    key: 'backgroundMessage',
     editable: () => true,
-    dataIndex: 'remark',
+    dataIndex: 'backgroundMessage',
   },
 ];
 
