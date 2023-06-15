@@ -74,7 +74,8 @@ const SKUModal = (props) => {
       list.forEach((item) => {
         ['goodsCost', 'price', 'membershipPrice', 'referencePrice', 'stock', 'skuCode'].forEach(
           (i) => {
-            if (!item?.[i]) {
+            const val = item?.[i] === 0 ? '0' : item?.[i];
+            if (!val) {
               obj.message = `${dataEunm[i]}不能为空`;
             }
           },
