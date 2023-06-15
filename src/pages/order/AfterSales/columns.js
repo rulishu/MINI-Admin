@@ -136,7 +136,7 @@ export const columns = () => [
     title: '原因',
     dataIndex: 'reason',
     key: 'reason',
-    width: 120,
+    width: 200,
     onCell: () => ({
       colSpan: 0,
     }),
@@ -226,7 +226,8 @@ export const expandColumns = ({ handlerAction }) => [
     // title: '原因',
     dataIndex: 'reason',
     key: 'reason',
-    width: 120,
+    width: 200,
+    ellipsis: true,
     render: (_, record) => record?.orderObj?.reason || '-',
   },
   {
