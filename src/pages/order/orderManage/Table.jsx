@@ -98,6 +98,9 @@ export default function SearchTable() {
       labelWidth: 70,
       labelAlign: 'right',
       span: 8,
+      style: {
+        padding: '24px 0px',
+      },
     },
     cardProps: {
       size: 'small',
