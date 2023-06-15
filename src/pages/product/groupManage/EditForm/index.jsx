@@ -103,7 +103,7 @@ const EditForm = (props) => {
         enum: [1, 2],
         enumNames: ['是', '否'],
         disabled: '{{ formData.level === 3 }}',
-        defaultValue: 1,
+        defaultValue: 2,
       },
     },
   };

@@ -19,7 +19,7 @@ export const codeMessage = {
   504: '网关超时。',
 };
 
-const checkedCode = (code, msg) => {
+const checkedCode = (code, msg = '请求失败') => {
   if (code === 200) {
     //
   } else if (code === 400) {

@@ -85,7 +85,7 @@ export const columns = ({ supplierName, handle }) => [
   },
   {
     title: '物流单号',
-    dataIndex: 'ogisticsTrackingNumber',
+    dataIndex: 'logisticsTrackingNumber',
     fieldProps: {
       placeholder: '请输入物流单号',
     },
