@@ -34,18 +34,21 @@ export const basicItem = [
     key: 'orderNumber',
     editable: () => false,
     dataIndex: 'orderNumber',
+    ellipsis: true,
   },
   {
     title: '下单时间',
     key: 'createTime',
     editable: () => false,
     dataIndex: 'createTime',
+    ellipsis: true,
   },
   {
     title: '付款时间',
     key: 'payDate',
     editable: () => false,
     dataIndex: 'payDate',
+    ellipsis: true,
   },
   {
     title: '支付方式',
@@ -67,6 +70,7 @@ export const basicItem = [
     key: 'deliveryTime',
     editable: () => false,
     dataIndex: 'deliveryTime',
+    ellipsis: true,
   },
   {
     title: '完成时间',
@@ -74,12 +78,14 @@ export const basicItem = [
     editable: () => false,
     dataIndex: 'endTime',
     span: 2,
+    ellipsis: true,
   },
   {
     title: '订单备注',
     key: 'backgroundMessage',
     editable: () => true,
     dataIndex: 'backgroundMessage',
+    ellipsis: true,
   },
 ];
 
@@ -88,11 +94,13 @@ export const buyerItem = [
     title: '用户昵称',
     key: 'userName',
     dataIndex: 'userName',
+    ellipsis: true,
   },
   {
     title: '买家留言',
     key: 'remark',
     dataIndex: 'remark',
+    ellipsis: true,
   },
 ];
 
@@ -101,16 +109,19 @@ export const receiveItem = [
     title: '收件人',
     key: 'consignee',
     dataIndex: 'consignee',
+    ellipsis: true,
   },
   {
     title: '联系方式',
     key: 'phone',
     dataIndex: 'phone',
+    ellipsis: true,
   },
   {
     title: '收货地址',
     key: 'address',
     dataIndex: 'address',
+    ellipsis: true,
   },
 ];
 
@@ -119,16 +130,19 @@ export const productItem = ({ number = 0 }) => [
     title: '物流公司',
     key: 'logisticsCompany',
     dataIndex: 'logisticsCompany',
+    ellipsis: true,
   },
   {
     title: '发货时间',
     key: 'createTime',
     dataIndex: 'createTime',
+    ellipsis: true,
   },
   {
     title: '运单号',
     key: 'trackingNumber',
     dataIndex: 'trackingNumber',
+    ellipsis: true,
   },
   {
     title: `包裹内共${number}件商品`,
@@ -171,20 +185,20 @@ export const manageColumn = [
     title: '商品信息',
     dataIndex: 'mainGraph',
     key: 'mainGraph',
-    width: 200,
+    width: 250,
     render: (_, record) => <GoodInfoComp record={record} />,
   },
   {
     title: 'sku单价/数量',
     dataIndex: 'itemName',
-    width: 120,
+    width: 130,
     key: 'itemName',
     render: (_, record) => <SkuComp record={record} />,
   },
   {
     title: '售后状态',
     dataIndex: 'afterSaleStatus',
-    width: 90,
+    width: 100,
     key: 'afterSaleStatus',
     ellipsis: true,
     render: (_, record) => <AfterSaleStatusComp record={record} />,
@@ -193,7 +207,7 @@ export const manageColumn = [
     title: '发货状态',
     dataIndex: 'shipmentStatus',
     key: 'shipmentStatus',
-    width: 120,
+    width: 100,
     render: (_, record) => <ShipmentStatusComp record={record} />,
   },
   {

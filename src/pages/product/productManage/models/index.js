@@ -72,7 +72,7 @@ export default {
               arr[idx].valueList = arr[idx].valueList.concat([
                 {
                   id: index,
-                  value: item?.value,
+                  value: item?.value === 0 ? '0' : item?.value,
                   imageUrl: item?.imageUrl,
                 },
               ]);
@@ -85,7 +85,7 @@ export default {
               valueList: [
                 {
                   id: index,
-                  value: item?.value,
+                  value: item?.value === 0 ? '0' : item?.value,
                   imageUrl: item?.imageUrl,
                 },
               ],
@@ -110,7 +110,7 @@ export default {
                 console.log('name: ', name);
 
                 if (name?.attributeName) {
-                  obj[name.attributeName] = theAttr.value;
+                  obj[name.attributeName] = theAttr.value === 0 ? '0' : theAttr.value;
                   //     attributesObj[name] = { ...theAttr, attribute_name: name };
                   attributes.push({ ...theAttr, attribute_name: name?.attributeName });
                 } else {

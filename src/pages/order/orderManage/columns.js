@@ -1,10 +1,10 @@
 import { CheckOutlined, CloseOutlined, CopyOutlined, EditOutlined } from '@ant-design/icons';
-import { Divider, Input, Space, Typography } from 'antd';
+import { Divider, Input, Skeleton, Space, Typography } from 'antd';
 import { Fragment } from 'react';
 import { AfterSaleStatusComp, GoodInfoComp, OrderStatusComp, SkuComp } from './component';
 const { Text } = Typography;
 
-export const columns = ({ supplierName, handle, activeKey }) => [
+export const columns = ({ supplierName, handle, activeKey, tableLoading }) => [
   {
     title: '用户ID',
     dataIndex: 'userId',
@@ -65,7 +65,7 @@ export const columns = ({ supplierName, handle, activeKey }) => [
   },
   {
     title: '商品ID',
-    dataIndex: 'id',
+    dataIndex: 'itemId',
     fieldProps: {
       placeholder: '请输入商品ID',
     },
@@ -104,19 +104,21 @@ export const columns = ({ supplierName, handle, activeKey }) => [
     }),
     render: (_, row) => {
       return (
-        <Space size="large">
-          <span>
-            订单编号：<span>{row.orderNumber}</span>{' '}
-            <CopyOutlined
-              onClick={() => handle('copy', { orderNumber: row.orderNumber })}
-              style={{ color: '#1677ff' }}
-            />
-          </span>
-          <span>下单时间：{row.createTime || '-'}</span>
-          <span>
-            【用户：{row.userName || '-'} ID：{row.userId || '-'}】
-          </span>
-        </Space>
+        <Skeleton active loading={tableLoading}>
+          <Space size="large">
+            <span>
+              订单编号：<span>{row.orderNumber}</span>{' '}
+              <CopyOutlined
+                onClick={() => handle('copy', { orderNumber: row.orderNumber })}
+                style={{ color: '#1677ff' }}
+              />
+            </span>
+            <span>下单时间：{row.createTime || '-'}</span>
+            <span>
+              【用户：{row.userName || '-'} ID：{row.userId || '-'}】
+            </span>
+          </Space>
+        </Skeleton>
       );
     },
   },
@@ -243,11 +245,19 @@ export const expandColumns = ({ rowData, handle }) => [
     render: () => {
       return (
         <Space>
-          <div>
-            <b style={{ fontSize: '14px' }}>
+          <div style={{ width: 220 }}>
+            <Text
+              ellipsis={{ tooltip: `${rowData.consignee || '-'} ${rowData.phone || '-'} ` }}
+              style={{ fontSize: '14px' }}
+            >
               {rowData.consignee || '-'} {rowData.phone || '-'}
-            </b>
-            <div style={{ fontSize: '14px', color: '#ccc' }}>{rowData.address || '-'}</div>
+            </Text>
+            <Text
+              ellipsis={{ tooltip: rowData.address }}
+              style={{ fontSize: '14px', color: '#ccc' }}
+            >
+              {rowData.address || '-'}
+            </Text>
           </div>
         </Space>
       );

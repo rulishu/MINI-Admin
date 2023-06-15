@@ -125,7 +125,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       render: (text, record, index) => (
         <Input
           status={text ? '' : text === 0 ? '' : 'error'}
-          value={text}
+          value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'goodsCost', e.target.value)}
         />
@@ -138,7 +138,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       render: (text, record, index) => (
         <Input
           status={text ? '' : text === 0 ? '' : 'error'}
-          value={text}
+          value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'price', e.target.value)}
         />
@@ -152,7 +152,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         <Input
           status={text ? '' : text === 0 ? '' : 'error'}
           disabled
-          value={text}
+          value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           // onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
         />
@@ -165,7 +165,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       render: (text, record, index) => (
         <Input
           status={text ? '' : text === 0 ? '' : 'error'}
-          value={text}
+          value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'referencePrice', e.target.value)}
         />
@@ -178,7 +178,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       render: (text, record, index) => (
         <Input
           status={text ? '' : text === 0 ? '' : 'error'}
-          value={text}
+          value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'stock', e.target.value)}
         />
@@ -191,7 +191,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       render: (text, record, index) => (
         <Input
           status={text ? '' : text === 0 ? '' : 'error'}
-          value={text}
+          value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'skuCode', e.target.value)}
         />
@@ -199,7 +199,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     },
   ];
 
-  const handleEntryDataChange = (index, dataIndex, value) => {
+  const handleEntryDataChange = (index, dataIndex, value = '') => {
     const newData = [...dataSource];
     newData[index][dataIndex] = value;
     if (dataIndex === 'price') {

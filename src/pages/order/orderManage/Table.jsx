@@ -135,6 +135,7 @@ export default function SearchTable() {
         activeKey === '售后中' ? 1 : activeKey,
     },
     columns: columns({
+      tableLoading: tableLoading,
       activeKey: activeKey,
       handle,
       supplierName: {
@@ -149,7 +150,7 @@ export default function SearchTable() {
     expandable: {
       showExpandColumn: false,
       expandedRowRender: (record) => (
-        <Skeleton loading={tableLoading}>
+        <Skeleton active loading={tableLoading}>
           <Table
             className="expanded_table_td"
             columns={expandColumns({ rowData: record, handle: handle })}
