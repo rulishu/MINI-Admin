@@ -16,7 +16,7 @@ export const orderStatusEnum = {
     status: 'default',
   },
   2: {
-    text: '备货中',
+    text: '待发货',
     status: 'warning',
   },
   3: {

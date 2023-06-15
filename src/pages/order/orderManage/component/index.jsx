@@ -40,9 +40,7 @@ const SkuComp = ({ record }) => {
 
 // 售后状态
 const AfterSaleStatusComp = ({ record, onClick }) => {
-  const obj =
-    (record.afterSaleStatus || record.afterSaleStatus === 0) &&
-    afterSaleStatusEnum[record.afterSaleStatus];
+  const obj = record.afterSaleStatus && afterSaleStatusEnum[record.afterSaleStatus];
   return obj ? (
     <Tag color={obj.status} onClick={() => onClick?.()}>
       {obj.text}
