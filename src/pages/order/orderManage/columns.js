@@ -61,6 +61,14 @@ export const columns = ({ supplierName, handle }) => [
     hideInTable: true,
   },
   {
+    title: '商品ID',
+    dataIndex: 'id',
+    fieldProps: {
+      placeholder: '请输入商品ID',
+    },
+    hideInTable: true,
+  },
+  {
     title: '供应商',
     dataIndex: 'supplierId',
     valueType: 'select',
