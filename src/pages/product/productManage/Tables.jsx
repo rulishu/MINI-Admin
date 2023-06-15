@@ -269,7 +269,7 @@ export default function Tables() {
         actionRef={ref}
         options={false}
         search={{
-          labelWidth: 'auto',
+          labelWidth: 70,
           labelAlign: 'left',
           className: 'search_form',
         }}

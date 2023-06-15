@@ -107,7 +107,8 @@ export default () => {
           defaultCollapsed: false,
         }}
         search={{
-          labelWidth: 'auto',
+          labelWidth: 90,
+          labelAlign: 'left',
           className: 'search_form',
         }}
         request={async (params = {}) => {

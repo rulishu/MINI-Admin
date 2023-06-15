@@ -280,7 +280,9 @@ export default function SearchTable() {
   return (
     <Fragment>
       <BetaSchemaForm
-        labelWidth="auto"
+        className="search_form"
+        labelAlign="left"
+        labelWidth={70}
         layoutType="QueryFilter"
         onFinish={(values) => {
           updateFn({ searchForm: values });

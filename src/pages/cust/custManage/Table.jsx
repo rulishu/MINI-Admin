@@ -23,7 +23,7 @@ export default function SearchTable() {
       options={false}
       search={{
         labelWidth: 80,
-        labelAlign: 'right',
+        labelAlign: 'left',
         span: 8,
         className: 'search_form',
       }}

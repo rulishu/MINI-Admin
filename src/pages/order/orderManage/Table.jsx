@@ -59,8 +59,7 @@ export default function SearchTable() {
     options: false,
     search: {
       labelWidth: 70,
-      labelAlign: 'right',
-      span: 8,
+      labelAlign: 'left',
       className: 'search_form',
     },
     cardProps: {
