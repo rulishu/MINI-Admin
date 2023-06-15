@@ -314,7 +314,13 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             <Col span={1.5}>
               <Button
                 onClick={() => {
-                  setDataSource(dataSource.map((item) => ({ ...item, ...bulk })));
+                  let obj = {};
+                  Object.keys(bulk).forEach((item) => {
+                    if (bulk?.[item]) {
+                      obj[item] = bulk?.[item];
+                    }
+                  });
+                  setDataSource(dataSource.map((item) => ({ ...item, ...obj })));
                 }}
               >
                 设置
