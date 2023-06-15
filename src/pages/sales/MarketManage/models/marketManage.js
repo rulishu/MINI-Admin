@@ -149,10 +149,10 @@ const group = {
           obj.cascaderList = JSON.parse(result?.itemArray);
         }
         //
-        if (result?.relationDtoPage) {
-          if (result?.relationDtoPage?.records && result?.relationDtoPage?.records.length > 0) {
-            obj.tableData = result?.relationDtoPage?.records;
-            obj.total = result?.relationDtoPage?.total;
+        if (result?.relationDtoIPage) {
+          if (result?.relationDtoIPage?.records && result?.relationDtoIPage?.records.length > 0) {
+            obj.tableData = result?.relationDtoIPage?.records;
+            obj.total = result?.relationDtoIPage?.total;
           }
         }
         //

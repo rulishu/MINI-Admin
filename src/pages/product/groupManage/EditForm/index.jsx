@@ -55,7 +55,6 @@ const EditForm = (props) => {
     return arr;
   };
 
-  console.log('handler(categoryTree): ', handler(categoryTree));
   const options = () => {
     if (categoryTree.length > 0) {
       return [...handler(categoryTree)];
@@ -102,7 +101,8 @@ const EditForm = (props) => {
         widget: 'radio',
         enum: [1, 2],
         enumNames: ['是', '否'],
-        disabled: '{{ formData.level === 3 }}',
+        disabled:
+          drawerType === 'edit' && !!drawerParams?.count ? true : '{{ formData.level === 3 }}',
         defaultValue: 2,
       },
     },

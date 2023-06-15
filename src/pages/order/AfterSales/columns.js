@@ -44,9 +44,9 @@ export const searchItem = () => [
   },
   {
     title: '商品名称',
-    dataIndex: 'itemName',
+    dataIndex: 'itemKeyword',
     fieldProps: {
-      placeholder: '请输入商品名称',
+      placeholder: '请输入商品ID/商品名称',
     },
   },
   {
@@ -227,7 +227,7 @@ export const expandColumns = ({ handlerAction }) => [
     dataIndex: 'reason',
     key: 'reason',
     width: 120,
-    render: (_, record) => record?.reason || '-',
+    render: (_, record) => record?.orderObj?.reason || '-',
   },
   {
     // title: '操作',
