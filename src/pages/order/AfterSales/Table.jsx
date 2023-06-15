@@ -19,6 +19,7 @@ export default function SearchTable() {
       total,
       // 数据
       dataSource,
+      searchForm,
     },
     loading,
   } = useSelector((state) => state);
@@ -290,6 +291,7 @@ export default function SearchTable() {
   return (
     <Fragment>
       <BetaSchemaForm
+        initialValues={searchForm}
         labelAlign="right"
         labelWidth={70}
         layoutType="QueryFilter"

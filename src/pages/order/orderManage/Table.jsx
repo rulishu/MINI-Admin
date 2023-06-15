@@ -3,7 +3,6 @@ import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useNavigate, useSelector } from '@umijs/max';
 import { App, Table } from 'antd';
 import { useRef, useState } from 'react';
-import Details from './Details/Details';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
 import './index.less';
@@ -177,14 +176,6 @@ export default function SearchTable() {
     <div>
       <ProTable {...tableProps} />
       <Push
-        reload={() => {
-          ref?.current?.reload?.();
-          dispatch({
-            type: 'orderManage/getOrderCount',
-          });
-        }}
-      />
-      <Details
         reload={() => {
           ref?.current?.reload?.();
           dispatch({

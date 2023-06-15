@@ -12,30 +12,9 @@ const TreeList = () => {
   const { marketTree, activeMarketId } = marketManage;
   const [modalVisit, setModalVisit] = useState(false);
   const [modalData, setModalData] = useState({});
-
-  const markets = (arr) => {
-    return arr.map((item) => {
-      const obj = {
-        title: item?.marketingName,
-        key: item?.id,
-        parentId: item?.parentId,
-        sort: item?.sort,
-        // disabled: true,
-      };
-      if (item?.child && item.child.length > 0) {
-        obj.children = item.child.map((i) => ({
-          title: i?.marketingName,
-          key: i?.id,
-          parentId: i?.parentId,
-          sort: i?.sort,
-          isLeaf: true,
-        }));
-      }
-      return obj;
-    });
-  };
-
   const [gData, setGData] = useState(markets(marketTree));
+  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  const [expandedKeys, setExpandedKeys] = useState([]);
 
   useEffect(() => {
     if (marketTree && marketTree.length > 0) {
@@ -43,6 +22,13 @@ const TreeList = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [marketTree]);
+
+  useEffect(() => {
+    if (gData && gData.length > 0) {
+      setExpandedKeys(gData.map((item) => item?.key));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gData.length]);
 
   const [form] = Form.useForm();
 
@@ -99,6 +85,14 @@ const TreeList = () => {
     console.log(info);
     // expandedKeys 需要受控时设置
     // setExpandedKeys(info.expandedKeys)
+  };
+
+  const onExpand = (expandedKeysValue) => {
+    console.log('onExpand', expandedKeysValue);
+    // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+    // or, you can remove all expanded children keys.
+    setExpandedKeys(expandedKeysValue);
+    setAutoExpandParent(false);
   };
 
   const onDrop = (info) => {
@@ -200,6 +194,9 @@ const TreeList = () => {
         onDragEnter={onDragEnter}
         onDrop={onDrop}
         treeData={gData}
+        expandedKeys={expandedKeys}
+        onExpand={onExpand}
+        autoExpandParent={autoExpandParent}
         // filterTreeNode={(node) => node?.key === activeMarketId}
         selectedKeys={[activeMarketId]}
         onSelect={(selectedKeys, e) => {
@@ -301,3 +298,25 @@ const TreeList = () => {
   );
 };
 export default TreeList;
+
+const markets = (arr) => {
+  return arr.map((item) => {
+    const obj = {
+      title: item?.marketingName,
+      key: item?.id,
+      parentId: item?.parentId,
+      sort: item?.sort,
+      // disabled: true,
+    };
+    if (item?.child && item.child.length > 0) {
+      obj.children = item.child.map((i) => ({
+        title: i?.marketingName,
+        key: i?.id,
+        parentId: i?.parentId,
+        sort: i?.sort,
+        isLeaf: true,
+      }));
+    }
+    return obj;
+  });
+};
