@@ -232,7 +232,12 @@ export const expandColumns = ({ rowData, handle }) => [
     width: 100,
     dataIndex: 'afterSaleStatus',
     key: 'afterSaleStatus',
-    render: () => (rowData.afterSaleStatus === 0 ? '-' : <AfterSaleStatusComp record={rowData} />),
+    render: () =>
+      rowData.afterSaleStatus === 0 ? (
+        '-'
+      ) : (
+        <AfterSaleStatusComp onClick={() => handle('goAfterSale', rowData)} record={rowData} />
+      ),
   },
   {
     dataIndex: 'receiveInfo',
@@ -257,7 +262,7 @@ export const expandColumns = ({ rowData, handle }) => [
     key: 'backgroundMessage',
     render: () => {
       return (
-        <div style={{ width: 180 }}>
+        <div style={{ width: 150 }}>
           {rowData.edit ? (
             <Space direction="horizontal">
               <Input

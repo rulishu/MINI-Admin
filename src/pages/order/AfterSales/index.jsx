@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from '@umijs/max';
+import { useDispatch, useLocation, useSelector } from '@umijs/max';
 import { Card, Tabs } from 'antd';
 import { useEffect } from 'react';
 import Table from './Table';
@@ -6,6 +6,8 @@ import Table from './Table';
 const App = () => {
   const dispatch = useDispatch();
   const { activeKey, allAcount } = useSelector((state) => state.aftersales);
+  const params = useLocation();
+  console.log('params', params);
   useEffect(() => {
     dispatch({
       type: 'aftersales/getAfterSaleAcount',

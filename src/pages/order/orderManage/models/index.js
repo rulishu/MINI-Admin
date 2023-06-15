@@ -19,7 +19,6 @@ export default {
     pageNum: 1,
     // 总条数
     total: 0,
-    searchForm: {},
     // 数据源
     dataSource: [],
     activeKey: 1,

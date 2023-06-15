@@ -39,11 +39,17 @@ const SkuComp = ({ record }) => {
 };
 
 // 售后状态
-const AfterSaleStatusComp = ({ record }) => {
+const AfterSaleStatusComp = ({ record, onClick }) => {
   const obj =
     (record.afterSaleStatus || record.afterSaleStatus === 0) &&
     afterSaleStatusEnum[record.afterSaleStatus];
-  return obj ? <Tag color={obj.status}>{obj.text}</Tag> : '-';
+  return obj ? (
+    <Tag color={obj.status} onClick={() => onClick?.()}>
+      {obj.text}
+    </Tag>
+  ) : (
+    '-'
+  );
 };
 
 // 订单状态

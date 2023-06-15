@@ -1,6 +1,6 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useDispatch, useSelector } from '@umijs/max';
+import { useDispatch, useNavigate, useSelector } from '@umijs/max';
 import { App, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Push from './Details/Push';
@@ -10,11 +10,20 @@ import './index.less';
 export default function SearchTable() {
   const dispatch = useDispatch();
   const {
-    orderManage: { activeKey, selectedRows, selectedRowKeys, suppliersList, dataSource },
+    orderManage: {
+      activeKey,
+      selectedRows,
+      selectedRowKeys,
+      suppliersList,
+      dataSource,
+      pageNum,
+      pageSize,
+    },
   } = useSelector((state) => state);
   const { message } = App.useApp();
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const ref = useRef();
+  let navigate = useNavigate();
   const updateFn = (payload) => {
     dispatch({
       type: 'orderManage/update',
@@ -73,6 +82,9 @@ export default function SearchTable() {
         },
       });
     }
+    if (type === 'goAfterSale') {
+      navigate('/order/afterSales', { state: { ...data } });
+    }
   };
 
   // table参数
@@ -100,10 +112,11 @@ export default function SearchTable() {
         updateFn({ selectedRowKeys: selectedRowKeys, selectedRows: selectedRows }),
     },
     request: async (params = {}) => {
-      const { current, pageSize, ...formData } = params;
+      // eslint-disable-next-line no-unused-vars
+      const { current: page, pageSize: pagesize, ...formData } = params;
       const { code, result } = await selectPage({
-        pageNum: current,
-        pageSize,
+        pageNum: pageNum,
+        pageSize: pageSize,
         ...formData,
       });
       if (code && code === 200) {
@@ -149,13 +162,16 @@ export default function SearchTable() {
     },
     rowClassName: () => 'ant-table-row_color',
     pagination: {
-      onChange: () => {
+      current: pageNum,
+      showSizeChanger: true,
+      pageSize: pageSize,
+      onChange: (page, pageSize) => {
         const node = document.querySelector('.ant-layout-content');
         node.scrollTop = 0;
+        updateFn({ pageNum: page, pageSize: pageSize });
       },
     },
   };
-
   return (
     <div>
       <ProTable {...tableProps} />
