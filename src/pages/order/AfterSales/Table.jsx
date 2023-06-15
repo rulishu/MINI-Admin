@@ -1,12 +1,19 @@
-import { BetaSchemaForm, ModalForm, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  BetaSchemaForm,
+  ModalForm,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Button, Table } from 'antd';
+import { App, Button, Form, Table } from 'antd';
 import { Fragment, useEffect } from 'react';
 import { columns, expandColumns, searchItem } from './columns';
 import { afterSaleEnums } from './enum';
 import './index.less';
 
 export default function SearchTable() {
+  const [form] = Form.useForm();
+
   const { modal } = App.useApp();
   const dispatch = useDispatch();
   const {
@@ -70,7 +77,7 @@ export default function SearchTable() {
 
   const handlerAction = (_, record) => {
     if (activeKey === '1') {
-      if (record?.orderObj?.afterServiceType === 1 || record?.orderObj?.afterServiceType === 2) {
+      if (record?.orderObj?.afterServiceType === 1 || record?.orderObj?.afterServiceType === 3) {
         return (
           <>
             <Button
@@ -131,20 +138,26 @@ export default function SearchTable() {
           </>
         );
       }
-      if (record?.orderObj?.afterServiceType === 3) {
+      if (record?.orderObj?.afterServiceType === 2) {
         return (
           <>
             <ModalForm
               title="同意退货"
+              form={form}
+              layout="horizontal"
+              labelCol={{ span: 4 }}
+              wrapperCol={{ span: 14 }}
               trigger={<Button type="link">同意退货</Button>}
               autoFocusFirstInput
               modalProps={{
                 destroyOnClose: true,
                 onCancel: () => console.log('run'),
               }}
+              initialValues={{
+                afterServiceType: afterSaleEnums?.[record?.orderObj?.afterServiceType],
+              }}
               submitTimeout={2000}
               onFinish={async (values) => {
-                console.log(values);
                 dispatch({
                   type: 'aftersales/updateOrderGoodsStatus',
                   payload: {
@@ -156,8 +169,24 @@ export default function SearchTable() {
                 return true;
               }}
             >
-              <p>售后类型： {record?.orderObj?.afterServiceType}</p>
-              <ProFormTextArea name="returnAddress" label="退货地址" placeholder="请输入退货地址" />
+              <ProFormText
+                name="afterServiceType"
+                label="售后类型"
+                fieldProps={{
+                  disabled: true,
+                  bordered: false,
+                }}
+              />
+              <ProFormTextArea
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+                name="returnAddress"
+                label="退货地址"
+                placeholder="请输入退货地址"
+              />
             </ModalForm>
             <Button
               type="link"
@@ -187,7 +216,7 @@ export default function SearchTable() {
       }
     }
 
-    if (activeKey === '4' && record?.orderObj?.afterServiceType === 3) {
+    if (activeKey === '4' && record?.orderObj?.afterServiceType === 2) {
       return (
         <>
           <Button

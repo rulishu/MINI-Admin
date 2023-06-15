@@ -56,7 +56,6 @@ export default {
         (state) => state.aftersales,
       );
 
-      const { afterType, ...others } = searchForm;
       let status, additionalStatus;
       if (activeKey === '1') {
         status = -1;
@@ -79,30 +78,30 @@ export default {
         status = 4;
       }
 
-      let orderStatus; // 订单状态
-      let afterServiceType; //售后类型 1.退款 2退货退款
+      // let orderStatus; // 订单状态
+      // let afterServiceType; //售后类型 1.退款 2退货退款
 
-      if (afterType === 1) {
-        orderStatus = 2;
-        afterServiceType = 1;
-      }
-      if (afterType === 2) {
-        orderStatus = 3;
-        afterServiceType = 1;
-      }
-      if (afterType === 3) {
-        orderStatus = 3;
-        afterServiceType = 2;
-      }
+      // if (afterType === 1) {
+      //   orderStatus = 2;
+      //   afterServiceType = 1;
+      // }
+      // if (afterType === 2) {
+      //   orderStatus = 3;
+      //   afterServiceType = 1;
+      // }
+      // if (afterType === 3) {
+      //   orderStatus = 3;
+      //   afterServiceType = 2;
+      // }
 
       const params = {
         pageSize,
         pageNum,
-        ...others,
+        ...searchForm,
         status,
         additionalStatus,
-        orderStatus,
-        afterServiceType,
+        // orderStatus,
+        // afterServiceType,
       };
       const { code, result } = yield call(selectPage, params);
       if (code && code === 200) {
