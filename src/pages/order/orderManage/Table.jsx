@@ -41,6 +41,10 @@ export default function SearchTable() {
     }
     // 发货
     if (type === 'push') {
+      if (data.afterSaleStatus === 1) {
+        message.warning('请先处理售后');
+        return;
+      }
       dispatch({ type: 'orderManage/getPushItems', payload: { orderId: data.id } });
     }
     // 复制
