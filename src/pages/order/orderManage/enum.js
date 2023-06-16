@@ -57,6 +57,10 @@ export const afterSaleStatusEnum = {
     text: '已完成',
     status: 'success',
   },
+  3: {
+    text: '已关闭',
+    status: 'error',
+  },
 };
 
 export const payEnum = {

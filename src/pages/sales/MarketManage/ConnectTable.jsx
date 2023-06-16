@@ -96,33 +96,34 @@ const ConnectTable = ({ proTableRef }) => {
       key: '-_-!',
       width: 80,
       fixed: 'right',
-      render: (_, record) => (
-        <a
-          onClick={() => {
-            modal.warning({
-              autoFocusButton: null,
-              closable: true,
-              title: '确认删除',
-              content: '确定要删除这条商品吗？',
-              onOk: () => {
-                dispatch({
-                  type: 'marketManage/deleteGoods',
-                  payload: {
-                    id: record?.id,
-                    callback: (type) => {
-                      if (type) {
-                        proTableRef?.current?.reload();
-                      }
+      render: (_, record) =>
+        record?.type === 1 && (
+          <a
+            onClick={() => {
+              modal.warning({
+                autoFocusButton: null,
+                closable: true,
+                title: '确认删除',
+                content: '确定要删除这条商品吗？',
+                onOk: () => {
+                  dispatch({
+                    type: 'marketManage/deleteGoods',
+                    payload: {
+                      id: record?.id,
+                      callback: (type) => {
+                        if (type) {
+                          proTableRef?.current?.reload();
+                        }
+                      },
                     },
-                  },
-                });
-              },
-            });
-          }}
-        >
-          删除
-        </a>
-      ),
+                  });
+                },
+              });
+            }}
+          >
+            删除
+          </a>
+        ),
     },
   ];
 
