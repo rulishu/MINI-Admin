@@ -133,7 +133,7 @@ const ConnectTable = ({ proTableRef }) => {
         className="conntct-goods"
         actionRef={proTableRef}
         dataSource={tableData}
-        rowKey="itemId"
+        rowKey="id"
         manualRequest={true}
         params={{
           id: activeMarketId,
