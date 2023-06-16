@@ -100,3 +100,10 @@ export const insertAttribute = async (body) => {
     data: body,
   });
 };
+
+export const checkSKUCode = async (body) => {
+  return request(`/jcgl-mall/admin/item/info/check/skuList`, {
+    method: 'POST',
+    data: body,
+  });
+};

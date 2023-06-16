@@ -6,14 +6,14 @@ import {
 } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button, Form, Table } from 'antd';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { columns, expandColumns, searchItem } from './columns';
 import { afterSaleEnums } from './enum';
 import './index.less';
 
 export default function SearchTable() {
   const [form] = Form.useForm();
-
+  const formRef = useRef();
   const { modal } = App.useApp();
   const dispatch = useDispatch();
   const {
@@ -31,6 +31,14 @@ export default function SearchTable() {
     loading,
   } = useSelector((state) => state);
 
+  useEffect(() => {
+    console.log('formData', formRef?.current?.getFieldsValue());
+    formRef?.current?.setFieldsValue({
+      ...searchForm,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchForm]);
+
   const updateFn = (payload) => {
     dispatch({
       type: 'aftersales/update',
@@ -38,12 +46,12 @@ export default function SearchTable() {
     });
   };
 
-  useEffect(() => {
-    dispatch({
-      type: 'aftersales/selectByPage',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'aftersales/selectByPage',
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const handle = async (type, data) => {
     updateFn({ type: type });
@@ -320,8 +328,9 @@ export default function SearchTable() {
   return (
     <Fragment>
       <BetaSchemaForm
+        formRef={formRef}
         className="after-search-form"
-        initialValues={searchForm}
+        // initialValues={searchForm}
         labelAlign="right"
         labelWidth={70}
         layoutType="QueryFilter"
