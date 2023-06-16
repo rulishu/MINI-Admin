@@ -76,22 +76,25 @@ const App = () => {
     },
     {
       key: '5',
-      label: `已拒绝售后`,
+      label: allAcount?.refuse >= 0 ? `已拒绝售后${allAcount?.refuse}` : `已拒绝售后`,
       children: <Table key="5" />,
     },
     {
       key: '6',
-      label: `退货后平台拒绝`,
+      label:
+        allAcount?.returnRefuse >= 0
+          ? `退货后平台拒绝${allAcount?.returnRefuse}`
+          : `退货后平台拒绝`,
       children: <Table key="6" />,
     },
     {
       key: '7',
-      label: `已取消`,
+      label: allAcount?.cancel >= 0 ? `已取消${allAcount?.cancel}` : `已取消`,
       children: <Table key="7" />,
     },
     {
       key: '8',
-      label: `已退款`,
+      label: allAcount?.refund >= 0 ? `已退款${allAcount?.refund}` : `已退款`,
       children: <Table key="8" />,
     },
   ];

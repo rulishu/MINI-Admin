@@ -69,6 +69,7 @@ export default {
         additionalStatus = 2;
       } else if (activeKey === '5') {
         status = 2;
+        additionalStatus = 1;
       } else if (activeKey === '6') {
         status = 2;
         additionalStatus = 2;
