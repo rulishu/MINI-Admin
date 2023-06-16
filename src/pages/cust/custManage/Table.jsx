@@ -26,7 +26,7 @@ export default function SearchTable() {
         labelAlign: 'right',
         span: 8,
         style: {
-          padding: '24px 0px',
+          padding: '12px 12px 12px 0px',
         },
       }}
       request={async (params = {}) => {

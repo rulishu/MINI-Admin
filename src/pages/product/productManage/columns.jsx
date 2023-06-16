@@ -133,6 +133,7 @@ export const columns = ({ handleEdit, options, categoryList, suppliersEnum }) =>
     dataIndex: 'openTime',
     search: false,
     width: 80,
+    render: (_, record) => record?.onShelf !== 0 && record?.openTime,
   },
   {
     title: '操作',

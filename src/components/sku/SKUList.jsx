@@ -1,4 +1,4 @@
-import { Button, Card, Col, Input, Row, Space, Table, Tooltip } from 'antd';
+import { Button, Card, Col, Input, InputNumber, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
@@ -18,6 +18,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             membershipPrice: '0',
             skuCode: '0',
             stock: '0',
+            attrId: index,
           });
           return;
         }
@@ -123,11 +124,15 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       dataIndex: 'goodsCost',
       width: 130,
       render: (text, record, index) => (
-        <Input
+        <InputNumber
+          style={{ width: '100%' }}
+          stringMode
+          controls={false}
+          precision={2}
+          min={0}
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
-          style={{ width: '100%' }}
-          onChange={(e) => handleEntryDataChange(index, 'goodsCost', e.target.value)}
+          onChange={(value) => handleEntryDataChange(index, 'goodsCost', value)}
         />
       ),
     },
@@ -136,11 +141,15 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       dataIndex: 'price',
       width: 130,
       render: (text, record, index) => (
-        <Input
+        <InputNumber
+          style={{ width: '100%' }}
+          stringMode
+          controls={false}
+          precision={2}
+          min={0}
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
-          style={{ width: '100%' }}
-          onChange={(e) => handleEntryDataChange(index, 'price', e.target.value)}
+          onChange={(value) => handleEntryDataChange(index, 'price', value)}
         />
       ),
     },
@@ -149,12 +158,15 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       dataIndex: 'membershipPrice',
       width: 130,
       render: (text) => (
-        <Input
+        <InputNumber
+          style={{ width: '100%' }}
+          stringMode
+          controls={false}
+          precision={2}
+          min={0}
           status={text ? '' : text === 0 ? '' : 'error'}
           disabled
           value={text === 0 ? '0' : text}
-          style={{ width: '100%' }}
-          // onChange={(e) => handleEntryDataChange(index, 'membershipPrice', e.target.value)}
         />
       ),
     },
@@ -163,11 +175,15 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       dataIndex: 'referencePrice',
       width: 130,
       render: (text, record, index) => (
-        <Input
+        <InputNumber
+          style={{ width: '100%' }}
+          stringMode
+          controls={false}
+          precision={2}
+          min={0}
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
-          style={{ width: '100%' }}
-          onChange={(e) => handleEntryDataChange(index, 'referencePrice', e.target.value)}
+          onChange={(value) => handleEntryDataChange(index, 'referencePrice', value)}
         />
       ),
     },
@@ -176,11 +192,15 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       dataIndex: 'stock',
       width: 130,
       render: (text, record, index) => (
-        <Input
+        <InputNumber
+          style={{ width: '100%' }}
+          stringMode
+          controls={false}
+          precision={0}
+          min={0}
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
-          style={{ width: '100%' }}
-          onChange={(e) => handleEntryDataChange(index, 'stock', e.target.value)}
+          onChange={(value) => handleEntryDataChange(index, 'stock', value)}
         />
       ),
     },
@@ -253,9 +273,14 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             <Col span={1.5}>批量设置</Col>
             <Col span={4}>
               <Tooltip trigger={['focus']} title="成本价" placement="topLeft">
-                <Input
-                  onChange={(e) => {
-                    setBulk({ ...bulk, goodsCost: e.target.value });
+                <InputNumber
+                  style={{ width: '100%' }}
+                  stringMode
+                  controls={false}
+                  precision={2}
+                  min={0}
+                  onChange={(value) => {
+                    setBulk({ ...bulk, goodsCost: value });
                   }}
                   placeholder="成本价"
                 />
@@ -263,29 +288,29 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             </Col>
             <Col span={4}>
               <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
-                <Input
-                  onChange={(e) => {
-                    setBulk({ ...bulk, price: e.target.value, membershipPrice: e.target.value });
+                <InputNumber
+                  style={{ width: '100%' }}
+                  stringMode
+                  controls={false}
+                  precision={2}
+                  min={0}
+                  onChange={(value) => {
+                    setBulk({ ...bulk, price: value, membershipPrice: value });
                   }}
                   placeholder="销售价"
                 />
               </Tooltip>
             </Col>
-            {/* <Col span={4}>
-              <Tooltip trigger={['focus']} title="会员价" placement="topLeft">
-                <Input
-                  onChange={(e) => {
-                    setBulk({ ...bulk, membershipPrice: e.target.value });
-                  }}
-                  placeholder="会员价"
-                />
-              </Tooltip>
-            </Col> */}
             <Col span={4}>
               <Tooltip trigger={['focus']} title="参考价" placement="topLeft">
-                <Input
-                  onChange={(e) => {
-                    setBulk({ ...bulk, referencePrice: e.target.value });
+                <InputNumber
+                  style={{ width: '100%' }}
+                  stringMode
+                  controls={false}
+                  precision={2}
+                  min={0}
+                  onChange={(value) => {
+                    setBulk({ ...bulk, price: value, membershipPrice: value });
                   }}
                   placeholder="参考价"
                 />
@@ -293,9 +318,14 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             </Col>
             <Col span={4}>
               <Tooltip trigger={['focus']} title="销售库存" placement="topLeft">
-                <Input
-                  onChange={(e) => {
-                    setBulk({ ...bulk, stock: e.target.value });
+                <InputNumber
+                  style={{ width: '100%' }}
+                  stringMode
+                  controls={false}
+                  precision={0}
+                  min={0}
+                  onChange={(value) => {
+                    setBulk({ ...bulk, stock: value });
                   }}
                   placeholder="销售库存"
                 />

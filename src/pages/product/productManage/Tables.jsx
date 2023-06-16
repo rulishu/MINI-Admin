@@ -162,12 +162,17 @@ export default function Tables() {
       if (newsrks.length === 0) {
         newsrks = selectedRowKeys;
         if (newsrks.length > 0 && type === 'upload') {
-          if (newsrks.some((item) => item?.companyId === '0')) {
-            return message.warning('商品信息未完善，请先编辑商品后上架');
-          }
+          // console.log(
+          //   'newsrks.some: ',
+          //   newsrks,
+          //   newsrks.some((item) => item?.categoryId === '0'),
+          // );
+          // if (newsrks.some((item) => item?.categoryId === '0')) {
+          //   return message.warning('商品信息未完善，请先编辑商品后上架');
+          // }
         }
       } else {
-        if (type === 'upload' && record?.companyId === '0') {
+        if (type === 'upload' && record?.categoryId === '0') {
           return message.warning('商品信息未完善，请先编辑商品后上架');
         }
       }

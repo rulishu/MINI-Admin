@@ -24,7 +24,7 @@ const SKUModal = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attributeVos.length, itemSkuVos.length]);
 
-  const onFinish = (list = []) => {
+  const onFinish = async (list = []) => {
     console.log('value: ', value);
     console.log('list: ', list);
     if (list?.length > 0) {
@@ -70,7 +70,7 @@ const SKUModal = (props) => {
         return message.error(obj.message);
       }
       //
-      let isAttr = true;
+      let isAttr = false;
       list.forEach((item) => {
         ['goodsCost', 'price', 'membershipPrice', 'referencePrice', 'stock', 'skuCode'].forEach(
           (i) => {
@@ -92,11 +92,21 @@ const SKUModal = (props) => {
         //   isAttr = false;
         // }
       });
+
       if (obj?.message) {
         return message.error(obj.message);
       }
+      await dispatch({
+        type: 'productManage/checkSKUCode',
+        payload: {
+          list,
+          callback: () => {
+            isAttr = true;
+          },
+        },
+      });
       if (isAttr) {
-        dispatch({
+        await dispatch({
           type: 'productManage/update',
           payload: {
             itemSkuVos: list,
@@ -105,8 +115,6 @@ const SKUModal = (props) => {
           },
         });
         onChange(list);
-      } else {
-        message.warning('请添加完整规格内容');
       }
     } else {
       message.warning('请添加完整规格内容');

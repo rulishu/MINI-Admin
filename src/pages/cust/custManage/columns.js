@@ -21,6 +21,12 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'id',
     width: 80,
     align: 'left',
+    valueType: 'digit',
+    fieldProps: {
+      controls: false,
+      maxLength: 10,
+      min: 0,
+    },
   },
   {
     title: '用户信息',
