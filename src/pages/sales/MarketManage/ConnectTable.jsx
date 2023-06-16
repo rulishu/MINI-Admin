@@ -188,16 +188,18 @@ const ConnectTable = ({ proTableRef }) => {
             }}
             // submitTimeout={2000}
             onFinish={async (values) => {
-              dispatch({
+              let type = false;
+              await dispatch({
                 type: 'marketManage/addGoods',
                 payload: {
                   id: values?.select,
                   callback: () => {
                     proTableRef?.current?.reload();
+                    type = true;
                   },
                 },
               });
-              return true;
+              return type;
             }}
           >
             <ProFormSelect
@@ -221,7 +223,7 @@ const ConnectTable = ({ proTableRef }) => {
                 }
               }}
               placeholder="请输入商品名称/商品ID"
-              rules={[{ required: true, message: 'Please select your country!' }]}
+              rules={[{ required: true }]}
             />
           </ModalForm>
         )}
