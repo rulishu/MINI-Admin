@@ -14,25 +14,35 @@ const App = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
+
+  const setValues = async () => {
     console.log('params', params);
+    let obj = {};
     if (params?.state?.id) {
-      dispatch({
+      obj = {
+        orderNumber: params?.state?.orderNumber,
+      };
+      await dispatch({
         type: 'aftersales/update',
         payload: {
-          searchForm: {
-            orderNumber: params?.state?.orderNumber,
-          },
+          searchForm: obj,
         },
       });
-      dispatch({
+      await dispatch({
         type: 'aftersales/update',
         payload: {
           activeKey: '9',
         },
       });
     }
+    await dispatch({
+      type: 'aftersales/selectByPage',
+    });
+    window.history.replaceState({}, document.title);
+  };
 
+  useEffect(() => {
+    setValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,20 +102,20 @@ const App = () => {
         size="small"
         defaultActiveKey="1"
         activeKey={activeKey}
-        destroyInactiveTabPane
+        // destroyInactiveTabPane
         items={items}
         onChange={(key) => {
-          dispatch({
-            type: 'aftersales/getAfterSaleAcount',
-          });
           dispatch({
             type: 'aftersales/update',
             payload: {
               activeKey: key,
-              searchForm: {},
+              // searchForm: {},
               pageSize: 10,
               pageNum: 1,
             },
+          });
+          dispatch({
+            type: 'aftersales/selectByPage',
           });
         }}
       />

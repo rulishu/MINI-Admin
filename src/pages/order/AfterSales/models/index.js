@@ -113,6 +113,9 @@ export default {
           },
         });
       }
+      yield put({
+        type: 'getAfterSaleAcount',
+      });
     },
     *updateOrderGoodsStatus({ payload }, { call, put }) {
       const { code } = yield call(updateOrderGoodsStatus, payload);

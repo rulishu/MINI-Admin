@@ -1,5 +1,6 @@
 import {
   addItem,
+  checkSKUCode,
   createSKU,
   getAllTemplateId,
   insertAttribute,
@@ -239,6 +240,16 @@ export default {
 
       const data = yield call(type === 'add' ? addItem : updateItem, params);
       if (data?.code && data?.code === 200) {
+        callback();
+      }
+    },
+    *checkSKUCode({ payload }, { call }) {
+      const { list, callback } = payload;
+      const arr = list.map((item) => item?.skuCode);
+
+      const data = yield call(checkSKUCode, arr);
+      if (data?.code && data?.code === 200) {
+        //
         callback();
       }
     },

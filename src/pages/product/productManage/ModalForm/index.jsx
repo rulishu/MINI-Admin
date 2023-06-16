@@ -123,16 +123,26 @@ export default () => {
         onFinish={(values) => {
           console.log('保存: ', { ...values, itemSkuVos });
           let closeType = false;
+
           dispatch({
-            type: 'productManage/editGoods',
+            type: 'productManage/checkSKUCode',
             payload: {
-              values,
+              list: itemSkuVos,
               callback: () => {
-                onClosed();
-                closeType = true;
+                dispatch({
+                  type: 'productManage/editGoods',
+                  payload: {
+                    values,
+                    callback: () => {
+                      onClosed();
+                      closeType = true;
+                    },
+                  },
+                });
               },
             },
           });
+
           return closeType;
         }}
         formProps={{
