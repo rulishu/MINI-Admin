@@ -89,3 +89,27 @@ export const shipmentsStatusEnum = {
     status: 'success',
   },
 };
+
+export const profitSharingDetailStatus = {
+  ['1']: {
+    text: '自购',
+  },
+  ['2']: {
+    text: '二级分润',
+  },
+  ['3']: {
+    text: '一级分润',
+  },
+};
+
+export const agentLevelStatus = {
+  ['1']: {
+    text: '区/县',
+  },
+  ['2']: {
+    text: '市',
+  },
+  ['3']: {
+    text: '省',
+  },
+};

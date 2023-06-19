@@ -3,6 +3,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useNavigate, useSelector } from '@umijs/max';
 import { App, Skeleton, Table } from 'antd';
 import { useRef, useState } from 'react';
+import ProfitSharingDetail from './Details/ProfitSharingDetail';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
 import './index.less';
@@ -89,6 +90,9 @@ export default function SearchTable() {
     if (type === 'goAfterSale') {
       navigate('/order/afterSales', { state: { ...data } });
     }
+    if (type === 'profitSharingView') {
+      updateFn({ profitSharingVisible: true });
+    }
   };
 
   // table参数
@@ -143,7 +147,6 @@ export default function SearchTable() {
     },
     columns: columns({
       tableLoading: tableLoading,
-      activeKey: activeKey,
       handle,
       supplierName: {
         options: suppliersList,
@@ -160,7 +163,7 @@ export default function SearchTable() {
         <Skeleton active loading={tableLoading}>
           <Table
             className="expanded_table_td"
-            columns={expandColumns({ rowData: record, handle: handle })}
+            columns={expandColumns({ rowData: record, handle: handle, activeKey: activeKey })}
             dataSource={record.items || []}
             rowKey="id"
             pagination={false}
@@ -192,6 +195,7 @@ export default function SearchTable() {
           });
         }}
       />
+      <ProfitSharingDetail />
     </div>
   );
 }

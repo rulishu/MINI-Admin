@@ -1,5 +1,6 @@
 import AImage from '@/components/AImage';
-import { Space, Tag, Typography } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Space, Tag, Typography } from 'antd';
 import { Fragment } from 'react';
 import { afterSaleStatusEnum, orderStatusEnum, shipmentsStatusEnum } from '../enum';
 import EditTable from './EditTable';
@@ -66,6 +67,41 @@ const ShipmentStatusComp = ({ record }) => {
   return obj && <Tag color={obj.status}>{obj.text}</Tag>;
 };
 
+const ProfitSharingUser = ({ showHead = true, headUrl, width }) => {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {showHead &&
+        (headUrl ? (
+          <Avatar src={headUrl} size="default" />
+        ) : (
+          <Avatar
+            style={{
+              backgroundColor: '#87d068',
+            }}
+            icon={<UserOutlined />}
+          />
+        ))}
+      <div style={{ textAlign: 'left', marginLeft: 8, width: width - 50 }}>
+        <div>
+          <Typography.Text ellipsis="Miracle-" style={{ fontWeight: 'bold' }}>
+            Miracle-
+          </Typography.Text>
+        </div>
+        <div>
+          <Typography.Text ellipsis="经销等级：二级经销" style={{ fontSize: '14px' }}>
+            经销等级：二级经销
+          </Typography.Text>
+        </div>
+        <div>
+          <Typography.Text ellipsis=" 代理等级：省级" style={{ fontSize: '14px' }}>
+            代理等级：省级
+          </Typography.Text>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export {
   GoodInfoComp,
   AfterSaleStatusComp,
@@ -73,4 +109,5 @@ export {
   ShipmentStatusComp,
   SkuComp,
   EditTable,
+  ProfitSharingUser,
 };

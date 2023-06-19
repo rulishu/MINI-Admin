@@ -5,6 +5,7 @@ import {
   AfterSaleStatusComp,
   GoodInfoComp,
   OrderStatusComp,
+  ProfitSharingUser,
   ShipmentStatusComp,
   SkuComp,
 } from '../component';
@@ -224,5 +225,51 @@ export const manageColumn = [
     width: 90,
     key: 'saleMessage',
     render: () => '-',
+  },
+];
+
+export const profitSharingColumns = [
+  {
+    title: '商品信息',
+    dataIndex: 'mainGraph',
+    key: 'mainGraph',
+    width: 250,
+    render: (_, record) => <GoodInfoComp record={record} />,
+  },
+  {
+    title: 'sku实付金额',
+    dataIndex: 'price',
+    key: 'price',
+  },
+  {
+    title: '分润类型',
+    dataIndex: 'price1',
+    width: 90,
+    key: 'price1',
+  },
+  {
+    title: '分润比例',
+    dataIndex: 'price2',
+    width: 90,
+    key: 'price2',
+  },
+  {
+    title: '分润对象',
+    dataIndex: 'price3',
+    width: 250,
+    key: 'price3',
+    render: () => <ProfitSharingUser width={250} />,
+  },
+  {
+    title: '分润单状态',
+    dataIndex: 'price4',
+    width: 150,
+    key: 'price4',
+  },
+  {
+    title: '结算时间',
+    dataIndex: 'price5',
+    width: 150,
+    key: 'price5',
   },
 ];
