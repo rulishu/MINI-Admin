@@ -213,11 +213,11 @@ export const expandColumns = ({ handlerAction }) => [
   {
     // title: '售后状态',
     width: 120,
-    dataIndex: 'afterservicestatus',
-    key: 'afterservicestatus',
+    dataIndex: 'afterServiceStatus',
+    key: 'afterServiceStatus',
     render: (_, record) =>
-      detailStatusEnums?.[record?.afterservicestatus] ? (
-        <Tag> {detailStatusEnums?.[record?.afterservicestatus]} </Tag>
+      detailStatusEnums?.[record?.afterServiceStatus] ? (
+        <Tag> {detailStatusEnums?.[record?.afterServiceStatus]} </Tag>
       ) : (
         '-'
       ),

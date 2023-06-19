@@ -120,28 +120,29 @@ export default () => {
         current={step}
         onCurrentChange={(current) => setStep(current)}
         formRef={formRef}
-        onFinish={(values) => {
+        onFinish={async (values) => {
           console.log('保存: ', { ...values, itemSkuVos });
           let closeType = false;
 
-          dispatch({
-            type: 'productManage/checkSKUCode',
+          // // 注释skucode唯一校验  // 需求不确定
+          // await dispatch({
+          //   type: 'productManage/checkSKUCode',
+          //   payload: {
+          //     list: itemSkuVos,
+          //     callback: () => {
+          await dispatch({
+            type: 'productManage/editGoods',
             payload: {
-              list: itemSkuVos,
+              values,
               callback: () => {
-                dispatch({
-                  type: 'productManage/editGoods',
-                  payload: {
-                    values,
-                    callback: () => {
-                      onClosed();
-                      closeType = true;
-                    },
-                  },
-                });
+                onClosed();
+                closeType = true;
               },
             },
           });
+          //     },
+          //   },
+          // });
 
           return closeType;
         }}
