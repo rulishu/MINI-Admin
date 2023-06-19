@@ -166,7 +166,7 @@ export default function SearchTable() {
               }}
               submitTimeout={2000}
               onFinish={async (values) => {
-                dispatch({
+                await dispatch({
                   type: 'aftersales/updateOrderGoodsStatus',
                   payload: {
                     id: record?.orderObj?.id ? Number(record?.orderObj?.id) : record?.orderObj?.id,

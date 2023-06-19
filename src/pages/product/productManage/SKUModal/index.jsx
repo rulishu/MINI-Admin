@@ -70,7 +70,7 @@ const SKUModal = (props) => {
         return message.error(obj.message);
       }
       //
-      let isAttr = false;
+      let isAttr = true;
       list.forEach((item) => {
         ['goodsCost', 'price', 'membershipPrice', 'referencePrice', 'stock', 'skuCode'].forEach(
           (i) => {
@@ -96,15 +96,16 @@ const SKUModal = (props) => {
       if (obj?.message) {
         return message.error(obj.message);
       }
-      await dispatch({
-        type: 'productManage/checkSKUCode',
-        payload: {
-          list,
-          callback: () => {
-            isAttr = true;
-          },
-        },
-      });
+      // // 注释skucode唯一校验 // 需求不确定
+      // await dispatch({
+      //   type: 'productManage/checkSKUCode',
+      //   payload: {
+      //     list,
+      //     callback: () => {
+      //       isAttr = true;
+      //     },
+      //   },
+      // });
       if (isAttr) {
         await dispatch({
           type: 'productManage/update',

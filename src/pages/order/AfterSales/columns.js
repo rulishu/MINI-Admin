@@ -1,5 +1,5 @@
 import { Image, Space, Tag, Typography } from 'antd';
-import { afterSaleEnums, afterSaleStatusEnum } from './enum';
+import { afterSaleEnums, detailStatusEnums } from './enum';
 const { Paragraph } = Typography;
 
 export const searchItem = () => [
@@ -125,8 +125,8 @@ export const columns = () => [
   {
     title: '售后状态',
     width: 120,
-    dataIndex: 'afterSaleStatus',
-    key: 'afterSaleStatus',
+    dataIndex: 'afterservicestatus',
+    key: 'afterservicestatus',
     onCell: () => ({
       colSpan: 0,
     }),
@@ -213,14 +213,14 @@ export const expandColumns = ({ handlerAction }) => [
   {
     // title: '售后状态',
     width: 120,
-    dataIndex: 'afterSaleStatus',
-    key: 'afterSaleStatus',
-    render: (_, record) => {
-      const obj =
-        (record?.afterSaleStatus || record?.afterSaleStatus === 0) &&
-        afterSaleStatusEnum[record.afterSaleStatus];
-      return obj ? <Tag color={obj?.status}>{obj.text}</Tag> : '-';
-    },
+    dataIndex: 'afterServiceStatus',
+    key: 'afterServiceStatus',
+    render: (_, record) =>
+      detailStatusEnums?.[record?.afterServiceStatus] ? (
+        <Tag> {detailStatusEnums?.[record?.afterServiceStatus]} </Tag>
+      ) : (
+        '-'
+      ),
   },
   {
     // title: '原因',
