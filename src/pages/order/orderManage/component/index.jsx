@@ -67,6 +67,32 @@ const ShipmentStatusComp = ({ record }) => {
   return obj && <Tag color={obj.status}>{obj.text}</Tag>;
 };
 
+const ProfitSharingGoodComp = ({ record }) => {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div>
+        {' '}
+        <AImage height={80} width={80} src={record.mainGraph} />
+      </div>
+      <div style={{ marginLeft: 12, width: 250 }}>
+        <Typography.Text ellipsis={{ tooltip: record.itemName }} style={{ fontSize: '14px' }}>
+          {record.itemName || '乔宣咖啡 挂耳咖啡礼盒'}
+        </Typography.Text>
+        <div style={{ fontSize: '14px', color: '#ccc' }}>
+          {(record.attributes || []).map((item, i) => (
+            <Fragment key={item.attributeId}>
+              <span> {`${item.attributeName}:${item.value}`}</span>
+              {i !== (record.attributes || []).length - 1 && <span>;</span>}
+            </Fragment>
+          ))}
+          规格值1，规格值2
+        </div>
+        <div style={{ fontSize: '14px' }}>x2</div>
+      </div>
+    </div>
+  );
+};
+
 const ProfitSharingUser = ({ showHead = true, headUrl, width }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -88,12 +114,15 @@ const ProfitSharingUser = ({ showHead = true, headUrl, width }) => {
           </Typography.Text>
         </div>
         <div>
-          <Typography.Text ellipsis="经销等级：二级经销" style={{ fontSize: '14px' }}>
+          <Typography.Text
+            ellipsis="经销等级：二级经销"
+            style={{ fontSize: '14px', color: '#ccc' }}
+          >
             经销等级：二级经销
           </Typography.Text>
         </div>
         <div>
-          <Typography.Text ellipsis=" 代理等级：省级" style={{ fontSize: '14px' }}>
+          <Typography.Text ellipsis=" 代理等级：省级" style={{ fontSize: '14px', color: '#ccc' }}>
             代理等级：省级
           </Typography.Text>
         </div>
@@ -109,5 +138,6 @@ export {
   ShipmentStatusComp,
   SkuComp,
   EditTable,
+  ProfitSharingGoodComp,
   ProfitSharingUser,
 };
