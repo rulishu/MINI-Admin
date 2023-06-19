@@ -125,8 +125,8 @@ export const columns = () => [
   {
     title: '售后状态',
     width: 120,
-    dataIndex: 'afterservicestatus',
-    key: 'afterservicestatus',
+    dataIndex: 'afterSaleStatus',
+    key: 'afterSaleStatus',
     onCell: () => ({
       colSpan: 0,
     }),
@@ -213,11 +213,11 @@ export const expandColumns = ({ handlerAction }) => [
   {
     // title: '售后状态',
     width: 120,
-    dataIndex: 'afterServiceStatus',
-    key: 'afterServiceStatus',
+    dataIndex: 'afterSaleStatus',
+    key: 'afterSaleStatus',
     render: (_, record) =>
-      detailStatusEnums?.[record?.afterServiceStatus] ? (
-        <Tag> {detailStatusEnums?.[record?.afterServiceStatus]} </Tag>
+      detailStatusEnums?.[record?.afterSaleStatus] ? (
+        <Tag> {detailStatusEnums?.[record?.afterSaleStatus]} </Tag>
       ) : (
         '-'
       ),
