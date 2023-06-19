@@ -36,7 +36,7 @@ export default () => {
           columns={profitSharingColumns}
           dataSource={[{ id: 1 }]}
           rowKey="id"
-          pagination={null}
+          pagination={false}
         />
       </ProCard>
     </AModal>
