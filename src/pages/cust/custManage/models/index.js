@@ -3,6 +3,8 @@ export default {
   state: {
     type: '',
     visible: false,
+    editModalVisible: false,
+    editType: '',
     queryData: {},
   },
   reducers: {
