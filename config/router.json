@@ -106,6 +106,11 @@
             "path": "/order/afterSales",
             "name": "售后管理",
             "component": "@/pages/order/AfterSales"
+          },
+          {
+            "path": "/order/shippingTemplates",
+            "name": "运费模板",
+            "component": "@/pages/order/ShippingTemplates"
           }
         ]
       },
