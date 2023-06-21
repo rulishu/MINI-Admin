@@ -1,12 +1,16 @@
 import { App, Button, Space, Table } from 'antd';
-import { Fragment, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import { columns } from './columns';
+import { Context, Provider } from './hooks/context';
 import SearchGoods from './searchGoods';
 
-export default () => {
-  const [dataSource, setDataSource] = useState([]);
-  const [visible, setVisible] = useState(false);
+const Index = () => {
+  const {
+    state: { value },
+    dispatch,
+  } = useContext(Context);
   const { modal } = App.useApp();
+
   const handleEdit = (type, record) => {
     if (type === 'delete') {
       modal.confirm({
@@ -14,8 +18,8 @@ export default () => {
         maskClosable: true,
         content: `确定是否要删除商品【${record.itemName}】？`,
         onOk: () => {
-          const data = dataSource.filter((item) => item.id !== record.id);
-          setDataSource([...data]);
+          const data = value.filter((item) => item.id !== record.id);
+          dispatch({ value: [...data] });
         },
       });
     }
@@ -23,17 +27,20 @@ export default () => {
   return (
     <Fragment>
       <Space direction="vertical">
-        <Button type="primary" onClick={() => setVisible(true)}>
+        <Button type="primary" onClick={() => dispatch({ visible: true })}>
           添加商品
         </Button>
-        <Table dataSource={dataSource} columns={columns({ handleEdit })} rowKey="id" />
+        <Table dataSource={value} columns={columns({ handleEdit })} rowKey="id" />
       </Space>
-      <SearchGoods
-        visible={visible}
-        close={() => setVisible(false)}
-        setDataSource={setDataSource}
-        data={dataSource}
-      />
+      <SearchGoods />
     </Fragment>
+  );
+};
+
+export default () => {
+  return (
+    <Provider>
+      <Index />
+    </Provider>
   );
 };

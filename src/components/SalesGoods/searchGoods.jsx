@@ -4,10 +4,16 @@ import { BetaSchemaForm, ProCard } from '@ant-design/pro-components';
 import { useRequest, useSetState } from 'ahooks';
 import { Button, Table } from 'antd';
 import _ from 'lodash';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { searchColumns } from './columns';
+import { Context } from './hooks/context';
 
-export default ({ data, visible, close, setDataSource }) => {
+export default () => {
+  const {
+    state: { value, visible },
+    dispatch,
+  } = useContext(Context);
+
   const [state, setState] = useSetState({
     searchForm: {},
     dataSource: [],
@@ -36,8 +42,8 @@ export default ({ data, visible, close, setDataSource }) => {
   useEffect(() => {
     if (visible) {
       setState({
-        selectedStudent: [...data],
-        selectedStudentKey: [...data].map((item) => item.id),
+        selectedStudent: [...value],
+        selectedStudentKey: [...value].map((item) => item.id),
       });
     }
   }, [visible]);
@@ -89,30 +95,30 @@ export default ({ data, visible, close, setDataSource }) => {
     rowKey: 'id',
   };
 
-  const save = () => {
+  const reload = () => {
     setState({
       pageNum: 1,
       pageSize: 10,
       total: 0,
       searchForm: {},
     });
-    setDataSource([...selectedStudent]);
-    close();
+  };
+
+  const close = () => {
+    reload();
+    dispatch({ visible: false });
+  };
+
+  const save = () => {
+    reload();
+    dispatch({ value: [...selectedStudent], visible: false });
   };
 
   return (
     <AModal
       open={visible}
       width={1000}
-      onCancel={() => {
-        setState({
-          pageNum: 1,
-          pageSize: 10,
-          total: 0,
-          searchForm: {},
-        });
-        close();
-      }}
+      onCancel={close}
       footer={
         <div style={{ paddingBottom: 24, paddingRight: 24 }}>
           <Button key="save" type="primary" onClick={save}>
