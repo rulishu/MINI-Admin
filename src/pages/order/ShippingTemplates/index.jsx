@@ -1,31 +1,29 @@
-import { getCategory } from '@/service/goods/groupManage';
+import { selectPageList } from '@/service/order/shipping';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
+import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
-import { connect } from 'umi';
 import EditForm from './EditForm';
 import { columns } from './columns';
 import './index.less';
 
-const SearchTable = (props) => {
-  const { dispatch, groupManage, loading } = props;
-  const { pageSize, categoryList, addOpen } = groupManage;
+const SearchTable = () => {
+  const dispatch = useDispatch();
+  const { shippingtemplates, loading } = useSelector((state) => state);
+  const { pageSize, categoryList } = shippingtemplates;
+
   const { modal } = App.useApp();
   const actionRef = useRef();
+
   useEffect(() => {
-    dispatch({
-      type: 'groupManage/getCategoryTree',
-    });
-    dispatch({
-      type: 'groupManage/getAllCategory',
-    });
+    dispatch({ type: 'commonInterface/getTreeList' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const update = (data) => {
     dispatch({
-      type: 'groupManage/updateState',
+      type: 'shippingtemplates/updateState',
       payload: data,
     });
   };
@@ -46,10 +44,10 @@ const SearchTable = (props) => {
         addOpen: true,
       });
     }
-    if (type === 'addChildren') {
+    if (type === 'copy') {
       update({
         drawerParams: data,
-        drawerType: 'addChildren',
+        drawerType: 'copy',
         addOpen: true,
       });
     }
@@ -71,7 +69,7 @@ const SearchTable = (props) => {
         okType: 'primary',
         onOk: () => {
           dispatch({
-            type: 'groupManage/deleteCategory',
+            type: 'shippingtemplates/deleteCategory',
             payload: { id: data?.id, actionRef },
           });
         },
@@ -100,11 +98,10 @@ const SearchTable = (props) => {
         request={async (params = {}) => {
           const { current, pageSize } = params;
 
-          const { code, result } = await getCategory({
+          const { code, result } = await selectPageList({
             page: current,
             pageSize,
-            categoryName: params?.categoryName,
-            level: params?.level,
+            // categoryName: params?.categoryName,
           });
           let tableData = [];
           if (code === 200 && result) {
@@ -123,7 +120,7 @@ const SearchTable = (props) => {
           onChange: (_, pageSize) => update({ pageSize }),
           showSizeChanger: true,
         }}
-        headerTitle="商品类目"
+        headerTitle="运费模板"
         toolBarRender={() => (
           <Button
             key="button"
@@ -135,18 +132,13 @@ const SearchTable = (props) => {
             }}
             type="primary"
           >
-            新增类目
+            新建模板
           </Button>
         )}
       />
-      {addOpen && <EditForm actionRef={actionRef} />}
+      <EditForm />
     </>
   );
 };
 
-export default connect(({ groupManage, loading }) => {
-  return {
-    groupManage,
-    loading,
-  };
-})(SearchTable);
+export default SearchTable;
