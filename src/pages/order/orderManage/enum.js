@@ -29,21 +29,6 @@ export const orderStatusEnum = {
   },
 };
 
-export const isOpenInvoiceEnum = {
-  0: {
-    text: '未开票',
-    status: 'Default',
-  },
-  1: {
-    text: '待开票',
-    status: 'Processing',
-  },
-  2: {
-    text: '已开票',
-    status: 'Success',
-  },
-};
-
 export const afterSaleStatusEnum = {
   0: {
     text: '未售后',
@@ -60,18 +45,6 @@ export const afterSaleStatusEnum = {
   3: {
     text: '已关闭',
     status: 'error',
-  },
-};
-
-export const payEnum = {
-  1: {
-    text: '微信',
-  },
-  2: {
-    text: '支付宝',
-  },
-  3: {
-    text: '银行卡',
   },
 };
 

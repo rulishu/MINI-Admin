@@ -1,14 +1,14 @@
 import AImage from '@/components/AImage';
-import { Card, Space } from 'antd';
-import { Fragment } from 'react';
 import {
   AfterSaleStatusComp,
   GoodInfoComp,
   OrderStatusComp,
   ShipmentStatusComp,
   SkuComp,
-} from '../component';
-import { payEnum } from '../enum';
+} from '@/pages/order/orderManage/component';
+import { Card, Space } from 'antd';
+import { Fragment } from 'react';
+import { payEnum } from './enum';
 
 export const basicItem = [
   {
