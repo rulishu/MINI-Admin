@@ -1,25 +1,29 @@
-import { ImportOutlined } from '@ant-design/icons';
 import { ProDescriptions } from '@ant-design/pro-components';
-import { useDispatch, useSelector } from '@umijs/max';
-import { Card, Empty, FloatButton, Space, Table, Tabs, Typography } from 'antd';
-import { useMemo } from 'react';
+import { useDispatch, useLocation, useSelector } from '@umijs/max';
+import { Card, Empty, Space, Table, Tabs, Typography } from 'antd';
+import { useEffect, useMemo } from 'react';
 import { basicItem, buyerItem, manageColumn, productItem, receiveItem } from './items';
 
-export default function Edit() {
+export default () => {
   const dispatch = useDispatch();
   const {
-    orderManage: { queryData, pushList },
+    orderDetail: { id: oldId, queryData, pushList },
     loading: loading,
   } = useSelector((state) => state);
+  const { state } = useLocation();
+  const id = state?.id || oldId;
+
+  useEffect(() => {
+    updateFn({ id: id });
+    dispatch({ type: 'orderDetail/selectById', payload: { id: id } });
+  }, []);
 
   const updateFn = (payload) => {
     dispatch({
-      type: 'orderManage/update',
+      type: 'orderDetail/update',
       payload: payload,
     });
   };
-
-  const handleCancel = () => updateFn({ visible: false });
 
   const packageListItems = useMemo(() => {
     if (pushList.length > 0) {
@@ -45,20 +49,14 @@ export default function Edit() {
 
   return (
     <Space direction="vertical">
-      <FloatButton
-        onClick={handleCancel}
-        icon={<ImportOutlined />}
-        type="primary"
-        style={{ right: 24, bottom: 80 }}
-      />
-      <Card title="订单信息" loading={loading.effects['orderManage/selectById']}>
+      <Card title="订单信息" loading={loading.effects['orderDetail/selectById']}>
         <ProDescriptions
           editable={{
             onSave: async (keypath, newInfo) => {
               const value = newInfo[keypath];
               updateFn({ queryData: { ...queryData, [keypath]: value } });
               dispatch({
-                type: 'orderManage/updateInfo',
+                type: 'orderDetail/updateInfo',
                 payload: {
                   [keypath]: value,
                   id: queryData.id,
@@ -73,12 +71,12 @@ export default function Edit() {
         />
       </Card>
 
-      <Card loading={loading.effects['orderManage/selectById']}>
+      <Card loading={loading.effects['orderDetail/selectById']}>
         <ProDescriptions title="买家信息" column={4} dataSource={queryData} columns={buyerItem} />
         <ProDescriptions title="收货信息" column={4} dataSource={queryData} columns={receiveItem} />
       </Card>
 
-      <Card title="包裹信息" loading={loading.effects['orderManage/getInfoPushList']}>
+      <Card title="包裹信息" loading={loading.effects['orderDetail/getInfoPushList']}>
         {packageListItems.length > 0 ? (
           <Tabs
             destroyInactiveTabPane={true}
@@ -91,7 +89,7 @@ export default function Edit() {
         )}
       </Card>
 
-      <Card title="商品信息" loading={loading.effects['orderManage/selectById']}>
+      <Card title="商品信息" loading={loading.effects['orderDetail/selectById']}>
         <Table columns={manageColumn} dataSource={queryData.items || []} rowKey="id" />
         <Typography.Text style={{ float: 'right', marginTop: 24 }}>
           商品总价：<span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || '-'} </span>运费：
@@ -102,4 +100,4 @@ export default function Edit() {
       </Card>
     </Space>
   );
-}
+};

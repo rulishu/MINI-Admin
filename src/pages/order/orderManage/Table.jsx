@@ -3,7 +3,6 @@ import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useNavigate, useSelector } from '@umijs/max';
 import { App, Skeleton, Table } from 'antd';
 import { useRef, useState } from 'react';
-import ProfitSharingDetail from './Details/ProfitSharingDetail';
 import Push from './Details/Push';
 import { columns, expandColumns } from './columns';
 import './index.less';
@@ -24,7 +23,6 @@ export default function SearchTable() {
       payload: payload,
     });
   };
-
   // 筛选条件模糊搜索
   const handleSearch = (type, searchParams) => {
     dispatch({
@@ -38,7 +36,8 @@ export default function SearchTable() {
     updateFn({ type: type });
     // 查看详情
     if (type === 'view') {
-      dispatch({ type: 'orderManage/selectById', payload: { id: data.id } });
+      // history.push(`/order/orderDetail/${12}`);
+      navigate(`/order/orderDetail`, { state: { id: data.id } });
     }
     // 发货
     if (type === 'push') {
@@ -91,7 +90,7 @@ export default function SearchTable() {
       navigate('/order/afterSales', { state: { ...data } });
     }
     if (type === 'profitSharingView') {
-      updateFn({ profitSharingVisible: true });
+      navigate('/order/incomeDetail', { state: { id: data.id } });
     }
   };
 
@@ -133,7 +132,7 @@ export default function SearchTable() {
       });
       if (code && code === 200) {
         setExpandedRowKeys((result.records || []).map((rowKey) => rowKey.id));
-        updateFn({ dataSource: result.records || [], total: result.total });
+        updateFn({ dataSource: result.records || [] });
         return {
           total: result.total,
           success: true,
@@ -195,7 +194,6 @@ export default function SearchTable() {
           });
         }}
       />
-      <ProfitSharingDetail />
     </div>
   );
 }

@@ -29,21 +29,6 @@ export const orderStatusEnum = {
   },
 };
 
-export const isOpenInvoiceEnum = {
-  0: {
-    text: '未开票',
-    status: 'Default',
-  },
-  1: {
-    text: '待开票',
-    status: 'Processing',
-  },
-  2: {
-    text: '已开票',
-    status: 'Success',
-  },
-};
-
 export const afterSaleStatusEnum = {
   0: {
     text: '未售后',
@@ -63,18 +48,6 @@ export const afterSaleStatusEnum = {
   },
 };
 
-export const payEnum = {
-  1: {
-    text: '微信',
-  },
-  2: {
-    text: '支付宝',
-  },
-  3: {
-    text: '银行卡',
-  },
-};
-
 export const shipmentsStatusEnum = {
   0: {
     text: '未发货',
@@ -87,29 +60,5 @@ export const shipmentsStatusEnum = {
   2: {
     text: '已发货',
     status: 'success',
-  },
-};
-
-export const profitSharingDetailStatus = {
-  ['1']: {
-    text: '自购',
-  },
-  ['2']: {
-    text: '二级分润',
-  },
-  ['3']: {
-    text: '一级分润',
-  },
-};
-
-export const agentLevelStatus = {
-  ['1']: {
-    text: '区/县',
-  },
-  ['2']: {
-    text: '市',
-  },
-  ['3']: {
-    text: '省',
   },
 };
