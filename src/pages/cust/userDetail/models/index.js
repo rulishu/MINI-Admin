@@ -1,9 +1,6 @@
 export default {
-  namespace: 'custManage',
+  namespace: 'userDetail',
   state: {
-    type: '',
-    visible: false,
-    editModalVisible: false,
     editType: '',
     queryData: {},
   },

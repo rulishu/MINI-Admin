@@ -5,7 +5,7 @@ import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
-import { levelStatus } from '../enum';
+import { levelStatus } from './enum';
 
 const title = {
   user: '修改邀请人',
@@ -14,13 +14,13 @@ const title = {
 
 export default () => {
   const {
-    custManage: { editModalVisible, editType },
+    userDetail: { editModalVisible, editType },
   } = useSelector((state) => state);
   const form = useForm();
   const dispatch = useDispatch();
   const close = () => {
     dispatch({
-      type: 'custManage/update',
+      type: 'userDetail/update',
       payload: {
         editModalVisible: false,
         editType: '',

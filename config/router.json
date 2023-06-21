@@ -157,6 +157,12 @@
             "name": "会员管理",
             "component": "@/pages/cust/memberManage",
             "hideInMenu": true
+          },
+          {
+            "path": "/cust/userDetail",
+            "name": "会员管理",
+            "component": "@/pages/cust/userDetail",
+            "hideInMenu": true
           }
         ]
       },

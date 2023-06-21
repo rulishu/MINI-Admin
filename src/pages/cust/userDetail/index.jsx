@@ -1,27 +1,17 @@
-import AModal from '@/components/AModal';
 import { ProCard, ProDescriptions } from '@ant-design/pro-components';
-import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Space, Table, Tabs } from 'antd';
+import { useDispatch } from '@umijs/max';
+import { Space, Table, Tabs } from 'antd';
 import { useState } from 'react';
+import Edit from './EditModal';
 import { basicItem, columns } from './items';
 
 export default () => {
-  const {
-    custManage: { visible },
-  } = useSelector((state) => state);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
-  const close = () => {
-    dispatch({
-      type: 'custManage/update',
-      payload: {
-        visible: false,
-      },
-    });
-  };
+
   const handleEdit = (type) => {
     dispatch({
-      type: 'custManage/update',
+      type: 'userDetail/update',
       payload: {
         editType: type,
         editModalVisible: true,
@@ -48,26 +38,13 @@ export default () => {
   ];
 
   return (
-    <AModal
-      open={visible}
-      width={1400}
-      onCancel={close}
-      footer={
-        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
-          <Button key="cancel" onClick={close}>
-            取消
-          </Button>
-        </div>
-      }
-    >
-      <ProCard title="用户详情" headerBordered bodyStyle={{ paddingBottom: 0 }}>
-        <Space direction="vertical">
-          <ProDescriptions
-            title="用户信息"
-            column={4}
-            dataSource={{}}
-            columns={basicItem({ handleEdit })}
-          />
+    <>
+      <Space direction="vertical">
+        <ProCard title="用户信息" headerBordered>
+          <ProDescriptions column={4} dataSource={{}} columns={basicItem({ handleEdit })} />
+        </ProCard>
+
+        <ProCard>
           <Tabs
             activeKey={tab}
             size="small"
@@ -75,8 +52,9 @@ export default () => {
             onChange={(key) => setTab(key)}
             destroyInactiveTabPane
           />
-        </Space>
-      </ProCard>
-    </AModal>
+        </ProCard>
+      </Space>
+      <Edit />
+    </>
   );
 };
