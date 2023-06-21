@@ -1,7 +1,7 @@
 import { ProCard, ProDescriptions } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import { Space, Table, Tabs } from 'antd';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Edit from './EditModal';
 import { basicItem, columns } from './items';
 
@@ -38,7 +38,7 @@ export default () => {
   ];
 
   return (
-    <>
+    <Fragment>
       <Space direction="vertical">
         <ProCard title="用户信息" headerBordered>
           <ProDescriptions column={4} dataSource={{}} columns={basicItem({ handleEdit })} />
@@ -55,6 +55,6 @@ export default () => {
         </ProCard>
       </Space>
       <Edit />
-    </>
+    </Fragment>
   );
 };

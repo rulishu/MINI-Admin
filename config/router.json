@@ -160,7 +160,7 @@
           },
           {
             "path": "/cust/userDetail",
-            "name": "会员管理",
+            "name": "用户详情",
             "component": "@/pages/cust/userDetail",
             "hideInMenu": true
           }
