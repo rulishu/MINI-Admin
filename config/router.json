@@ -118,6 +118,11 @@
             "name": "分润详情",
             "component": "@/pages/order/incomeDetail",
             "hideInMenu": true
+          },
+          {
+            "path": "/order/shippingTemplates",
+            "name": "运费模板",
+            "component": "@/pages/order/ShippingTemplates"
           }
         ]
       },
