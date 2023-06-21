@@ -1,5 +1,5 @@
 import { ProDescriptions } from '@ant-design/pro-components';
-import { useDispatch, useLocation, useSelector } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Card, Empty, Space, Table, Tabs, Typography } from 'antd';
 import { useEffect, useMemo } from 'react';
 import { basicItem, buyerItem, manageColumn, productItem, receiveItem } from './items';
@@ -7,14 +7,12 @@ import { basicItem, buyerItem, manageColumn, productItem, receiveItem } from './
 export default () => {
   const dispatch = useDispatch();
   const {
-    orderDetail: { id: oldId, queryData, pushList },
+    orderDetail: { queryData, pushList },
     loading: loading,
   } = useSelector((state) => state);
-  const { state } = useLocation();
-  const id = state?.id || oldId;
 
   useEffect(() => {
-    updateFn({ id: id });
+    const id = localStorage.getItem('orderDetailId');
     dispatch({ type: 'orderDetail/selectById', payload: { id: id } });
   }, []);
 

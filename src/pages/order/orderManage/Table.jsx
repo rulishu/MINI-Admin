@@ -37,7 +37,8 @@ export default function SearchTable() {
     // 查看详情
     if (type === 'view') {
       // history.push(`/order/orderDetail/${12}`);
-      navigate(`/order/orderDetail`, { state: { id: data.id } });
+      navigate(`/order/orderDetail`);
+      localStorage.setItem('orderDetailId', data.id);
     }
     // 发货
     if (type === 'push') {

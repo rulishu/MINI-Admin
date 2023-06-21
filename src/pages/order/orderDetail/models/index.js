@@ -6,7 +6,6 @@ export default {
     /** 详情数据  */
     queryData: {},
     pushList: [], // 包裹信息
-    id: null,
   },
   reducers: {
     update: (state, { payload }) => ({
