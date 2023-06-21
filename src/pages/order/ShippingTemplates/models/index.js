@@ -1,13 +1,6 @@
-import {
-  addCategory,
-  deleteCategory,
-  getAllCategory,
-  getCategory,
-  getCategoryTree,
-  updateCategory,
-} from '@/service/goods/groupManage';
+import { addTemplate, selectPageList, updateTemplate } from '@/service/order/shipping';
 
-const group = {
+const shipping = {
   namespace: 'shippingtemplates',
   state: {
     categoryList: [],
@@ -30,28 +23,28 @@ const group = {
     }),
   },
   effects: {
-    *getAllCategory(_, { call, put }) {
-      const { code, result } = yield call(getAllCategory);
-      if (code === 200 && result) {
-        yield put({
-          type: 'updateState',
-          payload: {
-            categoryList: result || [],
-          },
-        });
-      }
-    },
-    *getCategoryTree(_, { call, put }) {
-      const { code, result } = yield call(getCategoryTree);
-      if (code === 200 && result) {
-        yield put({
-          type: 'updateState',
-          payload: {
-            categoryTree: result || [],
-          },
-        });
-      }
-    },
+    // *getAllCategory(_, { call, put }) {
+    //   const { code, result } = yield call(getAllCategory);
+    //   if (code === 200 && result) {
+    //     yield put({
+    //       type: 'updateState',
+    //       payload: {
+    //         categoryList: result || [],
+    //       },
+    //     });
+    //   }
+    // },
+    // *getCategoryTree(_, { call, put }) {
+    //   const { code, result } = yield call(getCategoryTree);
+    //   if (code === 200 && result) {
+    //     yield put({
+    //       type: 'updateState',
+    //       payload: {
+    //         categoryTree: result || [],
+    //       },
+    //     });
+    //   }
+    // },
 
     *selectPage({ payload }, { call, put, select }) {
       const { groupManage } = yield select(({ groupManage }) => ({
@@ -66,7 +59,7 @@ const group = {
         obj.categoryName = groupManage?.searchParams?.categoryName?.label;
       }
 
-      const { code, result, message } = yield call(getCategory, obj);
+      const { code, result, message } = yield call(selectPageList, obj);
       let tableData = [];
       if (code === 200 && result) {
         //
@@ -82,8 +75,8 @@ const group = {
       });
     },
 
-    *addCategory({ payload }, { call, put }) {
-      const { code } = yield call(addCategory, payload.searchParams);
+    *addTemplate({ payload }, { call, put }) {
+      const { code } = yield call(addTemplate, payload.searchParams);
       if (code === 200) {
         yield put({
           type: 'updateState',
@@ -102,11 +95,11 @@ const group = {
       }
     },
 
-    *updateCategory({ payload }, { call, put, select }) {
+    *updateTemplate({ payload }, { call, put, select }) {
       const groupManage = yield select(({ groupManage }) => groupManage);
       const { drawerParams } = groupManage;
 
-      const { code } = yield call(updateCategory, {
+      const { code } = yield call(updateTemplate, {
         ...payload.searchParams,
         id: drawerParams?.id,
       });
@@ -129,19 +122,19 @@ const group = {
       }
     },
 
-    *deleteCategory({ payload }, { call, put }) {
-      const { code } = yield call(deleteCategory, payload);
-      if (code === 200) {
-        yield put({
-          type: 'getCategoryTree',
-        });
-        yield put({
-          type: 'getAllCategory',
-        });
-        payload.actionRef.current?.reload();
-      }
-    },
+    // *deleteCategory({ payload }, { call, put }) {
+    //   const { code } = yield call(deleteCategory, payload);
+    //   if (code === 200) {
+    //     yield put({
+    //       type: 'getCategoryTree',
+    //     });
+    //     yield put({
+    //       type: 'getAllCategory',
+    //     });
+    //     payload.actionRef.current?.reload();
+    //   }
+    // },
   },
 };
 
-export default group;
+export default shipping;
