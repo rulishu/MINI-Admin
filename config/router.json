@@ -163,6 +163,11 @@
             "name": "用户详情",
             "component": "@/pages/cust/userDetail",
             "hideInMenu": true
+          },
+          {
+            "path": "/cust/commentManager",
+            "name": "评论管理",
+            "component": "@/pages/cust/commentManager"
           }
         ]
       },
