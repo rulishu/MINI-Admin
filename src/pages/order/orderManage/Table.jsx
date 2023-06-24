@@ -1,6 +1,6 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useDispatch, useNavigate, useSelector } from '@umijs/max';
+import { history, useDispatch, useNavigate, useSelector } from '@umijs/max';
 import { App, Skeleton, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Push from './Details/Push';
@@ -36,9 +36,7 @@ export default function SearchTable() {
     updateFn({ type: type });
     // 查看详情
     if (type === 'view') {
-      // history.push(`/order/orderDetail/${12}`);
-      navigate(`/order/orderDetail`);
-      localStorage.setItem('orderDetailId', data.id);
+      history.push(`/order/orderDetail/${data.id}`);
     }
     // 发货
     if (type === 'push') {

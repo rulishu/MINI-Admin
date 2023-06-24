@@ -1,7 +1,7 @@
 import { createContext, useReducer } from 'react';
 
 export const initialState = {
-  value: [],
+  dataSource: [],
   visible: false,
 };
 

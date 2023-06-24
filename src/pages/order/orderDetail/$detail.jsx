@@ -1,10 +1,11 @@
 import { ProDescriptions } from '@ant-design/pro-components';
-import { useDispatch, useSelector } from '@umijs/max';
+import { useDispatch, useParams, useSelector } from '@umijs/max';
 import { Card, Empty, Space, Table, Tabs, Typography } from 'antd';
 import { useEffect, useMemo } from 'react';
 import { basicItem, buyerItem, manageColumn, productItem, receiveItem } from './items';
 
 export default () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const {
     orderDetail: { queryData, pushList },
@@ -12,9 +13,10 @@ export default () => {
   } = useSelector((state) => state);
 
   useEffect(() => {
-    const id = localStorage.getItem('orderDetailId');
-    dispatch({ type: 'orderDetail/selectById', payload: { id: id } });
-  }, []);
+    if (id) {
+      dispatch({ type: 'orderDetail/selectById', payload: { id: id } });
+    }
+  }, [id]);
 
   const updateFn = (payload) => {
     dispatch({

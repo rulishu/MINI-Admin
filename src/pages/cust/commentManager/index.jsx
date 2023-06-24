@@ -1,9 +1,9 @@
-import SalesGoods from '@/components/SalesGoods';
+import Table from './Table';
 
 const Page = () => {
   return (
     <div>
-      <SalesGoods />
+      <Table />
     </div>
   );
 };

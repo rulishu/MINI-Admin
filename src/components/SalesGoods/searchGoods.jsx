@@ -10,7 +10,7 @@ import { Context } from './hooks/context';
 
 export default () => {
   const {
-    state: { value, visible },
+    state: { dataSource: data, visible },
     dispatch,
   } = useContext(Context);
 
@@ -42,8 +42,8 @@ export default () => {
   useEffect(() => {
     if (visible) {
       setState({
-        selectedStudent: [...value],
-        selectedStudentKey: [...value].map((item) => item.id),
+        selectedStudent: [...data],
+        selectedStudentKey: [...data].map((item) => item.id),
       });
     }
   }, [visible]);
@@ -110,8 +110,8 @@ export default () => {
   };
 
   const save = () => {
-    reload();
-    dispatch({ value: [...selectedStudent], visible: false });
+    dispatch({ dataSource: [...selectedStudent] });
+    close();
   };
 
   return (

@@ -108,7 +108,7 @@
             "component": "@/pages/order/AfterSales"
           },
           {
-            "path": "/order/orderDetail",
+            "path": "/order/orderDetail/:id",
             "name": "订单详情",
             "component": "@/pages/order/orderDetail/$detail.jsx",
             "hideInMenu": true
