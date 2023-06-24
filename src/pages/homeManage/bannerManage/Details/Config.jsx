@@ -45,37 +45,31 @@ export default () => {
   useEffect(() => {
     if (visible) {
       form.setValues({
-        form1: {
-          name: queryInfo.name,
-          jumpPath: queryInfo.jumpPath,
-          path: (queryInfo.path && getUrlToList(queryInfo.path)) || [],
-          linkMenuTag: enums.banner_tager_type.find(
-            (item) => item?.dictLabel === queryInfo?.linkMenuTag,
-          )?.dictValue,
-          showStartTime: queryInfo.showStartTime && [
-            queryInfo.showStartTime,
-            queryInfo.showEndTime,
-          ],
-          sort: queryInfo.sort,
-          category: queryInfo.category,
-        },
+        name: queryInfo.name,
+        jumpPath: queryInfo.jumpPath,
+        path: queryInfo?.path ? getUrlToList(queryInfo.path) : [],
+        linkMenuTag: enums.banner_tager_type.find(
+          (item) => item?.dictLabel === queryInfo?.linkMenuTag,
+        )?.dictValue,
+        showStartTime: queryInfo.showStartTime && [queryInfo.showStartTime, queryInfo.showEndTime],
+        sort: queryInfo.sort,
+        category: queryInfo.category,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const onFinish = (values) => {
-    const { form1 } = values;
     const params = {
-      name: form1.name,
-      jumpPath: form1.jumpPath,
-      path: (form1.path && getUrl(form1.path)) || '',
-      linkMenuTag: enums.banner_tager_type.find((item) => item?.dictValue === form1?.linkMenuTag)
+      name: values.name,
+      jumpPath: values.jumpPath,
+      path: (values.path && getUrl(values.path)) || '',
+      linkMenuTag: enums.banner_tager_type.find((item) => item?.dictValue === values?.linkMenuTag)
         ?.dictLabel,
-      showStartTime: form1.showStartTime && form1.showStartTime[0] && form1.showStartTime[0],
-      showEndTime: form1.showStartTime && form1.showStartTime[1] && form1.showStartTime[1],
-      category: form1.category,
-      sort: form1.sort,
+      showStartTime: values.showStartTime && values.showStartTime[0] && values.showStartTime[0],
+      showEndTime: values.showStartTime && values.showStartTime[1] && values.showStartTime[1],
+      category: values.category,
+      sort: values.sort,
       id: queryInfo.id,
       type: queryInfo.type,
     };
@@ -83,24 +77,21 @@ export default () => {
   };
 
   const watch = {
-    'form1.linkMenuTag': (val) => {
+    linkMenuTag: (val) => {
       form.setValues({
-        form1: {
-          jumpPath: val,
-        },
+        jumpPath: val,
       });
     },
-    // 'form1.jumpPath': () => {
+    // jumpPath: () => {
     //   form.setValues({
-    //     form1: {
-    //       linkMenuTag: '',
-    //     },
+    //     linkMenuTag: '',
     //   });
     // },
   };
 
   return (
     <AModal
+      destroyOnClose={true}
       open={visible}
       width={700}
       onCancel={() => update({ visible: false })}
@@ -115,10 +106,14 @@ export default () => {
         </div>
       }
     >
-      <ProCard>
+      <ProCard
+        title={queryInfo.type === 1 ? '首页Banner' : '首页活动'}
+        headerBordered
+        bodyStyle={{ paddingBottom: 0 }}
+      >
         <FormRender
-          watch={watch}
           form={form}
+          watch={watch}
           schema={basicSchema({
             queryInfo,
             options:
@@ -130,7 +125,7 @@ export default () => {
               [],
           })}
           widgets={{
-            upload: Upload,
+            comupload: Upload,
           }}
           onFinish={onFinish}
         />

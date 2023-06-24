@@ -213,10 +213,10 @@ export const manageColumn = [
   {
     title: 'sku总价',
     dataIndex: 'totalPrice',
-    width: 90,
+    width: 100,
     key: 'totalPrice',
     ellipsis: true,
-    render: (_, record) => <div>￥{record.totalPrice}</div>,
+    render: (_, record) => <div style={{ width: 90 }}>￥{record.totalPrice}</div>,
   },
   {
     title: '促销信息',
