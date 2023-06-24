@@ -154,7 +154,7 @@ export default function SearchTable() {
       },
     }),
     rowKey: 'id',
-    scroll: { x: 1300 },
+    scroll: { x: 1400 },
     expandable: {
       showExpandColumn: false,
       expandedRowRender: (record) => (

@@ -6,14 +6,14 @@ import { afterSaleStatusEnum, orderStatusEnum, shipmentsStatusEnum } from '../en
 import EditTable from './EditTable';
 
 // 商品信息
-const GoodInfoComp = ({ record }) => {
+const GoodInfoComp = ({ record, width = 200 }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div>
         {' '}
         <AImage height={80} width={80} src={record.mainGraph} />
       </div>
-      <div style={{ marginLeft: 12, width: 250 }}>
+      <div style={{ marginLeft: 12, width: width }}>
         <Typography.Text ellipsis={{ tooltip: record.itemName }} style={{ fontSize: '14px' }}>
           {record.itemName}
         </Typography.Text>

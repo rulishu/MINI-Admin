@@ -208,7 +208,7 @@ export const expandColumns = ({ rowData, handle, activeKey }) => [
   {
     dataIndex: 'info',
     key: 'info',
-    render: (_, record) => <GoodInfoComp record={record} />,
+    render: (_, record) => <GoodInfoComp record={record} width={200} />,
   },
   {
     width: 150,
