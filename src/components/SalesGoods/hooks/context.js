@@ -3,6 +3,9 @@ import { createContext, useReducer } from 'react';
 export const initialState = {
   dataSource: [],
   visible: false,
+  // 设置规格优惠
+  setVisible: false,
+  setRecord: {},
 };
 
 const Context = createContext({

@@ -220,7 +220,13 @@ export const expandColumns = ({ rowData, handle, activeKey }) => [
     width: 100,
     dataIndex: 'orderPrice',
     key: 'orderPrice',
-    render: () => '￥' + rowData.orderPrice || '-',
+    render: () => (
+      <div style={{ width: 90 }}>
+        <Text ellipsis={{ tooltip: '￥' + rowData.orderPrice || '-' }}>
+          {'￥' + rowData.orderPrice || '-'}
+        </Text>
+      </div>
+    ),
   },
   {
     width: 100,
