@@ -1,4 +1,4 @@
-import { Divider, Switch } from 'antd';
+import { Divider, Switch, Typography } from 'antd';
 import { hideEnum, statusEnum } from './enum';
 
 // eslint-disable-next-line no-unused-vars
@@ -15,8 +15,15 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
     render: () => (
       <div>
-        <div>限时秒杀</div>
-        <div style={{ color: '#ccc' }}>ID：897987876</div>
+        <Typography.Text ellipsis={{ tooltip: '限时秒杀' }} style={{ width: 110 }}>
+          限时秒杀
+        </Typography.Text>
+        <Typography.Text
+          ellipsis={{ tooltip: 'ID：897987876' }}
+          style={{ color: '#ccc', width: 110 }}
+        >
+          ID：897987876
+        </Typography.Text>
       </div>
     ),
   },

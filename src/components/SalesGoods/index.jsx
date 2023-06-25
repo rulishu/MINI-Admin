@@ -5,7 +5,7 @@ import { Context, Provider } from './hooks/context';
 import SearchGoods from './searchGoods';
 import SetGoods from './setGoods';
 
-const Index = ({ value, onChage }) => {
+const Index = ({ value, onChange }) => {
   const {
     state: { dataSource },
     dispatch,
@@ -19,7 +19,7 @@ const Index = ({ value, onChage }) => {
   }, [value]);
 
   useEffect(() => {
-    onChage?.(dataSource);
+    onChange?.(dataSource);
   }, [dataSource]);
 
   const handleEdit = (type, record) => {
@@ -54,10 +54,10 @@ const Index = ({ value, onChage }) => {
   );
 };
 
-export default ({ value = [], onChage }) => {
+export default ({ value = [], onChange }) => {
   return (
     <Provider>
-      <Index value={value} onChage={onChage} />
+      <Index value={value} onChange={onChange} />
     </Provider>
   );
 };

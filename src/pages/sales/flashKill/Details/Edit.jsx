@@ -44,13 +44,17 @@ export default () => {
 
   useEffect(() => {
     if (visible) {
-      form.setValues({});
+      form.setValues({
+        form1: {},
+        form2: {},
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, queryInfo]);
 
-  // eslint-disable-next-line
-  const onFinish = (values) => {};
+  const onFinish = (values) => {
+    console.log('values', values);
+  };
 
   return (
     <AModal
@@ -76,7 +80,7 @@ export default () => {
         <FormRender
           form={form}
           labelWidth={120}
-          maxWidth={200}
+          maxWidth={250}
           widgets={{
             saleGoods: SalesGoods,
           }}

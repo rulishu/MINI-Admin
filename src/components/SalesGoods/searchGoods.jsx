@@ -49,12 +49,14 @@ export default () => {
   }, [visible]);
 
   useEffect(() => {
-    run({
-      pageNum,
-      pageSize,
-      ...searchForm,
-    });
-  }, [pageNum, pageSize, searchForm]);
+    if (visible) {
+      run({
+        pageNum,
+        pageSize,
+        ...searchForm,
+      });
+    }
+  }, [pageNum, pageSize, searchForm, visible]);
 
   const orderTableProps = {
     rowSelection: {

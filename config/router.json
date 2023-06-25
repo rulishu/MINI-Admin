@@ -189,7 +189,7 @@
           },
           {
             "path": "/sales/flashKill",
-            "name": "限时秒杀",
+            "name": "秒杀",
             "component": "@/pages/sales/flashKill"
           }
         ]
