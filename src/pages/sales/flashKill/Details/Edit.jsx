@@ -46,7 +46,9 @@ export default () => {
     if (visible) {
       form.setValues({
         form1: {},
-        form2: {},
+        form2: {
+          list: [],
+        },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,6 +60,7 @@ export default () => {
 
   return (
     <AModal
+      destroyOnClose={true}
       open={visible}
       width={1000}
       onCancel={() => update({ visible: false })}

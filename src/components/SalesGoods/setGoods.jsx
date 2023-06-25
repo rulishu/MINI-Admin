@@ -10,6 +10,7 @@ export default () => {
   const {
     state: { dataSource: data, setVisible, setRecord = {} },
     dispatch,
+    onChange,
   } = useContext(Context);
 
   const { message } = App.useApp();
@@ -66,7 +67,7 @@ export default () => {
       return price;
     }
     if (batchValue) {
-      return (price * batchValue * 0.1).toFixed(2);
+      return Number((price * batchValue * 0.1).toFixed(2));
     }
     return null;
   };
@@ -101,6 +102,7 @@ export default () => {
   const save = () => {
     const row = data.find((rows) => rows.id === setRecord.id);
     row.list = [...dataSource];
+    onChange?.(data);
     dispatch({ dataSource: data });
     close();
   };

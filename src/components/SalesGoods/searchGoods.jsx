@@ -12,6 +12,7 @@ export default () => {
   const {
     state: { dataSource: data, visible },
     dispatch,
+    onChange,
   } = useContext(Context);
 
   const [state, setState] = useSetState({
@@ -117,6 +118,7 @@ export default () => {
   };
 
   const save = () => {
+    onChange?.(selectedStudent);
     dispatch({ dataSource: [...selectedStudent] });
     close();
   };

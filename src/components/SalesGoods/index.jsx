@@ -1,3 +1,4 @@
+import { useUnmount } from 'ahooks';
 import { App, Button, Space, Table } from 'antd';
 import { Fragment, useContext, useEffect } from 'react';
 import { columns } from './columns';
@@ -5,22 +6,28 @@ import { Context, Provider } from './hooks/context';
 import SearchGoods from './searchGoods';
 import SetGoods from './setGoods';
 
-const Index = ({ value, onChange }) => {
+const Index = () => {
   const {
     state: { dataSource },
     dispatch,
+    value,
+    onChange,
+    addons,
   } = useContext(Context);
   const { modal } = App.useApp();
 
   useEffect(() => {
-    dispatch({
-      dataSource: value,
-    });
-  }, [value]);
+    if (addons && addons.removeErrorField && addons.dataPath) {
+      addons.removeErrorField(addons.dataPath);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, addons]);
 
-  useEffect(() => {
-    onChange?.(dataSource);
-  }, [dataSource]);
+  useUnmount(() => {
+    if (addons && addons.removeErrorField && addons.dataPath) {
+      addons.removeErrorField(addons.dataPath);
+    }
+  });
 
   const handleEdit = (type, record) => {
     if (type === 'delete') {
@@ -30,6 +37,7 @@ const Index = ({ value, onChange }) => {
         content: `确定是否要删除商品【${record.itemName}】？`,
         onOk: () => {
           const data = dataSource.filter((item) => item.id !== record.id);
+          onChange?.(data);
           dispatch({ dataSource: [...data] });
         },
       });
@@ -54,10 +62,11 @@ const Index = ({ value, onChange }) => {
   );
 };
 
-export default ({ value = [], onChange }) => {
+export default ({ value = [], ...props }) => {
+  const defaultProps = { value, ...props };
   return (
-    <Provider>
-      <Index value={value} onChange={onChange} />
+    <Provider defaultProps={defaultProps}>
+      <Index />
     </Provider>
   );
 };
