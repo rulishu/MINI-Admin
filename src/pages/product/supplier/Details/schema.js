@@ -1,4 +1,4 @@
-// import { typeEnum } from '../enum';
+import { typeEnum } from '../enum';
 
 // eslint-disable-next-line no-unused-vars
 export const schema = ({ getProductUserList, province }) => {
@@ -11,20 +11,20 @@ export const schema = ({ getProductUserList, province }) => {
         widget: 'lineTitle',
         title: '基础信息',
         properties: {
-          // type: {
-          //   title: '类型',
-          //   type: 'string',
-          //   required: true,
-          //   span: 24,
-          //   placeholder: '请选择类型',
-          //   widget: 'radio',
-          //   props: {
-          //     options: Object.entries(typeEnum).map(([key, value]) => ({
-          //       label: value.text,
-          //       value: key,
-          //     })),
-          //   },
-          // },
+          type: {
+            title: '类型',
+            type: 'number',
+            required: true,
+            span: 24,
+            placeholder: '请选择类型',
+            widget: 'radio',
+            props: {
+              options: Object.entries(typeEnum).map(([key, value]) => ({
+                label: value.text,
+                value: parseInt(key),
+              })),
+            },
+          },
           supplierName: {
             title: '供应商名称',
             type: 'string',

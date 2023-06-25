@@ -1,7 +1,8 @@
 import UserContent from '@/components/UserContent';
 import { Divider, Typography } from 'antd';
 import moment from 'moment';
-// import { typeEnum } from './enum';
+import { typeEnum } from './enum';
+
 const { Text } = Typography;
 export const columns = ({ handleEdit, productSelector }) => [
   {
@@ -42,15 +43,15 @@ export const columns = ({ handleEdit, productSelector }) => [
       </div>
     ),
   },
-  // {
-  //   title: '类型',
-  //   width: 90,
-  //   dataIndex: 'type',
-  //   ellipsis: true,
-  //   hideInSearch: true,
-  //   valueType: 'select',
-  //   valueEnum: typeEnum,
-  // },
+  {
+    title: '类型',
+    width: 90,
+    dataIndex: 'type',
+    ellipsis: true,
+    hideInSearch: true,
+    valueType: 'select',
+    valueEnum: typeEnum,
+  },
   // {
   //   title: '联系人名称',
   //   width: 120,
