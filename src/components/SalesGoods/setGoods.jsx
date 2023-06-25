@@ -188,9 +188,9 @@ export default () => {
       }
     >
       <ProCard title="设置规格优惠" headerBordered bodyStyle={{ paddingBottom: 0 }}>
-        <div style={{ marginBottom: 16 }}>
+        <div style={{ marginBottom: 16, padding: 16, background: '#f5f5f5' }}>
           <Space>
-            <span>批量设置</span>
+            <b>批量设置</b>
             <InputNumber
               placeholder="折扣"
               value={batchValue}
