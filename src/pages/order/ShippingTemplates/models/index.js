@@ -15,6 +15,15 @@ const shipping = {
     drawerType: 'add',
     drawerParams: {},
     message: '',
+
+    //
+    isModalOpen: false, // 选区弹窗
+    disabledList: [], // 禁用列表
+    unchecked: [],
+    assignedAreaTableList: [], // 指定地区运费列表
+    disabledAreaTableList: [], // 限售地区运费列表
+    editAreaId: '', // 编辑中的数据ID
+    areaListType: 'can', // can 指定地区 ， not 限售地区
   },
   reducers: {
     updateState: (state, { payload }) => ({

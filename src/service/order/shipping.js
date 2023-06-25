@@ -11,25 +11,34 @@ export const deleteQ = async (params) => {
     data: params,
   });
 };
+// 获取发货商品列表
+export const getPushItems = async ({ orderId }) => {
+  return request(`/jcgl-mall/admin/order/logistics/select/items?id=${orderId}`, {
+    method: 'GET',
+  });
+};
 
 //
 export const selectPageList = async (params) => {
   const { page, pageSize, ...others } = params;
   return request(
-    `/jcgl-mall/admin/freight/template/select/select/list?pageSize=${pageSize}&pageNum=${page}`,
+    `/jcgl-mall/admin/freight/template/select/page/list?pageSize=${pageSize}&pageNum=${page}`,
     {
       method: 'POST',
       data: others,
     },
   );
 };
-
 // 新增
 export async function addTemplate(params) {
   return request('/jcgl-mall/admin/freight/template/create', {
     method: 'POST',
     data: params,
-    // requestType: 'json',
+  });
+}
+export async function getDetails(params) {
+  return request(`/jcgl-mall/admin/freight/template/details?id=${params}`, {
+    method: 'GET',
   });
 }
 
