@@ -3,6 +3,7 @@ import { Fragment, useContext } from 'react';
 import { columns } from './columns';
 import { Context, Provider } from './hooks/context';
 import SearchGoods from './searchGoods';
+import SetGoods from './setGoods';
 
 const Index = () => {
   const {
@@ -23,6 +24,9 @@ const Index = () => {
         },
       });
     }
+    if (type === 'set') {
+      dispatch({ setVisible: true, setRecord: { ...record } });
+    }
   };
   return (
     <Fragment>
@@ -33,6 +37,7 @@ const Index = () => {
         <Table dataSource={dataSource} columns={columns({ handleEdit })} rowKey="id" />
       </Space>
       <SearchGoods />
+      <SetGoods />
     </Fragment>
   );
 };

@@ -57,10 +57,12 @@ export default () => {
   }, [pageNum, pageSize, searchForm]);
 
   const orderTableProps = {
-    className: 'wrap-table-align',
     rowSelection: {
       selectedRowKeys: selectedStudentKey,
       onSelect: (record, selected) => {
+        if (selectedStudentKey.length >= 100) {
+          return;
+        }
         const newSelectedRows = _.cloneDeep(selectedStudent);
         if (selected) newSelectedRows.push(record);
         if (!selected) _.remove(newSelectedRows, (item) => item.id === record.id);
@@ -68,6 +70,9 @@ export default () => {
         setState({ selectedStudent: newSelectedRows, selectedStudentKey: selectedRowKeys });
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
+        if (selectedStudentKey.length >= 100) {
+          return;
+        }
         let newSelectedRows = _.cloneDeep(selectedStudent);
         const changeRowKeys = _.map(changeRows, 'id');
         if (selected) newSelectedRows = _.uniqBy(_.concat(newSelectedRows, changeRows), 'id');
@@ -120,13 +125,26 @@ export default () => {
       width={1000}
       onCancel={close}
       footer={
-        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
-          <Button key="save" type="primary" onClick={save}>
-            保存
-          </Button>
-          <Button key="cancel" onClick={close}>
-            取消
-          </Button>
+        <div
+          style={{
+            paddingBottom: 24,
+            paddingRight: 24,
+            paddingLeft: 24,
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span>
+            已选 <span style={{ color: '#1677ff' }}>{selectedStudentKey.length}</span> 条（上限100）
+          </span>
+          <div>
+            <Button key="save" type="primary" onClick={save}>
+              保存
+            </Button>
+            <Button key="cancel" onClick={close}>
+              取消
+            </Button>
+          </div>
         </div>
       }
     >

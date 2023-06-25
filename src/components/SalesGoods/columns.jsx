@@ -56,7 +56,7 @@ export const columns = ({ handleEdit }) => [
     align: 'left',
     render: (record) => (
       <div>
-        <a>设置规格优惠</a>
+        <a onClick={() => handleEdit('set', record)}> 设置规格优惠</a>
         <Divider type="vertical" />
         <a onClick={() => handleEdit('delete', record)}>删除</a>
       </div>
