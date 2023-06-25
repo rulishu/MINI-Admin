@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from '@umijs/max';
 import { App, Button } from 'antd';
 import { useEffect, useRef } from 'react';
 import EditForm from './EditForm';
+import FormItemModal from './EditForm/FormItemModal';
 import { columns } from './columns';
 import './index.less';
 
@@ -32,7 +33,7 @@ const SearchTable = () => {
     update({ type });
     if (type === 'add') {
       update({
-        drawerParams: { parentId: '0', level: 1 },
+        drawerParams: {},
         drawerType: 'add',
         addOpen: true,
       });
@@ -137,6 +138,7 @@ const SearchTable = () => {
         )}
       />
       <EditForm />
+      <FormItemModal />
     </>
   );
 };
