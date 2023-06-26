@@ -12,6 +12,7 @@ export default () => {
   const {
     state: { dataSource: data, visible },
     dispatch,
+    onChange,
   } = useContext(Context);
 
   const [state, setState] = useSetState({
@@ -49,12 +50,14 @@ export default () => {
   }, [visible]);
 
   useEffect(() => {
-    run({
-      pageNum,
-      pageSize,
-      ...searchForm,
-    });
-  }, [pageNum, pageSize, searchForm]);
+    if (visible) {
+      run({
+        pageNum,
+        pageSize,
+        ...searchForm,
+      });
+    }
+  }, [pageNum, pageSize, searchForm, visible]);
 
   const orderTableProps = {
     rowSelection: {
@@ -115,6 +118,7 @@ export default () => {
   };
 
   const save = () => {
+    onChange?.(selectedStudent);
     dispatch({ dataSource: [...selectedStudent] });
     close();
   };

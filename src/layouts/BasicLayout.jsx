@@ -17,7 +17,7 @@ const Layout = () => {
   return (
     <Authorized authority={!!token} redirectPath="/login">
       <BasicLayout
-        defultOpenMenus={true}
+        defultOpenMenus={false}
         projectName="奋斗之露"
         logo={logo}
         profile={{

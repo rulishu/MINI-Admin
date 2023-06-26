@@ -1,11 +1,13 @@
 import { createContext, useReducer } from 'react';
 
-export const initialState = {
-  dataSource: [],
-  visible: false,
-  // 设置规格优惠
-  setVisible: false,
-  setRecord: {},
+export const initialState = ({ value }) => {
+  return {
+    dataSource: value,
+    visible: false,
+    // 设置规格优惠
+    setVisible: false,
+    setRecord: {},
+  };
 };
 
 const Context = createContext({
@@ -20,9 +22,11 @@ const reducer = (state, action) => {
   };
 };
 
-const Provider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  return <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>;
+const Provider = ({ defaultProps, children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState({ value: defaultProps.value }));
+  return (
+    <Context.Provider value={{ ...defaultProps, state, dispatch }}>{children}</Context.Provider>
+  );
 };
 
 export { Context, reducer, Provider };

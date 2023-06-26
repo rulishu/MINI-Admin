@@ -10,6 +10,7 @@ export default () => {
   const {
     state: { dataSource: data, setVisible, setRecord = {} },
     dispatch,
+    onChange,
   } = useContext(Context);
 
   const { message } = App.useApp();
@@ -33,7 +34,7 @@ export default () => {
               activityPrice: matchedItem?.activityPrice || 0,
               flashStock: matchedItem?.flashStock || 0,
               attributeName: (item.attributes || []).map(
-                (attr) => attr.attributeName + `*` + attr.value,
+                (attr) => attr.value + '' + attr.attributeName,
               ),
             };
           }),
@@ -66,7 +67,7 @@ export default () => {
       return price;
     }
     if (batchValue) {
-      return (price * batchValue * 0.1).toFixed(2);
+      return Number((price * batchValue * 0.1).toFixed(2));
     }
     return null;
   };
@@ -101,6 +102,7 @@ export default () => {
   const save = () => {
     const row = data.find((rows) => rows.id === setRecord.id);
     row.list = [...dataSource];
+    onChange?.(data);
     dispatch({ dataSource: data });
     close();
   };
@@ -112,9 +114,9 @@ export default () => {
       {
         title: '规格信息',
         dataIndex: 'attributeName',
-        width: 120,
+        width: 200,
         render: (_, record) => {
-          return <div style={{ width: 100 }}>{(record.attributeName || []).join(';')}</div>;
+          return <div style={{ width: 200 }}>{(record.attributeName || []).join('*')}</div>;
         },
       },
       {

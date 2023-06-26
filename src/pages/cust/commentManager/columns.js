@@ -1,10 +1,9 @@
 import AImage from '@/components/AImage';
 import { Switch, Typography } from 'antd';
 import moment from 'moment';
-import { Fragment } from 'react';
 import { levelEnum } from './enum';
 
-export const columns = () => [
+export const columns = ({ handleEdit }) => [
   {
     title: '商品名称',
     dataIndex: 'itemName',
@@ -15,7 +14,7 @@ export const columns = () => [
   },
   {
     title: '商品ID',
-    dataIndex: 'itemId',
+    dataIndex: 'productId',
     fieldProps: {
       placeholder: '请输入商品ID',
     },
@@ -23,7 +22,7 @@ export const columns = () => [
   },
   {
     title: '订单编号',
-    dataIndex: 'orderNumber',
+    dataIndex: 'orderId',
     fieldProps: {
       placeholder: '请输入订单编号',
     },
@@ -31,21 +30,21 @@ export const columns = () => [
   },
   {
     title: '评价内容',
-    dataIndex: 'consumerName',
+    dataIndex: 'comment',
     align: 'left',
-    width: 120,
+    width: 200,
     hideInSearch: true,
   },
   {
     title: '评价等级',
-    dataIndex: 'level',
+    dataIndex: 'rating',
     align: 'left',
     width: 90,
     valueEnum: levelEnum,
   },
   {
     title: '订单编号',
-    dataIndex: 'id',
+    dataIndex: 'orderId',
     width: 120,
     hideInSearch: true,
   },
@@ -60,24 +59,16 @@ export const columns = () => [
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div>
             {' '}
-            <AImage height={80} width={80} src={''} />
+            <AImage height={80} width={80} src={record.mainImage} />
           </div>
           <div style={{ marginLeft: 12, width: 250 }}>
             <Typography.Text
-              ellipsis={{ tooltip: '乔宣咖啡 挂耳咖啡礼盒' }}
+              ellipsis={{ tooltip: `${record.itemName || ''} ${record.sku || ''}` }}
               style={{ fontSize: '14px' }}
             >
-              乔宣咖啡 挂耳咖啡礼盒 10g*7包
+              {record.itemName} {record.sku}
             </Typography.Text>
-            <div style={{ fontSize: '14px', color: '#ccc' }}>
-              {(record.attributes || []).map((item, i) => (
-                <Fragment key={item.attributeId}>
-                  <span> {`${item.attributeName}:${item.value}`}</span>
-                  {i !== (record.attributes || []).length - 1 && <span>;</span>}
-                </Fragment>
-              ))}
-            </div>
-            <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:3617357357283207361</div>
+            <div style={{ fontSize: '14px', color: '#1677ff' }}>ID:{record.productId}</div>
           </div>
         </div>
       );
@@ -88,20 +79,23 @@ export const columns = () => [
     dataIndex: 'details',
     align: 'left',
     width: 250,
-    render: () => {
+    render: (_, record) => {
       return (
         <div style={{ textAlign: 'left', marginLeft: 8, width: 220 }}>
           <div>
             <Typography.Text
-              ellipsis={{ tooltip: 'Miracle-' }}
+              ellipsis={{ tooltip: record.userName }}
               style={{ fontSize: '14px', fontWeight: 'bold' }}
             >
-              Miracle-
+              {record.consumerName}
             </Typography.Text>
           </div>
           <div>
-            <Typography.Text ellipsis={{ tooltip: 'ID:7889878' }} style={{ fontSize: '14px' }}>
-              ID:7889878
+            <Typography.Text
+              ellipsis={{ tooltip: `ID:${record.userId}` }}
+              style={{ fontSize: '14px' }}
+            >
+              ID:{record.userId}
             </Typography.Text>
           </div>
         </div>
@@ -128,9 +122,11 @@ export const columns = () => [
   },
   {
     title: '显示状态',
-    dataIndex: 'status',
+    dataIndex: 'isShow',
     width: 120,
     hideInSearch: true,
-    render: () => <Switch defaultChecked />,
+    render: (_, record) => (
+      <Switch onChange={() => handleEdit('editIsShow', record)} checked={record.isShow === 1} />
+    ),
   },
 ];

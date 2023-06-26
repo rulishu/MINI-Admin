@@ -1,10 +1,12 @@
-import { selectPage } from '@/service/cust/custManage';
+import { selectPage, update } from '@/service/cust/commentManager';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Fragment } from 'react';
+import { useRequest } from 'ahooks';
+import { Fragment, useRef } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
+  const ref = useRef();
   const dispatch = useDispatch();
   const {
     commentManager: { dataSource },
@@ -15,12 +17,26 @@ export default function SearchTable() {
       payload: payload,
     });
   };
+
+  const { run } = useRequest(update, { manual: true });
+
   // eslint-disable-next-line no-unused-vars
-  const handleEdit = (type, data) => {};
+  const handleEdit = (type, data) => {
+    if (type === 'editIsShow') {
+      const value = data.isShow === 1 ? 0 : 1;
+      run({
+        id: data.id,
+        isShow: value,
+      });
+      data.isShow = value;
+      updateFn({ dataSource });
+    }
+  };
 
   return (
     <Fragment>
       <ProTable
+        actionRef={ref}
         headerTitle="评论列表"
         options={false}
         search={{
@@ -35,7 +51,7 @@ export default function SearchTable() {
           const { current, pageSize, ...formData } = params;
           const { code, result } = await selectPage({
             pageNum: current,
-            pageSize,
+            pageSize: pageSize,
             ...formData,
           });
           if (code && code === 200) {
@@ -49,6 +65,10 @@ export default function SearchTable() {
         dataSource={dataSource}
         pagination={{
           showSizeChanger: true,
+          onChange: () => {
+            const node = document.querySelector('.ant-layout-content');
+            node.scrollTop = 0;
+          },
         }}
         cardProps={{
           size: 'small',
