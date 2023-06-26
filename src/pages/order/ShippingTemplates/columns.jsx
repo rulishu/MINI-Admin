@@ -3,7 +3,7 @@ import { Divider } from 'antd';
 export const columns = ({ handleEdit }) => [
   {
     title: '模板名称',
-    dataIndex: 'categoryName',
+    dataIndex: 'name',
   },
   {
     title: '使用状态',
@@ -25,13 +25,12 @@ export const columns = ({ handleEdit }) => [
   {
     title: '操作',
     fixed: 'right',
-
     search: false,
     valueType: 'option',
     key: 'option',
     render: (_, record) => (
       <div>
-        <a type="link" size="small" onClick={() => handleEdit('addChildren', record)}>
+        <a type="link" size="small" onClick={() => handleEdit('copy', record)}>
           复制
         </a>
         <Divider type="vertical" />

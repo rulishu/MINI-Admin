@@ -41,7 +41,6 @@ export async function getDetails(params) {
     method: 'GET',
   });
 }
-
 export async function updateTemplate(params) {
   return request(`/jcgl-mall/admin/freight/template/update`, {
     method: 'PUT',
@@ -49,3 +48,8 @@ export async function updateTemplate(params) {
     // requestType: 'json',
   });
 }
+export const deleteItem = async ({ id }) => {
+  return request(`/jcgl-mall/admin/freight/template/delete?id=${id}`, {
+    method: 'DELETE',
+  });
+};

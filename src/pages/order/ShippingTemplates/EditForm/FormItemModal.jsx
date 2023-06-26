@@ -73,6 +73,7 @@ const EditForm = () => {
       destroyOnClose
       title="运费地区设置"
       width={800}
+      centered
       open={isModalOpen}
       onOk={() => {
         const label = spanRef?.current?.innerText;
@@ -108,16 +109,16 @@ const EditForm = () => {
         }
         // 关闭后清空选中数据
         if (areaListType === 'can') {
-          update({ assignedAreaTableList: arr, editAreaId: '', disabledList: [] });
+          update({ unchecked: [], assignedAreaTableList: arr, editAreaId: '', disabledList: [] });
         } else if (areaListType === 'not') {
-          update({ disabledAreaTableList: arr, editAreaId: '', disabledList: [] });
+          update({ unchecked: [], disabledAreaTableList: arr, editAreaId: '', disabledList: [] });
         }
         setIsList([]);
         update({ isModalOpen: false });
       }}
       onCancel={() => {
         setIsList([]);
-        update({ editAreaId: '', disabledList: [], isModalOpen: false });
+        update({ unchecked: [], editAreaId: '', disabledList: [], isModalOpen: false });
       }}
     >
       <div style={{ marginBottom: 12 }}>选择区域</div>
