@@ -34,7 +34,7 @@ export default () => {
               activityPrice: matchedItem?.activityPrice || 0,
               flashStock: matchedItem?.flashStock || 0,
               attributeName: (item.attributes || []).map(
-                (attr) => attr.attributeName + `*` + attr.value,
+                (attr) => attr.value + '' + attr.attributeName,
               ),
             };
           }),
@@ -114,9 +114,9 @@ export default () => {
       {
         title: '规格信息',
         dataIndex: 'attributeName',
-        width: 120,
+        width: 200,
         render: (_, record) => {
-          return <div style={{ width: 100 }}>{(record.attributeName || []).join(';')}</div>;
+          return <div style={{ width: 200 }}>{(record.attributeName || []).join('*')}</div>;
         },
       },
       {

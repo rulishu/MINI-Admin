@@ -1,5 +1,5 @@
+import { message } from '@antdp/basic-layouts';
 import { request } from '@umijs/max';
-import { message } from 'antd';
 
 export const codeMessage = {
   200: '服务器成功返回请求的数据。',
