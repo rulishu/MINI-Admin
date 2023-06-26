@@ -49,7 +49,7 @@ export default () => {
       });
     }
     if (type === 'edit') {
-      update({ visible: true, queryInfo: { ...record } });
+      update({ queryInfo: { ...record }, visible: true });
     }
     if (type === 'offShelf') {
       modal.confirm({

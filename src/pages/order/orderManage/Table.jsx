@@ -1,6 +1,6 @@
 import { selectPage } from '@/service/order/orderManage';
 import { ProTable } from '@ant-design/pro-components';
-import { useDispatch, useNavigate, useSelector } from '@umijs/max';
+import { history, useDispatch, useNavigate, useSelector } from '@umijs/max';
 import { App, Skeleton, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Push from './Details/Push';
@@ -23,7 +23,6 @@ export default function SearchTable() {
       payload: payload,
     });
   };
-
   // 筛选条件模糊搜索
   const handleSearch = (type, searchParams) => {
     dispatch({
@@ -37,7 +36,7 @@ export default function SearchTable() {
     updateFn({ type: type });
     // 查看详情
     if (type === 'view') {
-      dispatch({ type: 'orderManage/selectById', payload: { id: data.id } });
+      history.push(`/order/orderDetail/${data.id}`);
     }
     // 发货
     if (type === 'push') {
@@ -89,6 +88,9 @@ export default function SearchTable() {
     if (type === 'goAfterSale') {
       navigate('/order/afterSales', { state: { ...data } });
     }
+    if (type === 'profitSharingView') {
+      navigate('/order/incomeDetail', { state: { id: data.id } });
+    }
   };
 
   // table参数
@@ -129,7 +131,7 @@ export default function SearchTable() {
       });
       if (code && code === 200) {
         setExpandedRowKeys((result.records || []).map((rowKey) => rowKey.id));
-        updateFn({ dataSource: result.records || [], total: result.total });
+        updateFn({ dataSource: result.records || [] });
         return {
           total: result.total,
           success: true,
@@ -143,7 +145,6 @@ export default function SearchTable() {
     },
     columns: columns({
       tableLoading: tableLoading,
-      activeKey: activeKey,
       handle,
       supplierName: {
         options: suppliersList,
@@ -153,14 +154,14 @@ export default function SearchTable() {
       },
     }),
     rowKey: 'id',
-    scroll: { x: 1300 },
+    scroll: { x: 1400 },
     expandable: {
       showExpandColumn: false,
       expandedRowRender: (record) => (
         <Skeleton active loading={tableLoading}>
           <Table
             className="expanded_table_td"
-            columns={expandColumns({ rowData: record, handle: handle })}
+            columns={expandColumns({ rowData: record, handle: handle, activeKey: activeKey })}
             dataSource={record.items || []}
             rowKey="id"
             pagination={false}

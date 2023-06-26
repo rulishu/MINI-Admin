@@ -1,30 +1,33 @@
-import { selectPage } from '@/service/cust/custManage';
+import { selectPage } from '@/service/cust/memberManage';
 import { ProTable } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
+import { useDispatch } from '@umijs/max';
+import { Button } from 'antd';
 import { Fragment } from 'react';
+import Edit from './Details/Edit';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  // eslint-disable-next-line no-unused-vars
-  const handleEdit = (type, data) => {
-    if (type === 'view') {
-      history.push('/cust/userDetail');
+  const dispatch = useDispatch();
+
+  const update = (data) => {
+    dispatch({
+      type: 'flashKill/update',
+      payload: data,
+    });
+  };
+
+  const handleEdit = (type) => {
+    update({ type });
+    if (type === 'add') {
+      update({ visible: true });
     }
   };
 
   return (
     <Fragment>
       <ProTable
-        headerTitle="用户列表"
+        headerTitle="秒杀列表"
         options={false}
-        search={{
-          labelWidth: 80,
-          labelAlign: 'right',
-          span: 8,
-          style: {
-            padding: '12px 12px 12px 0px',
-          },
-        }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
           const { code, result } = await selectPage({
@@ -43,16 +46,30 @@ export default function SearchTable() {
         pagination={{
           showSizeChanger: true,
         }}
+        cardBordered
+        columns={columns({ handleEdit })}
+        rowKey="id"
+        search={{
+          labelWidth: 80,
+          labelAlign: 'right',
+          span: 8,
+          style: {
+            padding: '12px 12px 12px 0px',
+          },
+        }}
         cardProps={{
           size: 'small',
           style: {
             padding: 0,
           },
         }}
-        cardBordered
-        columns={columns({ handleEdit })}
-        rowKey="id"
+        toolBarRender={() => [
+          <Button key="add" type="primary" onClick={() => handleEdit('add')}>
+            新增
+          </Button>,
+        ]}
       />
+      <Edit />
     </Fragment>
   );
 }

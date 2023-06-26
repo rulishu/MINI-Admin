@@ -13,12 +13,6 @@ import {
 export default {
   namespace: 'orderManage',
   state: {
-    // 每页条数
-    pageSize: 10,
-    // 第几页
-    pageNum: 1,
-    // 总条数
-    total: 0,
     // 数据源
     dataSource: [],
     activeKey: 2,
@@ -26,10 +20,6 @@ export default {
     selectedRows: [],
     /** view详情 push发货 copy复制订单号 */
     type: '',
-    /** 详情弹窗  */
-    visible: false,
-    /** 详情数据  */
-    queryData: {},
     /** 发货弹窗  */
     pushVisible: false,
     /** 发货数据  */
@@ -37,7 +27,6 @@ export default {
     logisticsCompanyList: [], // 物流公司
     suppliersList: [], // 代理商列表
     userList: [], // 客户列表
-    pushList: [], // 包裹信息
     count: {},
   },
   reducers: {

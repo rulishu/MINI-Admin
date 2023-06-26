@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { AfterSaleStatusComp, GoodInfoComp, OrderStatusComp, SkuComp } from './component';
 const { Text } = Typography;
 
-export const columns = ({ supplierName, handle, activeKey, tableLoading }) => [
+export const columns = ({ supplierName, handle, tableLoading }) => [
   {
     title: '用户ID',
     dataIndex: 'userId',
@@ -195,28 +195,20 @@ export const columns = ({ supplierName, handle, activeKey, tableLoading }) => [
     hideInSearch: true,
     width: 120,
     render: (_, record) => {
-      const { logisticsStatus } = record;
-      const canPush = logisticsStatus === 0 && activeKey === 2;
       return (
         <div>
-          <a onClick={() => handle('view', record)}>详情</a>
-          {canPush && (
-            <Fragment>
-              <Divider type="vertical" />
-              <a onClick={() => handle('push', record)}>发货</a>
-            </Fragment>
-          )}
+          <a onClick={() => handle('profitSharingView', record)}>分润详情</a>
         </div>
       );
     },
   },
 ];
 
-export const expandColumns = ({ rowData, handle }) => [
+export const expandColumns = ({ rowData, handle, activeKey }) => [
   {
     dataIndex: 'info',
     key: 'info',
-    render: (_, record) => <GoodInfoComp record={record} />,
+    render: (_, record) => <GoodInfoComp record={record} width={200} />,
   },
   {
     width: 150,
@@ -228,7 +220,13 @@ export const expandColumns = ({ rowData, handle }) => [
     width: 100,
     dataIndex: 'orderPrice',
     key: 'orderPrice',
-    render: () => '￥' + rowData.orderPrice || '-',
+    render: () => (
+      <div style={{ width: 90 }}>
+        <Text ellipsis={{ tooltip: '￥' + rowData.orderPrice || '-' }}>
+          {'￥' + rowData.orderPrice || '-'}
+        </Text>
+      </div>
+    ),
   },
   {
     width: 100,
@@ -312,5 +310,22 @@ export const expandColumns = ({ rowData, handle }) => [
     dataIndex: 'operate',
     key: 'operate',
     width: 120,
+    render: (_, record, index) => {
+      const { logisticsStatus } = rowData;
+      const canPush = logisticsStatus === 0 && activeKey === 2;
+      return (
+        index === 0 && (
+          <div>
+            <a onClick={() => handle('view', rowData)}>订单详情</a>
+            {canPush && (
+              <Fragment>
+                <Divider type="vertical" />
+                <a onClick={() => handle('push', rowData)}>发货</a>
+              </Fragment>
+            )}
+          </div>
+        )
+      );
+    },
   },
 ];

@@ -1,6 +1,8 @@
 import UserContent from '@/components/UserContent';
 import { Divider, Typography } from 'antd';
 import moment from 'moment';
+import { typeEnum } from './enum';
+
 const { Text } = Typography;
 export const columns = ({ handleEdit, productSelector }) => [
   {
@@ -42,43 +44,36 @@ export const columns = ({ handleEdit, productSelector }) => [
     ),
   },
   {
-    title: '联系人名称',
-    width: 120,
-    dataIndex: 'contactName',
-    ellipsis: true,
-    hideInTable: true,
-  },
-  {
-    title: '联系人',
-    width: 180,
-    dataIndex: 'contact',
+    title: '类型',
+    width: 90,
+    dataIndex: 'type',
     ellipsis: true,
     hideInSearch: true,
-    render: (_, record) => (
-      <UserContent
-        showHead={false}
-        headUrl=""
-        name={record.contactName}
-        phone={record.contactPhone}
-        width={180}
-      />
-    ),
+    valueType: 'select',
+    valueEnum: typeEnum,
   },
   // {
-  //   title: '联系方式',
+  //   title: '联系人名称',
   //   width: 120,
-  //   dataIndex: 'contactPhone',
-  //   align: 'left',
+  //   dataIndex: 'contactName',
   //   ellipsis: true,
-  //   hideInSearch: true,
+  //   hideInTable: true,
   // },
   // {
-  //   title: '地址',
-  //   width: 120,
-  //   dataIndex: 'address',
-  //   align: 'left',
+  //   title: '联系人',
+  //   width: 180,
+  //   dataIndex: 'contact',
   //   ellipsis: true,
   //   hideInSearch: true,
+  //   render: (_, record) => (
+  //     <UserContent
+  //       showHead={false}
+  //       headUrl=""
+  //       name={record.contactName}
+  //       phone={record.contactPhone}
+  //       width={180}
+  //     />
+  //   ),
   // },
   {
     title: '推荐人',

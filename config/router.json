@@ -106,6 +106,23 @@
             "path": "/order/afterSales",
             "name": "售后管理",
             "component": "@/pages/order/AfterSales"
+          },
+          {
+            "path": "/order/orderDetail/:id",
+            "name": "订单详情",
+            "component": "@/pages/order/orderDetail/$detail.jsx",
+            "hideInMenu": true
+          },
+          {
+            "path": "/order/incomeDetail",
+            "name": "分润详情",
+            "component": "@/pages/order/incomeDetail",
+            "hideInMenu": true
+          },
+          {
+            "path": "/order/shippingTemplates",
+            "name": "运费模板",
+            "component": "@/pages/order/ShippingTemplates"
           }
         ]
       },
@@ -140,6 +157,17 @@
             "name": "会员管理",
             "component": "@/pages/cust/memberManage",
             "hideInMenu": true
+          },
+          {
+            "path": "/cust/userDetail",
+            "name": "用户详情",
+            "component": "@/pages/cust/userDetail",
+            "hideInMenu": true
+          },
+          {
+            "path": "/cust/commentManager",
+            "name": "评论管理",
+            "component": "@/pages/cust/commentManager"
           }
         ]
       },
@@ -161,7 +189,8 @@
           },
           {
             "path": "/sales/flashKill",
-            "name": "限时秒杀"
+            "name": "秒杀",
+            "component": "@/pages/sales/flashKill"
           }
         ]
       },

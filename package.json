@@ -20,18 +20,19 @@
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.4.14",
-    "@antdp/antdp-ui": "^2.0.16",
-    "@antdp/authorized": "^2.0.16",
-    "@antdp/basic-layouts": "^2.0.16",
-    "@antdp/hooks": "^2.0.16",
-    "@antdp/user-login": "^2.0.16",
+    "@antdp/antdp-ui": "^2.0.20",
+    "@antdp/authorized": "^2.0.20",
+    "@antdp/basic-layouts": "^2.0.20",
+    "@antdp/hooks": "^2.0.20",
+    "@antdp/user-login": "^2.0.20",
     "antd": "5.4.7",
     "form-render": "~2.1.28",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-device-frameset":"1.3.2",
-    "ahooks":"~3.7.7"
+    "ahooks":"~3.7.7",
+    "rsuite": "^5.22.0"
   },
   "overrides": {
     "dva": "^2.6.0-beta.20",
@@ -42,8 +43,8 @@
     "antd": "5.4.7"
   },
   "devDependencies": {
-    "@antdp/config": "^2.0.16",
-    "@antdp/dependencies": "^2.0.16",
+    "@antdp/config": "^2.0.20",
+    "@antdp/dependencies": "^2.0.20",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/fabric": "~2.14.1",

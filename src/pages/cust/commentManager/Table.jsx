@@ -1,21 +1,27 @@
 import { selectPage } from '@/service/cust/custManage';
 import { ProTable } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
+import { useDispatch, useSelector } from '@umijs/max';
 import { Fragment } from 'react';
 import { columns } from './columns';
 
 export default function SearchTable() {
-  // eslint-disable-next-line no-unused-vars
-  const handleEdit = (type, data) => {
-    if (type === 'view') {
-      history.push('/cust/userDetail');
-    }
+  const dispatch = useDispatch();
+  const {
+    commentManager: { dataSource },
+  } = useSelector((state) => state);
+  const updateFn = (payload) => {
+    dispatch({
+      type: 'commentManager/update',
+      payload: payload,
+    });
   };
+  // eslint-disable-next-line no-unused-vars
+  const handleEdit = (type, data) => {};
 
   return (
     <Fragment>
       <ProTable
-        headerTitle="用户列表"
+        headerTitle="评论列表"
         options={false}
         search={{
           labelWidth: 80,
@@ -33,13 +39,14 @@ export default function SearchTable() {
             ...formData,
           });
           if (code && code === 200) {
+            updateFn({ dataSource: result.records || [] });
             return {
-              data: result.records || [],
               total: result.total,
               success: true,
             };
           }
         }}
+        dataSource={dataSource}
         pagination={{
           showSizeChanger: true,
         }}

@@ -1,14 +1,14 @@
 import AImage from '@/components/AImage';
-import { Card, Space } from 'antd';
-import { Fragment } from 'react';
 import {
   AfterSaleStatusComp,
   GoodInfoComp,
   OrderStatusComp,
   ShipmentStatusComp,
   SkuComp,
-} from '../component';
-import { payEnum } from '../enum';
+} from '@/pages/order/orderManage/component';
+import { Card, Space } from 'antd';
+import { Fragment } from 'react';
+import { payEnum } from './enum';
 
 export const basicItem = [
   {
@@ -213,10 +213,10 @@ export const manageColumn = [
   {
     title: 'sku总价',
     dataIndex: 'totalPrice',
-    width: 90,
+    width: 100,
     key: 'totalPrice',
     ellipsis: true,
-    render: (_, record) => <div>￥{record.totalPrice}</div>,
+    render: (_, record) => <div style={{ width: 90 }}>￥{record.totalPrice}</div>,
   },
   {
     title: '促销信息',

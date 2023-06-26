@@ -63,11 +63,15 @@ export const columns = ({ handleEdit }) => [
     width: 90,
     valueType: 'select',
     valueEnum: {
-      1: {
+      [0]: {
+        text: '待上架',
+        status: 'Warning',
+      },
+      [1]: {
         text: '已上架',
         status: 'Success',
       },
-      0: {
+      [-1]: {
         text: '已下架',
         status: 'Error',
       },
@@ -75,7 +79,7 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '活动时间',
-    width: 150,
+    width: 180,
     dataIndex: 'showStartTime',
     align: 'left',
     hideInSearch: true,
@@ -101,18 +105,18 @@ export const columns = ({ handleEdit }) => [
     render: (record) => (
       <div>
         <a onClick={() => handleEdit('edit', record)}>编辑</a>
-        {record.status === 1 && (
+        {(record.status === 1 || record.status === 0) && (
           <Fragment>
             <Divider type="vertical" />
             <a onClick={() => handleEdit('offShelf', record)}>下架</a>
           </Fragment>
         )}
-        {record.status === 0 && (
+        {/* {record.status === 0 && (
           <Fragment>
             <Divider type="vertical" />
             <a onClick={() => handleEdit('grounding', record)}>上架</a>
           </Fragment>
-        )}
+        )} */}
       </div>
     ),
   },
