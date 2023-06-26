@@ -49,7 +49,6 @@ export default function SearchTable() {
         }}
         request={async (params = {}) => {
           const { current, pageSize, ...formData } = params;
-          console.log('current', current);
           const { code, result } = await selectPage({
             pageNum: current,
             pageSize: pageSize,
