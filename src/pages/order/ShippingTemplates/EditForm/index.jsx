@@ -1,62 +1,18 @@
 import { ModalForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { message } from 'antd';
-import { useEffect } from 'react';
 import FormItemWithTable from './FormItemWithTable';
 
 const EditForm = () => {
   const dispatch = useDispatch();
   const { shippingtemplates } = useSelector((state) => state);
-  const { addOpen, drawerParams, drawerType } = shippingtemplates;
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { addOpen, assignedAreaTableList } = shippingtemplates;
 
   const update = (data) => {
     dispatch({
       type: 'shippingtemplates/updateState',
       payload: data,
     });
-  };
-
-  const onFinish = (data) => {
-    const { parr, ...others } = data;
-    let searchParams = {
-      ...others,
-    };
-    if (drawerType === 'edit') {
-      dispatch({
-        type: 'shippingtemplates/updateCategory',
-        payload: { searchParams },
-      });
-    }
-    if (drawerType === 'add') {
-      const arr = parr.concat([]);
-      searchParams.parentArray = parr.join();
-      searchParams.parentId = parr.join() === '0' ? '0' : arr?.splice(-1)?.[0];
-      searchParams.status = 1;
-      dispatch({
-        type: 'shippingtemplates/addCategory',
-        payload: { searchParams },
-      });
-    }
-    if (drawerType === 'copy') {
-      const { level, categoryName, leafOrder } = searchParams;
-      dispatch({
-        type: 'shippingtemplates/addCategory',
-        payload: {
-          searchParams: {
-            level,
-            categoryName,
-            leafOrder,
-            parentArray: parr.join(),
-            parentId: drawerParams?.id,
-            status: 1,
-          },
-        },
-      });
-    }
   };
 
   return (
@@ -70,18 +26,83 @@ const EditForm = () => {
         modalProps={{
           destroyOnClose: true,
           width: 1000,
+          centered: true,
         }}
-        onFinish={async () => {
-          message.success('提交成功');
-          update({ addOpen: false, drawerParams: {}, drawerType: '' });
-          onFinish();
-          return true;
+        onFinish={async (value) => {
+          let msg = '';
+          let VoList;
+          if (assignedAreaTableList && assignedAreaTableList.length > 0) {
+            VoList = [];
+            assignedAreaTableList.forEach((item) => {
+              if (
+                item?.firstPart &&
+                item?.freightCharge &&
+                item?.continuedEmphasis &&
+                item?.feesRenewal
+              ) {
+                // 选中的数据
+                const { selectList } = item;
+                const obj = {
+                  firstPart: item?.firstPart,
+                  freightCharge: item?.freightCharge,
+                  continuedEmphasis: item?.continuedEmphasis,
+                  feesRenewal: item?.feesRenewal,
+                };
+                selectList.forEach((i) => {
+                  if (i.slice(-4) === '0000') {
+                    // 省
+                    VoList.push({ ...obj, province: i });
+                    // treeList[i]?.children?.forEach((city) => {
+                    //   if (city?.children) {
+                    //     city?.children.forEach((area) => {
+                    //       district.push(area?.areaCode);
+                    //     });
+                    //   }
+                    // });
+                  } else {
+                    if (i.slice(-2) === '00') {
+                      // 市
+                      VoList.push({ ...obj, city: i });
+                      // treeList[`${i.slice(0, 2)}0000`]?.children?.[i]?.children?.forEach((area) => {
+                      //   district.push(area?.areaCode);
+                      // });
+                    } else {
+                      // 区
+                      VoList.push({ ...obj, district: i });
+                    }
+                  }
+                });
+              } else {
+                msg = '指定地区运费不能为空';
+              }
+            });
+          }
+
+          if (msg) {
+            return message.warning(msg);
+          }
+
+          let type = false;
+
+          await dispatch({
+            type: 'shippingtemplates/addTemplate',
+            payload: {
+              value,
+              VoList,
+              callback: () => {
+                type = true;
+              },
+            },
+          });
+
+          return type;
         }}
         onValuesChange={(changeValues) => console.log(changeValues)}
         onOpenChange={(open) => {
           update({
             assignedAreaTableList: [],
             disabledAreaTableList: [],
+            unchecked: [],
             editAreaId: '',
             areaListType: 'can',
             addOpen: open,

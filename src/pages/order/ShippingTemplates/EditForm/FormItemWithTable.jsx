@@ -1,7 +1,9 @@
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button, Card, Divider, Form, InputNumber, Table } from 'antd';
+import { Button, Card, Divider, Form, InputNumber, Modal, Table, Tooltip } from 'antd';
 import { useState } from 'react';
+const { confirm } = Modal;
 
 const EditForm = () => {
   const dispatch = useDispatch();
@@ -112,16 +114,16 @@ const EditForm = () => {
               添加地区
             </Button>
           </div>
-          {/* {assignedAreaTableList.length > 0 && ( */}
-          <Table
-            rowKey="id"
-            size="small"
-            style={{ marginTop: 12 }}
-            pagination={false}
-            dataSource={assignedAreaTableList}
-            columns={columns(update, assignedAreaTableList)}
-          />
-          {/* )} */}
+          {assignedAreaTableList.length > 0 && (
+            <Table
+              rowKey="id"
+              size="small"
+              style={{ marginTop: 12, width: '100%' }}
+              pagination={false}
+              dataSource={assignedAreaTableList}
+              columns={columns(update, assignedAreaTableList, confirm)}
+            />
+          )}
         </Card>
       </Form.Item>
       {/* 限售 */}
@@ -145,16 +147,16 @@ const EditForm = () => {
               添加地区
             </Button>
           </div>
-          {/* {disabledAreaTableList.length > 0 && ( */}
-          <Table
-            rowKey="id"
-            size="small"
-            style={{ marginTop: 12 }}
-            pagination={false}
-            dataSource={disabledAreaTableList}
-            columns={columns2(update)}
-          />
-          {/* )} */}
+          {disabledAreaTableList.length > 0 && (
+            <Table
+              rowKey="id"
+              size="small"
+              style={{ marginTop: 12, width: '100%' }}
+              pagination={false}
+              dataSource={disabledAreaTableList}
+              columns={columns2(update, confirm, disabledAreaTableList)}
+            />
+          )}
         </Card>
       </Form.Item>
     </>
@@ -163,21 +165,52 @@ const EditForm = () => {
 
 export default EditForm;
 
-const columns = (update, assignedAreaTableList) => [
+const columns = (update, assignedAreaTableList, confirm) => [
   {
     title: '运送地区',
     dataIndex: 'selectLabel',
     key: 'selectLabel',
-    ellipsis: true,
+    width: 167,
+    render: (txt) =>
+      txt?.length > 30 ? (
+        <Tooltip placement="topLeft" title={txt}>
+          <div
+            style={{
+              width: '100%',
+              overflow: 'hidden',
+              WebkitLineClamp: 2,
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {txt}
+          </div>
+        </Tooltip>
+      ) : (
+        <div
+          style={{
+            width: '100%',
+            overflow: 'hidden',
+            WebkitLineClamp: 2,
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {txt}
+        </div>
+      ),
   },
   {
     title: '计费规则',
     dataIndex: 'age',
     key: 'age',
-    width: 530,
+    width: 520,
     render: (_, records, index) => (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <InputNumber
+          status={records?.firstPart ? null : 'error'}
           value={records?.firstPart}
           onChange={(value) => {
             const arr = assignedAreaTableList.concat([]);
@@ -193,6 +226,7 @@ const columns = (update, assignedAreaTableList) => [
         />
         件以内，
         <InputNumber
+          status={records?.freightCharge ? null : 'error'}
           value={records?.freightCharge}
           onChange={(value) => {
             const arr = assignedAreaTableList.concat([]);
@@ -208,6 +242,7 @@ const columns = (update, assignedAreaTableList) => [
         />
         元， 每增加
         <InputNumber
+          status={records?.continuedEmphasis ? null : 'error'}
           value={records?.continuedEmphasis}
           onChange={(value) => {
             const arr = assignedAreaTableList.concat([]);
@@ -223,6 +258,7 @@ const columns = (update, assignedAreaTableList) => [
         />
         件， 增加运费
         <InputNumber
+          status={records?.feesRenewal ? null : 'error'}
           value={records?.feesRenewal}
           onChange={(value) => {
             const arr = assignedAreaTableList.concat([]);
@@ -244,8 +280,8 @@ const columns = (update, assignedAreaTableList) => [
     title: '操作',
     dataIndex: 'id',
     key: 'id',
-    with: 135,
-    render: (_, records) => (
+    with: 120,
+    render: (_, records, index) => (
       <div style={{ display: 'flex' }}>
         <a
           type="link"
@@ -287,26 +323,75 @@ const columns = (update, assignedAreaTableList) => [
           修改地区
         </a>
         <Divider type="vertical" />
-        <a type="link" style={{ wordBreak: 'keep-all' }} size="small" onClick={() => {}}>
+        <a
+          type="link"
+          style={{ wordBreak: 'keep-all' }}
+          size="small"
+          onClick={() => {
+            confirm({
+              title: '确定要删除这条数据吗?',
+              icon: <ExclamationCircleFilled />,
+              centered: true,
+              onOk() {
+                const arr = assignedAreaTableList.concat([]);
+                arr.splice(index, 1);
+                update({ assignedAreaTableList: arr });
+              },
+              onCancel() {
+                console.log('Cancel');
+              },
+            });
+          }}
+        >
           删除
         </a>
       </div>
     ),
   },
 ];
-const columns2 = (update) => [
+const columns2 = (update, confirm, disabledAreaTableList) => [
   {
     title: '运送地区',
     dataIndex: 'selectLabel',
     key: 'selectLabel',
-    ellipsis: true,
+    width: 687,
+    render: (txt) =>
+      txt?.length > 145 ? (
+        <Tooltip placement="topLeft" title={txt}>
+          <div
+            style={{
+              width: '100%',
+              overflow: 'hidden',
+              WebkitLineClamp: 2,
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {txt}
+          </div>
+        </Tooltip>
+      ) : (
+        <div
+          style={{
+            width: '100%',
+            overflow: 'hidden',
+            WebkitLineClamp: 2,
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {txt}
+        </div>
+      ),
   },
   {
     title: '操作',
     dataIndex: '_op_',
     key: '_op_',
-    with: 135,
-    render: (_, records) => {
+    with: 120,
+    render: (_, records, index) => (
       <div>
         <a
           type="link"
@@ -320,11 +405,30 @@ const columns2 = (update) => [
           修改地区
         </a>
         <Divider type="vertical" />
-        <a type="link" size="small" style={{ wordBreak: 'keep-all' }} onClick={() => {}}>
+        <a
+          type="link"
+          size="small"
+          style={{ wordBreak: 'keep-all' }}
+          onClick={() => {
+            confirm({
+              title: '确定要删除这条数据吗?',
+              icon: <ExclamationCircleFilled />,
+              centered: true,
+              onOk() {
+                const arr = disabledAreaTableList.concat([]);
+                arr.splice(index, 1);
+                update({ disabledAreaTableList: arr });
+              },
+              onCancel() {
+                console.log('Cancel');
+              },
+            });
+          }}
+        >
           删除
         </a>
-      </div>;
-    },
+      </div>
+    ),
   },
 ];
 
