@@ -137,6 +137,12 @@
             "component": "@/pages/cust/custManage"
           },
           {
+            "path": "/cust/userDetail/:id",
+            "name": "用户详情",
+            "component": "@/pages/cust/userDetail",
+            "hideInMenu": true
+          },
+          {
             "path": "/cust/dealerManage",
             "name": "经销商管理",
             "component": "@/pages/cust/dealerManage",
@@ -156,12 +162,6 @@
             "path": "/cust/memberManage",
             "name": "会员管理",
             "component": "@/pages/cust/memberManage",
-            "hideInMenu": true
-          },
-          {
-            "path": "/cust/userDetail",
-            "name": "用户详情",
-            "component": "@/pages/cust/userDetail",
             "hideInMenu": true
           },
           {

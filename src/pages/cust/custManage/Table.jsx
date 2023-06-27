@@ -8,7 +8,7 @@ export default function SearchTable() {
   // eslint-disable-next-line no-unused-vars
   const handleEdit = (type, data) => {
     if (type === 'view') {
-      history.push('/cust/userDetail');
+      history.push(`/cust/userDetail/${data.id}`);
     }
   };
 
