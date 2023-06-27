@@ -12,7 +12,7 @@ import './index.less';
 const SearchTable = () => {
   const dispatch = useDispatch();
   const { shippingtemplates, loading } = useSelector((state) => state);
-  const { pageSize, categoryList } = shippingtemplates;
+  const { pageSize } = shippingtemplates;
 
   const { modal } = App.useApp();
   const actionRef = useRef();
@@ -40,27 +40,25 @@ const SearchTable = () => {
     }
     if (type === 'edit') {
       update({
-        drawerParams: data,
         drawerType: 'edit',
-        addOpen: true,
+      });
+      dispatch({
+        type: 'shippingtemplates/getDetails',
+        payload: data?.id,
       });
     }
     if (type === 'copy') {
       update({
-        drawerParams: data,
         drawerType: 'copy',
-        addOpen: true,
+      });
+      dispatch({
+        type: 'shippingtemplates/getDetails',
+        payload: data?.id,
       });
     }
     if (type === 'delete') {
       modal.confirm({
-        title: <span style={{ color: 'red' }}>删除有风险，操作需谨</span>,
-        content: (
-          <div>
-            <p>删除类目会导致该类目下所有子类目全部被删除，并导致所有关联商品下架！</p>
-            <p style={{ color: 'RGB(25,158,215)' }}>是否依旧删除？</p>
-          </div>
-        ),
+        title: <span style={{ color: 'red' }}>确定要删除吗？</span>,
         maskClosable: true,
         closable: true,
         cancelText: '取消',
@@ -70,7 +68,7 @@ const SearchTable = () => {
         okType: 'primary',
         onOk: () => {
           dispatch({
-            type: 'shippingtemplates/deleteCategory',
+            type: 'shippingtemplates/deleteItem',
             payload: { id: data?.id, actionRef },
           });
         },
@@ -80,7 +78,7 @@ const SearchTable = () => {
   return (
     <>
       <ProTable
-        columns={columns({ handleEdit, categoryList })}
+        columns={columns({ handleEdit })}
         actionRef={actionRef}
         cardBordered
         cardProps={{
@@ -102,7 +100,7 @@ const SearchTable = () => {
           const { code, result } = await selectPageList({
             page: current,
             pageSize,
-            // categoryName: params?.categoryName,
+            name: params?.name,
           });
           let tableData = [];
           if (code === 200 && result) {

@@ -53,7 +53,14 @@ const Index = () => {
           添加商品
         </Button>
         {dataSource && dataSource.length > 0 && (
-          <Table dataSource={dataSource} columns={columns({ handleEdit })} rowKey="id" />
+          <Table
+            dataSource={dataSource}
+            columns={columns({ handleEdit })}
+            rowKey="id"
+            pagination={{
+              showTotal: (total) => `共 ${total} 条数据`,
+            }}
+          />
         )}
       </Space>
       <SearchGoods />
