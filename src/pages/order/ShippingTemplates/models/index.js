@@ -1,4 +1,5 @@
-import { addTemplate, selectPageList, updateTemplate } from '@/service/order/shipping';
+import { addTemplate, deleteItem, getDetails, updateTemplate } from '@/service/order/shipping';
+import { message } from 'antd';
 
 const shipping = {
   namespace: 'shippingtemplates',
@@ -32,61 +33,96 @@ const shipping = {
     }),
   },
   effects: {
-    // *getAllCategory(_, { call, put }) {
-    //   const { code, result } = yield call(getAllCategory);
-    //   if (code === 200 && result) {
-    //     yield put({
-    //       type: 'updateState',
-    //       payload: {
-    //         categoryList: result || [],
-    //       },
-    //     });
-    //   }
-    // },
-    // *getCategoryTree(_, { call, put }) {
-    //   const { code, result } = yield call(getCategoryTree);
-    //   if (code === 200 && result) {
-    //     yield put({
-    //       type: 'updateState',
-    //       payload: {
-    //         categoryTree: result || [],
-    //       },
-    //     });
-    //   }
-    // },
+    *getDetails({ payload }, { call, put }) {
+      const { code, result } = yield call(getDetails, payload);
+      if (code === 200 && result) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            addOpen: true,
+          },
+        });
+      }
+    },
 
-    *selectPage({ payload }, { call, put, select }) {
-      const { groupManage } = yield select(({ groupManage }) => ({
-        groupManage,
-      }));
-      const obj = {
-        page: payload?.page ? payload?.page : groupManage.page,
-        pageSize: payload?.pageSize ? payload?.pageSize : groupManage.pageSize,
+    *addTemplate({ payload }, { call, put, select }) {
+      const { shippingtemplates, commonInterface } = yield select(
+        ({ shippingtemplates, commonInterface }) => ({
+          shippingtemplates,
+          commonInterface,
+        }),
+      );
+      const { disabledAreaTableList, drawerType } = shippingtemplates;
+      const { treeList } = commonInterface;
+      console.log('treeList: ', treeList);
+      const { value, VoList } = payload;
+
+      const { chargeMode, name, freightObj } = value;
+      let distributionAreaAndFreightVoList = VoList;
+
+      let nonDeliveryAreaVoList;
+      let nonDeriveryArea = 0;
+      if (disabledAreaTableList && disabledAreaTableList.length > 0) {
+        nonDeliveryAreaVoList = [];
+        const item = disabledAreaTableList?.[0];
+        // 选中的数据
+        const { selectList } = item;
+        selectList.forEach((i) => {
+          if (i.slice(-4) === '0000') {
+            // 省
+            nonDeliveryAreaVoList.push({
+              province: i,
+            });
+            // treeList[i]?.children?.forEach((city) => {
+            //   if (city?.children) {
+            //     city?.children.forEach((area) => {
+            //       district.push(area?.areaCode);
+            //     });
+            //   }
+            // });
+          } else {
+            if (i.slice(-2) === '00') {
+              // 市
+              nonDeliveryAreaVoList.push({
+                city: i,
+              });
+              // treeList[`${i.slice(0, 2)}0000`]?.children?.[i]?.children?.forEach((area) => {
+              //   district.push(area?.areaCode);
+              // });
+            } else {
+              // 区
+              nonDeliveryAreaVoList.push({
+                district: i,
+              });
+            }
+          }
+        });
+
+        //
+      } else {
+        nonDeriveryArea = 1;
+      }
+
+      let params = {
+        chargeMode,
+        name,
+        ...freightObj,
+        nonDeriveryArea,
+        nonDeliveryAreaVoList,
+        distributionAreaAndFreightVoList,
       };
 
-      if (groupManage?.searchParams?.categoryName?.label) {
-        obj.categoryName = groupManage?.searchParams?.categoryName?.label;
+      let api = addTemplate;
+      if (drawerType === 'edit') {
+        api = updateTemplate;
       }
 
-      const { code, result, message } = yield call(selectPageList, obj);
-      let tableData = [];
-      if (code === 200 && result) {
-        //
-        tableData = result?.records || [];
-      }
-      yield put({
-        type: 'updateState',
-        payload: {
-          tableData,
-          message,
-          total: result?.total || 0,
-        },
-      });
-    },
+      console.log('params: ', params);
 
-    *addTemplate({ payload }, { call, put }) {
-      const { code } = yield call(addTemplate, payload.searchParams);
+      const { code } = yield call(api, params);
       if (code === 200) {
+        message.success('提交成功');
+
         yield put({
           type: 'updateState',
           payload: {
@@ -94,6 +130,12 @@ const shipping = {
             drawerParams: {},
           },
         });
+      }
+    },
+
+    *deleteItem({ payload }, { call, put }) {
+      const { code } = yield call(deleteItem, payload);
+      if (code === 200) {
         yield put({
           type: 'getCategoryTree',
         });
@@ -103,46 +145,6 @@ const shipping = {
         payload.actionRef.current?.reload();
       }
     },
-
-    *updateTemplate({ payload }, { call, put, select }) {
-      const groupManage = yield select(({ groupManage }) => groupManage);
-      const { drawerParams } = groupManage;
-
-      const { code } = yield call(updateTemplate, {
-        ...payload.searchParams,
-        id: drawerParams?.id,
-      });
-      if (code === 200) {
-        //
-        yield put({
-          type: 'updateState',
-          payload: {
-            addOpen: false,
-            drawerParams: {},
-          },
-        });
-        yield put({
-          type: 'getCategoryTree',
-        });
-        yield put({
-          type: 'getAllCategory',
-        });
-        payload.actionRef.current?.reload();
-      }
-    },
-
-    // *deleteCategory({ payload }, { call, put }) {
-    //   const { code } = yield call(deleteCategory, payload);
-    //   if (code === 200) {
-    //     yield put({
-    //       type: 'getCategoryTree',
-    //     });
-    //     yield put({
-    //       type: 'getAllCategory',
-    //     });
-    //     payload.actionRef.current?.reload();
-    //   }
-    // },
   },
 };
 

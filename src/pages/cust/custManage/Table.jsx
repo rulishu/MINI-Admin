@@ -42,6 +42,10 @@ export default function SearchTable() {
         }}
         pagination={{
           showSizeChanger: true,
+          onChange: () => {
+            const node = document.querySelector('.ant-layout-content');
+            node.scrollTop = 0;
+          },
         }}
         cardProps={{
           size: 'small',

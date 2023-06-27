@@ -57,6 +57,7 @@ export default () => {
           schema={{
             type: 'object',
             properties: {
+              // 经销等级
               sellName: {
                 span: 24,
                 type: 'string',
@@ -78,6 +79,7 @@ export default () => {
                 },
                 hidden: editType !== 'sell',
               },
+              // 邀请人
               userName: {
                 span: 24,
                 type: 'string',
@@ -90,6 +92,7 @@ export default () => {
                 type: 'object',
                 widget: 'selectUser',
                 required: true,
+                hidden: editType !== 'user',
                 props: {
                   fetch: getUserList,
                   configCode: {
