@@ -135,7 +135,7 @@ const SearchTable = () => {
           </Button>
         )}
       />
-      <EditForm />
+      <EditForm actionRef={actionRef} />
       <FormItemModal />
     </>
   );
