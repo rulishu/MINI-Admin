@@ -120,8 +120,8 @@ export const columns = [
         <UserContent
           width={180}
           headUrl={record.headUrl}
-          name={record.consumerName}
-          phone={record.mobile}
+          name={record.consumerName || 'Miracle-'}
+          phone={record.mobile || '17857001531'}
         />
       );
     },
@@ -146,10 +146,11 @@ export const columns = [
     width: 200,
     render: (text, record) => {
       return (
-        (record.inviter && (
-          <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
-        )) ||
-        '无'
+        <UserContent
+          headUrl={record.headUrl}
+          name={record.consumerName || '昵称'}
+          phone={record.mobile || '17766666666'}
+        />
       );
     },
   },
@@ -157,30 +158,36 @@ export const columns = [
     title: '邀请层级',
     dataIndex: 'level',
     width: 120,
+    render: () => '1级',
   },
   {
     title: '注册时间',
     dataIndex: 'level1',
     width: 150,
+    render: () => '2020/05/20   17:32:40',
   },
   {
     title: '累积营业额',
     dataIndex: 'level2',
     width: 150,
+    render: () => '￥999.90',
   },
   {
     title: '上月营业额',
     dataIndex: 'level3',
     width: 150,
+    render: () => '￥999.90',
   },
   {
     title: '本月营业额',
     dataIndex: 'level4',
     width: 150,
+    render: () => '￥999.90',
   },
   {
     title: '本月个人消费',
     dataIndex: 'level5',
     width: 150,
+    render: () => '￥999.90',
   },
 ];

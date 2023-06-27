@@ -56,6 +56,7 @@ export default () => {
           }}
           schema={{
             type: 'object',
+            displayType: 'row',
             properties: {
               // 经销等级
               sellName: {

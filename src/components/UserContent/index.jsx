@@ -17,7 +17,7 @@ export default ({ showHead = true, headUrl, name, phone, width }) => {
         ))}
       <div style={{ textAlign: 'left', marginLeft: 8, width: width - 50 }}>
         <div>
-          <Text ellipsis={{ tooltip: name }} style={{ fontSize: '16px', fontWeight: 'bold' }}>
+          <Text ellipsis={{ tooltip: name }} style={{ fontSize: '14px', fontWeight: 'bold' }}>
             {name || '-'}
           </Text>
         </div>
