@@ -90,6 +90,7 @@ export default () => {
               },
               legalPersonId: {
                 title: '变更后',
+                // tooltip: '变更邀请人会迁移整个团队，请慎重操作',
                 type: 'object',
                 widget: 'selectUser',
                 required: true,
