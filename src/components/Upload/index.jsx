@@ -68,11 +68,13 @@ export default ({
   };
 
   const customRequest = async ({ file, onError, onSuccess, onProgress }) => {
+    console.log('file: ', file);
     setLoading(true);
     const token = sessionStorage.getItem('token');
     const data = new FormData();
     // 将文件添加到 FormData 中
     data.append('file', file);
+    console.log('data: ', data);
     // 发送 fetch 请求
     try {
       const response = await request('/jcgl-user/oss/upload', {
