@@ -2,25 +2,28 @@ import UserContent from '@/components/UserContent';
 import { EditOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import { Fragment } from 'react';
+import { agentLevelStatus, levelStatus } from './enum';
 
 const { Text } = Typography;
 export const basicItem = ({ handleEdit }) => [
   {
     title: '用户昵称',
-    key: 'orderNumber',
+    key: 'consumerName',
     editable: () => false,
-    dataIndex: 'orderNumber',
+    dataIndex: 'consumerName',
     ellipsis: true,
   },
   {
     title: '经销等级',
-    key: 'createTime',
+    key: 'level',
     editable: () => false,
-    dataIndex: 'createTime',
-    render: () => {
+    dataIndex: 'level',
+    render: (_, record) => {
       return (
         <span style={{ width: 180, display: 'flex' }}>
-          <Text ellipsis={{ tooltip: '奋斗者' }}>奋斗者</Text>
+          {record.level && (
+            <Text ellipsis={{ tooltip: '奋斗者' }}>{levelStatus[Number(record.level)].text}</Text>
+          )}
           <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('sell')} />
         </span>
       );
@@ -28,9 +31,9 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '邀请人',
-    key: 'payDate',
+    key: 'userName',
     editable: () => false,
-    dataIndex: 'payDate',
+    dataIndex: 'userName',
     render: () => {
       return (
         <span style={{ width: 180, display: 'flex' }}>
@@ -49,17 +52,17 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '用户编号',
-    key: 'endTime',
+    key: 'consumerId',
     editable: () => false,
-    dataIndex: 'endTime',
+    dataIndex: 'consumerId',
     ellipsis: true,
   },
   {
     title: '代理等级',
-    key: 'backgroundMessage',
+    key: 'agentLevel',
     editable: () => true,
-    dataIndex: 'backgroundMessage',
-    ellipsis: true,
+    dataIndex: 'agentLevel',
+    valueEnum: agentLevelStatus,
   },
   {
     title: '邀请人编号',
@@ -77,9 +80,9 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '用户手机',
-    key: 'backgroundMessage4',
+    key: 'consumerPhone',
     editable: () => true,
-    dataIndex: 'backgroundMessage4',
+    dataIndex: 'consumerPhone',
     ellipsis: true,
   },
   {
@@ -91,9 +94,9 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '注册时间',
-    key: 'backgroundMessage6',
+    key: 'createTime',
     editable: () => true,
-    dataIndex: 'backgroundMessage6',
+    dataIndex: 'createTime',
     ellipsis: true,
   },
   {
@@ -147,6 +150,7 @@ export const columns = [
     render: (text, record) => {
       return (
         <UserContent
+          width={180}
           headUrl={record.headUrl}
           name={record.consumerName || '昵称'}
           phone={record.mobile || '17766666666'}

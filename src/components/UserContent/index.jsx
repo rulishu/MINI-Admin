@@ -2,6 +2,11 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Typography } from 'antd';
 const { Text } = Typography;
 export default ({ showHead = true, headUrl, name, phone, width }) => {
+  const widthStyle = width
+    ? {
+        width: width - 50,
+      }
+    : {};
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {showHead &&
@@ -15,7 +20,7 @@ export default ({ showHead = true, headUrl, name, phone, width }) => {
             icon={<UserOutlined />}
           />
         ))}
-      <div style={{ textAlign: 'left', marginLeft: 8, width: width - 50 }}>
+      <div style={{ textAlign: 'left', marginLeft: 8, ...widthStyle }}>
         <div>
           <Text ellipsis={{ tooltip: name }} style={{ fontSize: '14px', fontWeight: 'bold' }}>
             {name || '-'}

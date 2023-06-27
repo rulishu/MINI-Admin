@@ -1,7 +1,6 @@
 export default {
   namespace: 'userDetail',
   state: {
-    editType: '',
     queryData: {},
   },
   reducers: {
