@@ -24,7 +24,7 @@ export const basicItem = ({ handleEdit }) => [
           {record.level && (
             <Text ellipsis={{ tooltip: '奋斗者' }}>{levelStatus[Number(record.level)].text}</Text>
           )}
-          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('sell')} />
+          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('level', record)} />
         </span>
       );
     },
@@ -36,18 +36,19 @@ export const basicItem = ({ handleEdit }) => [
     dataIndex: 'userName',
     render: () => {
       return (
-        <span style={{ width: 180, display: 'flex' }}>
-          <Text ellipsis={{ tooltip: '李高峰' }}>李高峰</Text>
-          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user')} />
-        </span>
+        // <span style={{ width: 180, display: 'flex' }}>
+        //   <Text ellipsis={{ tooltip: '李高峰' }}>李高峰</Text>
+        //   <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user')} />
+        // </span>
+        '-'
       );
     },
   },
   {
     title: '归属代理',
-    key: 'deliveryTime',
+    key: 'companyName',
     editable: () => false,
-    dataIndex: 'deliveryTime',
+    dataIndex: 'companyName',
     ellipsis: true,
   },
   {
@@ -70,6 +71,7 @@ export const basicItem = ({ handleEdit }) => [
     editable: () => true,
     dataIndex: 'backgroundMessage2',
     ellipsis: true,
+    render: () => '-',
   },
   {
     title: '代理编号',
@@ -91,6 +93,7 @@ export const basicItem = ({ handleEdit }) => [
     editable: () => true,
     dataIndex: 'backgroundMessage5',
     ellipsis: true,
+    render: () => '-',
   },
   {
     title: '注册时间',
