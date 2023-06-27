@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks';
 import { Space, Table, Tabs } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Edit from './EditModal';
+import { levelStatus } from './enum';
 import { basicItem, columns } from './items';
 
 export default () => {
@@ -35,13 +36,14 @@ export default () => {
 
   // eslint-disable-next-line no-unused-vars
   const handleEdit = (type, data) => {
-    // dispatch({
-    //   type: 'userDetail/update',
-    //   payload: {
-    //     editType: type,
-    //     editModalVisible: true,
-    //   },
-    // });
+    dispatch({
+      type: 'userDetail/update',
+      payload: {
+        editType: type,
+        editModalVisible: true,
+        editData: { ...data, levelName: data.level && levelStatus[Number(data.level)].text },
+      },
+    });
   };
 
   const items = [
