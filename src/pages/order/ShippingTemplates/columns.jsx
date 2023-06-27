@@ -7,19 +7,13 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '使用状态',
-    dataIndex: 'leafOrder',
+    dataIndex: 'itemCount',
     search: false,
-    valueType: 'select',
-    fieldProps: {
-      options: [
-        { label: '是', value: 1 },
-        { label: '否', value: 2 },
-      ],
-    },
+    render: (_, records) => (records?.itemCount ? `已被${records?.itemCount}个商品使用` : '未使用'),
   },
   {
     title: '修改时间',
-    dataIndex: 'count',
+    dataIndex: 'updateTime',
     search: false,
   },
   {
