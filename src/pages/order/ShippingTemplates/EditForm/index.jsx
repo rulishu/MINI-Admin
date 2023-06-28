@@ -20,7 +20,7 @@ const EditForm = ({ actionRef }) => {
   return (
     <>
       <ModalForm
-        title="新建模板"
+        title={drawerType === 'edit' ? '编辑模板' : '新建模板'}
         open={addOpen}
         formRef={formRef}
         labelCol={{ span: 3 }}

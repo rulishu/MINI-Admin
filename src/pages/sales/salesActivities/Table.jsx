@@ -3,6 +3,7 @@ import { ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
 import { Button } from 'antd';
 import { Fragment } from 'react';
+import ModalEditForm from './ModalEditForm';
 import { columns } from './columns';
 
 export default function SearchTable() {
@@ -68,6 +69,7 @@ export default function SearchTable() {
           </Button>,
         ]}
       />
+      <ModalEditForm />
     </Fragment>
   );
 }
