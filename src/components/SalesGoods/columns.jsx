@@ -74,14 +74,7 @@ export const searchColumns = () => [
           </div>
           <div style={{ marginLeft: 8, flex: 1 }}>
             <div>{record?.itemName}</div>
-            <div style={{ width: 200 }}>
-              <Typography.Text
-                ellipsis={{ tooltip: record.skuName.join('/') }}
-                style={{ color: '#ccc' }}
-              >
-                {record.skuName.join('/')}
-              </Typography.Text>
-            </div>
+            <div style={{ color: '#ccc' }}>{record.skuName.join('/')}</div>
             <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
           </div>
         </div>
