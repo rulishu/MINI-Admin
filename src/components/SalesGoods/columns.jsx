@@ -1,6 +1,5 @@
 import AImage from '@/components/AImage';
-import PriceRange from '@/components/PriceRange';
-import { Divider } from 'antd';
+import { Divider, Typography } from 'antd';
 import moment from 'moment';
 
 export const columns = ({ handleEdit }) => [
@@ -10,22 +9,19 @@ export const columns = ({ handleEdit }) => [
     width: 250,
     render: (_, record) => {
       return (
-        <div style={{ height: 88, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <AImage width={80} height={84} src={record?.mainGraph} />
-          {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
-          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left', height: 88 }}>
-            <p
-              style={{
-                padding: 0,
-                margin: 0,
-                height: 66,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div>
+            <AImage width={80} height={80} src={record?.mainGraph} />
+          </div>
+          <div style={{ width: 160, marginLeft: 8 }}>
+            <div>{record?.itemName}</div>
+            <Typography.Text
+              ellipsis={{ tooltip: record.skuName.join('/') }}
+              style={{ color: '#ccc' }}
             >
-              {record?.itemName} {record?.model} {record?.specifications}
-            </p>
-            <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
+              {record.skuName.join('/')}
+            </Typography.Text>
+            <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
           </div>
         </div>
       );
@@ -36,6 +32,7 @@ export const columns = ({ handleEdit }) => [
     width: 150,
     dataIndex: 'price',
     key: 'price',
+    render: (_, record) => <div>￥{record.price}</div>,
   },
   {
     title: '折扣范围',
@@ -71,22 +68,14 @@ export const searchColumns = () => [
     width: 250,
     render: (_, record) => {
       return (
-        <div style={{ height: 88, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <AImage width={80} height={84} src={record?.mainGraph} />
-          {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
-          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left', height: 88 }}>
-            <p
-              style={{
-                padding: 0,
-                margin: 0,
-                height: 66,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {record?.itemName} {record?.model} {record?.specifications}
-            </p>
-            <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div>
+            <AImage width={80} height={80} src={record?.mainGraph} />
+          </div>
+          <div style={{ marginLeft: 8, flex: 1 }}>
+            <div>{record?.itemName}</div>
+            <div style={{ color: '#ccc' }}>{record.skuName.join('/')}</div>
+            <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
           </div>
         </div>
       );
@@ -113,15 +102,14 @@ export const searchColumns = () => [
     dataIndex: 'price',
     width: 80,
     valueType: 'digit',
-    renderFormItem: () => <PriceRange />,
+    render: (_, record) => <div>￥{record.price}</div>,
   },
   {
     title: '创建时间',
-    dataIndex: 'createTimeRange',
+    dataIndex: 'createTime',
     hideInTable: true,
-    width: 100,
+    width: 150,
     render: (_, record) =>
-      (record.createTimeRange && moment(record.createTimeRange).format('YYYY-MM-DD HH:mm:ss')) ||
-      '-',
+      (record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
   },
 ];

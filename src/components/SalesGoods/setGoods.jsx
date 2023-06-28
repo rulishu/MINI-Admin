@@ -116,13 +116,14 @@ export default () => {
         dataIndex: 'attributeName',
         width: 200,
         render: (_, record) => {
-          return <div style={{ width: 200 }}>{(record.attributeName || []).join('*')}</div>;
+          return <div>{(record.attributeName || []).join('*')}</div>;
         },
       },
       {
         title: '售价',
         dataIndex: 'price',
         width: 120,
+        render: (_, record) => <div>￥{record.price}</div>,
       },
       {
         title: '活动价',
