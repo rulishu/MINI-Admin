@@ -1,5 +1,4 @@
 import AImage from '@/components/AImage';
-import PriceRange from '@/components/PriceRange';
 import { Divider } from 'antd';
 import moment from 'moment';
 
@@ -23,7 +22,7 @@ export const columns = ({ handleEdit }) => [
                 textOverflow: 'ellipsis',
               }}
             >
-              {record?.itemName} {record?.model} {record?.specifications}
+              {record?.itemName}
             </p>
             <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
           </div>
@@ -36,6 +35,7 @@ export const columns = ({ handleEdit }) => [
     width: 150,
     dataIndex: 'price',
     key: 'price',
+    render: (_, record) => <div>￥{record.price}</div>,
   },
   {
     title: '折扣范围',
@@ -84,7 +84,7 @@ export const searchColumns = () => [
                 textOverflow: 'ellipsis',
               }}
             >
-              {record?.itemName} {record?.model} {record?.specifications}
+              {record?.itemName}
             </p>
             <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
           </div>
@@ -113,15 +113,14 @@ export const searchColumns = () => [
     dataIndex: 'price',
     width: 80,
     valueType: 'digit',
-    renderFormItem: () => <PriceRange />,
+    render: (_, record) => <div>￥{record.price}</div>,
   },
   {
     title: '创建时间',
-    dataIndex: 'createTimeRange',
+    dataIndex: 'createTime',
     hideInTable: true,
-    width: 100,
+    width: 150,
     render: (_, record) =>
-      (record.createTimeRange && moment(record.createTimeRange).format('YYYY-MM-DD HH:mm:ss')) ||
-      '-',
+      (record.createTime && moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
   },
 ];

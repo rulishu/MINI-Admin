@@ -32,6 +32,7 @@ export default () => {
     manual: true,
     onSuccess: ({ code, result }) => {
       if (code && code === 200) {
+        console.log('result', result.records);
         setState({
           dataSource: result.records || [],
           total: result.total,
