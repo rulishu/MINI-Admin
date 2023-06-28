@@ -45,9 +45,15 @@ export default () => {
   useEffect(() => {
     if (visible) {
       form.setValues({
-        form1: {},
+        form1: {
+          activityName: queryInfo.activityName,
+          activityTime: queryInfo.activityStartTime &&
+            queryInfo.activityEndTime && [queryInfo.activityStartTime, queryInfo.activityEndTime],
+        },
         form2: {
-          list: [],
+          buyNum: queryInfo.buyNum,
+          appShow: queryInfo.appShow,
+          activityItemList: queryInfo.activityItemList,
         },
       });
     }
@@ -96,7 +102,7 @@ export default () => {
                 widget: 'lineTitle',
                 title: '基本规则',
                 properties: {
-                  name: {
+                  activityName: {
                     title: '活动名称',
                     type: 'string',
                     required: true,
@@ -106,7 +112,7 @@ export default () => {
                     },
                     placeholder: '请输入活动名称',
                   },
-                  time: {
+                  activityTime: {
                     title: '活动时间',
                     type: 'range',
                     required: true,
@@ -124,7 +130,7 @@ export default () => {
                 widget: 'lineTitle',
                 title: '优惠规则',
                 properties: {
-                  number: {
+                  buyNum: {
                     title: '每人每种限购',
                     type: 'number',
                     widget: 'inputNumber',
@@ -136,16 +142,16 @@ export default () => {
                       step: 1,
                     },
                   },
-                  list: {
+                  activityItemList: {
                     title: '选择商品',
                     required: true,
                     span: 24,
                     type: 'array',
                     widget: 'saleGoods',
                   },
-                  status: {
+                  appShow: {
                     title: '显示状态',
-                    type: 'string',
+                    type: 'number',
                     widget: 'radio',
                     span: 24,
                     props: {

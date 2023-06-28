@@ -1,28 +1,30 @@
 import { Divider, Switch, Typography } from 'antd';
+import moment from 'moment';
+import { Fragment } from 'react';
 import { hideEnum, statusEnum } from './enum';
 
 // eslint-disable-next-line no-unused-vars
 export const columns = ({ handleEdit }) => [
   {
     title: '活动名称',
-    dataIndex: 'name',
+    dataIndex: 'activityName',
     hideInTable: true,
   },
   {
     title: '活动信息',
-    dataIndex: 'id',
+    dataIndex: 'details',
     width: 120,
     hideInSearch: true,
-    render: () => (
+    render: (_, record) => (
       <div>
-        <Typography.Text ellipsis={{ tooltip: '限时秒杀' }} style={{ width: 110 }}>
-          限时秒杀
+        <Typography.Text ellipsis={{ tooltip: record.activityName }} style={{ width: 110 }}>
+          {record.activityName}
         </Typography.Text>
         <Typography.Text
-          ellipsis={{ tooltip: 'ID：897987876' }}
+          ellipsis={{ tooltip: `ID：${record.id}` }}
           style={{ color: '#ccc', width: 110 }}
         >
-          ID：897987876
+          ID：{record.id}
         </Typography.Text>
       </div>
     ),
@@ -41,58 +43,74 @@ export const columns = ({ handleEdit }) => [
     search: {
       transform: (value) => {
         return {
-          startTime: value[0],
-          endTime: value[1],
+          createStartTime: value[0],
+          createEndTime: value[1],
         };
       },
     },
     hideInTable: true,
   },
   {
-    title: '显示状态',
-    dataIndex: 'hiedeStatus',
-    width: 90,
-    valueEnum: hideEnum,
-    hideInTable: true,
-  },
-  {
     title: '订单数量/金额',
-    dataIndex: 'phone',
+    dataIndex: 'orderNumber',
     width: 150,
     hideInSearch: true,
-    render: () => '100 / 1000',
+    render: () => '-',
   },
   {
     title: '下单人数',
     dataIndex: 'memberType',
     width: 120,
     hideInSearch: true,
+    render: () => '-',
   },
   {
     title: '活动时间',
-    dataIndex: 'expirationTime',
-    width: 200,
+    dataIndex: 'activityStartTime',
+    width: 250,
     hideInSearch: true,
-    render: () => '2023.6.4 18:00:00  -  2023.6.6 00:00:00',
+    render: (_, record) => (
+      <div>
+        {moment(record.activityStartTime).format('YYYY-MM-DD HH:mm:ss')} -{' '}
+        {moment(record.activityEndTime).format('YYYY-MM-DD HH:mm:ss')}
+      </div>
+    ),
   },
   {
     title: '显示状态',
-    dataIndex: 'openTime',
+    dataIndex: 'appShow',
+    valueEnum: hideEnum,
     width: 120,
-    hideInSearch: true,
-    render: () => <Switch defaultChecked />,
+    render: (_, record) => (
+      <Switch onChange={() => handleEdit('editIsShow', record)} checked={record.appShow === 0} />
+    ),
   },
   {
     title: '操作',
     width: 140,
     fixed: 'right',
     hideInSearch: true,
-    render: (record) => (
-      <div>
-        <a onClick={() => handleEdit('edit', record)}>编辑</a>
-        <Divider type="vertical" />
-        <a onClick={() => handleEdit('delete', record)}>删除</a>
-      </div>
-    ),
+    render: (record) => {
+      const canEdit = record.status === 0;
+      const canLose = record.status === 0 || record.status === 1;
+      const canDelete = record.status === 2 || record.status === -1;
+      return (
+        <div>
+          {canEdit && (
+            <Fragment>
+              <a onClick={() => handleEdit('edit', record)}>编辑</a>
+              <Divider type="vertical" />
+            </Fragment>
+          )}
+          {canLose && (
+            <Fragment>
+              <a onClick={() => handleEdit('lose', record)}>失效</a>
+              <Divider type="vertical" />
+            </Fragment>
+          )}
+          {canDelete && <a onClick={() => handleEdit('delete', record)}>删除</a>}
+        </div>
+      );
+    },
   },
 ];

@@ -1,5 +1,5 @@
 import AModal from '@/components/AModal';
-import { selectSellPage } from '@/service/goods/productManage';
+import { selectSellPage, selectSKU } from '@/service/goods/productManage';
 import { BetaSchemaForm, ProCard } from '@ant-design/pro-components';
 import { useRequest, useSetState } from 'ahooks';
 import { Button, Table } from 'antd';
@@ -30,11 +30,29 @@ export default () => {
 
   const { run, loading } = useRequest(selectSellPage, {
     manual: true,
-    onSuccess: ({ code, result }) => {
+    onSuccess: async ({ code, result }) => {
       if (code && code === 200) {
-        console.log('result', result.records);
+        const datas = await Promise.all(
+          (result.records || []).map(async (item) => {
+            let name = [];
+            const { result: res, code } = await selectSKU({ id: item.id });
+            if (code === 200) {
+              res.forEach((value) => {
+                if (value.attributes) {
+                  value.attributes.forEach((attr) =>
+                    name.push(attr.value + '' + attr.attributeName),
+                  );
+                }
+              });
+            }
+            return {
+              ...item,
+              skuName: name,
+            };
+          }),
+        );
         setState({
-          dataSource: result.records || [],
+          dataSource: datas || [],
           total: result.total,
         });
       }
