@@ -1,4 +1,4 @@
-import { selectPage, updateStatus } from '@/service/sales/flashKill';
+import { deleteItems, details, selectPage, updateStatus } from '@/service/sales/flashKill';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { useRequest } from 'ahooks';
@@ -15,12 +15,35 @@ export default function SearchTable() {
   const dispatch = useDispatch();
   const { modal } = App.useApp();
 
+  // 更新是否显示
   const { run } = useRequest(updateStatus, { manual: true });
+
+  // 更新状态
   const { run: runStatus } = useRequest(updateStatus, {
     manual: true,
     onSuccess: ({ code }) => {
       if (code === 200) {
         ref?.current?.reload?.();
+      }
+    },
+  });
+
+  // 删除
+  const { run: runDelete } = useRequest(deleteItems, {
+    manual: true,
+    onSuccess: ({ code }) => {
+      if (code === 200) {
+        ref?.current?.reload?.();
+      }
+    },
+  });
+
+  // 详情
+  const { run: runById } = useRequest(details, {
+    manual: true,
+    onSuccess: ({ code, result }) => {
+      if (code === 200) {
+        update({ visible: true, queryInfo: { ...result } });
       }
     },
   });
@@ -36,6 +59,9 @@ export default function SearchTable() {
     update({ type });
     if (type === 'add') {
       update({ visible: true, queryInfo: { appShow: 0 } });
+    }
+    if (type === 'edit') {
+      runById({ id: data.id });
     }
     if (type === 'editIsShow') {
       const value = data.appShow === 1 ? 0 : 1;
@@ -65,7 +91,9 @@ export default function SearchTable() {
         content: '删除后将不可恢复，是否删除',
         maskClosable: true,
         autoFocusButton: null,
-        onOk: () => {},
+        onOk: () => {
+          runDelete({ id: data.id });
+        },
       });
     }
   };
@@ -120,7 +148,7 @@ export default function SearchTable() {
           </Button>,
         ]}
       />
-      <Edit />
+      <Edit reload={ref?.current?.reload} />
     </Fragment>
   );
 }

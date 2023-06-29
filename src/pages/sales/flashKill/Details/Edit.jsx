@@ -1,20 +1,29 @@
 import AModal from '@/components/AModal';
 import SalesGoods from '@/components/SalesGoods';
-import { create, updateInfo } from '@/service/cust/agentManagement';
+import { create, updateStatus } from '@/service/sales/flashKill';
 import { ProCard } from '@ant-design/pro-components';
-import { useReactMutation } from '@antdp/hooks';
 import { useDispatch, useSelector } from '@umijs/max';
+import { useRequest } from 'ahooks';
 import { Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { hideEnum } from '../enum';
 
-export default () => {
+export default ({ reload }) => {
   const form = useForm();
   const {
     flashKill: { visible, queryInfo, type },
   } = useSelector((state) => state);
 
+  const { run, loading } = useRequest(type === 'add' ? create : updateStatus, {
+    manual: true,
+    onSuccess: ({ code }) => {
+      if (code && code === 200) {
+        update({ visible: false, type: '', queryInfo: {} });
+        reload?.();
+      }
+    },
+  });
   const dispatch = useDispatch();
   const update = (data) => {
     dispatch({
@@ -23,27 +32,25 @@ export default () => {
     });
   };
 
-  const fn = {
-    add: create,
-    edit: updateInfo,
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const { mutateAsync, isLoading } = useReactMutation({
-    mutationFn: fn[type],
-    onSuccess: ({ code }) => {
-      if (code && code === 200) {
-        update({
-          visible: false,
-          type: '',
-          queryInfo: {},
-        });
-      }
-    },
-  });
-
   useEffect(() => {
     if (visible) {
+      const data = queryInfo.activityItemList || [];
+      const newActivityItemList = data.map((item) => ({
+        mainGraph: item.mainGraph,
+        itemName: item.activityItemName,
+        id: item.activityItemId,
+        stockTotal: item.stockTotal,
+        skuName: item.skuName,
+        sku: (item.activityItemSkuList || []).map((sku) => ({
+          skuId: sku.activitySkuId,
+          id: item.activityItemId,
+          activityPrice: sku.activityPrice,
+          activityStock: sku.activityStock,
+          stock: sku.stock,
+          price: sku.price,
+          attributes: sku.attributes,
+        })),
+      }));
       form.setValues({
         form1: {
           activityName: queryInfo.activityName,
@@ -53,15 +60,41 @@ export default () => {
         form2: {
           buyNum: queryInfo.buyNum,
           appShow: queryInfo.appShow,
-          activityItemList: queryInfo.activityItemList,
+          activityItemList: newActivityItemList || [],
         },
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, queryInfo]);
+  }, [visible]);
 
   const onFinish = (values) => {
-    console.log('values', values);
+    const { form1, form2 } = values;
+    const data = form2.activityItemList || [];
+    const newActivityItemList = data.map((item) => ({
+      mainGraph: item.mainGraph,
+      activityItemName: item.itemName,
+      activityItemId: item.id,
+      stockTotal: item.stockTotal,
+      skuName: item.skuName,
+      activityItemSkuList: (item.sku || []).map((sku) => ({
+        activitySkuId: sku.skuId,
+        activityItemId: item.id,
+        activityPrice: sku.activityPrice,
+        activityStock: sku.activityStock,
+        stock: sku.stock,
+        price: sku.price,
+        attributes: sku.attributes,
+      })),
+    }));
+    const params = {
+      id: queryInfo.id,
+      activityName: form1.activityName,
+      activityStartTime: form1.activityTime && form1.activityTime[0] && form1.activityTime[0],
+      activityEndTime: form1.activityTime && form1.activityTime[1] && form1.activityTime[1],
+      buyNum: form2.buyNum,
+      appShow: form2.appShow,
+      activityItemList: newActivityItemList,
+    };
+    run(params);
   };
 
   return (
@@ -72,7 +105,7 @@ export default () => {
       onCancel={() => update({ visible: false })}
       footer={
         <div style={{ paddingBottom: 24, paddingRight: 24 }}>
-          <Button key="save" type="primary" loading={isLoading} onClick={form.submit}>
+          <Button key="save" type="primary" loading={loading} onClick={form.submit}>
             保存
           </Button>
           <Button key="cancel" onClick={() => update({ visible: false })}>

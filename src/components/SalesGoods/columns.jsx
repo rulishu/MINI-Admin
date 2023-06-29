@@ -15,11 +15,8 @@ export const columns = ({ handleEdit }) => [
           </div>
           <div style={{ width: 160, marginLeft: 8 }}>
             <div>{record?.itemName}</div>
-            <Typography.Text
-              ellipsis={{ tooltip: record.skuName.join('/') }}
-              style={{ color: '#ccc' }}
-            >
-              {record.skuName.join('/')}
+            <Typography.Text ellipsis={{ tooltip: record.skuName }} style={{ color: '#ccc' }}>
+              {record.skuName}
             </Typography.Text>
             <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
           </div>
@@ -36,16 +33,15 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '折扣范围',
-    dataIndex: 'sale',
+    dataIndex: 'range',
     width: 150,
-    key: 'sale',
-    render: () => '0.1-10 折',
+    key: 'range',
   },
   {
     title: '活动总库存',
     width: 150,
-    dataIndex: 'stock',
-    key: 'stock',
+    dataIndex: 'stockTotal',
+    key: 'stockTotal',
   },
   {
     title: '操作',
@@ -77,7 +73,7 @@ export const searchColumns = () => [
             <div
               style={{ color: '#ccc', wordWrap: 'break-word', flexGrow: 1, textAlign: 'justify' }}
             >
-              {record.skuName.join('/')}
+              {record.skuName}
             </div>
             <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
           </div>

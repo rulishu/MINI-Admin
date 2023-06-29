@@ -16,3 +16,22 @@ export const updateStatus = async (body) => {
     data: body,
   });
 };
+
+export const create = async (body) => {
+  return request(`/jcgl-mall/admin/activity/create`, {
+    method: 'POST',
+    data: body,
+  });
+};
+
+export const details = async ({ id }) => {
+  return request(`/jcgl-mall/admin/activity/details?id=${id}`, {
+    method: 'GET',
+  });
+};
+
+export const deleteItems = async ({ id }) => {
+  return request(`/jcgl-mall/admin/activity/delete?id=${id}`, {
+    method: 'DELETE',
+  });
+};

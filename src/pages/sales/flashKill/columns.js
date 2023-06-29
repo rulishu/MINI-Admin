@@ -102,12 +102,8 @@ export const columns = ({ handleEdit }) => [
               <Divider type="vertical" />
             </Fragment>
           )}
-          {canLose && (
-            <Fragment>
-              <a onClick={() => handleEdit('lose', record)}>失效</a>
-              <Divider type="vertical" />
-            </Fragment>
-          )}
+          {canLose && <a onClick={() => handleEdit('lose', record)}>失效</a>}
+          {canLose && canDelete && <Divider type="vertical" />}
           {canDelete && <a onClick={() => handleEdit('delete', record)}>删除</a>}
         </div>
       );

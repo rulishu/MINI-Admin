@@ -37,6 +37,7 @@ export default () => {
             let name = [];
             const { result: res, code } = await selectSKU({ id: item.id });
             if (code === 200) {
+              // 商品sku拼接
               res.forEach((value) => {
                 if (value.attributes) {
                   const attrStr = value.attributes
@@ -48,7 +49,17 @@ export default () => {
             }
             return {
               ...item,
-              skuName: name,
+              skuName: name && name.join('/'),
+              // 处理每个sku的attributes
+              sku: (res || []).map((item) => {
+                const attrStr = item.attributes
+                  .map((attr) => `${attr.value}${attr.attributeName}`)
+                  .join('*');
+                return {
+                  ...item,
+                  attributes: attrStr,
+                };
+              }),
             };
           }),
         );
