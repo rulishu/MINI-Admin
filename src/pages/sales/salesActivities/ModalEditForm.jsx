@@ -1,4 +1,4 @@
-import { createCoupon } from '@/service/sales/coupon';
+import { createCoupon, updateCoupon } from '@/service/sales/coupon';
 import {
   ModalForm,
   ProFormDateTimeRangePicker,
@@ -14,12 +14,12 @@ import { useRef } from 'react';
 import SalesGoods from './SalesGoods';
 const { RangePicker } = DatePicker;
 
-export default () => {
+export default ({ actionRef }) => {
   const dispatch = useDispatch();
 
   const formRef = useRef();
   const { salesActivities } = useSelector((state) => state);
-  const { visible, queryInfo } = salesActivities;
+  const { visible, queryInfo, type } = salesActivities;
 
   const update = (data) => {
     dispatch({
@@ -42,7 +42,7 @@ export default () => {
           // width: 800,
           centered: true,
           afterOpenChange: (open) => {
-            if (open) {
+            if (open && type === 'edit') {
               formRef?.current?.setFieldsValue({ ...queryInfo });
             }
           },
@@ -85,10 +85,15 @@ export default () => {
           if (value?.availableProductTypes === 3) {
             obj.spuIds = spuIds;
           }
-          const data = await createCoupon({ ...obj, ...others, status: 1 });
+          let api = createCoupon;
+          if (type === 'edit') {
+            api = updateCoupon;
+          }
+          const data = await api({ id: queryInfo?.id, ...obj, ...others, status: 1 });
           if (data?.code === 200) {
             message.success('提交成功');
             update({
+              queryInfo: {},
               visible: false,
             });
             return true;
@@ -98,6 +103,12 @@ export default () => {
         }}
         onOpenChange={(open) => {
           console.log('open: ', open);
+          if (!open) {
+            update({
+              queryInfo: {},
+            });
+            actionRef.current?.reload();
+          }
           update({
             visible: open,
           });
@@ -369,6 +380,7 @@ const Discount = ({ value, onChange, type }) => {
 };
 
 const UseDateRange = ({ value, onChange, type }) => {
+  console.log('value: ', value);
   return (
     <div
       style={{
@@ -379,7 +391,7 @@ const UseDateRange = ({ value, onChange, type }) => {
     >
       {type === 1 && (
         <Space direction="vertical">
-          <RangePicker value={value} onChange={onChange} />
+          <RangePicker value={value} onChange={onChange} format="YYYY-MM-DD" />
           <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>日期范围内可用</span>
         </Space>
       )}

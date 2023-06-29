@@ -1,4 +1,4 @@
-import { Divider, Typography } from 'antd';
+import { Divider } from 'antd';
 import { statusEnum, typeEnum } from './enum';
 
 // eslint-disable-next-line no-unused-vars
@@ -26,15 +26,15 @@ export const columns = ({ handleEdit }) => [
     width: 120,
     hideInSearch: true,
     render: (_, record) => (
-      <div>
-        <Typography.Text style={{ width: 110 }}>
+      <>
+        <div>
           {record?.type === 2 && `满${record?.minimumConsumption}减${record?.price}`}
           {record?.type === 3 && `满${record?.minimumConsumption}打${record?.price}折`}
-        </Typography.Text>
-        <Typography.Text style={{ color: '#ccc', width: 110 }}>
+        </div>
+        <div style={{ color: '#ccc', width: 110 }}>
           {typeEnum?.[record?.availableProductTypes]?.text}
-        </Typography.Text>
-      </div>
+        </div>
+      </>
     ),
   },
   {
@@ -42,13 +42,20 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'count',
     width: 150,
     hideInSearch: true,
-    render: (_, record) => `${record?.useCount}/${record?.count}`,
+    render: (_, record) => `${record?.receiveCount || 0}/${record?.count || 0}`,
   },
   {
     title: '状态',
-    dataIndex: 'status',
+    dataIndex: 'couponStatus',
     width: 90,
     valueEnum: statusEnum,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    width: 120,
+    hideInTable: true,
+    valueType: 'dateRange',
   },
   {
     title: '使用数量',
@@ -58,10 +65,11 @@ export const columns = ({ handleEdit }) => [
   },
   {
     title: '使用率',
-    dataIndex: '333333333',
+    dataIndex: 'receiveCount',
     width: 120,
     hideInSearch: true,
-    render: () => '77.5%',
+    render: (_, record) =>
+      record?.count && `${((record?.receiveCount || 0) / record?.count).toFixed(1)}%`,
   },
   {
     title: '领取/使用时间',
@@ -84,13 +92,23 @@ export const columns = ({ handleEdit }) => [
     width: 140,
     fixed: 'right',
     hideInSearch: true,
-    render: (record) => (
+    render: (_, record) => (
       <div>
-        <a onClick={() => handleEdit('edit', record)}>编辑</a>
-        <Divider type="vertical" />
+        {record?.couponStatus === '0' && (
+          <>
+            <a onClick={() => handleEdit('edit', record)}>编辑</a>
+            <Divider type="vertical" />
+          </>
+        )}
+        {(record?.couponStatus === '0' || record?.couponStatus === '1') && (
+          <a onClick={() => handleEdit('lose', record)}>失效</a>
+        )}
+        {(record?.couponStatus === '2' || record?.couponStatus === '3') && (
+          <a onClick={() => handleEdit('delete', record)}>删除</a>
+        )}
+        {/* <a onClick={() => handleEdit('edit', record)}>编辑</a>
         <a onClick={() => handleEdit('lose', record)}>失效</a>
-        <Divider type="vertical" />
-        <a onClick={() => handleEdit('delete', record)}>删除</a>
+        <a onClick={() => handleEdit('delete', record)}>删除</a> */}
       </div>
     ),
   },
