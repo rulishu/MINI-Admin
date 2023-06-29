@@ -39,9 +39,10 @@ export default () => {
             if (code === 200) {
               res.forEach((value) => {
                 if (value.attributes) {
-                  value.attributes.forEach((attr) =>
-                    name.push(attr.value + '' + attr.attributeName),
-                  );
+                  const attrStr = value.attributes
+                    .map((attr) => `${attr.value}${attr.attributeName}`)
+                    .join('*');
+                  name.push(attrStr);
                 }
               });
             }

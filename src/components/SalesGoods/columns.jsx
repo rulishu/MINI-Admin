@@ -74,7 +74,11 @@ export const searchColumns = () => [
           </div>
           <div style={{ marginLeft: 8, flex: 1 }}>
             <div>{record?.itemName}</div>
-            <div style={{ color: '#ccc' }}>{record.skuName.join('/')}</div>
+            <div
+              style={{ color: '#ccc', wordWrap: 'break-word', flexGrow: 1, textAlign: 'justify' }}
+            >
+              {record.skuName.join('/')}
+            </div>
             <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
           </div>
         </div>
