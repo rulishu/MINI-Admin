@@ -1,13 +1,15 @@
-import { selectPage } from '@/service/cust/memberManage';
-import { ProTable } from '@ant-design/pro-components';
+import { selectPage } from '@/service/sales/coupon';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { ModalForm, ProFormRadio, ProTable } from '@ant-design/pro-components';
 import { useDispatch } from '@umijs/max';
-import { Button } from 'antd';
-import { Fragment } from 'react';
+import { Button, Modal, message } from 'antd';
+import { Fragment, useState } from 'react';
 import ModalEditForm from './ModalEditForm';
 import { columns } from './columns';
-
+const { confirm } = Modal;
 export default function SearchTable() {
   const dispatch = useDispatch();
+  const [modalVisit, setModalVisit] = useState(false);
 
   const update = (data) => {
     dispatch({
@@ -16,10 +18,27 @@ export default function SearchTable() {
     });
   };
 
-  const handleEdit = (type) => {
+  const handleEdit = (type, record) => {
     update({ type });
     if (type === 'add') {
       update({ visible: true });
+    }
+    if (type === 'edit') {
+      dispatch({
+        type: 'salesActivities/getDetails',
+        payload: record?.id,
+      });
+    }
+    if (type === 'lose') {
+      setModalVisit(true);
+    }
+    if (type === 'delete') {
+      confirm({
+        title: '删除后将不可恢复，是否删除?',
+        icon: <ExclamationCircleFilled />,
+        onOk() {},
+        onCancel() {},
+      });
     }
   };
 
@@ -70,6 +89,39 @@ export default function SearchTable() {
         ]}
       />
       <ModalEditForm />
+      <ModalForm
+        title="失效后活动将结束"
+        open={modalVisit}
+        onFinish={async () => {
+          message.success('提交成功');
+          return true;
+        }}
+        onOpenChange={setModalVisit}
+        labelCol={{ span: 13 }}
+        wrapperCol={{ span: 8 }}
+        layout="horizontal"
+        modalProps={{
+          destroyOnClose: true,
+          width: 500,
+          // centered: true,
+        }}
+      >
+        <ProFormRadio.Group
+          initialValue={1}
+          name="radio-group"
+          label="是否同时失效已领取未使用的优惠卷"
+          options={[
+            {
+              label: '是',
+              value: 1,
+            },
+            {
+              label: '否',
+              value: 2,
+            },
+          ]}
+        />
+      </ModalForm>
     </Fragment>
   );
 }
