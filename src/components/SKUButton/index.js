@@ -1,14 +1,14 @@
 import SKUModal from '@/pages/product/productManage/SKUModal';
-import { useDispatch } from '@umijs/max';
-import { Button } from 'antd';
+// import { useDispatch } from '@umijs/max';
+// import { Button } from 'antd';
 
 const SKUButton = (props) => {
   const { value, onChange } = props;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => {
           dispatch({
             type: 'productManage/update',
@@ -18,7 +18,7 @@ const SKUButton = (props) => {
         type="primary"
       >
         添加规格
-      </Button>
+      </Button> */}
       <SKUModal value={value} onChange={onChange} />
     </>
   );

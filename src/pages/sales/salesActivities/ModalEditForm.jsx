@@ -10,6 +10,7 @@ import {
 } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { DatePicker, Form, InputNumber, Space, message } from 'antd';
+import dayjs from 'dayjs';
 import { useRef } from 'react';
 import SalesGoods from './SalesGoods';
 const { RangePicker } = DatePicker;
@@ -162,16 +163,40 @@ export default ({ actionRef }) => {
               rules={[
                 {
                   validator: (_, value) => {
+                    let endGetTime = form.getFieldValue('collectDate')?.[1];
+                    if (endGetTime) {
+                      endGetTime = new Date(endGetTime).getTime();
+                    }
                     if (form.getFieldValue('useTimeType') === 1) {
                       if (value && value?.length === 2) {
-                        return Promise.resolve();
+                        // 有数据，判断 领取结束时间
+                        let endUseTime = value?.[1];
+                        if (endUseTime) {
+                          endUseTime = new Date(endUseTime).getTime();
+                        }
+                        if (endUseTime >= endGetTime) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(new Error('使用时间必须大于领取时间'));
+                        }
                       } else {
                         return Promise.reject(new Error('请选择使用时间范围'));
                       }
                     }
                     if (form.getFieldValue('useTimeType') === 2) {
                       if (value >= 0) {
-                        return Promise.resolve();
+                        let endUseTime = dayjs().valueOf();
+                        if (value) {
+                          endUseTime = dayjs()
+                            .add(value - 1, 'day')
+                            .endOf('day')
+                            .valueOf();
+                        }
+                        if (endUseTime >= endGetTime) {
+                          return Promise.resolve();
+                        } else {
+                          return Promise.reject(new Error('使用时间必须大于领取时间'));
+                        }
                       } else {
                         return Promise.reject(new Error('请输入使用天数'));
                       }
