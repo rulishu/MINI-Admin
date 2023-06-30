@@ -1,6 +1,6 @@
 import AModal from '@/components/AModal';
 import SalesGoods from '@/components/SalesGoods';
-import { create, updateStatus } from '@/service/sales/flashKill';
+import { create, updateInfo } from '@/service/sales/flashKill';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { useRequest } from 'ahooks';
@@ -15,7 +15,7 @@ export default ({ reload }) => {
     flashKill: { visible, queryInfo, type },
   } = useSelector((state) => state);
 
-  const { run, loading } = useRequest(type === 'add' ? create : updateStatus, {
+  const { run, loading } = useRequest(type === 'add' ? create : updateInfo, {
     manual: true,
     onSuccess: ({ code }) => {
       if (code && code === 200) {

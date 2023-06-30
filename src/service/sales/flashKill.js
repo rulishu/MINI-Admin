@@ -24,6 +24,13 @@ export const create = async (body) => {
   });
 };
 
+export const updateInfo = async (body) => {
+  return request(`/jcgl-mall/admin/activity/update`, {
+    method: 'PUT',
+    data: body,
+  });
+};
+
 export const details = async ({ id }) => {
   return request(`/jcgl-mall/admin/activity/details?id=${id}`, {
     method: 'GET',
