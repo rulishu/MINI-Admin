@@ -29,13 +29,15 @@ export const columns = ({ handleEdit }) => [
     width: 150,
     dataIndex: 'price',
     key: 'price',
-    render: (_, record) => <div>￥{record.price}</div>,
+    render: (_, record) => {
+      return <div>￥{record.price}</div>;
+    },
   },
   {
     title: '折扣范围',
-    dataIndex: 'range',
+    dataIndex: 'discountRange',
     width: 150,
-    key: 'range',
+    key: 'discountRange',
   },
   {
     title: '活动总库存',

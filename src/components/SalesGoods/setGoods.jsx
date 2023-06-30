@@ -92,17 +92,7 @@ export default () => {
   };
 
   const save = () => {
-    // const index = dataSource.findIndex(
-    //   (data) =>
-    //     data.activityPrice === null ||
-    //     data.activityPrice === undefined ||
-    //     data.activityStock === null ||
-    //     data.activityStock === undefined,
-    // );
-    // if (index !== -1) {
-    //   message.warning('请配置【活动价】 和 【秒杀库存】');
-    //   return;
-    // }
+    // 获取折扣范围最小值
     const min = dataSource.reduce((acc, curr) => {
       if (curr.activityPrice < acc) {
         return curr.activityPrice / curr.price;
@@ -110,6 +100,7 @@ export default () => {
       return acc;
     }, Infinity);
 
+    // 获取折扣范围最大值
     const max = dataSource.reduce((acc, curr) => {
       if (curr.activityPrice > acc) {
         return curr.activityPrice / curr.price;
@@ -126,7 +117,7 @@ export default () => {
     const row = data.find((rows) => rows.id === setRecord.id);
     row.sku = [...dataSource];
     row.stockTotal = stockTotal;
-    row.range = (min * 10).toFixed(1) + '-' + (max * 10).toFixed(1);
+    row.discountRange = (min * 10).toFixed(1) + '-' + (max * 10).toFixed(1);
     onChange?.(data);
     dispatch({ dataSource: data });
     close();
