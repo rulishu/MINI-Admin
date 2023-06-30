@@ -34,7 +34,7 @@ const Index = () => {
       modal.confirm({
         title: '温馨提醒',
         maskClosable: true,
-        content: `确定是否要删除商品【${record.itemName}】？`,
+        content: `确定是否要删除商品【${record.itemName || '-'}】？`,
         onOk: () => {
           const data = dataSource.filter((item) => item.id !== record.id);
           onChange?.(data);

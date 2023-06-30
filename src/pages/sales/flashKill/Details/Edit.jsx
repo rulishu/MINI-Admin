@@ -37,11 +37,13 @@ export default ({ reload }) => {
       const data = queryInfo.activityItemList || [];
       const newActivityItemList = data.map((item) => ({
         mainGraph: item.mainGraph,
+        price: item.price,
         itemName: item.activityItemName,
         id: item.activityItemId,
         stockTotal: item.stockTotal,
         skuName: item.skuName,
-        sku: (item.activityItemSkuList || []).map((sku) => ({
+        discountRange: item.discountRange,
+        sku: (item.activityItemSkuDtoList || []).map((sku) => ({
           skuId: sku.activitySkuId,
           id: item.activityItemId,
           activityPrice: sku.activityPrice,
@@ -71,10 +73,12 @@ export default ({ reload }) => {
     const data = form2.activityItemList || [];
     const newActivityItemList = data.map((item) => ({
       mainGraph: item.mainGraph,
+      price: item.price,
       activityItemName: item.itemName,
       activityItemId: item.id,
       stockTotal: item.stockTotal,
       skuName: item.skuName,
+      discountRange: item.discountRange,
       activityItemSkuList: (item.sku || []).map((sku) => ({
         activitySkuId: sku.skuId,
         activityItemId: item.id,
