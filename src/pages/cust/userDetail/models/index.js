@@ -1,8 +1,8 @@
 export default {
   namespace: 'userDetail',
   state: {
-    editType: '',
     queryData: {},
+    editData: {},
   },
   reducers: {
     update: (state, { payload }) => ({

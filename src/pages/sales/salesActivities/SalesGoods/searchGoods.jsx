@@ -1,19 +1,14 @@
 import AModal from '@/components/AModal';
-import { selectSellPage, selectSKU } from '@/service/goods/productManage';
+import { selectSellPage } from '@/service/goods/productManage';
 import { BetaSchemaForm, ProCard } from '@ant-design/pro-components';
 import { useRequest, useSetState } from 'ahooks';
 import { Button, Table } from 'antd';
 import _ from 'lodash';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { searchColumns } from './columns';
-import { Context } from './hooks/context';
 
-export default () => {
-  const {
-    state: { dataSource: data, visible },
-    dispatch,
-    onChange,
-  } = useContext(Context);
+export default (props) => {
+  const { dataSource: data, setDataSource, visible, setVisible, onChange } = props;
 
   const [state, setState] = useSetState({
     searchForm: {},
@@ -30,41 +25,10 @@ export default () => {
 
   const { run, loading } = useRequest(selectSellPage, {
     manual: true,
-    onSuccess: async ({ code, result }) => {
+    onSuccess: ({ code, result }) => {
       if (code && code === 200) {
-        const datas = await Promise.all(
-          (result.records || []).map(async (item) => {
-            let name = [];
-            const { result: res, code } = await selectSKU({ id: item.id });
-            if (code === 200) {
-              // 商品sku拼接
-              res.forEach((value) => {
-                if (value.attributes) {
-                  const attrStr = value.attributes
-                    .map((attr) => `${attr.value}${attr.attributeName}`)
-                    .join('*');
-                  name.push(attrStr);
-                }
-              });
-            }
-            return {
-              ...item,
-              skuName: name && name.join('/'),
-              // 处理每个sku的attributes
-              sku: (res || []).map((item) => {
-                const attrStr = item.attributes
-                  .map((attr) => `${attr.value}${attr.attributeName}`)
-                  .join('*');
-                return {
-                  ...item,
-                  attributes: attrStr,
-                };
-              }),
-            };
-          }),
-        );
         setState({
-          dataSource: datas || [],
+          dataSource: result.records || [],
           total: result.total,
         });
       }
@@ -145,12 +109,12 @@ export default () => {
 
   const close = () => {
     reload();
-    dispatch({ visible: false });
+    setVisible(false);
   };
 
   const save = () => {
+    setDataSource([...selectedStudent]);
     onChange?.(selectedStudent);
-    dispatch({ dataSource: [...selectedStudent] });
     close();
   };
 

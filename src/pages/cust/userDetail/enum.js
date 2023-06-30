@@ -9,3 +9,15 @@ export const levelStatus = {
     text: '奋斗者',
   },
 };
+
+export const agentLevelStatus = {
+  ['1']: {
+    text: '省级代理',
+  },
+  ['2']: {
+    text: '市级代理',
+  },
+  ['3']: {
+    text: '区/县代理',
+  },
+};

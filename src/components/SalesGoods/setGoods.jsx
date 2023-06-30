@@ -1,7 +1,6 @@
 import AModal from '@/components/AModal';
-import { selectSKU } from '@/service/goods/productManage';
 import { ProCard } from '@ant-design/pro-components';
-import { useRequest, useSetState } from 'ahooks';
+import { useSetState } from 'ahooks';
 import { App, Button, InputNumber, Space, Table } from 'antd';
 import { useContext, useEffect } from 'react';
 import { Context } from './hooks/context';
@@ -17,39 +16,33 @@ export default () => {
 
   const [state, setState] = useSetState({
     dataSource: [],
-    batchValue: null,
-    batchStock: null,
-  });
-
-  const { run, loading } = useRequest(selectSKU, {
-    manual: true,
-    onSuccess: ({ code, result }) => {
-      if (code && code === 200) {
-        const { list = [] } = setRecord;
-        setState({
-          dataSource: (result || []).map((item) => {
-            const matchedItem = list.find((listItem) => listItem.skuId === item.skuId);
-            return {
-              ...item,
-              activityPrice: matchedItem?.activityPrice || 0,
-              flashStock: matchedItem?.flashStock || 0,
-              attributeName: (item.attributes || []).map(
-                (attr) => attr.value + '' + attr.attributeName,
-              ),
-            };
-          }),
-        });
-      }
-    },
+    batchValue: null, // 批量设置活动价格
+    batchStock: null, // 批量设置库存
   });
 
   useEffect(() => {
     if (setVisible) {
-      run({ id: setRecord.id });
+      const { sku = [] } = setRecord;
+      const datas = sku.map((item) => {
+        return {
+          ...item,
+          activityPrice: item?.activityPrice || 0,
+          activityStock: item?.activityStock || 0,
+        };
+      });
+      setState({ dataSource: datas });
+      // run({ id: setRecord.id });
     }
   }, [setVisible]);
 
   const { dataSource, batchValue, batchStock } = state;
+
+  const setMaxStock = dataSource.reduce((acc, curr) => {
+    if (curr.stock > acc) {
+      return curr.stock;
+    }
+    return acc;
+  }, -Infinity);
 
   const handleNumberChange = (id, code, value) => {
     const newDefaultValue = dataSource.map((item) => {
@@ -75,16 +68,14 @@ export default () => {
   const handleSet = () => {
     const maxStock = dataSource.find((item) => item.stock < batchStock);
     if (maxStock) {
-      message.warning(
-        `${(maxStock.attributeName || []).join(';')}规格库存数量为${maxStock.stock}，请重新设置`,
-      );
+      message.warning(`${maxStock.attributes}规格库存数量为${maxStock.stock}，请重新设置`);
       return;
     }
     const newData = dataSource.map((item) => {
       return {
         ...item,
         activityPrice: getActivityPrice(item.price),
-        flashStock: batchStock,
+        activityStock: batchStock,
       };
     });
     setState({ dataSource: newData });
@@ -95,13 +86,47 @@ export default () => {
       batchValue: null,
       batchStock: null,
       dataSource: [],
+      setMaxStock: 0,
     });
     dispatch({ setVisible: false, setRecord: {} });
   };
 
   const save = () => {
+    // const index = dataSource.findIndex(
+    //   (data) =>
+    //     data.activityPrice === null ||
+    //     data.activityPrice === undefined ||
+    //     data.activityStock === null ||
+    //     data.activityStock === undefined,
+    // );
+    // if (index !== -1) {
+    //   message.warning('请配置【活动价】 和 【秒杀库存】');
+    //   return;
+    // }
+    const min = dataSource.reduce((acc, curr) => {
+      if (curr.activityPrice < acc) {
+        return curr.activityPrice / curr.price;
+      }
+      return acc;
+    }, Infinity);
+
+    const max = dataSource.reduce((acc, curr) => {
+      if (curr.activityPrice > acc) {
+        return curr.activityPrice / curr.price;
+      }
+      return acc;
+    }, -Infinity);
+    // 计算总库存
+    let stockTotal = 0;
+    dataSource.forEach((item) => {
+      if (item.activityStock || item.activityStock === 0) {
+        stockTotal += item.activityStock;
+      }
+    });
     const row = data.find((rows) => rows.id === setRecord.id);
-    row.list = [...dataSource];
+    row.sku = [...dataSource];
+    row.stockTotal = stockTotal;
+    row.range = (min * 10).toFixed(1) + '-' + (max * 10).toFixed(1);
     onChange?.(data);
     dispatch({ dataSource: data });
     close();
@@ -113,16 +138,14 @@ export default () => {
     columns: [
       {
         title: '规格信息',
-        dataIndex: 'attributeName',
+        dataIndex: 'attributes',
         width: 200,
-        render: (_, record) => {
-          return <div style={{ width: 200 }}>{(record.attributeName || []).join('*')}</div>;
-        },
       },
       {
         title: '售价',
         dataIndex: 'price',
         width: 120,
+        render: (_, record) => <div>￥{record.price}</div>,
       },
       {
         title: '活动价',
@@ -148,24 +171,23 @@ export default () => {
       },
       {
         title: '秒杀库存',
-        dataIndex: 'flashStock',
+        dataIndex: 'activityStock',
         width: 120,
         render: (_, record) => {
           return (
             <InputNumber
-              value={record.flashStock}
-              defaultValue={record.flashStock}
+              value={record.activityStock}
+              defaultValue={record.activityStock}
               step={1}
               min={0}
               max={record.stock}
-              onChange={(value) => handleNumberChange(record.skuId, 'flashStock', value)}
+              onChange={(value) => handleNumberChange(record.skuId, 'activityStock', value)}
             />
           );
         },
       },
     ],
     rowKey: 'skuId',
-    loading: loading,
   };
 
   return (
@@ -198,7 +220,7 @@ export default () => {
               value={batchValue}
               step={0.1}
               min={0}
-              max={10}
+              max={10.0}
               onChange={(value) => setState({ batchValue: value })}
             />
             <InputNumber
@@ -206,6 +228,7 @@ export default () => {
               value={batchStock}
               step={1}
               min={0}
+              max={setMaxStock}
               onChange={(value) => setState({ batchStock: value })}
             />
             <Button type="primary" onClick={handleSet}>

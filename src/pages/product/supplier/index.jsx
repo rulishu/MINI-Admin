@@ -68,7 +68,7 @@ export default () => {
   const handleEdit = (type, record) => {
     update({ type });
     if (type === 'add') {
-      update({ visible: true, queryInfo: { type: 1 } });
+      update({ visible: true, queryInfo: { type: 0 } });
     }
     if (type === 'edit') {
       mutateAsync({ id: record.supplierId });

@@ -2,7 +2,7 @@ import { selectPageList } from '@/service/order/shipping';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Button } from 'antd';
+import { App, Button, message } from 'antd';
 import { useEffect, useRef } from 'react';
 import EditForm from './EditForm';
 import FormItemModal from './EditForm/FormItemModal';
@@ -57,22 +57,27 @@ const SearchTable = () => {
       });
     }
     if (type === 'delete') {
-      modal.confirm({
-        title: <span style={{ color: 'red' }}>确定要删除吗？</span>,
-        maskClosable: true,
-        closable: true,
-        cancelText: '取消',
-        onCancel: () => {},
-        autoFocusButton: null,
-        okText: '确定删除',
-        okType: 'primary',
-        onOk: () => {
-          dispatch({
-            type: 'shippingtemplates/deleteItem',
-            payload: { id: data?.id, actionRef },
-          });
-        },
-      });
+      if (data?.itemCount) {
+        message.warning('运费模板已有商品在使用，请解除关联后再删除');
+      } else {
+        modal.confirm({
+          title: <span style={{ color: 'red' }}>确定要删除吗？</span>,
+          maskClosable: true,
+          closable: true,
+          centered: true,
+          cancelText: '取消',
+          onCancel: () => {},
+          autoFocusButton: null,
+          okText: '确定删除',
+          okType: 'primary',
+          onOk: () => {
+            dispatch({
+              type: 'shippingtemplates/deleteItem',
+              payload: { id: data?.id, actionRef },
+            });
+          },
+        });
+      }
     }
   };
   return (
@@ -135,7 +140,7 @@ const SearchTable = () => {
           </Button>
         )}
       />
-      <EditForm />
+      <EditForm actionRef={actionRef} />
       <FormItemModal />
     </>
   );

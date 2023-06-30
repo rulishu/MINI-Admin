@@ -1,12 +1,14 @@
 import { ModalForm } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
 import { message } from 'antd';
+import { useRef } from 'react';
 import FormItemWithTable from './FormItemWithTable';
 
-const EditForm = () => {
+const EditForm = ({ actionRef }) => {
   const dispatch = useDispatch();
+  const formRef = useRef();
   const { shippingtemplates } = useSelector((state) => state);
-  const { addOpen, assignedAreaTableList } = shippingtemplates;
+  const { addOpen, assignedAreaTableList, drawerParams, drawerType } = shippingtemplates;
 
   const update = (data) => {
     dispatch({
@@ -18,8 +20,9 @@ const EditForm = () => {
   return (
     <>
       <ModalForm
-        title="新建模板"
+        title={drawerType === 'edit' ? '编辑模板' : '新建模板'}
         open={addOpen}
+        formRef={formRef}
         labelCol={{ span: 3 }}
         wrapperCol={{ span: 21 }}
         layout="horizontal"
@@ -27,6 +30,20 @@ const EditForm = () => {
           destroyOnClose: true,
           width: 1000,
           centered: true,
+          afterOpenChange: (open) => {
+            if (open && drawerType !== 'add' && drawerParams?.id) {
+              formRef?.current?.setFieldsValue({
+                name: drawerParams?.name,
+                chargeMode: drawerParams?.chargeMode,
+                freightObj: {
+                  firstPart: drawerParams?.firstPart,
+                  freightCharge: drawerParams?.freightCharge,
+                  continuedEmphasis: drawerParams?.continuedEmphasis,
+                  feesRenewal: drawerParams?.feesRenewal,
+                },
+              });
+            }
+          },
         }}
         onFinish={async (value) => {
           let msg = '';
@@ -49,26 +66,44 @@ const EditForm = () => {
                   feesRenewal: item?.feesRenewal,
                 };
                 selectList.forEach((i) => {
-                  if (i.slice(-4) === '0000') {
-                    // 省
-                    VoList.push({ ...obj, province: i });
-                    // treeList[i]?.children?.forEach((city) => {
-                    //   if (city?.children) {
-                    //     city?.children.forEach((area) => {
-                    //       district.push(area?.areaCode);
-                    //     });
-                    //   }
-                    // });
-                  } else {
-                    if (i.slice(-2) === '00') {
-                      // 市
-                      VoList.push({ ...obj, city: i });
-                      // treeList[`${i.slice(0, 2)}0000`]?.children?.[i]?.children?.forEach((area) => {
-                      //   district.push(area?.areaCode);
-                      // });
+                  if (drawerType !== 'edit') {
+                    if (i.slice(-4) === '0000') {
+                      // 省
+                      VoList.push({ ...obj, province: i });
                     } else {
-                      // 区
-                      VoList.push({ ...obj, district: i });
+                      if (i.slice(-2) === '00') {
+                        // 市
+                        VoList.push({ ...obj, city: i });
+                      } else {
+                        // 区
+                        VoList.push({ ...obj, district: i });
+                      }
+                    }
+                  } else {
+                    // 编辑时要带上ID
+                    if (i.slice(-4) === '0000') {
+                      // 省
+                      if (item?.editObj?.[i]) {
+                        VoList.push({ ...obj, province: i, ...item?.editObj?.[i] });
+                      } else {
+                        VoList.push({ ...obj, province: i });
+                      }
+                    } else {
+                      if (i.slice(-2) === '00') {
+                        // 市
+                        if (item?.editObj?.[i]) {
+                          VoList.push({ ...obj, city: i, ...item?.editObj?.[i] });
+                        } else {
+                          VoList.push({ ...obj, city: i });
+                        }
+                      } else {
+                        // 区
+                        if (item?.editObj?.[i]) {
+                          VoList.push({ ...obj, district: i, ...item?.editObj?.[i] });
+                        } else {
+                          VoList.push({ ...obj, district: i });
+                        }
+                      }
                     }
                   }
                 });
@@ -83,28 +118,46 @@ const EditForm = () => {
           }
 
           let type = false;
-
-          await dispatch({
-            type: 'shippingtemplates/addTemplate',
-            payload: {
-              value,
-              VoList,
-              callback: () => {
-                type = true;
+          if (drawerType === 'edit') {
+            await dispatch({
+              type: 'shippingtemplates/updateTemplate',
+              payload: {
+                value,
+                VoList,
+                callback: () => {
+                  type = true;
+                },
               },
-            },
-          });
+            });
+          } else {
+            // copy add 都是新增
+            await dispatch({
+              type: 'shippingtemplates/addTemplate',
+              payload: {
+                value,
+                VoList,
+                callback: () => {
+                  type = true;
+                },
+              },
+            });
+          }
 
           return type;
         }}
-        onValuesChange={(changeValues) => console.log(changeValues)}
         onOpenChange={(open) => {
+          if (!open) {
+            update({
+              assignedAreaTableList: [],
+              disabledAreaTableList: [],
+              unchecked: [],
+              drawerParams: {},
+              editAreaId: '',
+              areaListType: 'can',
+            });
+            actionRef.current?.reload();
+          }
           update({
-            assignedAreaTableList: [],
-            disabledAreaTableList: [],
-            unchecked: [],
-            editAreaId: '',
-            areaListType: 'can',
             addOpen: open,
           });
         }}

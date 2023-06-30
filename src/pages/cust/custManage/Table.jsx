@@ -8,7 +8,7 @@ export default function SearchTable() {
   // eslint-disable-next-line no-unused-vars
   const handleEdit = (type, data) => {
     if (type === 'view') {
-      history.push('/cust/userDetail');
+      history.push(`/cust/userDetail/${data.id}`);
     }
   };
 
@@ -42,6 +42,10 @@ export default function SearchTable() {
         }}
         pagination={{
           showSizeChanger: true,
+          onChange: () => {
+            const node = document.querySelector('.ant-layout-content');
+            node.scrollTop = 0;
+          },
         }}
         cardProps={{
           size: 'small',

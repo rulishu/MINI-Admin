@@ -2,64 +2,68 @@ import UserContent from '@/components/UserContent';
 import { EditOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import { Fragment } from 'react';
+import { agentLevelStatus, levelStatus } from './enum';
 
 const { Text } = Typography;
 export const basicItem = ({ handleEdit }) => [
   {
     title: '用户昵称',
-    key: 'orderNumber',
+    key: 'consumerName',
     editable: () => false,
-    dataIndex: 'orderNumber',
+    dataIndex: 'consumerName',
     ellipsis: true,
   },
   {
     title: '经销等级',
-    key: 'createTime',
+    key: 'level',
     editable: () => false,
-    dataIndex: 'createTime',
-    render: () => {
+    dataIndex: 'level',
+    render: (_, record) => {
       return (
         <span style={{ width: 180, display: 'flex' }}>
-          <Text ellipsis={{ tooltip: '奋斗者' }}>奋斗者</Text>
-          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('sell')} />
+          {record.level && (
+            <Text ellipsis={{ tooltip: '奋斗者' }}>{levelStatus[Number(record.level)].text}</Text>
+          )}
+          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('level', record)} />
         </span>
       );
     },
   },
   {
     title: '邀请人',
-    key: 'payDate',
+    key: 'userName',
     editable: () => false,
-    dataIndex: 'payDate',
+    dataIndex: 'userName',
     render: () => {
       return (
-        <span style={{ width: 180, display: 'flex' }}>
-          <Text ellipsis={{ tooltip: '李高峰' }}>李高峰</Text>
-          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user')} />
-        </span>
+        // <span style={{ width: 180, display: 'flex' }}>
+        //   <Text ellipsis={{ tooltip: '李高峰' }}>李高峰</Text>
+        //   <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user')} />
+        // </span>
+        '-'
       );
     },
   },
   {
     title: '归属代理',
-    key: 'deliveryTime',
+    key: 'companyName',
     editable: () => false,
-    dataIndex: 'deliveryTime',
+    dataIndex: 'companyName',
     ellipsis: true,
   },
   {
     title: '用户编号',
-    key: 'endTime',
+    key: 'consumerId',
     editable: () => false,
-    dataIndex: 'endTime',
+    dataIndex: 'consumerId',
     ellipsis: true,
   },
   {
     title: '代理等级',
-    key: 'backgroundMessage',
+    key: 'agentLevel',
     editable: () => true,
-    dataIndex: 'backgroundMessage',
-    ellipsis: true,
+    dataIndex: 'agentLevel',
+    valueEnum: agentLevelStatus,
   },
   {
     title: '邀请人编号',
@@ -67,6 +71,7 @@ export const basicItem = ({ handleEdit }) => [
     editable: () => true,
     dataIndex: 'backgroundMessage2',
     ellipsis: true,
+    render: () => '-',
   },
   {
     title: '代理编号',
@@ -77,9 +82,9 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '用户手机',
-    key: 'backgroundMessage4',
+    key: 'consumerPhone',
     editable: () => true,
-    dataIndex: 'backgroundMessage4',
+    dataIndex: 'consumerPhone',
     ellipsis: true,
   },
   {
@@ -88,12 +93,13 @@ export const basicItem = ({ handleEdit }) => [
     editable: () => true,
     dataIndex: 'backgroundMessage5',
     ellipsis: true,
+    render: () => '-',
   },
   {
     title: '注册时间',
-    key: 'backgroundMessage6',
+    key: 'createTime',
     editable: () => true,
-    dataIndex: 'backgroundMessage6',
+    dataIndex: 'createTime',
     ellipsis: true,
   },
   {
@@ -120,8 +126,8 @@ export const columns = [
         <UserContent
           width={180}
           headUrl={record.headUrl}
-          name={record.consumerName}
-          phone={record.mobile}
+          name={record.consumerName || 'Miracle-'}
+          phone={record.mobile || '17857001531'}
         />
       );
     },
@@ -146,10 +152,12 @@ export const columns = [
     width: 200,
     render: (text, record) => {
       return (
-        (record.inviter && (
-          <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
-        )) ||
-        '无'
+        <UserContent
+          width={180}
+          headUrl={record.headUrl}
+          name={record.consumerName || '昵称'}
+          phone={record.mobile || '17766666666'}
+        />
       );
     },
   },
@@ -157,30 +165,36 @@ export const columns = [
     title: '邀请层级',
     dataIndex: 'level',
     width: 120,
+    render: () => '1级',
   },
   {
     title: '注册时间',
     dataIndex: 'level1',
     width: 150,
+    render: () => '2020/05/20   17:32:40',
   },
   {
     title: '累积营业额',
     dataIndex: 'level2',
     width: 150,
+    render: () => '￥999.90',
   },
   {
     title: '上月营业额',
     dataIndex: 'level3',
     width: 150,
+    render: () => '￥999.90',
   },
   {
     title: '本月营业额',
     dataIndex: 'level4',
     width: 150,
+    render: () => '￥999.90',
   },
   {
     title: '本月个人消费',
     dataIndex: 'level5',
     width: 150,
+    render: () => '￥999.90',
   },
 ];
