@@ -15,7 +15,7 @@ export const basicSchema = ({ options }) => {
         title: '类型',
         type: 'number',
         widget: 'select',
-        disabled: true,
+        disabled: false,
         props: {
           options: [
             { label: '小程序', value: 1 },
@@ -23,7 +23,6 @@ export const basicSchema = ({ options }) => {
           ],
         },
         required: true,
-        defaultValue: 1,
       },
       sort: {
         title: '排序',
