@@ -1,6 +1,7 @@
 import AImage from '@/components/AImage';
 import { Divider, Typography } from 'antd';
 import moment from 'moment';
+import React from 'react';
 
 export const columns = ({ handleEdit }) => [
   {
@@ -66,20 +67,23 @@ export const searchColumns = () => [
     width: 250,
     render: (_, record) => {
       return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div>
-            <AImage width={80} height={80} src={record?.mainGraph} />
-          </div>
-          <div style={{ marginLeft: 8, flex: 1 }}>
-            <div>{record?.itemName}</div>
-            <div
-              style={{ color: '#ccc', wordWrap: 'break-word', flexGrow: 1, textAlign: 'justify' }}
-            >
-              {record.skuName}
+        <React.Fragment>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div>
+              <AImage width={80} height={80} src={record?.mainGraph} />
             </div>
-            <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
+            <div style={{ marginLeft: 8, flex: 1 }}>
+              <div>{record?.itemName}</div>
+              <div
+                style={{ color: '#ccc', wordWrap: 'break-word', flexGrow: 1, textAlign: 'justify' }}
+              >
+                {record.skuName}
+              </div>
+              <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
+            </div>
           </div>
-        </div>
+          {record.isActivityItem && <div style={{ color: 'red' }}>该商品有正在进行的秒杀活动</div>}
+        </React.Fragment>
       );
     },
   },
