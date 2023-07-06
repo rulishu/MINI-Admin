@@ -55,14 +55,14 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'orderNumber',
     width: 150,
     hideInSearch: true,
-    render: () => '-',
+    render: (_, record) => `${record.activityOrderNum}/${record.activityOrderPrice}`,
   },
   {
     title: '下单人数',
     dataIndex: 'memberType',
     width: 120,
     hideInSearch: true,
-    render: () => '-',
+    render: (_, record) => record.activityBuyerNum,
   },
   {
     title: '活动时间',
