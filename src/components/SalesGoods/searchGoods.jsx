@@ -85,6 +85,7 @@ export default () => {
       run({
         pageNum,
         pageSize,
+        hasActivityRule: true,
         ...searchForm,
       });
     }
@@ -117,6 +118,9 @@ export default () => {
           selectedStudentKey: selectedRowKeys,
         });
       },
+      getCheckboxProps: (record) => ({
+        disabled: record.isActivityItem,
+      }),
     },
     pagination: {
       current: pageNum,
