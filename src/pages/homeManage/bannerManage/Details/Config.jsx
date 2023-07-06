@@ -42,15 +42,17 @@ export default () => {
     },
   });
 
+  const emumsOptions =
+    queryInfo.category === 1 ? enums.banner_tager_type : enums.app_banner_tager_type;
+
   useEffect(() => {
     if (visible) {
       form.setValues({
         name: queryInfo.name,
         jumpPath: queryInfo.jumpPath,
         path: queryInfo?.path ? getUrlToList(queryInfo.path) : [],
-        linkMenuTag: enums.banner_tager_type.find(
-          (item) => item?.dictLabel === queryInfo?.linkMenuTag,
-        )?.dictValue,
+        linkMenuTag: (emumsOptions || []).find((item) => item?.dictLabel === queryInfo?.linkMenuTag)
+          ?.dictValue,
         showStartTime: queryInfo.showStartTime && [queryInfo.showStartTime, queryInfo.showEndTime],
         sort: queryInfo.sort,
         category: queryInfo.category,
@@ -64,8 +66,7 @@ export default () => {
       name: values.name,
       jumpPath: values.jumpPath,
       path: (values.path && getUrl(values.path)) || '',
-      linkMenuTag: enums.banner_tager_type.find((item) => item?.dictValue === values?.linkMenuTag)
-        ?.dictLabel,
+      linkMenuTag: emumsOptions.find((item) => item?.dictValue === values?.linkMenuTag)?.dictLabel,
       showStartTime: values.showStartTime && values.showStartTime[0] && values.showStartTime[0],
       showEndTime: values.showStartTime && values.showStartTime[1] && values.showStartTime[1],
       category: values.category,
@@ -82,11 +83,13 @@ export default () => {
         jumpPath: val,
       });
     },
-    // jumpPath: () => {
-    //   form.setValues({
-    //     linkMenuTag: '',
-    //   });
-    // },
+    category: (val) => {
+      form.setValues({
+        linkMenuTag: '',
+        jumpPath: '',
+      });
+      update({ queryInfo: { ...queryInfo, category: val } });
+    },
   };
 
   return (
@@ -116,13 +119,10 @@ export default () => {
           watch={watch}
           schema={basicSchema({
             queryInfo,
-            options:
-              (enums.banner_tager_type &&
-                enums.banner_tager_type.map((item) => ({
-                  label: item.dictLabel,
-                  value: item.dictValue,
-                }))) ||
-              [],
+            options: (emumsOptions || []).map((item) => ({
+              label: item.dictLabel,
+              value: item.dictValue,
+            })),
           })}
           widgets={{
             comupload: Upload,

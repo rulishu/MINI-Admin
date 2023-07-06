@@ -21,6 +21,11 @@ const App = () => {
   ];
   useEffect(() => {
     dispatch({ type: 'commonInterface/getDictType', payload: { dictType: 'banner_tager_type' } });
+    dispatch({
+      type: 'commonInterface/getDictType',
+      payload: { dictType: 'app_banner_tager_type' },
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
