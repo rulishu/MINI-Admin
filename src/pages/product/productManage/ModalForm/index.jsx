@@ -390,17 +390,17 @@ export default () => {
               label="商品类型"
               rules={[{ required: true }]}
               options={[
-                { label: '自营', value: 1 },
-                { label: '严选', value: 2 },
+                { label: '自营', value: 0 },
+                { label: '严选', value: 1 },
               ]}
             />
             <ProFormRadio.Group
-              name="000000000000000itemT0000ype"
+              name="itemShareType"
               label="分润"
               rules={[{ required: true }]}
               options={[
-                { label: '参与分润', value: 1 },
-                { label: '不参与分润', value: 2 },
+                { label: '参与分润', value: 0 },
+                { label: '不参与分润', value: 1 },
               ]}
             />
             <ProFormSelect
@@ -424,17 +424,17 @@ export default () => {
               {(form) =>
                 form.getFieldValue('suppliersId') && (
                   <ProFormRadio.Group
-                    name="0000000000000dada0itemT0000ype"
+                    name="itemSaleType"
                     label="商品贸易类型"
                     initialValue={form.getFieldValue('suppliersId')?.type === 2 ? 3 : 1}
                     rules={[{ required: true }]}
                     options={
                       form.getFieldValue('suppliersId')?.type === 2
                         ? [
-                            { label: '海外直邮', value: 2, disabled: true },
-                            { label: '保税仓', value: 3 },
+                            { label: '海外直邮', value: 1, disabled: true },
+                            { label: '保税仓', value: 2 },
                           ]
-                        : [{ label: '国内零售', value: 1 }]
+                        : [{ label: '国内零售', value: 0 }]
                     }
                   />
                 )

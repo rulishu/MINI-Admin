@@ -56,7 +56,7 @@ export default () => {
         title: '温馨提示',
         maskClosable: true,
         content: '确定是否要下架？',
-        onOk: () => mutateUpdate({ id: record.id, status: 0 }),
+        onOk: () => mutateUpdate({ id: record.id, status: -1 }),
       });
     }
     if (type === 'grounding') {
