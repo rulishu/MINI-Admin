@@ -45,6 +45,7 @@ export default () => {
         visible: true,
         queryInfo: {
           type: activeKey,
+          category: 1,
         },
       });
     }
