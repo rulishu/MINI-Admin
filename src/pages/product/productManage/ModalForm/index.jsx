@@ -30,7 +30,7 @@ export default () => {
   const { suppliersList } = supplier;
   const { treeList } = commonInterface;
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   const onClosed = () => {
     dispatch({
