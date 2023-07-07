@@ -95,10 +95,6 @@
             "name": "手工订单"
           },
           {
-            "path": "/order/priceTemplate",
-            "name": "运费模版"
-          },
-          {
             "path": "/order/returnGoodsAddress",
             "name": "退货地址"
           },

@@ -1,4 +1,4 @@
-import { Button, Card, Col, Input, InputNumber, Row, Space, Table, Tooltip } from 'antd';
+import { Button, Col, Input, InputNumber, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SKUList = ({ editData = [], data = [], onChange }) => {
@@ -7,10 +7,22 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
+      console.log('<<');
+
       const filterData = data.filter((item) => item.valueList?.length);
       const generateSKUs = (attributes, index, prefix, skuList) => {
         if (index === attributes.length) {
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          console.log('index === attributes.length: ', index === attributes.length);
+          console.log('skuList: ', skuList);
+          console.log('prefix: ', prefix);
+          console.log('index: ', index);
+          console.log('attributes: ', attributes);
+          console.log('<<<<<<<<<<<<<<<<<<<<<');
+
+          const date = new Date();
           skuList.push({
+            attrId: date.getTime() + index,
             ...prefix,
             goodsCost: '0',
             price: '0',
@@ -18,10 +30,16 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             membershipPrice: '0',
             skuCode: '0',
             stock: '0',
-            attrId: index,
           });
           return;
         }
+
+        console.log('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
+        console.log('skuList: ', skuList);
+        console.log('prefix: ', prefix);
+        console.log('index: ', index);
+        console.log('attributes: ', attributes);
+        console.log('-----------------------------');
         const attribute = attributes[index];
         const { attribute_name = '', attribute_value = '', valueList } = attribute;
         for (let i = 0; i < valueList?.length; i++) {
@@ -33,12 +51,12 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             attributeId: attribute_value,
             attribute_name,
           };
-
+          const date = new Date();
           const newPrefix = {
+            attrId: date.getTime() + index,
             ...prefix,
             [attribute_name]: value,
             attributes: attributes_teemp,
-            attrId: skuList.length,
             flag: true,
             // imageUrl: obj?.imageUrl ? [obj?.imageUrl] : undefined,
           };
@@ -52,6 +70,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
       // 如果规格值相同，将旧数据赋值
       console.log('updatedDataSource: ', updatedDataSource);
+      console.log('>>');
       if (editData.length > 0) {
         let newDataSource = [].concat(updatedDataSource);
         updatedDataSource.forEach((item, index) => {
@@ -133,6 +152,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
           onChange={(value) => handleEntryDataChange(index, 'goodsCost', value)}
+          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -150,6 +170,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
           onChange={(value) => handleEntryDataChange(index, 'price', value)}
+          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -167,6 +188,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           status={text ? '' : text === 0 ? '' : 'error'}
           disabled
           value={text === 0 ? '0' : text}
+          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -184,6 +206,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
           onChange={(value) => handleEntryDataChange(index, 'referencePrice', value)}
+          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -201,6 +224,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           status={text ? '' : text === 0 ? '' : 'error'}
           value={text === 0 ? '0' : text}
           onChange={(value) => handleEntryDataChange(index, 'stock', value)}
+          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -214,6 +238,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           value={text === 0 ? '0' : text}
           style={{ width: '100%' }}
           onChange={(e) => handleEntryDataChange(index, 'skuCode', e.target.value)}
+          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -237,8 +262,9 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     // onChange?.(datas);
   };
 
-  const handleEntryDataSave = () => {
-    const datas = dataSource.map((item) => {
+  const handleEntryDataSave = (da) => {
+    let arr = da || dataSource;
+    const datas = arr.map((item) => {
       const { attributes = [], ...rest } = item;
       const obj = data?.[0];
       let imageUrl = undefined;
@@ -260,124 +286,125 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
   };
 
   return (
-    <Card>
-      <Space
-        direction="vertical"
-        size="middle"
-        style={{
-          display: 'flex',
-        }}
-      >
-        {dataSource && dataSource.length > 0 && (
-          <Row justify="space-between" align="middle">
-            <Col span={1.5}>批量设置</Col>
-            <Col span={4}>
-              <Tooltip trigger={['focus']} title="成本价" placement="topLeft">
-                <InputNumber
-                  style={{ width: '100%' }}
-                  stringMode
-                  controls={false}
-                  precision={2}
-                  min={0}
-                  onChange={(value) => {
-                    setBulk({ ...bulk, goodsCost: value });
-                  }}
-                  placeholder="成本价"
-                />
-              </Tooltip>
-            </Col>
-            <Col span={4}>
-              <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
-                <InputNumber
-                  style={{ width: '100%' }}
-                  stringMode
-                  controls={false}
-                  precision={2}
-                  min={0}
-                  onChange={(value) => {
-                    setBulk({ ...bulk, price: value, membershipPrice: value });
-                  }}
-                  placeholder="销售价"
-                />
-              </Tooltip>
-            </Col>
-            <Col span={4}>
-              <Tooltip trigger={['focus']} title="参考价" placement="topLeft">
-                <InputNumber
-                  style={{ width: '100%' }}
-                  stringMode
-                  controls={false}
-                  precision={2}
-                  min={0}
-                  onChange={(value) => {
-                    setBulk({ ...bulk, price: value, membershipPrice: value });
-                  }}
-                  placeholder="参考价"
-                />
-              </Tooltip>
-            </Col>
-            <Col span={4}>
-              <Tooltip trigger={['focus']} title="销售库存" placement="topLeft">
-                <InputNumber
-                  style={{ width: '100%' }}
-                  stringMode
-                  controls={false}
-                  precision={0}
-                  min={0}
-                  onChange={(value) => {
-                    setBulk({ ...bulk, stock: value });
-                  }}
-                  placeholder="销售库存"
-                />
-              </Tooltip>
-            </Col>
-            <Col span={4}>
-              <Tooltip trigger={['focus']} title="sku编码" placement="topLeft">
-                <Input
-                  onChange={(e) => {
-                    setBulk({ ...bulk, skuCode: e.target.value });
-                  }}
-                  placeholder="sku编码"
-                />
-              </Tooltip>
-            </Col>
-            <Col span={1.5}>
-              <Button
-                onClick={() => {
-                  let obj = {};
-                  Object.keys(bulk).forEach((item) => {
-                    if (bulk?.[item]) {
-                      obj[item] = bulk?.[item];
-                    }
-                  });
-                  setDataSource(dataSource.map((item) => ({ ...item, ...obj })));
+    <Space
+      direction="vertical"
+      size="middle"
+      style={{
+        display: 'flex',
+      }}
+    >
+      {dataSource && dataSource.length > 0 && (
+        <Row justify="space-between" align="middle">
+          <Col span={1.5}>批量设置</Col>
+          <Col span={4}>
+            <Tooltip trigger={['focus']} title="成本价" placement="topLeft">
+              <InputNumber
+                style={{ width: '100%' }}
+                stringMode
+                controls={false}
+                precision={2}
+                min={0}
+                onChange={(value) => {
+                  setBulk({ ...bulk, goodsCost: value });
                 }}
-              >
-                设置
-              </Button>
-            </Col>
-          </Row>
-        )}
-        <Table
-          bordered
-          dataSource={dataSource}
-          columns={columns}
-          pagination={false}
-          rowKey="attrId"
-          size="small"
-          scroll={{ x: 990 }}
-        />
-        <Row justify="end">
-          {dataSource && dataSource.length > 0 && (
-            <Col>
-              <Button type="primary" onClick={handleEntryDataSave}>
-                保存规格
-              </Button>
-            </Col>
-          )}
+                placeholder="成本价"
+              />
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip trigger={['focus']} title="销售价" placement="topLeft">
+              <InputNumber
+                style={{ width: '100%' }}
+                stringMode
+                controls={false}
+                precision={2}
+                min={0}
+                onChange={(value) => {
+                  setBulk({ ...bulk, price: value, membershipPrice: value });
+                }}
+                placeholder="销售价"
+              />
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip trigger={['focus']} title="参考价" placement="topLeft">
+              <InputNumber
+                style={{ width: '100%' }}
+                stringMode
+                controls={false}
+                precision={2}
+                min={0}
+                onChange={(value) => {
+                  setBulk({ ...bulk, price: value, membershipPrice: value });
+                }}
+                placeholder="参考价"
+              />
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip trigger={['focus']} title="销售库存" placement="topLeft">
+              <InputNumber
+                style={{ width: '100%' }}
+                stringMode
+                controls={false}
+                precision={0}
+                min={0}
+                onChange={(value) => {
+                  setBulk({ ...bulk, stock: value });
+                }}
+                placeholder="销售库存"
+              />
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip trigger={['focus']} title="sku编码" placement="topLeft">
+              <Input
+                onChange={(e) => {
+                  setBulk({ ...bulk, skuCode: e.target.value });
+                }}
+                placeholder="sku编码"
+              />
+            </Tooltip>
+          </Col>
+          <Col span={1.5}>
+            <Button
+              onClick={() => {
+                let obj = {};
+                Object.keys(bulk).forEach((item) => {
+                  if (bulk?.[item]) {
+                    obj[item] = bulk?.[item];
+                  }
+                });
+                const newArry = dataSource.map((item) => ({ ...item, ...obj }));
+                setDataSource(newArry);
+                handleEntryDataSave(newArry);
+                //
+              }}
+            >
+              设置
+            </Button>
+          </Col>
         </Row>
-      </Space>
-    </Card>
+      )}
+      <Table
+        bordered
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+        rowKey="attrId"
+        size="small"
+        scroll={{ x: 990 }}
+      />
+      {/* <Row justify="end">
+        {dataSource && dataSource.length > 0 && (
+          <Col>
+            <Button type="primary" onClick={handleEntryDataSave}>
+              保存规格
+            </Button>
+          </Col>
+        )}
+      </Row> */}
+    </Space>
   );
 };
 

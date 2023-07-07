@@ -2,15 +2,15 @@ import GoodsSKU from '@/components/sku';
 import SKUList from '@/components/sku/SKUList';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Form, Modal } from 'antd';
-import { cloneElement, useEffect, useState } from 'react';
+import { App, Form } from 'antd';
+import { useEffect, useState } from 'react';
 
 const SKUModal = (props) => {
   const { message } = App.useApp();
   const [form] = Form.useForm();
 
   const { value, onChange } = props;
-  const { itemSkuVos, attributeVos, showSKU, type, attrOptions } = useSelector(
+  const { itemSkuVos, attributeVos, type, attrOptions } = useSelector(
     (state) => state.productManage,
   );
   const dispatch = useDispatch();
@@ -132,7 +132,8 @@ const SKUModal = (props) => {
   };
 
   return (
-    <Modal
+    <>
+      {/* <Modal
       open={showSKU}
       destroyOnClose
       modalRender={(comps) => {
@@ -155,19 +156,26 @@ const SKUModal = (props) => {
           payload: { showSKU: false },
         });
       }}
-    >
-      <ProCard title="商品规格" headerBordered bodyStyle={{}}>
+    > */}
+      <ProCard
+        //  title="商品规格"
+        headerBordered
+        bodyStyle={{ padding: 0 }}
+      >
         <GoodsSKU
           form={form}
           attrValue={attributeVos}
           onChange={getSKU}
           options={attrOptions.map((item) => ({ label: item?.attributeName, value: item?.id }))}
         />
-        <div style={{ marginTop: 20 }}>
-          <SKUList form={form} data={attributeData} onChange={onFinish} editData={tableSource} />
-        </div>
+        {attributeData?.length > 0 && (
+          <div style={{ marginTop: 20 }}>
+            <SKUList form={form} data={attributeData} onChange={onFinish} editData={tableSource} />
+          </div>
+        )}
       </ProCard>
-    </Modal>
+      {/* </Modal> */}
+    </>
   );
 };
 export default SKUModal;

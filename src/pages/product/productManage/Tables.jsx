@@ -1,4 +1,3 @@
-import SKUModal from '@/pages/product/productManage/SKUModal';
 import {
   added,
   deleteProduct,
@@ -89,14 +88,11 @@ export default function Tables() {
           type: 'productManage/update',
           payload: {
             queryInfo: {
-              id: result?.id,
+              ...result,
               categoryId: categoryList
                 .find((item) => item?.id === result?.categoryId)
                 ?.parentArray?.split(',')
                 ?.concat([result?.categoryId]),
-              itemName: result?.itemName,
-              details: result?.details,
-              itemType: result?.itemType,
               suppliersId,
               provenance: result?.provenance?.split(','),
               //
@@ -119,9 +115,6 @@ export default function Tables() {
               })),
               //
               itemSkuVos: result?.itemSkuVos ? result?.itemSkuVos : itemSkuVos,
-              stock: result?.stock,
-              price: result?.price,
-              spuCode: result?.spuCode,
               //
               templateId: { label: result?.templateName, value: result?.templateId },
               // groundType: result?.groupType,
@@ -493,7 +486,6 @@ export default function Tables() {
           {type === 'delete' && <p>商品删除后不可见，请谨慎操作</p>}
         </>
       </Modal>
-      <SKUModal />
     </>
   );
 }

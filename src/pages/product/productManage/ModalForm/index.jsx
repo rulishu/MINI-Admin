@@ -120,6 +120,7 @@ export default () => {
         current={step}
         onCurrentChange={(current) => setStep(current)}
         formRef={formRef}
+        onValuesChange={(changeValues) => console.log(changeValues)}
         onFinish={async (values) => {
           console.log('保存: ', { ...values, itemSkuVos });
           let closeType = false;
@@ -308,9 +309,9 @@ export default () => {
           layout="horizontal"
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 22 }}
-          // onValuesChange={(changeValues) => {
-          //   console.log('StepForm2', changeValues);
-          // }}
+          onValuesChange={(changeValues) => {
+            console.log('StepForm2', changeValues);
+          }}
           name="detail"
           title="详情"
         >
@@ -376,18 +377,30 @@ export default () => {
               name="itemName"
               label="商品标题"
               // tooltip="最长为 24 位，用于标定的唯一 id"
-              placeholder="请输入商品标题"
+              placeholder="最多输入30个汉字"
               rules={[{ required: true }]}
             />
-            <ProFormTextArea name="details" label="商品描述" placeholder="请输入备注" />
-
+            <ProFormTextArea
+              name="details"
+              label="商品描述"
+              placeholder="在商品详情页标题下面展示卖点信息，最多输入120个汉字"
+            />
             <ProFormRadio.Group
               name="itemType"
               label="商品类型"
               rules={[{ required: true }]}
               options={[
-                { label: '标准商品', value: 1 },
-                { label: '定制商品', value: 2 },
+                { label: '自营', value: 0 },
+                { label: '严选', value: 1 },
+              ]}
+            />
+            <ProFormRadio.Group
+              name="itemShareType"
+              label="分润"
+              rules={[{ required: true }]}
+              options={[
+                { label: '参与分润', value: 0 },
+                { label: '不参与分润', value: 1 },
               ]}
             />
             <ProFormSelect
@@ -397,6 +410,7 @@ export default () => {
               options={suppliersList.map((item) => ({
                 label: `${item?.supplierName}(推荐人：${item?.productSelector})`,
                 value: item?.supplierId,
+                type: item?.type,
               }))}
               fieldProps={{
                 showSearch: true,
@@ -406,6 +420,26 @@ export default () => {
                 labelInValue: true,
               }}
             />
+            <Form.Item noStyle shouldUpdate>
+              {(form) =>
+                form.getFieldValue('suppliersId') && (
+                  <ProFormRadio.Group
+                    name="itemSaleType"
+                    label="商品贸易类型"
+                    initialValue={form.getFieldValue('suppliersId')?.type === 2 ? 3 : 1}
+                    rules={[{ required: true }]}
+                    options={
+                      form.getFieldValue('suppliersId')?.type === 2
+                        ? [
+                            { label: '海外直邮', value: 1, disabled: true },
+                            { label: '保税仓', value: 2 },
+                          ]
+                        : [{ label: '国内零售', value: 0 }]
+                    }
+                  />
+                )
+              }
+            </Form.Item>
             <ProFormCascader
               name="provenance"
               label="商品溯源地"
