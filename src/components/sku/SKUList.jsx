@@ -7,22 +7,10 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
-      console.log('<<');
-
       const filterData = data.filter((item) => item.valueList?.length);
       const generateSKUs = (attributes, index, prefix, skuList) => {
         if (index === attributes.length) {
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-          console.log('index === attributes.length: ', index === attributes.length);
-          console.log('skuList: ', skuList);
-          console.log('prefix: ', prefix);
-          console.log('index: ', index);
-          console.log('attributes: ', attributes);
-          console.log('<<<<<<<<<<<<<<<<<<<<<');
-
-          const date = new Date();
           skuList.push({
-            attrId: date.getTime() + index,
             ...prefix,
             goodsCost: '0',
             price: '0',
@@ -34,12 +22,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           return;
         }
 
-        console.log('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
-        console.log('skuList: ', skuList);
-        console.log('prefix: ', prefix);
-        console.log('index: ', index);
-        console.log('attributes: ', attributes);
-        console.log('-----------------------------');
         const attribute = attributes[index];
         const { attribute_name = '', attribute_value = '', valueList } = attribute;
         for (let i = 0; i < valueList?.length; i++) {
@@ -51,10 +33,9 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             attributeId: attribute_value,
             attribute_name,
           };
-          const date = new Date();
           const newPrefix = {
-            attrId: date.getTime() + index,
             ...prefix,
+            attrId: `${prefix.attrId ?? ''}${attribute_value}-${value}`,
             [attribute_name]: value,
             attributes: attributes_teemp,
             flag: true,
@@ -69,8 +50,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       generateSKUs(filterData, 0, {}, updatedDataSource);
 
       // 如果规格值相同，将旧数据赋值
-      console.log('updatedDataSource: ', updatedDataSource);
-      console.log('>>');
       if (editData.length > 0) {
         let newDataSource = [].concat(updatedDataSource);
         updatedDataSource.forEach((item, index) => {
@@ -102,7 +81,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
             }
           });
         });
-        console.log('newDataSource: ', newDataSource);
         if (newDataSource.length > 0) {
           setDataSource(newDataSource);
         } else {
@@ -111,6 +89,8 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
       } else {
         setDataSource(updatedDataSource);
       }
+
+      handleEntryDataSave(updatedDataSource);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
