@@ -71,7 +71,7 @@ const SKU = ({ attrValue = [], onChange, options = [], form }) => {
     const newData = [...formData].concat([]);
     newData[attrIndex].valueList[valueIndex]['value'] = value;
     setData(newData);
-    // onChange(newData);
+    onChange(newData);
   };
   // 添加规格值
   const handleAddValue = (attrIndex) => {
@@ -169,7 +169,7 @@ const SKU = ({ attrValue = [], onChange, options = [], form }) => {
                       const newData = [...formData].concat([]);
                       newData[attrIndex].attribute_value = obj?.value;
                       setData(newData);
-                      onChange(newData);
+                      // onChange(newData);
                     }
                   } else {
                     // form
@@ -186,7 +186,7 @@ const SKU = ({ attrValue = [], onChange, options = [], form }) => {
                           const newData = [...formData].concat([]);
                           newData[attrIndex].attribute_value = result;
                           setData(newData);
-                          onChange(newData);
+                          // onChange(newData);
                           dispatch({
                             type: 'productManage/selectAttr',
                           });
@@ -250,7 +250,7 @@ const SKU = ({ attrValue = [], onChange, options = [], form }) => {
                       onChange={(e) => handleValueChange(e.target.value, attrIndex, valueIndex)}
                       onBlur={(e) => {
                         if (e.target.value) {
-                          onChange(formData);
+                          // onChange(formData);
                         } else {
                           handleRemoveValue(attrIndex, valueIndex);
                         }
