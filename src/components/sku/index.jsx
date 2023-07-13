@@ -1,6 +1,7 @@
 import TheUpload from '@/components/Upload';
 import { useDispatch } from '@umijs/max';
 import { AutoComplete, Button, Card, Form, Input, Row, Space, Typography } from 'antd';
+import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 
 const SKU = ({ attrValue = [], onChange, options = [], form }) => {
@@ -71,8 +72,12 @@ const SKU = ({ attrValue = [], onChange, options = [], form }) => {
     const newData = [...formData].concat([]);
     newData[attrIndex].valueList[valueIndex]['value'] = value;
     setData(newData);
-    onChange(newData);
+    toTable(newData);
   };
+  const toTable = debounce((newData) => {
+    onChange(newData);
+  }, 800);
+
   // 添加规格值
   const handleAddValue = (attrIndex) => {
     const newData = [...formData].concat([]);

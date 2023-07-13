@@ -37,8 +37,6 @@ const SKUModal = (props) => {
         //   },
         // });
       }
-      console.log('attributeData: ', attributeData);
-
       let obj = {};
       attributeData.forEach((item) => {
         if (item?.attribute_name && item?.attribute_value) {
@@ -170,7 +168,12 @@ const SKUModal = (props) => {
         />
         {attributeData?.length > 0 && (
           <div style={{ marginTop: 20 }}>
-            <SKUList form={form} data={attributeData} onChange={onFinish} editData={tableSource} />
+            <SKUList
+              form={form}
+              topData={attributeData}
+              onChange={onFinish}
+              oldData={tableSource}
+            />
           </div>
         )}
       </ProCard>

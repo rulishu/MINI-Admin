@@ -1,13 +1,13 @@
 import { Button, Col, Input, InputNumber, Row, Space, Table, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
-const SKUList = ({ editData = [], data = [], onChange }) => {
+const SKUList = ({ oldData = [], topData = [], onChange }) => {
   const [dataSource, setDataSource] = useState([]);
   const [bulk, setBulk] = useState({});
 
   useEffect(() => {
-    if (data && data.length > 0) {
-      const filterData = data.filter((item) => item.valueList?.length);
+    if (topData && topData.length > 0) {
+      const filterData = topData.filter((item) => item.valueList?.length);
       const generateSKUs = (attributes, index, prefix, skuList) => {
         if (index === attributes.length) {
           skuList.push({
@@ -45,20 +45,20 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         }
       };
 
-      // Generate SKU data
+      // Generate SKU topData
       const updatedDataSource = [];
       generateSKUs(filterData, 0, {}, updatedDataSource);
 
       // 如果规格值相同，将旧数据赋值
-      if (editData.length > 0) {
+      if (oldData.length > 0) {
         let newDataSource = [].concat(updatedDataSource);
         updatedDataSource.forEach((item, index) => {
           //
-          editData.forEach((theAttrbuteData) => {
+          oldData.forEach((theAttrbuteData) => {
             let type = true;
 
             const { attributes, ...others } = theAttrbuteData;
-            if (attributes?.length === data.length) {
+            if (attributes?.length === Object.keys(item?.attributes)?.length) {
               attributes.forEach((i) => {
                 //
                 if (item?.attributes?.[i?.attribute_name]) {
@@ -83,20 +83,21 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         });
         if (newDataSource.length > 0) {
           setDataSource(newDataSource);
+          handleEntryDataSave(newDataSource);
         } else {
           setDataSource(updatedDataSource);
+          handleEntryDataSave(updatedDataSource);
         }
       } else {
         setDataSource(updatedDataSource);
+        handleEntryDataSave(updatedDataSource);
       }
-
-      handleEntryDataSave(updatedDataSource);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [topData]);
 
   const columns = [
-    ...data.map((attribute) => ({
+    ...topData.map((attribute) => ({
       title: attribute.attribute_name,
       dataIndex: attribute.attribute_name,
       width: 130,
@@ -168,7 +169,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
           status={text ? '' : text === 0 ? '' : 'error'}
           disabled
           value={text === 0 ? '0' : text}
-          onBlur={() => handleEntryDataSave()}
         />
       ),
     },
@@ -246,7 +246,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
     let arr = da || dataSource;
     const datas = arr.map((item) => {
       const { attributes = [], ...rest } = item;
-      const obj = data?.[0];
+      const obj = topData?.[0];
       let imageUrl = undefined;
       if (obj && obj?.valueList) {
         obj?.valueList.forEach((ie) => {
@@ -261,7 +261,6 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
         attributes: Object.values(attributes),
       };
     });
-
     onChange?.(datas);
   };
 
@@ -315,7 +314,7 @@ const SKUList = ({ editData = [], data = [], onChange }) => {
                 precision={2}
                 min={0}
                 onChange={(value) => {
-                  setBulk({ ...bulk, price: value, membershipPrice: value });
+                  setBulk({ ...bulk, referencePrice: value });
                 }}
                 placeholder="参考价"
               />
