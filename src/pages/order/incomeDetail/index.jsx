@@ -1,17 +1,41 @@
-import { ProCard } from '@ant-design/pro-components';
-import { Table } from 'antd';
-import { profitSharingColumns } from './items';
+import { selectPage } from '@/service/order/incomeDetail';
+import { ProTable } from '@ant-design/pro-components';
+import { useParams } from '@umijs/max';
+import { columns } from './items';
 
 export default () => {
+  const { id } = useParams();
   return (
-    <ProCard title="订单编号：123456789" headerBordered>
-      <Table
-        scroll={{ x: 1300 }}
-        columns={profitSharingColumns}
-        dataSource={[{ id: 1 }]}
-        rowKey="id"
-        pagination={false}
-      />
-    </ProCard>
+    <ProTable
+      options={false}
+      request={async (params = {}) => {
+        const { current, pageSize } = params;
+        const { code, result } = await selectPage({
+          pageNum: current,
+          pageSize,
+          orderId: id,
+        });
+        if (code && code === 200) {
+          return {
+            data: result.records || [],
+            total: result.total,
+            success: true,
+          };
+        }
+      }}
+      pagination={{
+        showSizeChanger: true,
+      }}
+      cardBordered
+      columns={columns}
+      rowKey="id"
+      search={false}
+      cardProps={{
+        size: 'small',
+        style: {
+          padding: 0,
+        },
+      }}
+    />
   );
 };

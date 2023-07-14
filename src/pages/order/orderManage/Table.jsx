@@ -89,7 +89,7 @@ export default function SearchTable() {
       navigate('/order/afterSales', { state: { ...data } });
     }
     if (type === 'profitSharingView') {
-      navigate('/order/incomeDetail', { state: { id: data.id } });
+      history.push(`/order/incomeDetail/${data.id}`);
     }
   };
 
