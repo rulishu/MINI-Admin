@@ -21,9 +21,7 @@ export const basicItem = ({ handleEdit }) => [
     render: (_, record) => {
       return (
         <span style={{ width: 180, display: 'flex' }}>
-          {record.level && (
-            <Text ellipsis={{ tooltip: '奋斗者' }}>{levelStatus[Number(record.level)].text}</Text>
-          )}
+          {record.level && <Text>{levelStatus[Number(record.level)].text}</Text>}
           <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('level', record)} />
         </span>
       );
@@ -31,24 +29,15 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '邀请人',
-    key: 'userName',
+    key: 'invitationName',
     editable: () => false,
-    dataIndex: 'userName',
-    render: () => {
-      return (
-        // <span style={{ width: 180, display: 'flex' }}>
-        //   <Text ellipsis={{ tooltip: '李高峰' }}>李高峰</Text>
-        //   <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user')} />
-        // </span>
-        '-'
-      );
-    },
+    dataIndex: 'invitationName',
   },
   {
     title: '归属代理',
-    key: 'companyName',
+    key: 'shopName',
     editable: () => false,
-    dataIndex: 'companyName',
+    dataIndex: 'shopName',
     ellipsis: true,
   },
   {
@@ -67,17 +56,16 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '邀请人编号',
-    key: 'backgroundMessage2',
+    key: 'invitationConsumerId',
     editable: () => true,
-    dataIndex: 'backgroundMessage2',
+    dataIndex: 'invitationConsumerId',
     ellipsis: true,
-    render: () => '-',
   },
   {
     title: '代理编号',
-    key: 'backgroundMessage3',
+    key: 'agentNumber',
     editable: () => true,
-    dataIndex: 'backgroundMessage3',
+    dataIndex: 'agentNumber',
     ellipsis: true,
   },
   {
@@ -89,11 +77,11 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '会员等级',
-    key: 'backgroundMessage5',
+    key: '无',
     editable: () => true,
-    dataIndex: 'backgroundMessage5',
+    dataIndex: '无',
     ellipsis: true,
-    render: () => '-',
+    render: () => '无',
   },
   {
     title: '注册时间',
@@ -104,9 +92,9 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '代理地盘',
-    key: 'backgroundMessage7',
+    key: 'areaName',
     editable: () => true,
-    dataIndex: 'backgroundMessage7',
+    dataIndex: 'areaName',
     ellipsis: true,
   },
 ];
@@ -114,87 +102,90 @@ export const basicItem = ({ handleEdit }) => [
 export const columns = [
   {
     title: '用户编号',
-    dataIndex: 'id',
+    dataIndex: 'userId',
     width: 120,
   },
   {
     title: '用户信息',
-    dataIndex: 'details',
+    dataIndex: 'consumerName',
     width: 200,
     render: (text, record) => {
       return (
         <UserContent
           width={180}
-          headUrl={record.headUrl}
-          name={record.consumerName || 'Miracle-'}
-          phone={record.mobile || '17857001531'}
+          headUrl={record?.headUrl}
+          name={record?.consumerName || 'Mr.佚名'}
+          phone={record?.consumerPhone || ''}
         />
       );
     },
   },
   {
     title: '角色信息',
-    dataIndex: 'id2',
+    dataIndex: 'level',
     width: 200,
-    render: () => {
+    render: (_, record) => {
+      console.log('record: ', record);
+      // 会员信息 === 会员等级
       return (
         <Fragment>
-          <div>经销等级：奋斗者</div>
-          <div>代理等级：--</div>
-          <div>会员信息：--</div>
+          <div>经销等级：{record?.level ? levelStatus[String(record?.level)].text : ''}</div>
+          <div>
+            代理等级：{record?.agentLevel ? agentLevelStatus[String(record?.agentLevel)].text : ''}
+          </div>
+          <div>会员信息：无</div>
         </Fragment>
       );
     },
   },
   {
     title: '邀请人',
-    dataIndex: 'inviter',
+    dataIndex: 'invitationName',
     width: 200,
     render: (text, record) => {
       return (
         <UserContent
           width={180}
-          headUrl={record.headUrl}
-          name={record.consumerName || '昵称'}
-          phone={record.mobile || '17766666666'}
+          headUrl={record?.invitationHeadUrl}
+          name={record?.invitationName || ''}
+          phone={record?.invitationPhone || ''}
         />
       );
     },
   },
   {
     title: '邀请层级',
-    dataIndex: 'level',
+    dataIndex: 'fansLevel',
     width: 120,
-    render: () => '1级',
+    render: (txt) => (txt ? `${txt}级` : ''),
   },
   {
     title: '注册时间',
-    dataIndex: 'level1',
+    dataIndex: 'createTime',
     width: 150,
-    render: () => '2020/05/20   17:32:40',
   },
   {
     title: '累积营业额',
-    dataIndex: 'level2',
+    dataIndex: 'allPrice',
     width: 150,
-    render: () => '￥999.90',
+    render: (txt) => `￥${txt || 0}`,
   },
   {
     title: '上月营业额',
-    dataIndex: 'level3',
+    dataIndex: 'preMonthPrice',
     width: 150,
-    render: () => '￥999.90',
+    render: (txt) => `￥${txt || 0}`,
   },
   {
     title: '本月营业额',
-    dataIndex: 'level4',
+    dataIndex: 'monthPrice',
     width: 150,
-    render: () => '￥999.90',
+    render: (txt) => `￥${txt || 0}`,
   },
   {
     title: '本月个人消费',
-    dataIndex: 'level5',
+    dataIndex: 'personalPrice',
     width: 150,
-    render: () => '￥999.90',
+    render: (txt) => `￥${txt || 0}`,
   },
 ];

@@ -3,7 +3,7 @@ import SelectUser from '@/components/SelectUser';
 import { getUserList } from '@/service/cust/agentManagement';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { App, Button } from 'antd';
+import { Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
 import { levelStatus } from './enum';
@@ -19,7 +19,6 @@ export default () => {
   } = useSelector((state) => state);
   const form = useForm();
   const dispatch = useDispatch();
-  const { message } = App.useApp();
 
   useEffect(() => {
     if (editModalVisible && editType === 'level') {
@@ -27,6 +26,7 @@ export default () => {
         levelName: editData.levelName,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editModalVisible]);
 
   const close = () => {
@@ -41,9 +41,13 @@ export default () => {
   };
 
   const onFinish = (values) => {
-    console.log('values', values);
-    message.warning('功能还在开发中...');
-    return;
+    dispatch({
+      type: 'userDetail/edit',
+      payload: {
+        id: editData?.id,
+        level: values?.level,
+      },
+    });
   };
 
   return (
