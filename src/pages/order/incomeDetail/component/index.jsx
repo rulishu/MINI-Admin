@@ -37,11 +37,16 @@ const ProfitSharingUser = ({ record, width }) => {
         <div>
           <Typography.Text
             ellipsis={`代理等级：${
-              (record.agentLevel && agentLevelStatus[record.agentLevel].text) || '-'
+              (record.beneficiaryAgentLevel &&
+                agentLevelStatus[record.beneficiaryAgentLevel].text) ||
+              '-'
             }`}
             style={{ fontSize: '14px', color: '#ccc' }}
           >
-            代理等级：{(record.agentLevel && agentLevelStatus[record.agentLevel].text) || '-'}
+            代理等级：
+            {(record.beneficiaryAgentLevel &&
+              agentLevelStatus[record.beneficiaryAgentLevel].text) ||
+              '-'}
           </Typography.Text>
         </div>
       </div>
