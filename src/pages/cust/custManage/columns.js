@@ -39,7 +39,7 @@ export const columns = ({ handleEdit }) => [
           width={220}
           headUrl={record.headUrl}
           name={record.consumerName}
-          phone={record.mobile}
+          phone={record.consumerPhone}
         />
       );
     },
@@ -107,10 +107,11 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
     render: (text, record) => {
       return (
-        (record.inviter && (
-          <UserContent headUrl={record.headUrl} name={record.consumerName} phone={record.mobile} />
-        )) ||
-        '无'
+        <UserContent
+          headUrl={record.invitationHeadUrl}
+          name={record.invitationName}
+          phone={record.invitationPhone}
+        />
       );
     },
   },
