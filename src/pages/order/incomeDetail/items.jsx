@@ -1,57 +1,72 @@
-import { ProfitSharingGoodComp, ProfitSharingUser } from '@/pages/order/orderManage/component';
+import moment from 'moment';
+import { ProfitSharingGoodComp, ProfitSharingUser } from './component';
+import { dividendTypeEnum, flowStatusEnum } from './enum';
 
-export const profitSharingColumns = [
+export const columns = [
   {
     title: '商品信息',
     dataIndex: 'mainGraph',
     key: 'mainGraph',
     width: 250,
-    render: (_, record) => <ProfitSharingGoodComp record={record} />,
+    render: (_, record) => (
+      <ProfitSharingGoodComp amount={record.amount} record={record.itemSkuDto} />
+    ),
+    hideInSearch: true,
   },
   {
     title: 'sku实付金额',
-    dataIndex: 'price',
-    key: 'price',
-    render: () => `￥120.00`,
+    width: 120,
+    dataIndex: 'paidInAmount',
+    key: 'paidInAmount',
+    hideInSearch: true,
+    render: (_, record) => `￥${record.paidInAmount}`,
   },
   {
     title: '分润类型',
-    dataIndex: 'price1',
-    width: 90,
-    key: 'price1',
-    render: () => (
-      <div>
-        <div>经销分润</div>
-        <div>-自购</div>
-      </div>
-    ),
+    dataIndex: 'dividendType',
+    width: 120,
+    key: 'dividendType',
+    render: (_, record) => record.dividendType && dividendTypeEnum[record.dividendType].text,
+    hideInSearch: true,
   },
   {
     title: '分润比例',
-    dataIndex: 'price2',
+    dataIndex: 'percent',
+    width: 120,
+    key: 'percent',
+    hideInSearch: true,
+    render: (_, record) => `${record.percent || '-'}%`,
+  },
+  {
+    title: '分润金额',
+    dataIndex: 'dividendFunds',
     width: 90,
-    key: 'price2',
-    render: () => `30%`,
+    key: 'dividendFunds',
+    hideInSearch: true,
   },
   {
     title: '分润对象',
-    dataIndex: 'price3',
+    dataIndex: 'beneficiary',
     width: 250,
-    key: 'price3',
-    render: () => <ProfitSharingUser width={250} />,
+    key: 'beneficiary',
+    render: (_, record) => <ProfitSharingUser width={250} record={record} />,
+    hideInSearch: true,
   },
   {
     title: '分润单状态',
-    dataIndex: 'price4',
+    dataIndex: 'flowStatus',
     width: 150,
-    key: 'price4',
-    render: () => `未结算`,
+    key: 'flowStatus',
+    render: (_, record) => flowStatusEnum[record.flowStatus].text,
+    hideInSearch: true,
   },
   {
     title: '结算时间',
-    dataIndex: 'price5',
+    dataIndex: 'unfreezingTime',
     width: 150,
-    key: 'price5',
-    render: () => `2023-10-10 10:10:10`,
+    key: 'unfreezingTime',
+    hideInSearch: true,
+    render: (_, record) =>
+      (record.unfreezingTime && moment(record.unfreezingTime).format('YYYY-MM-DD HH:mm:ss')) || '-',
   },
 ];

@@ -110,7 +110,7 @@
             "hideInMenu": true
           },
           {
-            "path": "/order/incomeDetail",
+            "path": "/order/incomeDetail/:id",
             "name": "分润详情",
             "component": "@/pages/order/incomeDetail",
             "hideInMenu": true
