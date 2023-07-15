@@ -30,6 +30,7 @@ Build Static:
     - npm run build
     - git config --global user.email "bot@nihaosi.com"
     - git config --global user.name "GitLab Bot"
+    - git remote set-url origin "https://gitlab-ci-token:$RONGHUI_PROJECT_ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git"
     - npm run deploy
   only:
     - main
