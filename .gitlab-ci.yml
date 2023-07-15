@@ -28,6 +28,8 @@ Build Static:
       - dist
   script:
     - npm run build
+    - git config --global user.email "support@g.showgold.cn"
+    - git config --global user.name "GitLab Support Bot"
     - npm run deploy
   only:
     - main
