@@ -28,6 +28,7 @@ Build Static:
       - dist
   script:
     - npm run build
+    - npm run deploy
   only:
     - main
     - tags
