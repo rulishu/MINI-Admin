@@ -10,7 +10,8 @@
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "precommit": "npm run lint",
     "lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "gh-pages -d dist"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "eslint --fix",
@@ -54,6 +55,7 @@
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-prettier": "~4.2.1",
     "eslint-plugin-unicorn": "^47.0.0",
+    "gh-pages": "^5.0.0",
     "husky": "~8.0.3",
     "lint-staged": "~13.2.2",
     "typescript": "^5.0.0"
