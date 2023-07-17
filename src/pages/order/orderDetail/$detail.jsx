@@ -1,3 +1,4 @@
+import { getOrderPrice } from '@/utils';
 import { ProDescriptions } from '@ant-design/pro-components';
 import { useDispatch, useParams, useSelector } from '@umijs/max';
 import { Card, Empty, Space, Table, Tabs, Typography } from 'antd';
@@ -46,8 +47,6 @@ export default () => {
     }
     return [];
   }, [pushList]);
-
-  const total = (orderPrice = 0, couponPrice = 0) => (orderPrice - couponPrice).toFixed(2);
 
   return (
     <Space direction="vertical">
@@ -98,7 +97,7 @@ export default () => {
           <span style={{ color: '#1677ff' }}>￥0</span> 优惠卷：
           <span style={{ color: '#1677ff' }}>￥{queryData.couponPrice || 0}</span> 订单金额：
           <span style={{ color: '#1677ff' }}>
-            ￥{total(queryData.orderPrice || 0, queryData.couponPrice || 0)}{' '}
+            ￥{getOrderPrice(queryData.orderPrice || 0, queryData.couponPrice || 0)}{' '}
           </span>
         </Typography.Text>
       </Card>
