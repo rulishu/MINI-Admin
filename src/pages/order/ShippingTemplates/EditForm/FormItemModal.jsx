@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from '@umijs/max';
-import { Card, Modal } from 'antd';
+import { Card, Modal, message } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { MultiCascader } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
@@ -76,6 +76,11 @@ const EditForm = () => {
       centered
       open={isModalOpen}
       onOk={() => {
+        if (theAreaList.length === 0) {
+          message.warning('请选择指定区域');
+          return false;
+        }
+
         const label = spanRef?.current?.innerText;
 
         let changeList = [];
@@ -84,6 +89,7 @@ const EditForm = () => {
         } else if (areaListType === 'not') {
           changeList = disabledAreaTableList;
         }
+
         // 给表格数据赋值
         const arr = changeList.concat([]);
         if (editAreaId) {

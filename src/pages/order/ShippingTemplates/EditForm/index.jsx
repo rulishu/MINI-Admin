@@ -114,19 +114,16 @@ const EditForm = ({ actionRef }) => {
           }
 
           if (msg) {
-            return message.warning(msg);
+            message.warning(msg);
+            return false;
           }
 
-          let type = false;
           if (drawerType === 'edit') {
             await dispatch({
               type: 'shippingtemplates/updateTemplate',
               payload: {
                 value,
                 VoList,
-                callback: () => {
-                  type = true;
-                },
               },
             });
           } else {
@@ -136,14 +133,9 @@ const EditForm = ({ actionRef }) => {
               payload: {
                 value,
                 VoList,
-                callback: () => {
-                  type = true;
-                },
               },
             });
           }
-
-          return type;
         }}
         onOpenChange={(open) => {
           if (!open) {
