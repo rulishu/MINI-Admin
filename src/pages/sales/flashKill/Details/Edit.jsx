@@ -144,10 +144,11 @@ export default ({ reload }) => {
                     type: 'string',
                     required: true,
                     span: 24,
+                    max: 10,
                     props: {
                       allowClear: true,
                     },
-                    placeholder: '请输入活动名称',
+                    placeholder: '请输入活动名称，不超过10字',
                   },
                   activityTime: {
                     title: '活动时间',
