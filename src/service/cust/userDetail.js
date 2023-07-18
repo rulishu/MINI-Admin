@@ -1,12 +1,11 @@
 import request from '@/utils/request';
 
-export const selectById = async ({ pageSize, pageNum, params }) => {
-  console.log('params: ', params);
+export const selectByFans = async ({ pageSize, pageNum, ...others }) => {
   return request(
     `/jcgl-user/admin/buyer/manage/selectFansPage?pageSize=${pageSize}&pageNum=${pageNum}`,
     {
       method: 'POST',
-      data: params,
+      data: others,
     },
   );
 };

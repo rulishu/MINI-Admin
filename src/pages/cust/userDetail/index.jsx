@@ -1,12 +1,13 @@
-import { selectById } from '@/service/cust/userDetail';
+import { info } from '@/service/cust/userDetail';
 import { ProCard, ProDescriptions } from '@ant-design/pro-components';
 import { useDispatch, useParams, useSelector } from '@umijs/max';
 import { useRequest } from 'ahooks';
-import { Space, Table, Tabs } from 'antd';
+import { Space, Tabs } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import Edit from './EditModal';
+import RenderTable from './Table';
 import { levelStatus } from './enum';
-import { basicItem, columns } from './items';
+import { basicItem } from './items';
 
 export default () => {
   const [tab, setTab] = useState('1');
@@ -15,47 +16,32 @@ export default () => {
     userDetail: { queryData },
   } = useSelector((state) => state);
   const { id } = useParams();
-  const [fans, setFans] = useState([]);
 
-  const { loading, run } = useRequest(selectById, {
+  const update = (data) => {
+    dispatch({
+      type: 'userDetail/update',
+      payload: data,
+    });
+  };
+
+  const { run, loading } = useRequest(info, {
     manual: true,
     onSuccess: ({ code, result }) => {
-      if (code && code === 200) {
-        setFans(result?.records || []);
-        // dispatch({
-        //   type: 'userDetail/update',
-        //   payload: {
-        //     queryData: result,
-        //   },
-        // });
+      if (code === 200) {
+        update({ queryData: result });
       }
     },
   });
 
   useEffect(() => {
-    dispatch({
-      type: 'userDetail/info',
-      payload: {
-        id,
-      },
-    });
-    run({
-      params: { userId: Number(id), sortByTime: 0, fansLevel: Number(tab) },
-      pageSize: 100,
-      pageNum: 1,
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    run({ id });
   }, [id]);
 
   const handleEdit = (type, data) => {
-    dispatch({
-      type: 'userDetail/update',
-      payload: {
-        editType: type,
-        editModalVisible: true,
-        editData: { ...data, levelName: data.level && levelStatus[Number(data.level)].text },
-      },
+    update({
+      editType: type,
+      editModalVisible: true,
+      editData: { ...data, levelName: data.level && levelStatus[Number(data.level)].text },
     });
   };
 
@@ -63,17 +49,23 @@ export default () => {
     {
       label: `直属粉丝`,
       key: '1',
-      children: <Table columns={columns} dataSource={fans} rowKey="userId" />,
+      children: (
+        <RenderTable search={{ userId: Number(id), sortByTime: 0, fansLevel: Number(tab) }} />
+      ),
     },
     {
       label: `跨级粉丝`,
       key: '2',
-      children: <Table columns={columns} dataSource={fans} rowKey="userId" />,
+      children: (
+        <RenderTable search={{ userId: Number(id), sortByTime: 0, fansLevel: Number(tab) }} />
+      ),
     },
     {
       label: `其它粉丝`,
       key: '3',
-      children: <Table columns={columns} dataSource={fans} rowKey="userId" />,
+      children: (
+        <RenderTable search={{ userId: Number(id), sortByTime: 0, fansLevel: Number(tab) }} />
+      ),
     },
   ];
 
@@ -84,25 +76,17 @@ export default () => {
           <ProDescriptions column={4} dataSource={queryData} columns={basicItem({ handleEdit })} />
         </ProCard>
 
-        <ProCard loading={loading}>
+        <ProCard>
           <Tabs
             activeKey={tab}
             size="small"
             items={items}
-            onChange={(key) => {
-              run({
-                params: { userId: Number(id), sortByTime: 0, fansLevel: Number(key) },
-                pageSize: 100,
-                pageNum: 1,
-              });
-
-              setTab(key);
-            }}
+            onChange={(key) => setTab(key)}
             destroyInactiveTabPane
           />
         </ProCard>
       </Space>
-      <Edit />
+      <Edit refresh={() => run({ id })} />
     </Fragment>
   );
 };
