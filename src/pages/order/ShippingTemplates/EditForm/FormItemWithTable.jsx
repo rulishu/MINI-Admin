@@ -25,9 +25,9 @@ const EditForm = () => {
         required
         rules={[{ required: true, message: '模板名称不能为空' }]}
         // tooltip="最长为 24 位"
-        placeholder="最多输入20个汉字（40字符）"
+        placeholder="最多输入20个汉字"
         fieldProps={{
-          maxLength: 40,
+          maxLength: 20,
         }}
       />
       <ProFormRadio.Group

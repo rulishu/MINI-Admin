@@ -1,6 +1,7 @@
 import CascaderButton from '@/components/CascaderButton';
 import CategoryType from '@/components/CategoryType';
 import SKUButton from '@/components/SKUButton';
+// import TemplateRadio from '@/components/TemplateRadio';
 import TheUpload from '@/components/Upload';
 import {
   ProCard,
@@ -418,33 +419,47 @@ export default () => {
                 filterOption: (input, option) =>
                   (option?.label ?? '').toLowerCase().includes(input.toLowerCase()),
                 labelInValue: true,
+                onSelect: (val, op) => {
+                  const newData = formRef2.current?.getFieldsValue();
+                  if (op?.type === 0) {
+                    formRef2.current?.setFieldsValue({ ...newData, itemSaleType: 0 });
+                  }
+                  if (op?.type === 1) {
+                    formRef2.current?.setFieldsValue({ ...newData, itemSaleType: 2 });
+                  }
+                },
               }}
             />
             <Form.Item noStyle shouldUpdate>
               {(form) =>
-                form.getFieldValue('suppliersId') && (
+                form.getFieldValue('suppliersId') &&
+                (form.getFieldValue('suppliersId')?.type === 1 ? (
                   <ProFormRadio.Group
                     name="itemSaleType"
                     label="商品贸易类型"
-                    initialValue={form.getFieldValue('suppliersId')?.type === 2 ? 3 : 1}
+                    initialValue={2}
                     rules={[{ required: true }]}
-                    options={
-                      form.getFieldValue('suppliersId')?.type === 2
-                        ? [
-                            { label: '海外直邮', value: 1, disabled: true },
-                            { label: '保税仓', value: 2 },
-                          ]
-                        : [{ label: '国内零售', value: 0 }]
-                    }
+                    options={[
+                      { label: '海外直邮', value: 1, disabled: true },
+                      { label: '保税仓', value: 2 },
+                    ]}
                   />
-                )
+                ) : (
+                  <ProFormRadio.Group
+                    name="itemSaleType"
+                    label="商品贸易类型"
+                    initialValue={0}
+                    rules={[{ required: true }]}
+                    options={[{ label: '国内零售', value: 0 }]}
+                  />
+                ))
               }
             </Form.Item>
             <ProFormCascader
               name="provenance"
               label="商品溯源地"
               rules={[{ required: true }]}
-              extra=" 商品溯源地用于追踪该商品的归属镖局，例：萧山区的商品会依次被萧山镖局->杭州镖局->浙江镖局捕获"
+              extra="商品溯源地用于追踪该商品的归属镖局，例：萧山区的商品会依次被萧山镖局->杭州镖局->浙江镖局捕获"
               fieldProps={{
                 options: cityTreeList(),
               }}
@@ -569,6 +584,35 @@ export default () => {
               maxWidth: '100%',
             }}
           >
+            {/* <Form.Item
+              name="templateId"
+              label="运费模版"
+              rules={[
+                { required: true },
+                {
+                  validator: (_, value) => {
+                    console.log('validatorvalue: ', value);
+                    if (value?.radioValue === 1) {
+                      if (value?.inputValue >= 0) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(new Error('固定运费不能小于0'));
+                      }
+                    } else if (value?.radioValue === 2) {
+                      if (value?.selectValue?.value) {
+                        return Promise.resolve();
+                      } else {
+                        return Promise.reject(new Error('请选择运费模板'));
+                      }
+                    } else {
+                      return Promise.reject(new Error('请选择运费模板'));
+                    }
+                  },
+                },
+              ]}
+            >
+              <TemplateRadio />
+            </Form.Item> */}
             <ProFormSelect
               name="templateId"
               label="运费模版"

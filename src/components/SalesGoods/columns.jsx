@@ -82,7 +82,7 @@ export const searchColumns = () => [
               <div style={{ padding: 0, margin: 0 }}>ID：{record?.id}</div>
             </div>
           </div>
-          {record.isActivityItem && <div style={{ color: 'red' }}>该商品有正在进行的秒杀活动</div>}
+          {record.isActivityItem && <div style={{ color: 'red' }}>该商品该时段已参加秒杀活动</div>}
         </React.Fragment>
       );
     },

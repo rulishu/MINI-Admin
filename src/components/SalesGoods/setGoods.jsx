@@ -27,7 +27,7 @@ export default () => {
         return {
           ...item,
           activityPrice: item?.activityPrice || 0,
-          activityStock: item?.activityStock || 0,
+          activityStock: item?.activityStock || item?.stock || 0,
         };
       });
       setState({ dataSource: datas });
@@ -92,18 +92,16 @@ export default () => {
   };
 
   const save = () => {
-    // 获取折扣范围最小值
-    const min = dataSource.reduce((acc, curr) => {
+    const max = dataSource.reduce((acc, curr) => {
       if (curr.activityPrice < acc) {
-        return curr.activityPrice / curr.price;
+        return curr.activityPrice / curr.price || 0;
       }
       return acc;
     }, Infinity);
 
-    // 获取折扣范围最大值
-    const max = dataSource.reduce((acc, curr) => {
+    const min = dataSource.reduce((acc, curr) => {
       if (curr.activityPrice > acc) {
-        return curr.activityPrice / curr.price;
+        return curr.activityPrice / curr.price || 0;
       }
       return acc;
     }, -Infinity);
@@ -145,6 +143,7 @@ export default () => {
         render: (_, record) => {
           return (
             <InputNumber
+              prefix="￥"
               value={record.activityPrice}
               defaultValue={record.activityPrice}
               step={0.01}
