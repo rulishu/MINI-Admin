@@ -1,11 +1,13 @@
 import AModal from '@/components/AModal';
-import SelectUser from '@/components/SelectUser';
 import { getUserList } from '@/service/cust/agentManagement';
+import { edit } from '@/service/cust/userDetail';
 import { ProCard } from '@ant-design/pro-components';
 import { useDispatch, useSelector } from '@umijs/max';
-import { Button } from 'antd';
+import { useRequest } from 'ahooks';
+import { App, Button } from 'antd';
 import FormRender, { useForm } from 'form-render';
 import { useEffect } from 'react';
+import Users from './component/Users';
 import { levelStatus } from './enum';
 
 const title = {
@@ -13,12 +15,34 @@ const title = {
   level: '修改经销等级',
 };
 
-export default () => {
+const actions = {
+  user: edit,
+  level: null,
+};
+
+export default ({ refresh }) => {
   const {
     userDetail: { editModalVisible, editType, editData },
   } = useSelector((state) => state);
   const form = useForm();
   const dispatch = useDispatch();
+  const { modal } = App.useApp();
+
+  const { run } = useRequest(actions[editType], {
+    manual: true,
+    onSuccess: ({ code }) => {
+      if (code === 200) {
+        close();
+        dispatch({
+          type: 'userDetail/update',
+          payload: {
+            reload: true,
+          },
+        });
+        refresh?.();
+      }
+    },
+  });
 
   useEffect(() => {
     if (editModalVisible && editType === 'level') {
@@ -26,6 +50,13 @@ export default () => {
         levelName: editData.levelName,
       });
     }
+
+    if (editModalVisible && editType === 'user') {
+      form.setValues({
+        invitationName: editData.invitationName,
+      });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editModalVisible]);
 
@@ -41,13 +72,18 @@ export default () => {
   };
 
   const onFinish = (values) => {
-    dispatch({
-      type: 'userDetail/edit',
-      payload: {
-        id: editData?.id,
-        level: values?.level,
-      },
-    });
+    if (editType === 'level') {
+      modal.confirm({
+        title: '温馨提醒',
+        maskClosable: true,
+        content: `确定要修改吗？`,
+        onOk: () => {
+          run({ id: editData?.id, level: values?.level });
+        },
+      });
+    } else {
+      console.log('values', values);
+    }
   };
 
   return (
@@ -68,9 +104,11 @@ export default () => {
     >
       <ProCard title={title[editType]} headerBordered bodyStyle={{ paddingBottom: 0 }}>
         <FormRender
+          maxWidth={500}
+          labelWidth={100}
           form={form}
           widgets={{
-            selectUser: SelectUser,
+            users: Users,
           }}
           schema={{
             type: 'object',
@@ -101,31 +139,24 @@ export default () => {
                 hidden: editType !== 'level',
               },
               // 邀请人
-              userName: {
+              invitationName: {
                 span: 24,
                 type: 'string',
                 title: '当前邀请人',
                 widget: 'html',
                 hidden: editType !== 'user',
               },
-              legalPersonId: {
+              invitationId: {
                 title: '变更后',
-                // tooltip: '变更邀请人会迁移整个团队，请慎重操作',
                 type: 'object',
-                widget: 'selectUser',
+                tooltip: '变更邀请人会迁移整个团队，请慎重操作',
+                widget: 'users',
                 required: true,
                 hidden: editType !== 'user',
+                width: 200,
                 props: {
                   fetch: getUserList,
-                  configCode: {
-                    key: 'id',
-                    value: 'id',
-                    label: 'consumerName',
-                    headUrl: 'headUrl',
-                    phone: 'consumerPhone',
-                    searchCode: 'search',
-                  },
-                  title: '代理人',
+                  title: '邀请人',
                 },
               },
             },

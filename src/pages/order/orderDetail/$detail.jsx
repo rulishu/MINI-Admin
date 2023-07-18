@@ -1,3 +1,4 @@
+import { getOrderPrice } from '@/utils';
 import { ProDescriptions } from '@ant-design/pro-components';
 import { useDispatch, useParams, useSelector } from '@umijs/max';
 import { Card, Empty, Space, Table, Tabs, Typography } from 'antd';
@@ -93,9 +94,11 @@ export default () => {
         <Table columns={manageColumn} dataSource={queryData.items || []} rowKey="id" />
         <Typography.Text style={{ float: 'right', marginTop: 24 }}>
           商品总价：<span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || '-'} </span>运费：
-          <span style={{ color: '#1677ff' }}>￥0.00</span> 优惠卷：
-          <span style={{ color: '#1677ff' }}>￥0.00</span> 订单金额：
-          <span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || '-'} </span>
+          <span style={{ color: '#1677ff' }}>￥0</span> 优惠卷：
+          <span style={{ color: '#1677ff' }}>￥{queryData.couponPrice || 0}</span> 订单金额：
+          <span style={{ color: '#1677ff' }}>
+            ￥{getOrderPrice(queryData.orderPrice || 0, queryData.couponPrice || 0)}{' '}
+          </span>
         </Typography.Text>
       </Card>
     </Space>

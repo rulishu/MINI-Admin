@@ -23,3 +23,6 @@ export const convertTreeList = (data, fieldNames = { label: 'areaName', value: '
     };
   });
 };
+
+export const getOrderPrice = (orderPrice = 0, couponPrice = 0) =>
+  (orderPrice - couponPrice).toFixed(2);

@@ -32,6 +32,14 @@ export const basicItem = ({ handleEdit }) => [
     key: 'invitationName',
     editable: () => false,
     dataIndex: 'invitationName',
+    render: (_, record) => {
+      return (
+        <span style={{ width: 180, display: 'flex' }}>
+          <Text ellipsis={{ tooltip: record.invitationName }}>{record.invitationName}</Text>
+          <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user', record)} />
+        </span>
+      );
+    },
   },
   {
     title: '归属代理',
@@ -114,8 +122,8 @@ export const columns = [
         <UserContent
           width={180}
           headUrl={record?.headUrl}
-          name={record?.consumerName || 'Mr.佚名'}
-          phone={record?.consumerPhone || ''}
+          name={record?.consumerName || '-'}
+          phone={record?.consumerPhone || '-'}
         />
       );
     },
@@ -125,13 +133,13 @@ export const columns = [
     dataIndex: 'level',
     width: 200,
     render: (_, record) => {
-      console.log('record: ', record);
       // 会员信息 === 会员等级
       return (
         <Fragment>
-          <div>经销等级：{record?.level ? levelStatus[String(record?.level)].text : ''}</div>
+          <div>经销等级：{record?.level ? levelStatus[String(record?.level)].text : '无'}</div>
           <div>
-            代理等级：{record?.agentLevel ? agentLevelStatus[String(record?.agentLevel)].text : ''}
+            代理等级：
+            {record?.agentLevel ? agentLevelStatus[String(record?.agentLevel)].text : '无'}
           </div>
           <div>会员信息：无</div>
         </Fragment>
@@ -147,8 +155,8 @@ export const columns = [
         <UserContent
           width={180}
           headUrl={record?.invitationHeadUrl}
-          name={record?.invitationName || ''}
-          phone={record?.invitationPhone || ''}
+          name={record?.invitationName || '-'}
+          phone={record?.invitationPhone || '-'}
         />
       );
     },
