@@ -35,7 +35,7 @@ export const basicItem = ({ handleEdit }) => [
     render: (_, record) => {
       return (
         <span style={{ width: 180, display: 'flex' }}>
-          <Text ellipsis={{ tooltip: record.invitationName }}>{record.invitationName}</Text>
+          <Text ellipsis={{ tooltip: record.invitationName }}>{record.invitationName || '-'}</Text>
           <EditOutlined style={{ marginLeft: 8 }} onClick={() => handleEdit('user', record)} />
         </span>
       );

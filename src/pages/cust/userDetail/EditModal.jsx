@@ -15,11 +15,6 @@ const title = {
   level: '修改经销等级',
 };
 
-const actions = {
-  user: edit,
-  level: null,
-};
-
 export default ({ refresh }) => {
   const {
     userDetail: { editModalVisible, editType, editData },
@@ -28,7 +23,7 @@ export default ({ refresh }) => {
   const dispatch = useDispatch();
   const { modal } = App.useApp();
 
-  const { run } = useRequest(actions[editType], {
+  const { run } = useRequest(edit, {
     manual: true,
     onSuccess: ({ code }) => {
       if (code === 200) {
@@ -82,7 +77,19 @@ export default ({ refresh }) => {
         },
       });
     } else {
-      console.log('values', values);
+      const value = {
+        id: editData?.id,
+        invitationCode: values?.consumerCode?.consumerCode, // 更改后的邀请码
+        consumerCode: editData.consumerCode, // 当前自己的邀请码
+      };
+      modal.confirm({
+        title: '温馨提醒',
+        maskClosable: true,
+        content: `确定要修改吗？`,
+        onOk: () => {
+          run(value);
+        },
+      });
     }
   };
 
@@ -146,7 +153,7 @@ export default ({ refresh }) => {
                 widget: 'html',
                 hidden: editType !== 'user',
               },
-              invitationId: {
+              consumerCode: {
                 title: '变更后',
                 type: 'object',
                 tooltip: '变更邀请人会迁移整个团队，请慎重操作',
