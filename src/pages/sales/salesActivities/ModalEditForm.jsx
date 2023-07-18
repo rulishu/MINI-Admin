@@ -131,7 +131,27 @@ export default ({ actionRef }) => {
           name="collectDate"
           label="领取时间"
           required
-          rules={[{ required: true }]}
+          rules={[
+            { required: true },
+            {
+              validator: (_, value) => {
+                if (value && value?.length === 2) {
+                  let endGetTime = value?.[1];
+                  if (endGetTime) {
+                    endGetTime = new Date(endGetTime).getTime();
+                  }
+                  let now = dayjs().valueOf();
+                  if (now <= endGetTime) {
+                    return Promise.resolve();
+                  } else {
+                    return Promise.reject(new Error('领取时间已过'));
+                  }
+                } else {
+                  return Promise.reject(new Error('请选择使用时间范围'));
+                }
+              },
+            },
+          ]}
           fieldProps={{
             style: { width: '100%' },
           }}
@@ -163,7 +183,11 @@ export default ({ actionRef }) => {
               rules={[
                 {
                   validator: (_, value) => {
+                    let startGetTime = form.getFieldValue('collectDate')?.[0];
                     let endGetTime = form.getFieldValue('collectDate')?.[1];
+                    if (startGetTime) {
+                      startGetTime = new Date(startGetTime).getTime();
+                    }
                     if (endGetTime) {
                       endGetTime = new Date(endGetTime).getTime();
                     }
@@ -174,10 +198,10 @@ export default ({ actionRef }) => {
                         if (endUseTime) {
                           endUseTime = new Date(endUseTime).getTime();
                         }
-                        if (endUseTime >= endGetTime) {
-                          return Promise.resolve();
-                        } else {
+                        if (endUseTime <= startGetTime) {
                           return Promise.reject(new Error('使用时间必须大于领取时间'));
+                        } else {
+                          return Promise.resolve();
                         }
                       } else {
                         return Promise.reject(new Error('请选择使用时间范围'));
@@ -185,17 +209,11 @@ export default ({ actionRef }) => {
                     }
                     if (form.getFieldValue('useTimeType') === 2) {
                       if (value >= 0) {
-                        let endUseTime = dayjs().valueOf();
-                        if (value) {
-                          endUseTime = dayjs()
-                            .add(value - 1, 'day')
-                            .endOf('day')
-                            .valueOf();
-                        }
-                        if (endUseTime >= endGetTime) {
+                        let now = dayjs().valueOf();
+                        if (now <= endGetTime) {
                           return Promise.resolve();
                         } else {
-                          return Promise.reject(new Error('使用时间必须大于领取时间'));
+                          return Promise.reject(new Error('领取时间已过'));
                         }
                       } else {
                         return Promise.reject(new Error('请输入使用天数'));

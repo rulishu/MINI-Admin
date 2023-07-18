@@ -83,6 +83,7 @@ export default function Tables() {
             suppliersObj?.supplierName &&
             `${suppliersObj?.supplierName}(推荐人：${suppliersObj?.productSelector})`,
           value: result?.suppliersId,
+          type: suppliersObj?.type,
         };
         dispatch({
           type: 'productManage/update',
