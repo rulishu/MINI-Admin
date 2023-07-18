@@ -15,6 +15,7 @@ export default ({
     headUrl: 'headUrl',
     phone: 'consumerPhone',
     searchCode: 'search',
+    consumerCode: 'consumerCode',
   },
   ...others
 }) => {
@@ -36,18 +37,20 @@ export default ({
     onSearch: (value) => mutateAsync({ [configCode['searchCode']]: value }),
     onSelect: (value, option) => {
       // 取出 label 和 value 组成 SelectValue 对象
-      const { label, value: val, phone, headUrl } = option;
+      const { label, value: val, phone, headUrl, consumerCode } = option;
       setDefaultValue({
         label: label,
         value: val,
         phone: phone,
         headUrl: headUrl,
+        consumerCode: consumerCode,
       });
       onChange?.({
         label: label,
         value: val,
         phone: phone,
         headUrl: headUrl,
+        consumerCode: consumerCode,
       });
     },
     onClear: () => setDefaultValue(undefined),
@@ -70,6 +73,7 @@ export default ({
             label={item[configCode['label']]}
             phone={item[configCode['phone']]}
             headUrl={item[configCode['headUrl']]}
+            consumerCode={item[configCode['consumerCode']]}
           >
             <Space>
               {item[configCode['headUrl']] ? (
