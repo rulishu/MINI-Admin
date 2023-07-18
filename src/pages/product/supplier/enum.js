@@ -3,6 +3,6 @@ export const typeEnum = {
     text: '国内供应商',
   },
   [1]: {
-    text: '国外供应商',
+    text: '海外供应商',
   },
 };
