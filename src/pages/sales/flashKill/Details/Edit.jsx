@@ -186,6 +186,20 @@ export default ({ reload }) => {
                     span: 24,
                     type: 'array',
                     widget: 'saleGoods',
+                    rules: [
+                      {
+                        validator: (_, value) => {
+                          const i = (value || []).findIndex(
+                            (x) => !x.stockTotal || !x.discountRange,
+                          );
+                          if (i === -1) {
+                            return true;
+                          }
+                          return false;
+                        },
+                        message: '请设置规格优惠！',
+                      },
+                    ],
                   },
                   appShow: {
                     title: '显示状态',
