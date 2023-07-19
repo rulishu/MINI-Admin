@@ -43,9 +43,9 @@ export const basicItem = ({ handleEdit }) => [
   },
   {
     title: '归属代理',
-    key: 'shopName',
+    key: 'companyName',
     editable: () => false,
-    dataIndex: 'shopName',
+    dataIndex: 'companyName',
     ellipsis: true,
   },
   {
