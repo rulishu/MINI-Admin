@@ -5,6 +5,25 @@ import { App, Button, InputNumber, Space, Table } from 'antd';
 import { useContext, useEffect } from 'react';
 import { Context } from './hooks/context';
 
+function getDiscountRange(dataSource) {
+  let min = Infinity;
+  let max = -Infinity;
+
+  dataSource.forEach((item) => {
+    const discount = item.activityPrice / item.price;
+
+    if (discount < min) {
+      min = discount;
+    }
+
+    if (discount > max) {
+      max = discount;
+    }
+  });
+
+  return { min, max };
+}
+
 export default () => {
   const {
     state: { dataSource: data, setVisible, setRecord = {} },
@@ -26,7 +45,7 @@ export default () => {
       const datas = sku.map((item) => {
         return {
           ...item,
-          activityPrice: item?.activityPrice || 0,
+          activityPrice: item?.activityPrice || item?.price || 0.01,
           activityStock: item?.activityStock || item?.stock || 0,
         };
       });
@@ -92,19 +111,7 @@ export default () => {
   };
 
   const save = () => {
-    const max = dataSource.reduce((acc, curr) => {
-      if (curr.activityPrice < acc) {
-        return curr.activityPrice / curr.price || 0;
-      }
-      return acc;
-    }, Infinity);
-
-    const min = dataSource.reduce((acc, curr) => {
-      if (curr.activityPrice > acc) {
-        return curr.activityPrice / curr.price || 0;
-      }
-      return acc;
-    }, -Infinity);
+    const { min, max } = getDiscountRange(dataSource);
     // 计算总库存
     let stockTotal = 0;
     dataSource.forEach((item) => {
@@ -147,7 +154,7 @@ export default () => {
               value={record.activityPrice}
               defaultValue={record.activityPrice}
               step={0.01}
-              min={0}
+              min={0.01}
               max={record.price}
               onChange={(value) => handleNumberChange(record.skuId, 'activityPrice', value)}
             />
