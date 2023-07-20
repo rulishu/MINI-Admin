@@ -1,4 +1,3 @@
-import { getOrderPrice } from '@/utils';
 import { CheckOutlined, CloseOutlined, CopyOutlined, EditOutlined } from '@ant-design/icons';
 import { Divider, Input, Skeleton, Space, Typography } from 'antd';
 import { Fragment } from 'react';
@@ -225,10 +224,10 @@ export const expandColumns = ({ rowData, handle, activeKey }) => [
       <div style={{ width: 90 }}>
         <Text
           ellipsis={{
-            tooltip: '￥' + getOrderPrice(rowData.orderPrice || 0, rowData.couponPrice || 0),
+            tooltip: '￥' + rowData.orderPrice || 0,
           }}
         >
-          {'￥' + getOrderPrice(rowData.orderPrice || 0, rowData.couponPrice || 0)}
+          {'￥' + rowData.orderPrice || 0}
         </Text>
       </div>
     ),
