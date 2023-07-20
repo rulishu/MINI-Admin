@@ -108,14 +108,16 @@ export default ({ reload }) => {
       width={1000}
       onCancel={() => update({ visible: false })}
       footer={
-        <div style={{ paddingBottom: 24, paddingRight: 24 }}>
-          <Button key="save" type="primary" loading={loading} onClick={form.submit}>
-            保存
-          </Button>
-          <Button key="cancel" onClick={() => update({ visible: false })}>
-            取消
-          </Button>
-        </div>
+        type === 'view' ? null : (
+          <div style={{ paddingBottom: 24, paddingRight: 24 }}>
+            <Button key="save" type="primary" loading={loading} onClick={form.submit}>
+              保存
+            </Button>
+            <Button key="cancel" onClick={() => update({ visible: false })}>
+              取消
+            </Button>
+          </div>
+        )
       }
     >
       <ProCard
@@ -140,6 +142,7 @@ export default ({ reload }) => {
                 title: '基本规则',
                 properties: {
                   activityName: {
+                    disabled: type === 'view',
                     title: '活动名称',
                     type: 'string',
                     required: true,
@@ -154,6 +157,7 @@ export default ({ reload }) => {
                     title: '活动时间',
                     type: 'range',
                     required: true,
+                    disabled: type === 'view',
                     widget: 'dateRange',
                     span: 24,
                     props: {
@@ -172,6 +176,7 @@ export default ({ reload }) => {
                     title: '每人每种限购',
                     type: 'number',
                     widget: 'inputNumber',
+                    disabled: type === 'view',
                     required: true,
                     span: 24,
                     props: {
@@ -186,6 +191,9 @@ export default ({ reload }) => {
                     span: 24,
                     type: 'array',
                     widget: 'saleGoods',
+                    props: {
+                      disabled: type === 'view',
+                    },
                     rules: [
                       {
                         validator: (_, value) => {
@@ -205,6 +213,7 @@ export default ({ reload }) => {
                     title: '显示状态',
                     type: 'number',
                     widget: 'radio',
+                    disabled: type === 'view',
                     span: 24,
                     props: {
                       options: Object.keys(hideEnum).map((key) => ({

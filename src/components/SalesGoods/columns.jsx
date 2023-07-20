@@ -3,7 +3,7 @@ import { Divider, Typography } from 'antd';
 import moment from 'moment';
 import React from 'react';
 
-export const columns = ({ handleEdit }) => [
+export const columns = ({ handleEdit, disabled }) => [
   {
     title: '商品信息',
     dataIndex: 'item',
@@ -50,13 +50,14 @@ export const columns = ({ handleEdit }) => [
     title: '操作',
     width: 200,
     align: 'left',
-    render: (record) => (
-      <div>
-        <a onClick={() => handleEdit('set', record)}> 设置规格优惠</a>
-        <Divider type="vertical" />
-        <a onClick={() => handleEdit('delete', record)}>删除</a>
-      </div>
-    ),
+    render: (record) =>
+      disabled ? null : (
+        <div>
+          <a onClick={() => handleEdit('set', record)}> 设置规格优惠</a>
+          <Divider type="vertical" />
+          <a onClick={() => handleEdit('delete', record)}>删除</a>
+        </div>
+      ),
   },
 ];
 
