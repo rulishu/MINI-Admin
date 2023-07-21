@@ -231,9 +231,9 @@ export default {
         //
         templateId: values?.templateId?.value,
         templateName: values?.templateId?.label,
-        onShelf: values?.groundType === 3 ? 0 : 2,
+        onShelf: values?.groupType === 3 ? 0 : 2,
         openTime:
-          values?.groundType === 3 ? null : dayjs(values?.openTime).format('YYYY-MM-DD HH:mm:00'),
+          values?.groupType === 3 ? null : dayjs(values?.openTime).format('YYYY-MM-DD HH:mm:00'),
 
         id: queryInfo?.id, // 商品ID
       };

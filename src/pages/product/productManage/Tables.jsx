@@ -118,7 +118,6 @@ export default function Tables() {
               itemSkuVos: result?.itemSkuVos ? result?.itemSkuVos : itemSkuVos,
               //
               templateId: { label: result?.templateName, value: result?.templateId },
-              // groundType: result?.groupType,
               openTime: dayjs(result?.openTime),
             },
             showForm: true,
