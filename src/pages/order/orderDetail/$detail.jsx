@@ -1,9 +1,16 @@
-import { getOrderPrice } from '@/utils';
 import { ProDescriptions } from '@ant-design/pro-components';
 import { useDispatch, useParams, useSelector } from '@umijs/max';
 import { Card, Empty, Space, Table, Tabs, Typography } from 'antd';
 import { useEffect, useMemo } from 'react';
 import { basicItem, buyerItem, manageColumn, productItem, receiveItem } from './items';
+
+const getGoodsAllPrice = (datas = []) => {
+  let total = 0;
+  datas.forEach((item) => {
+    total += item.totalPrice || 0;
+  });
+  return total.toFixed(2);
+};
 
 export default () => {
   const { id } = useParams();
@@ -93,12 +100,14 @@ export default () => {
       <Card title="商品信息" loading={loading.effects['orderDetail/selectById']}>
         <Table columns={manageColumn} dataSource={queryData.items || []} rowKey="id" />
         <Typography.Text style={{ float: 'right', marginTop: 24 }}>
-          商品总价：<span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || '-'} </span>运费：
-          <span style={{ color: '#1677ff' }}>￥0</span> 优惠卷：
-          <span style={{ color: '#1677ff' }}>￥{queryData.couponPrice || 0}</span> 订单金额：
+          商品总价：
           <span style={{ color: '#1677ff' }}>
-            ￥{getOrderPrice(queryData.orderPrice || 0, queryData.couponPrice || 0)}{' '}
+            ￥{(queryData.items && getGoodsAllPrice(queryData.items)) || 0}{' '}
           </span>
+          运费：
+          <span style={{ color: '#1677ff' }}>￥{queryData.freight || 0}</span> 优惠卷：
+          <span style={{ color: '#1677ff' }}>￥{queryData.couponPrice || 0}</span> 订单金额：
+          <span style={{ color: '#1677ff' }}>￥{queryData.orderPrice || 0} </span>
         </Typography.Text>
       </Card>
     </Space>

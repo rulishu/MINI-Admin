@@ -10,12 +10,12 @@ const Index = () => {
   const {
     state: { dataSource },
     dispatch,
+    disabled,
     value,
     onChange,
     addons,
   } = useContext(Context);
   const { modal } = App.useApp();
-
   useEffect(() => {
     if (addons && addons.removeErrorField && addons.dataPath) {
       addons.removeErrorField(addons.dataPath);
@@ -49,13 +49,13 @@ const Index = () => {
   return (
     <Fragment>
       <Space direction="vertical">
-        <Button type="primary" onClick={() => dispatch({ visible: true })}>
+        <Button disabled={disabled} type="primary" onClick={() => dispatch({ visible: true })}>
           添加商品
         </Button>
         {dataSource && dataSource.length > 0 && (
           <Table
             dataSource={dataSource}
-            columns={columns({ handleEdit })}
+            columns={columns({ handleEdit, disabled })}
             rowKey="id"
             pagination={{
               showTotal: (total) => `共 ${total} 条数据`,

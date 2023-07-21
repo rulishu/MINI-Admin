@@ -92,6 +92,7 @@ export const columns = ({ handleEdit }) => [
     hideInSearch: true,
     render: (record) => {
       const canEdit = record.status === 0;
+      const canView = record.status === 1 || record.status === 2 || record.status === -1;
       const canLose = record.status === 0 || record.status === 1;
       const canDelete = record.status === 2 || record.status === -1;
       return (
@@ -99,6 +100,12 @@ export const columns = ({ handleEdit }) => [
           {canEdit && (
             <Fragment>
               <a onClick={() => handleEdit('edit', record)}>编辑</a>
+              <Divider type="vertical" />
+            </Fragment>
+          )}
+          {canView && (
+            <Fragment>
+              <a onClick={() => handleEdit('view', record)}>详情</a>
               <Divider type="vertical" />
             </Fragment>
           )}

@@ -60,7 +60,7 @@ export default function SearchTable() {
     if (type === 'add') {
       update({ visible: true, queryInfo: { appShow: 0 } });
     }
-    if (type === 'edit') {
+    if (type === 'edit' || type === 'view') {
       runById({ id: data.id });
     }
     if (type === 'editIsShow') {
