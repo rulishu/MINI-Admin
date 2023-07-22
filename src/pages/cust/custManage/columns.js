@@ -17,16 +17,10 @@ export const columns = ({ handleEdit }) => [
     hideInTable: true,
   },
   {
-    title: '用户ID',
-    dataIndex: 'id',
-    width: 80,
+    title: '用户编号',
+    dataIndex: 'consumerId',
+    width: 100,
     align: 'left',
-    valueType: 'digit',
-    fieldProps: {
-      controls: false,
-      maxLength: 10,
-      min: 0,
-    },
   },
   {
     title: '用户信息',

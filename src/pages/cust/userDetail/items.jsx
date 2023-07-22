@@ -110,7 +110,7 @@ export const basicItem = ({ handleEdit }) => [
 export const columns = [
   {
     title: '用户编号',
-    dataIndex: 'userId',
+    dataIndex: 'consumerId',
     width: 120,
   },
   {
