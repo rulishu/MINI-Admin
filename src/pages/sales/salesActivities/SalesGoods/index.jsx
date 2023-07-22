@@ -16,6 +16,7 @@ const Index = ({ value, onChange }) => {
         content: `确定是否要删除商品【${record.itemName}】？`,
         onOk: () => {
           const data = dataSource.filter((item) => item.id !== record.id);
+          setDataSource(data);
           onChange?.(data);
         },
       });
