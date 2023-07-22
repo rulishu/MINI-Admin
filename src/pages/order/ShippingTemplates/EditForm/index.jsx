@@ -84,7 +84,7 @@ const EditForm = ({ actionRef }) => {
                     if (i.slice(-4) === '0000') {
                       // 省
                       if (item?.editObj?.[i]) {
-                        VoList.push({ ...obj, province: i, ...item?.editObj?.[i] });
+                        VoList.push({ ...item?.editObj?.[i], ...obj, province: i });
                       } else {
                         VoList.push({ ...obj, province: i });
                       }
@@ -92,14 +92,14 @@ const EditForm = ({ actionRef }) => {
                       if (i.slice(-2) === '00') {
                         // 市
                         if (item?.editObj?.[i]) {
-                          VoList.push({ ...obj, city: i, ...item?.editObj?.[i] });
+                          VoList.push({ ...item?.editObj?.[i], ...obj, city: i });
                         } else {
                           VoList.push({ ...obj, city: i });
                         }
                       } else {
                         // 区
                         if (item?.editObj?.[i]) {
-                          VoList.push({ ...obj, district: i, ...item?.editObj?.[i] });
+                          VoList.push({ ...item?.editObj?.[i], ...obj, district: i });
                         } else {
                           VoList.push({ ...obj, district: i });
                         }
