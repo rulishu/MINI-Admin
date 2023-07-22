@@ -53,9 +53,9 @@ const EditForm = ({ actionRef }) => {
             assignedAreaTableList.forEach((item) => {
               if (
                 item?.firstPart &&
-                item?.freightCharge &&
+                item?.freightCharge >= 0 &&
                 item?.continuedEmphasis &&
-                item?.feesRenewal
+                item?.feesRenewal >= 0
               ) {
                 // 选中的数据
                 const { selectList } = item;

@@ -57,9 +57,9 @@ const EditForm = () => {
             validator: (_, value) => {
               if (
                 value?.firstPart &&
-                value?.freightCharge &&
+                value?.freightCharge >= 0 &&
                 value?.continuedEmphasis &&
-                value?.feesRenewal
+                value?.feesRenewal >= 0
               ) {
                 return Promise.resolve();
               }
@@ -224,14 +224,14 @@ const columns = (update, assignedAreaTableList, confirm) => [
         />
         件以内，
         <InputNumber
-          status={records?.freightCharge ? null : 'error'}
+          status={records?.freightCharge >= 0 ? null : 'error'}
           value={records?.freightCharge}
           onChange={(value) => {
             const arr = assignedAreaTableList.concat([]);
             arr[index]['freightCharge'] = value;
             update({ assignedAreaTableList: arr });
           }}
-          min={0.01}
+          min={0}
           max={999.99}
           precision={2}
           controls={false}
@@ -256,14 +256,14 @@ const columns = (update, assignedAreaTableList, confirm) => [
         />
         件， 增加运费
         <InputNumber
-          status={records?.feesRenewal ? null : 'error'}
+          status={records?.feesRenewal >= 0 ? null : 'error'}
           value={records?.feesRenewal}
           onChange={(value) => {
             const arr = assignedAreaTableList.concat([]);
             arr[index]['feesRenewal'] = value;
             update({ assignedAreaTableList: arr });
           }}
-          min={0.01}
+          min={0}
           max={999.99}
           precision={2}
           controls={false}
