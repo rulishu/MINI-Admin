@@ -38,7 +38,7 @@ const Freight = ({ value, onChange, showTooltip = false }) => {
             setAllData({ ...allData, freightCharge: value });
             onChange({ ...allData, freightCharge: value });
           }}
-          min={0.01}
+          min={0}
           max={999.99}
           precision={2}
           controls={false}
@@ -66,7 +66,7 @@ const Freight = ({ value, onChange, showTooltip = false }) => {
             setAllData({ ...allData, feesRenewal: value });
             onChange({ ...allData, feesRenewal: value });
           }}
-          min={0.01}
+          min={0}
           max={999.99}
           precision={2}
           controls={false}
