@@ -24,7 +24,7 @@ export const columns = (edit) => [
     },
   },
   {
-    title: '一级返佣',
+    title: '二级经销商返佣',
     align: 'left',
     dataIndex: 'oneLevelPercent',
     render: (record) => {
@@ -32,7 +32,7 @@ export const columns = (edit) => [
     },
   },
   {
-    title: '二级返佣',
+    title: '一级经销商返佣',
     align: 'left',
     dataIndex: 'twoLevelPercent',
     render: (record) => {
