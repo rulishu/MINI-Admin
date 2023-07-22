@@ -12,12 +12,22 @@ export const columns = ({ handleEdit }) => [
         <div style={{ height: 88, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <AImage width={80} height={84} src={record?.mainGraph} />
           {/* <Avatar shape="square" size="large" src={record?.mainGraph} /> */}
-          <div style={{ flex: 1, marginLeft: 5, textAlign: 'left', height: 88 }}>
+          <div
+            style={{
+              flex: 1,
+              marginLeft: 5,
+              textAlign: 'left',
+              height: 88,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
             <p
               style={{
                 padding: 0,
                 margin: 0,
-                height: 66,
+                height: 22,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
               }}
@@ -25,12 +35,15 @@ export const columns = ({ handleEdit }) => [
               {record?.itemName} {record?.model} {record?.specifications}
             </p>
             <p style={{ padding: 0, margin: 0 }}>ID：{record?.id}</p>
+            <p style={{ padding: 0, margin: 0 }}>
+              <span style={{ marginRight: 10 }}>¥：{record?.price}</span>
+              <span>总库存：{record?.stock}</span>
+            </p>
           </div>
         </div>
       );
     },
   },
-
   {
     title: '操作',
     width: 150,
