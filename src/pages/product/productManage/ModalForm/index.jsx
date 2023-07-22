@@ -223,7 +223,7 @@ export default () => {
             const newData = formRef1.current?.getFieldsValue();
             formRef2.current.setFieldsValue({
               itemType: 1,
-              groundType: 1,
+              groupType: 1,
               openTime: dayjs(),
               ...queryInfo,
               ...newData,
@@ -627,7 +627,7 @@ export default () => {
               }}
             />
             <ProFormRadio.Group
-              name="groundType"
+              name="groupType"
               label="上架时间"
               rules={[{ required: true }]}
               options={[
@@ -642,8 +642,8 @@ export default () => {
                   <ProFormDateTimePicker
                     name="openTime"
                     label="日期选择"
-                    hidden={form.getFieldValue('groundType') === 2 ? false : true}
-                    rules={[{ required: form.getFieldValue('groundType') === 3 ? false : true }]}
+                    hidden={form.getFieldValue('groupType') === 2 ? false : true}
+                    rules={[{ required: form.getFieldValue('groupType') === 3 ? false : true }]}
                     fieldProps={{
                       style: { width: '100%' },
                       showTime: {
@@ -659,7 +659,7 @@ export default () => {
           {/*
           <ProForm.Group>
             <ProFormRadio.Group
-              name="groundType"
+              name="groupType"
               label="上架时间"
               rules={[{ required: true }]}
               options={[
