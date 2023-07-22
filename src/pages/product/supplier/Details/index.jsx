@@ -138,6 +138,7 @@ export default () => {
               options: treeList,
             },
             getProductUserList,
+            type,
           })}
           onFinish={onFinish}
           widgets={{

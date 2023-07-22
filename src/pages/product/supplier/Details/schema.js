@@ -1,7 +1,7 @@
 import { typeEnum } from '../enum';
 
 // eslint-disable-next-line no-unused-vars
-export const schema = ({ getProductUserList, province }) => {
+export const schema = ({ getProductUserList, province, type }) => {
   return {
     type: 'object',
     properties: {
@@ -15,6 +15,7 @@ export const schema = ({ getProductUserList, province }) => {
             title: '类型',
             type: 'number',
             required: true,
+            disabled: type === 'edit',
             span: 24,
             placeholder: '请选择类型',
             widget: 'radio',
