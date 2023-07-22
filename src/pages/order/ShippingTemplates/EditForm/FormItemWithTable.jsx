@@ -90,6 +90,11 @@ const EditForm = () => {
                     disArr = disArr.concat(item?.selectList);
                   }
                 });
+                disabledAreaTableList.forEach((item) => {
+                  if (item?.selectList && item?.selectList.length > 0) {
+                    disArr = disArr.concat(item?.selectList);
+                  }
+                });
                 let unchecked = disArr.concat([]);
                 disArr.forEach((item) => {
                   if (item.slice(-4) !== '0000') {
@@ -119,7 +124,7 @@ const EditForm = () => {
               style={{ marginTop: 12, width: '100%' }}
               pagination={false}
               dataSource={assignedAreaTableList}
-              columns={columns(update, assignedAreaTableList, confirm)}
+              columns={columns(update, assignedAreaTableList, confirm, disabledAreaTableList)}
             />
           )}
         </Card>
@@ -139,7 +144,32 @@ const EditForm = () => {
             <Button
               disabled={disabledAreaTableList.length > 0}
               onClick={() => {
-                update({ areaListType: 'not', disabledList: [], isModalOpen: true });
+                // 增加禁用列表
+                let disArr = [];
+                assignedAreaTableList.forEach((item) => {
+                  if (item?.selectList && item?.selectList.length > 0) {
+                    disArr = disArr.concat(item?.selectList);
+                  }
+                });
+                disabledAreaTableList.forEach((item) => {
+                  if (item?.selectList && item?.selectList.length > 0) {
+                    disArr = disArr.concat(item?.selectList);
+                  }
+                });
+                let unchecked = disArr.concat([]);
+                disArr.forEach((item) => {
+                  if (item.slice(-4) !== '0000') {
+                    if (item.slice(-2) === '00') {
+                      unchecked = unchecked.concat([`${item.slice(0, 2)}0000`]);
+                    } else {
+                      unchecked = unchecked.concat([
+                        `${item.slice(0, 2)}0000`,
+                        `${item.slice(0, 4)}00`,
+                      ]);
+                    }
+                  }
+                });
+                update({ areaListType: 'not', disabledList: disArr, unchecked, isModalOpen: true });
               }}
             >
               添加地区
@@ -152,7 +182,7 @@ const EditForm = () => {
               style={{ marginTop: 12, width: '100%' }}
               pagination={false}
               dataSource={disabledAreaTableList}
-              columns={columns2(update, confirm, disabledAreaTableList)}
+              columns={columns2(update, confirm, disabledAreaTableList, assignedAreaTableList)}
             />
           )}
         </Card>
@@ -163,7 +193,7 @@ const EditForm = () => {
 
 export default EditForm;
 
-const columns = (update, assignedAreaTableList, confirm) => [
+const columns = (update, assignedAreaTableList, confirm, disabledAreaTableList) => [
   {
     title: '运送地区',
     dataIndex: 'selectLabel',
@@ -293,6 +323,11 @@ const columns = (update, assignedAreaTableList, confirm) => [
                 disArr = disArr.concat(item?.selectList);
               }
             });
+            disabledAreaTableList.forEach((item) => {
+              if (item?.selectList && item?.selectList.length > 0) {
+                disArr = disArr.concat(item?.selectList);
+              }
+            });
             let unchecked = disArr.concat([]);
             disArr.forEach((item) => {
               if (item.slice(-4) !== '0000') {
@@ -345,7 +380,7 @@ const columns = (update, assignedAreaTableList, confirm) => [
     ),
   },
 ];
-const columns2 = (update, confirm, disabledAreaTableList) => [
+const columns2 = (update, confirm, disabledAreaTableList, assignedAreaTableList) => [
   {
     title: '运送地区',
     dataIndex: 'selectLabel',
@@ -394,7 +429,31 @@ const columns2 = (update, confirm, disabledAreaTableList) => [
           style={{ wordBreak: 'keep-all' }}
           size="small"
           onClick={() => {
-            update({ areaListType: 'not', editAreaId: records?.id });
+            let disArr = [];
+            assignedAreaTableList.forEach((item) => {
+              if (item?.selectList && item?.selectList.length > 0) {
+                disArr = disArr.concat(item?.selectList);
+              }
+            });
+            let unchecked = disArr.concat([]);
+            disArr.forEach((item) => {
+              if (item.slice(-4) !== '0000') {
+                if (item.slice(-2) === '00') {
+                  unchecked = unchecked.concat([`${item.slice(0, 2)}0000`]);
+                } else {
+                  unchecked = unchecked.concat([
+                    `${item.slice(0, 2)}0000`,
+                    `${item.slice(0, 4)}00`,
+                  ]);
+                }
+              }
+            });
+            update({
+              areaListType: 'not',
+              editAreaId: records?.id,
+              disabledList: disArr,
+              unchecked,
+            });
             update({ isModalOpen: true });
           }}
         >
