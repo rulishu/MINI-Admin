@@ -68,8 +68,10 @@ export const columns = ({ handleEdit }) => [
     dataIndex: 'receiveCount',
     width: 120,
     hideInSearch: true,
-    render: (_, record) =>
-      record?.count && `${((record?.receiveCount || 0) / record?.count).toFixed(1)}%`,
+    render: (_, record) => {
+      const usage = record?.count ? ((record?.receiveCount || 0) / record?.count) * 100 : 0;
+      return usage.toFixed(1) + '%';
+    },
   },
   {
     title: '领取/使用时间',
